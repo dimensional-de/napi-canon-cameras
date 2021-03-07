@@ -1,0 +1,14 @@
+{
+  "name": "@dimensional/napi-canon-cameras-stubs",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "GPL-3.0-or-later",
+  "main": "umd/dimensional-napi-canon-cameras-stubs.js",
+  "module": "esm/index.js",
+  "es2015": "esm2015/index.js",
+  "typings": "index.d.ts",
+  "types": "index.d.ts"
+}

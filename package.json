@@ -1,0 +1,53 @@
+{
+  "name": "@dimensional/napi-canon-cameras",
+  "version": "1.0.0",
+  "description": "Node AddOn Api module for Canon cameras. Wrapper for the Canon EDSDK.",
+  "keywords": [
+    "camera", "photo", "napi", "eos", "canon", "dslr"
+  ],
+  "gypfile": true,
+  "main": "camera-api.js",
+  "browser": "camera-api-stubs.js",
+  "types": "camera-api.d.ts",
+  "scripts": {
+    "install": "node-gyp-build",
+    "package": "npm run _package:prepare && npm run _package:napi",
+    "prebuild": "npm run prebuild:ia32 && npm run prebuild:x64 && npm run build:stubs",
+    "prebuild:x64": "prebuildify --napi --strip --arch x64 --verbose",
+    "prebuild:ia32": "prebuildify --napi --strip --arch ia32 --verbose",
+    "build:stubs": "npm run _update:stubs && npm run _build:stubs:types && npm run _build:es2015 && npm run _build:esm && npm run _build:umd && npm run _build:umd:min",
+    "build:docs": "jsdoc2md --partial helpers/examples.hbs --no-gfm --heading-depth 1 --files stubs/es2015/**/*.js >API.md",
+    "clean": "node-gyp clean && rimraf prebuilds/* && npm run _clean:stubs",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "_clean:stubs": "rimraf ./stubs/{camera-api,es2015,esm,umd} && rimraf ./stubs/*.{ts,json}",
+    "_update:stubs": "node ./helpers/update-stubs.js",
+    "_build:stubs:types": "tsc -p src/stubs/ --removeComments --declaration --emitDeclarationOnly --outDir ./stubs && cp ./src/stubs/package.json ./stubs/",
+    "_build:es2015": "tsc -p src/stubs/ --module es2015 --target es2015 --outDir stubs/es2015",
+    "_build:esm": "tsc -p src/stubs/ --module es2015 --target es5 --lib es2015 --removeComments --outDir stubs/esm",
+    "_build:umd": "rollup stubs/esm/index.js -f umd -n napi-canon-cameras-stubs -m inline --context window -o stubs/umd/napi-canon-cameras-stubs.js",
+    "_build:umd:min": "cd stubs/umd && uglifyjs -c -m --source-map -o napi-canon-cameras-stubs.min.js -- napi-canon-cameras-stubs.js && gzip napi-canon-cameras-stubs.min.js -c > napi-canon-cameras-stubs.min.js.gz",
+    "_package:prepare": "mkdirp ../node_packages/@dimensional",
+    "_package:napi": "npm run prebuild && tar --exclude ./build --exclude ./examples --exclude ./node_modules --exclude src/stubs --exclude ./third_party --exclude ./.git  --exclude ./.idea -czvf ../node_packages/@dimensional/napi-canon-cameras.tgz ./*"
+  },
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "node-addon-api": "*",
+    "node-gyp-build": "^4.2.3"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.13.0",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.27",
+    "jest": "^26.6.3",
+    "jsdoc-to-markdown": "^7.0.0",
+    "mkdirp": "^1.0.4",
+    "prebuildify": "^4.1.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.38.5",
+    "ts-jest": "^26.5.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.2",
+    "uglifyjs": "^2.4.11"
+  }
+}
