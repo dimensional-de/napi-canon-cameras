@@ -7,43 +7,78 @@ const CommonPropertyFlagTests = (api: typeof CameraApi) => {
             test(
                 'PropertyFlag.value for "PropertyFlag.True"',
                 () => {
-                    const value = new api.PropertyFlag(api.PropertyFlag.True);
-                    expect(value.value).toStrictEqual(api.PropertyFlag.True);
+                    const flag = new api.PropertyFlag(api.PropertyFlag.True);
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
                 }
             );
             test(
                 'PropertyFlag.value for boolean "True"',
                 () => {
-                    const value = new api.PropertyFlag(true);
-                    expect(value.value).toStrictEqual(api.PropertyFlag.True);
+                    const flag = new api.PropertyFlag(true);
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
                 }
             );
             test(
                 'PropertyFlag.value for "PropertyFlag.False"',
                 () => {
-                    const value = new api.PropertyFlag(api.PropertyFlag.False);
-                    expect(value.value).toStrictEqual(api.PropertyFlag.False);
+                    const flag = new api.PropertyFlag(api.PropertyFlag.False);
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.False);
                 }
             );
             test(
                 'PropertyFlag.value for boolean "False"',
                 () => {
-                    const value = new api.PropertyFlag(false);
-                    expect(value.value).toStrictEqual(api.PropertyFlag.False);
+                    const flag = new api.PropertyFlag(false);
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.False);
                 }
             );
             test(
                 'PropertyFlag.label for "True"',
                 () => {
-                    const value = new api.PropertyFlag(true);
-                    expect(value.label).toStrictEqual("true");
+                    const flag = new api.PropertyFlag(true);
+                    expect(flag.label).toStrictEqual("true");
                 }
             );
             test(
                 'PropertyFlag.label for "False"',
                 () => {
-                    const value = new api.PropertyFlag(false);
-                    expect(value.label).toStrictEqual("false");
+                    const flag = new api.PropertyFlag(false);
+                    expect(flag.label).toStrictEqual("false");
+                }
+            );
+            test(
+                'PropertyFlag.forLabel("True")',
+                () => {
+                    const flag = api.PropertyFlag.forLabel('true')
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
+                }
+            );
+            test(
+                'PropertyFlag.forLabel("Yes")',
+                () => {
+                    const flag = api.PropertyFlag.forLabel('Yes');
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
+                }
+            );
+            test(
+                'PropertyFlag.forLabel("1")',
+                () => {
+                    const flag = api.PropertyFlag.forLabel('Yes');
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
+                }
+            );
+            test(
+                'PropertyFlag.forLabel("On")',
+                () => {
+                    const flag = api.PropertyFlag.forLabel('Yes');
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.True);
+                }
+            );
+            test(
+                'PropertyFlag.forLabel("False")',
+                () => {
+                    const flag = api.PropertyFlag.forLabel('false');
+                    expect(flag.value).toStrictEqual(api.PropertyFlag.False);
                 }
             );
         }

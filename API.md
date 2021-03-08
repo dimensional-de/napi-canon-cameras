@@ -1811,7 +1811,8 @@ Encapsulate Object for a Aperture value
         * [.flag](#PropertyFlag+flag) : <code>boolean</code>
         * [.toJSON()](#PropertyFlag+toJSON) ⇒ <code>Object</code>
     * _static_
-        * [.ID](#PropertyFlag.ID) : <code>enum</code>
+        * [.True](#PropertyFlag.True) : <code>number</code>
+        * [.False](#PropertyFlag.False) : <code>number</code>
 
 <a name="new_PropertyFlag_new"></a>
 
@@ -1849,27 +1850,16 @@ Boolean property value
 
 ## propertyFlag.toJSON() ⇒ <code>Object</code>
 **Kind**: instance method of [<code>PropertyFlag</code>](#PropertyFlag)  
-<a name="PropertyFlag.ID"></a>
+<a name="PropertyFlag.True"></a>
 
-## PropertyFlag.ID : <code>enum</code>
-**Kind**: static enum of [<code>PropertyFlag</code>](#PropertyFlag)  
+## PropertyFlag.True : <code>number</code>
+**Kind**: static property of [<code>PropertyFlag</code>](#PropertyFlag)  
 **Read only**: true  
-**Properties**
+<a name="PropertyFlag.False"></a>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>False</td><td><code>number</code></td><td><code>0</code></td>
-    </tr><tr>
-    <td>True</td><td><code>number</code></td><td><code>1</code></td>
-    </tr>  </tbody>
-</table>
-
+## PropertyFlag.False : <code>number</code>
+**Kind**: static property of [<code>PropertyFlag</code>](#PropertyFlag)  
+**Read only**: true  
 <a name="PropertyOption"></a>
 
 # PropertyOption
@@ -1880,6 +1870,7 @@ Boolean property value
     * _instance_
         * [.label](#PropertyOption+label) : <code>string</code>
         * [.value](#PropertyOption+value) : <code>number</code>
+        * [.propertyID](#PropertyOption+propertyID) : <code>number</code>
     * _static_
         * [.AEMode](#PropertyOption.AEMode) : <code>enum</code>
         * [.AEModeSelect](#PropertyOption.AEModeSelect) : <code>enum</code>
@@ -1935,6 +1926,11 @@ PropertyOption represents a property value from a property specific list.It pro
 <a name="PropertyOption+value"></a>
 
 ## propertyOption.value : <code>number</code>
+**Kind**: instance property of [<code>PropertyOption</code>](#PropertyOption)  
+**Read only**: true  
+<a name="PropertyOption+propertyID"></a>
+
+## propertyOption.propertyID : <code>number</code>
 **Kind**: instance property of [<code>PropertyOption</code>](#PropertyOption)  
 **Read only**: true  
 <a name="PropertyOption.AEMode"></a>

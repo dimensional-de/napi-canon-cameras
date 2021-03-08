@@ -49,6 +49,13 @@ const CommonPropertyApertureTests = (api: typeof CameraApi) => {
                     expect(value.aperture).toStrictEqual(5.6);
                 }
             );
+            test(
+                'PropertyAperture.forLabel("invalid") expecting null',
+                () => {
+                    const flag = api.PropertyAperture.forLabel("invalid");
+                    expect(flag).toBeNull();
+                }
+            );
         }
     );
 }

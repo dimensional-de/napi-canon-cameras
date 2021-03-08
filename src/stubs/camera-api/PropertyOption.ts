@@ -71,7 +71,13 @@ export class PropertyOption {
         }
     }
 
-    static fromLabel(label: string): PropertyOption | null {
+    /**
+     * Create instance for label.
+     *
+     * @param {string} label
+     * @return {PropertyOption | null}
+     */
+    static forLabel(label: string): PropertyOption | null {
         const [propertyLabel, optionLabel] = label.split('.', 2);
         const propertyID = CameraProperty.ID[propertyLabel] || null;
         if (

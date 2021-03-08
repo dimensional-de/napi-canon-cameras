@@ -21,6 +21,8 @@ namespace CameraApi {
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 identifier, EdsInt32 value);
 
+            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
+
             static bool IsClassOf(Napi::Value value);
 
             static bool IsOptionsProperty(EdsPropertyID propertyID);

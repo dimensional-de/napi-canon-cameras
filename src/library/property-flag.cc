@@ -6,7 +6,7 @@
 
 namespace CameraApi {
 
-    std::vector<EdsPropertyID> FlagProperty = {
+    std::vector <EdsPropertyID> FlagProperty = {
         kEdsPropID_Evf_DepthOfFieldPreview,
         kEdsPropID_Evf_Mode,
         kEdsPropID_FixedMovie,
@@ -105,6 +105,30 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
+    Napi::Value PropertyFlag::ForLabel(const Napi::CallbackInfo &info) {
+        if (!(info.Length() > 0 && info[0].IsString())) {
+            return PropertyFlag::NewInstance(info.Env(), 0x00);
+        }
+        std::string label = info[0].As<Napi::String>().Utf8Value();
+        try {
+            std::transform(
+                label.begin(),
+                label.end(),
+                label.begin(),
+                [](unsigned char c) { return std::tolower(c); }
+            );
+            bool isTruthy = (
+                (label.compare("true") == 0) ||
+                (label.compare("1") == 0) ||
+                (label.compare("yes")) == 0 ||
+                (label.compare("on")) == 0
+            );
+            return PropertyFlag::NewInstance(info.Env(), isTruthy ? 0x01 : 0x00);
+        } catch (...) {
+            return PropertyFlag::NewInstance(info.Env(), 0x00);
+        }
+    }
+
     Napi::Object PropertyFlag::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = constructor.New(
@@ -127,6 +151,8 @@ namespace CameraApi {
 
             InstanceAccessor<&PropertyFlag::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyFlag::Inspect),
+
+            StaticMethod<&PropertyFlag::ForLabel>("forLabel"),
 
             StaticValue("True", Napi::Number::New(env, 0x01), napi_enumerable),
             StaticValue("False", Napi::Number::New(env, 0x00), napi_enumerable)

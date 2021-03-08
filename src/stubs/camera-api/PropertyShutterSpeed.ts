@@ -99,6 +99,12 @@ export class PropertyShutterSpeed {
         return null;
     }
 
+    /**
+     * Create instance for label.
+     *
+     * @param {string} label
+     * @return {PropertyShutterSpeed | null}
+     */
     static forLabel(label: string): PropertyShutterSpeed | null {
         if (label in PropertyShutterSpeed.ID) {
             return new PropertyShutterSpeed(PropertyShutterSpeed.ID[label]);

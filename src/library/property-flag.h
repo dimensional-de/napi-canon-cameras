@@ -19,6 +19,8 @@ namespace CameraApi {
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
+            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
+
             static bool IsFlagProperty(EdsPropertyID propertyID);
 
         private:

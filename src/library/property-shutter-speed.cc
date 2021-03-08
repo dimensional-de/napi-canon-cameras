@@ -193,9 +193,7 @@ namespace CameraApi {
 
     Napi::Value PropertyShutterSpeed::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
-            throw Napi::TypeError::New(
-                info.Env(), "PropertyShutterSpeed::forLabel(): Argument 0 must be a string."
-            );
+            return info.Env().Null();
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         for (const auto &it : NamedShutterSpeedValueLabels) {
@@ -227,9 +225,7 @@ namespace CameraApi {
             }
             return PropertyShutterSpeed::NewInstance(info.Env(), matchValue);
         } catch (...) {
-            throw Napi::TypeError::New(
-                info.Env(), "PropertyShutterSpeed::forLabel(): Invalid label value."
-            );
+            return info.Env().Null();
         }
     }
 

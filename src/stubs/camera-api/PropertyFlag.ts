@@ -78,8 +78,14 @@ export class PropertyFlag {
         };
     }
 
-    static fromLabel(label: string): PropertyFlag | null {
-        if (label.toLowerCase() in ['true', '1', 'yes', 'on']) {
+    /**
+     * Create instance for label.
+     *
+     * @param {string} label
+     * @return {PropertyFlag}
+     */
+    static forLabel(label: string): PropertyFlag | null {
+        if (['true', '1', 'yes', 'on'].indexOf(label.toLowerCase()) >= 0) {
             return new PropertyFlag(PropertyFlag.True);
         }
         return new PropertyFlag(PropertyFlag.False);

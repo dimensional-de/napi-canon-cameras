@@ -99,6 +99,12 @@ export class PropertyAperture {
     }
 
 
+    /**
+     * Create instance for label.
+     *
+     * @param {string} label
+     * @return {PropertyAperture | null}
+     */
     static forLabel(label: string): PropertyAperture | null {
         if (label in PropertyAperture.ID) {
             return new PropertyAperture(PropertyAperture.ID[label]);
