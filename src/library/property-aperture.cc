@@ -164,6 +164,44 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
+    Napi::Value PropertyAperture::ForLabel(const Napi::CallbackInfo &info) {
+        if (!(info.Length() > 0 && info[0].IsString())) {
+            throw Napi::TypeError::New(
+                info.Env(), "PropertyAperture::forLabel(): Argument 0 must be a string."
+            );
+        }
+        std::string label = info[0].As<Napi::String>().Utf8Value();
+        for (const auto &it : NamedApertureLabels) {
+            if (it.second.compare(label) == 0) {
+                return PropertyAperture::NewInstance(info.Env(), it.first);
+            }
+        }
+        try {
+            double aperture;
+            int offset = label.find("f");
+            if (offset != std::string::npos) {
+                aperture = std::stod(label.substr(offset+1));
+            } else {
+                aperture = std::stod(label);
+            }
+            double matchDelta = 9999.0;
+            EdsInt32 matchValue = 0;
+            for (const auto &it : ApertureValues) {
+                double delta = std::abs(aperture - it.second);
+                if (delta < matchDelta) {
+                    matchDelta = delta;
+                    matchValue = it.first;
+                }
+            }
+            return PropertyAperture::NewInstance(info.Env(), matchValue);
+        } catch (...) {
+            throw Napi::TypeError::New(
+                info.Env(), "PropertyAperture::forLabel(): Invalid label value."
+            );
+        }
+    }
+
+
     Napi::Object PropertyAperture::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = constructor.New(
@@ -199,6 +237,8 @@ namespace CameraApi {
 
             InstanceAccessor<&PropertyAperture::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyAperture::Inspect),
+
+            StaticMethod<&PropertyAperture::ForLabel>("forLabel"),
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("Values", Values, napi_enumerable)

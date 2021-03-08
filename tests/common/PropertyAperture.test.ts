@@ -26,17 +26,27 @@ const CommonPropertyApertureTests = (api: typeof CameraApi) => {
                 }
             );
             test(
-                'PropertyAperture.label for "4.5"',
+                'PropertyAperture.label for "5.6"',
                 () => {
-                    const value = new api.PropertyAperture(0x2C);
-                    expect(value.label).toStrictEqual("f4.5");
+                    const value = new api.PropertyAperture(0x30);
+                    expect(value.label).toStrictEqual("f5.6");
                 }
             );
             test(
-                'PropertyAperture.seconds for "4.5"',
+                'PropertyAperture.aperture for "5.6"',
                 () => {
-                    const value = new api.PropertyAperture(0x2C);
-                    expect(value.aperture).toStrictEqual(4.5);
+                    const value = new api.PropertyAperture(0x30);
+                    expect(value.label).toStrictEqual('f5.6');
+                    expect(value.aperture).toStrictEqual(5.6);
+                }
+            );
+            test(
+                'PropertyAperture.forLabel("f5.6")',
+                () => {
+                    const value = api.PropertyAperture.forLabel('f5.6');
+                    expect(value.label).toStrictEqual('f5.6');
+                    expect(value.value).toStrictEqual(0x30);
+                    expect(value.aperture).toStrictEqual(5.6);
                 }
             );
         }

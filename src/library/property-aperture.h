@@ -17,6 +17,8 @@ namespace CameraApi {
 
             static void Init(Napi::Env env, Napi::Object exports);
 
+            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
+
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
         private:

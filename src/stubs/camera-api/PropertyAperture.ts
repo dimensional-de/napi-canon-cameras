@@ -99,7 +99,7 @@ export class PropertyAperture {
     }
 
 
-    static fromLabel(label: string): PropertyAperture | null {
+    static forLabel(label: string): PropertyAperture | null {
         if (label in PropertyAperture.ID) {
             return new PropertyAperture(PropertyAperture.ID[label]);
         }
