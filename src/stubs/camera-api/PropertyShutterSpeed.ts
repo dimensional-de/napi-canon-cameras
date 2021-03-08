@@ -99,7 +99,7 @@ export class PropertyShutterSpeed {
         return null;
     }
 
-    static fromLabel(label: string): PropertyShutterSpeed | null {
+    static forLabel(label: string): PropertyShutterSpeed | null {
         if (label in PropertyShutterSpeed.ID) {
             return new PropertyShutterSpeed(PropertyShutterSpeed.ID[label]);
         }

@@ -1,7 +1,9 @@
 #include "property-shutter-speed.h"
 #include "types.h"
+#include "api-error.h"
 #include "utility.h"
 #include <unordered_map>
+#include <cmath>
 #include <iostream>
 
 namespace CameraApi {
@@ -189,6 +191,48 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
+    Napi::Value PropertyShutterSpeed::ForLabel(const Napi::CallbackInfo &info) {
+        if (!(info.Length() > 0 && info[0].IsString())) {
+            throw Napi::TypeError::New(
+                info.Env(), "PropertyShutterSpeed::forLabel(): Argument 0 must be a string."
+            );
+        }
+        std::string label = info[0].As<Napi::String>().Utf8Value();
+        for (const auto &it : NamedShutterSpeedValueLabels) {
+            if (it.second.compare(label) == 0) {
+                return PropertyShutterSpeed::NewInstance(info.Env(), it.first);
+            }
+        }
+        try {
+            double seconds;
+            int fractionAt = label.find("1/");
+            if (fractionAt != std::string::npos) {
+                if (fractionAt > 1) {
+                    seconds = std::stod(label.substr(0, fractionAt));
+                } else {
+                    seconds = 0;
+                }
+                seconds += 1.0 / std::stod(label.substr(fractionAt + 2));
+            } else {
+                seconds = std::stod(label);
+            }
+            double matchDelta = 9999.0;
+            EdsInt32 matchValue = 0;
+            for (const auto &it : ShutterSpeedValues) {
+                double delta = std::abs(seconds - it.second);
+                if (delta < matchDelta) {
+                    matchDelta = delta;
+                    matchValue = it.first;
+                }
+            }
+            return PropertyShutterSpeed::NewInstance(info.Env(), matchValue);
+        } catch (...) {
+            throw Napi::TypeError::New(
+                info.Env(), "PropertyShutterSpeed::forLabel(): Invalid label value."
+            );
+        }
+    }
+
     Napi::Object PropertyShutterSpeed::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = constructor.New(
@@ -225,6 +269,8 @@ namespace CameraApi {
 
             InstanceAccessor<&PropertyShutterSpeed::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyShutterSpeed::Inspect),
+
+            StaticMethod<&PropertyShutterSpeed::ForLabel>("forLabel"),
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("Values", Values, napi_enumerable)

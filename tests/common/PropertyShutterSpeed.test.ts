@@ -39,6 +39,24 @@ const CommonPropertyShutterSpeedTests = (api: typeof CameraApi) => {
                     expect(value.seconds).toStrictEqual(3.0);
                 }
             );
+            test(
+                'ShutterSpeed.forLabel("3")',
+                () => {
+                    const value = api.PropertyShutterSpeed.forLabel('3');
+                    expect(value.value).toStrictEqual(0x2C);
+                    expect(value.label).toStrictEqual("3");
+                    expect(value.seconds).toStrictEqual(3.0);
+                }
+            )
+            test(
+                'ShutterSpeed.forLabel(1/400)',
+                () => {
+                    const value = api.PropertyShutterSpeed.forLabel('1/400');
+                    expect(value.value).toStrictEqual(0x7D);
+                    expect(value.label).toStrictEqual('1/400');
+                    expect(value.seconds).toStrictEqual(0.0025);
+                }
+            )
         }
     );
 }
