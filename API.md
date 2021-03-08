@@ -1615,6 +1615,7 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
     * _static_
         * [.ID](#PropertyAperture.ID) : <code>enum</code>
         * [.Values](#PropertyAperture.Values) : <code>enum</code>
+        * [.forLabel(label)](#PropertyAperture.forLabel) ⇒ [<code>PropertyAperture</code>](#PropertyAperture) \| <code>null</code>
 
 <a name="new_PropertyAperture_new"></a>
 
@@ -1798,6 +1799,24 @@ Encapsulate Object for a Aperture value
     </tr>  </tbody>
 </table>
 
+<a name="PropertyAperture.forLabel"></a>
+
+## PropertyAperture.forLabel(label) ⇒ [<code>PropertyAperture</code>](#PropertyAperture) \| <code>null</code>
+Create instance for label.
+
+**Kind**: static method of [<code>PropertyAperture</code>](#PropertyAperture)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="PropertyFlag"></a>
 
 # PropertyFlag
@@ -1813,6 +1832,7 @@ Encapsulate Object for a Aperture value
     * _static_
         * [.True](#PropertyFlag.True) : <code>number</code>
         * [.False](#PropertyFlag.False) : <code>number</code>
+        * [.forLabel(label)](#PropertyFlag.forLabel) ⇒ [<code>PropertyFlag</code>](#PropertyFlag)
 
 <a name="new_PropertyFlag_new"></a>
 
@@ -1860,6 +1880,24 @@ Boolean property value
 ## PropertyFlag.False : <code>number</code>
 **Kind**: static property of [<code>PropertyFlag</code>](#PropertyFlag)  
 **Read only**: true  
+<a name="PropertyFlag.forLabel"></a>
+
+## PropertyFlag.forLabel(label) ⇒ [<code>PropertyFlag</code>](#PropertyFlag)
+Create instance for label.
+
+**Kind**: static method of [<code>PropertyFlag</code>](#PropertyFlag)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="PropertyOption"></a>
 
 # PropertyOption
@@ -1898,6 +1936,7 @@ Boolean property value
         * [.RedEye](#PropertyOption.RedEye) : <code>enum</code>
         * [.Record](#PropertyOption.Record) : <code>enum</code>
         * [.WhiteBalance](#PropertyOption.WhiteBalance) : <code>enum</code>
+        * [.forLabel(label)](#PropertyOption.forLabel) ⇒ [<code>PropertyOption</code>](#PropertyOption) \| <code>null</code>
 
 <a name="new_PropertyOption_new"></a>
 
@@ -3133,6 +3172,24 @@ PropertyOption represents a property value from a property specific list.It pro
     </tr>  </tbody>
 </table>
 
+<a name="PropertyOption.forLabel"></a>
+
+## PropertyOption.forLabel(label) ⇒ [<code>PropertyOption</code>](#PropertyOption) \| <code>null</code>
+Create instance for label.
+
+**Kind**: static method of [<code>PropertyOption</code>](#PropertyOption)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="PropertyShutterSpeed"></a>
 
 # PropertyShutterSpeed
@@ -3147,6 +3204,7 @@ PropertyOption represents a property value from a property specific list.It pro
     * _static_
         * [.ID](#PropertyShutterSpeed.ID) : <code>enum</code>
         * [.Values](#PropertyShutterSpeed.Values) : <code>enum</code>
+        * [.forLabel(label)](#PropertyShutterSpeed.forLabel) ⇒ [<code>PropertyShutterSpeed</code>](#PropertyShutterSpeed) \| <code>null</code>
 
 <a name="new_PropertyShutterSpeed_new"></a>
 
@@ -3363,6 +3421,24 @@ Encapsulate Object for a Shutter Speed value
     <td>157</td><td><code>number</code></td><td><code>0.00015625</code></td>
     </tr><tr>
     <td>160</td><td><code>number</code></td><td><code>0.000125</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="PropertyShutterSpeed.forLabel"></a>
+
+## PropertyShutterSpeed.forLabel(label) ⇒ [<code>PropertyShutterSpeed</code>](#PropertyShutterSpeed) \| <code>null</code>
+Create instance for label.
+
+**Kind**: static method of [<code>PropertyShutterSpeed</code>](#PropertyShutterSpeed)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
     </tr>  </tbody>
 </table>
 
