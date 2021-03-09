@@ -28,7 +28,7 @@ namespace CameraApi {
             value_ = info[0].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "PropertyFlag: Argument 0 must be an boolean or number."
+                info.Env(), "Argument 0 must be a boolean or number."
             );
         }
     }
@@ -83,14 +83,14 @@ namespace CameraApi {
     }
 
     Napi::Value PropertyFlag::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "PropertyFlag");
+        return Napi::String::New(info.Env(), PropertyFlag::JSClassName);
     }
 
     Napi::Value PropertyFlag::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "PropertyFlag"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, PropertyFlag::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -158,10 +158,10 @@ namespace CameraApi {
             StaticValue("False", Napi::Number::New(env, 0x00), napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "PropertyFlag", properties);
+        Napi::Function func = DefineClass(env, PropertyFlag::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("PropertyFlag", func);
+        exports.Set(PropertyFlag::JSClassName, func);
     }
 }

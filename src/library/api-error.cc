@@ -8,7 +8,7 @@ namespace CameraApi {
     Napi::FunctionReference ApiErrorWrap::constructor;
 
     ApiErrorWrap::ApiErrorWrap(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<ApiErrorWrap>(info), ApiIdentifier(info, "ApiError", Labels::Error)  {
+        : Napi::ObjectWrap<ApiErrorWrap>(info), ApiIdentifier(info, ApiErrorWrap::JSClassName, Labels::Error)  {
     }
 
     Napi::Object ApiErrorWrap::NewInstance(Napi::Env env, EdsError errorCode) {
@@ -65,10 +65,10 @@ namespace CameraApi {
             StaticValue("Code", Codes, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "ApiError", properties);
+        Napi::Function func = DefineClass(env, ApiErrorWrap::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("ApiError", func);
+        exports.Set(ApiErrorWrap::JSClassName, func);
     }
 }

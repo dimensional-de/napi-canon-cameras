@@ -18,7 +18,7 @@ namespace CameraApi {
 
         if (!(info.Length() > 0 && info[0].IsExternal())) {
             throw Napi::TypeError::New(
-                info.Env(), "CameraFile: Argument 0 must be a directory item."
+                info.Env(), "Argument 0 must be a directory item."
             );
         }
 
@@ -29,7 +29,7 @@ namespace CameraApi {
         EdsError error = EdsGetDirectoryItemInfo(edsDirectoryItem_, &edsDirectoryItemInfo_);
         if (error != EDS_ERR_OK) {
             throw Napi::Error::New(
-                info.Env(), "CameraFile: Failed to get directory item info."
+                info.Env(), "Failed to get directory item info."
             );
         }
     }
@@ -71,14 +71,14 @@ namespace CameraApi {
     }
 
     Napi::Value CameraFileWrap::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "CameraFile");
+        return Napi::String::New(info.Env(), CameraFileWrap::JSClassName);
     }
 
     Napi::Value CameraFileWrap::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "CameraFile"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, CameraFileWrap::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -269,7 +269,7 @@ namespace CameraApi {
 
         Napi::Function func = DefineClass(
             env,
-            "CameraFile",
+            CameraFileWrap::JSClassName,
             {
                 InstanceAccessor<&CameraFileWrap::GetName>("name"),
                 InstanceAccessor<&CameraFileWrap::GetSize>("size"),

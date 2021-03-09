@@ -472,14 +472,14 @@ namespace CameraApi {
     }
 
     Napi::Value CameraWrap::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "Camera");
+        return Napi::String::New(info.Env(), CameraWrap::JSClassName);
     };
 
     Napi::Value CameraWrap::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "Camera"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, CameraWrap::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -565,7 +565,7 @@ namespace CameraApi {
 
         Napi::Function func = DefineClass(
             env,
-            "Camera",
+            CameraWrap::JSClassName,
             {
                 InstanceAccessor<&CameraWrap::GetDescription>("description"),
                 InstanceAccessor<&CameraWrap::GetPortName>("portName"),
@@ -588,6 +588,6 @@ namespace CameraApi {
         );
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
-        exports.Set("Camera", func);
+        exports.Set(CameraWrap::JSClassName, func);
     }
 }

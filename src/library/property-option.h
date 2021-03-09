@@ -29,6 +29,7 @@ namespace CameraApi {
 
         private:
             static Napi::FunctionReference constructor;
+            static constexpr const char JSClassName[] = "PropertyOption";
 
             EdsPropertyID propertyIdentifier_ = 0;
             EdsInt32 value_ = 0;

@@ -80,7 +80,7 @@ namespace CameraApi {
             value_ = info[0].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "PropertyAperture: Argument 0 must be an property value."
+                info.Env(), "Argument 0 must be a property value."
             );
         }
 
@@ -145,14 +145,14 @@ namespace CameraApi {
     }
 
     Napi::Value PropertyAperture::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "PropertyAperture");
+        return Napi::String::New(info.Env(), PropertyAperture::JSClassName);
     }
 
     Napi::Value PropertyAperture::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "PropertyAperture"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, PropertyAperture::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -239,10 +239,10 @@ namespace CameraApi {
             StaticValue("Values", Values, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "PropertyAperture", properties);
+        Napi::Function func = DefineClass(env, PropertyAperture::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("PropertyAperture", func);
+        exports.Set(PropertyAperture::JSClassName, func);
     }
 }

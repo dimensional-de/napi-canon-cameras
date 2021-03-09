@@ -47,14 +47,14 @@ namespace CameraApi {
             EdsRetain(edsCamera_);
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "Property: Argument 0 must be a Camera instance."
+                info.Env(), "Argument 0 must be a Camera instance."
             );
         }
         if (info.Length() > 1 && info[1].IsNumber()) {
             propertyIdentifier_ = info[1].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "Property: Argument 1 must be a property identifier."
+                info.Env(), "Argument 1 must be a property identifier."
             );
         }
         if (info.Length() > 2 && info[2].IsNumber()) {
@@ -325,7 +325,7 @@ namespace CameraApi {
     }
 
     Napi::Value CameraProperty::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "CameraProperty");
+        return Napi::String::New(info.Env(), CameraProperty::JSClassName);
     }
 
     Napi::Value CameraProperty::Inspect(const Napi::CallbackInfo &info) {
@@ -333,7 +333,7 @@ namespace CameraApi {
         auto isNamedIdentifier = (Labels::PropertyID.find(propertyIdentifier_) == Labels::PropertyID.end());
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "CameraProperty"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, CameraProperty::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -429,10 +429,10 @@ namespace CameraApi {
             StaticValue("ID", IDs, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "CameraProperty", properties);
+        Napi::Function func = DefineClass(env, CameraProperty::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("CameraProperty", func);
+        exports.Set(CameraProperty::JSClassName, func);
     }
 }

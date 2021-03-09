@@ -8,7 +8,7 @@ namespace CameraApi {
     Napi::FunctionReference StateEvent::constructor;
 
     StateEvent::StateEvent(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<StateEvent>(info), ApiIdentifier(info, "StateEvent", Labels::StateEventID)  {
+        : Napi::ObjectWrap<StateEvent>(info), ApiIdentifier(info, StateEvent::JSClassName, Labels::StateEventID)  {
     }
 
     Napi::Object StateEvent::NewInstance(Napi::Env env, EdsUInt32 identifier) {
@@ -42,10 +42,10 @@ namespace CameraApi {
             StaticValue("ID", IDs, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "StateEvent", properties);
+        Napi::Function func = DefineClass(env, StateEvent::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("StateEvent", func);
+        exports.Set(StateEvent::JSClassName, func);
     }
 }

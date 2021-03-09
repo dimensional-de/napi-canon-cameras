@@ -102,7 +102,7 @@ namespace CameraApi {
             value_ = info[0].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "PropertyShutterSpeed: Argument 0 must be an property value."
+                info.Env(), "Argument 0 must be a property value."
             );
         }
 
@@ -172,14 +172,14 @@ namespace CameraApi {
     }
 
     Napi::Value PropertyShutterSpeed::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "PropertyShutterSpeed");
+        return Napi::String::New(info.Env(), PropertyShutterSpeed::JSClassName);
     }
 
     Napi::Value PropertyShutterSpeed::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "PropertyShutterSpeed"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, PropertyShutterSpeed::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -272,10 +272,10 @@ namespace CameraApi {
             StaticValue("Values", Values, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, "PropertyShutterSpeed", properties);
+        Napi::Function func = DefineClass(env, PropertyShutterSpeed::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("PropertyShutterSpeed", func);
+        exports.Set(PropertyShutterSpeed::JSClassName, func);
     }
 }

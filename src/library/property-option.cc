@@ -17,14 +17,14 @@ namespace CameraApi {
             propertyIdentifier_ = info[0].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "PropertyOption: Argument 0 must be an property identifier."
+                info.Env(), "Argument 0 must be a property identifier."
             );
         }
         if (info.Length() > 1 && info[1].IsNumber()) {
             value_ = info[1].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "PropertyOption: Argument 0 must be an property option value."
+                info.Env(), "Argument 0 must be a property option value."
             );
         }
 
@@ -85,14 +85,14 @@ namespace CameraApi {
     }
 
     Napi::Value PropertyOption::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "PropertyOption");
+        return Napi::String::New(info.Env(), PropertyOption::JSClassName);
     }
 
     Napi::Value PropertyOption::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "PropertyOption"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, PropertyOption::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -184,21 +184,21 @@ namespace CameraApi {
 
         for (const auto &it : Labels::PropertyOption) {
             std::string name = CameraProperty::GetLabelFor(it.first);
-            char *cstr = new char[name.length() + 1];
-            std::strcpy(cstr, name.c_str());
+            char *c_str = new char[name.length() + 1];
+            std::strcpy(c_str, name.c_str());
             properties.push_back(
                 StaticValue(
-                    cstr,
+                    c_str,
                     CreateOptionGroup(env, it.second),
                     napi_enumerable
                 )
             );
         }
 
-        Napi::Function func = DefineClass(env, "PropertyOption", properties);
+        Napi::Function func = DefineClass(env, PropertyOption::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("PropertyOption", func);
+        exports.Set(PropertyOption::JSClassName, func);
     }
 }

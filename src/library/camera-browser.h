@@ -64,6 +64,7 @@ namespace CameraApi {
 
         private:
             static Napi::FunctionReference constructor;
+            static constexpr const char JSClassName[] = "CameraBrowser";
 
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 

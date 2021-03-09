@@ -16,6 +16,7 @@ namespace CameraApi {
             static Napi::Object NewInstance(Napi::Env env, EdsUInt32 identifier);
         private:
             static Napi::FunctionReference constructor;
+            static constexpr const char JSClassName[] = "StateEvent";
     };
 }
 

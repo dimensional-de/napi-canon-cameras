@@ -18,7 +18,7 @@ const LibraryCameraPropertyTests = (api: typeof CameraApi) => {
                             new api.CameraProperty(null as any, api.CameraProperty.ID.SaveTo)
                         }
                     ).toThrow(
-                        "Property: Argument 0 must be a Camera instance."
+                        "Argument 0 must be a Camera instance."
                     )
                 }
             );

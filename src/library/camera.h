@@ -85,6 +85,7 @@ namespace CameraApi {
 
         private:
             static Napi::FunctionReference constructor;
+            static constexpr const char JSClassName[] = "Camera";
 
             CameraReference camera_;
 

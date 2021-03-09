@@ -14,7 +14,7 @@ namespace CameraApi {
             identifier_ = info[0].As<Napi::Number>().Int32Value();
         } else {
             throw Napi::TypeError::New(
-                info.Env(), "ApiIdentifier: Argument 0 must be an identifier."
+                info.Env(), "Argument 0 must be an identifier."
             );
         }
         labels_ = labels;
@@ -38,7 +38,7 @@ namespace CameraApi {
             }
         }
         throw Napi::TypeError::New(
-            info.Env(), "ApiIdentifier: Argument 0 must be an identifier."
+            info.Env(), "Argument 0 must be an identifier."
         );
     }
 

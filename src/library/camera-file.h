@@ -19,6 +19,7 @@ namespace CameraApi {
 
         private:
             static Napi::FunctionReference constructor;
+            static constexpr const char JSClassName[] = "CameraFile";
 
             EdsDirectoryItemRef edsDirectoryItem_;
             EdsDirectoryItemInfo edsDirectoryItemInfo_;

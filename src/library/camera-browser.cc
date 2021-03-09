@@ -281,14 +281,14 @@ namespace CameraApi {
     }
 
     Napi::Value CameraBrowserWrap::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), "CameraBrowser");
+        return Napi::String::New(info.Env(), CameraBrowserWrap::JSClassName);
     }
 
     Napi::Value CameraBrowserWrap::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, "CameraBrowser"), Napi::String::New(env, "special")}
+            {Napi::String::New(env, CameraBrowserWrap::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         return Napi::String::New(env, output);
     }
@@ -374,7 +374,7 @@ namespace CameraApi {
 
         Napi::Function func = DefineClass(
             env,
-            "CameraBrowser",
+            CameraBrowserWrap::JSClassName,
             {
                 InstanceMethod("initialize", &CameraBrowserWrap::Initialize),
                 InstanceMethod("terminate", &CameraBrowserWrap::Terminate),
@@ -393,7 +393,7 @@ namespace CameraApi {
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set("CameraBrowser", func);
+        exports.Set(CameraBrowserWrap::JSClassName, func);
         exports.Set("cameraBrowser", CameraBrowserWrap::NewInstance(env));
         return exports;
     }
