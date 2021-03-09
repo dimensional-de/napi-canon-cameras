@@ -61,7 +61,7 @@ namespace CameraApi {
                         jsCallback.Call(
                             {
                                 Napi::String::New(env, EventName_Error),
-                                ApiErrorWrap::NewInstance(env, *errorCode)
+                                ApiError::NewInstance(env, *errorCode)
                             }
                         );
                         delete errorCode;
@@ -294,11 +294,11 @@ namespace CameraApi {
     }
 
     Napi::Value CameraBrowserWrap::Initialize(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), CameraBrowser::instance()->initialize());
+        return ApiError::ThrowIfFailed(info.Env(), CameraBrowser::instance()->initialize());
     }
 
     Napi::Value CameraBrowserWrap::Terminate(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), CameraBrowser::instance()->terminate());
+        return ApiError::ThrowIfFailed(info.Env(), CameraBrowser::instance()->terminate());
     }
 
     Napi::Value CameraBrowserWrap::TriggerEvents(const Napi::CallbackInfo &info) {

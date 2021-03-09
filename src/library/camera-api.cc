@@ -13,7 +13,7 @@
 namespace CameraApi {
     Napi::Object RegisterModule(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
-        ApiErrorWrap::Init(env, exports);
+        ApiError::Init(env, exports);
         CameraBrowserWrap::Init(env, exports);
         CameraFileWrap::Init(env, exports);
         CameraWrap::Init(env, exports);

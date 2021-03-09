@@ -5,19 +5,19 @@
 
 namespace CameraApi {
 
-    Napi::FunctionReference ApiErrorWrap::constructor;
+    Napi::FunctionReference ApiError::constructor;
 
-    ApiErrorWrap::ApiErrorWrap(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<ApiErrorWrap>(info), ApiIdentifier(info, ApiErrorWrap::JSClassName, Labels::Error)  {
+    ApiError::ApiError(const Napi::CallbackInfo &info)
+        : Napi::ObjectWrap<ApiError>(info), ApiIdentifier(info, ApiError::JSClassName, Labels::Error)  {
     }
 
-    Napi::Object ApiErrorWrap::NewInstance(Napi::Env env, EdsError errorCode) {
+    Napi::Object ApiError::NewInstance(Napi::Env env, EdsError errorCode) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = constructor.New({Napi::Number::New(env, errorCode)});
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    Napi::Value ApiErrorWrap::Throw(Napi::Env env, EdsError errorCode) {
+    Napi::Value ApiError::Throw(Napi::Env env, EdsError errorCode) {
         std::string label = "EDSDK - ";
         if (Labels::Error.find(errorCode) == Labels::Error.end()) {
             label.append(CodeToHexLabel(errorCode));
@@ -25,22 +25,22 @@ namespace CameraApi {
             label.append(Labels::Error[errorCode]);
         }
         Napi::Error error = Napi::Error::New(env, label);
-        error.Value()["EDS_ERROR"] = ApiErrorWrap::NewInstance(env, errorCode);
+        error.Value()["EDS_ERROR"] = ApiError::NewInstance(env, errorCode);
         throw error;
     }
 
-    Napi::Value ApiErrorWrap::ThrowIfFailed(Napi::Env env, EdsError errorCode, Napi::Value defaultValue) {
+    Napi::Value ApiError::ThrowIfFailed(Napi::Env env, EdsError errorCode, Napi::Value defaultValue) {
         if (errorCode != EDS_ERR_OK) {
-            ApiErrorWrap::Throw(env, errorCode);
+            ApiError::Throw(env, errorCode);
         }
         return defaultValue;
     }
 
-    Napi::Value ApiErrorWrap::ThrowIfFailed(Napi::Env env, EdsError errorCode) {
-        return ApiErrorWrap::ThrowIfFailed(env, errorCode, env.Undefined());
+    Napi::Value ApiError::ThrowIfFailed(Napi::Env env, EdsError errorCode) {
+        return ApiError::ThrowIfFailed(env, errorCode, env.Undefined());
     }
 
-    void ApiErrorWrap::Init(Napi::Env env, Napi::Object exports) {
+    void ApiError::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         Napi::Object Codes = Napi::Object::New(env);
@@ -53,22 +53,22 @@ namespace CameraApi {
         }
 
         std::vector <PropertyDescriptor> properties = {
-            InstanceAccessor("label", &ApiErrorWrap::GetLabel, nullptr),
-            InstanceAccessor("identifier", &ApiErrorWrap::GetIdentifier, nullptr),
-            InstanceMethod("toJSON", &ApiErrorWrap::ToJSON),
-            InstanceMethod("equalTo", &ApiErrorWrap::EqualTo),
+            InstanceAccessor("label", &ApiError::GetLabel, nullptr),
+            InstanceAccessor("identifier", &ApiError::GetIdentifier, nullptr),
+            InstanceMethod("toJSON", &ApiError::ToJSON),
+            InstanceMethod("equalTo", &ApiError::EqualTo),
 
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ApiErrorWrap::GetPrimitive),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ApiErrorWrap::Inspect),
-            InstanceAccessor(Napi::Symbol::WellKnown(env, "toStringTag"), &ApiErrorWrap::ToStringTag, nullptr),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ApiError::GetPrimitive),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ApiError::Inspect),
+            InstanceAccessor(Napi::Symbol::WellKnown(env, "toStringTag"), &ApiError::ToStringTag, nullptr),
 
             StaticValue("Code", Codes, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, ApiErrorWrap::JSClassName, properties);
+        Napi::Function func = DefineClass(env, ApiError::JSClassName, properties);
         constructor = Napi::Persistent(func);
         constructor.SuppressDestruct();
 
-        exports.Set(ApiErrorWrap::JSClassName, func);
+        exports.Set(ApiError::JSClassName, func);
     }
 }

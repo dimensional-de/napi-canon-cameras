@@ -94,14 +94,14 @@ namespace CameraApi {
         EdsDataType dataType;
         EdsUInt32 dataSize;
 
-        ApiErrorWrap::ThrowIfFailed(
+        ApiError::ThrowIfFailed(
             env, EdsGetPropertySize(
                 edsCamera_, propertyIdentifier_, propertySpecifier_, &dataType, &dataSize
             ));
         switch (dataType) {
             case kEdsDataType_Int32:
                 EdsInt32 int32_value;
-                ApiErrorWrap::ThrowIfFailed(
+                ApiError::ThrowIfFailed(
                     env,
                     EdsGetPropertyData(
                         edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &int32_value
@@ -111,7 +111,7 @@ namespace CameraApi {
                 break;
             case kEdsDataType_UInt32:
                 EdsInt32 uint32_value;
-                ApiErrorWrap::ThrowIfFailed(
+                ApiError::ThrowIfFailed(
                     env,
                     EdsGetPropertyData(
                         edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &uint32_value
@@ -121,7 +121,7 @@ namespace CameraApi {
                 break;
             case kEdsDataType_String:
                 EdsChar char_value[EDS_MAX_NAME];
-                ApiErrorWrap::ThrowIfFailed(
+                ApiError::ThrowIfFailed(
                     env,
                     EdsGetPropertyData(
                         edsCamera_, propertyIdentifier_, propertySpecifier_, EDS_MAX_NAME, &char_value
@@ -168,7 +168,7 @@ namespace CameraApi {
     Napi::Object CameraProperty::ReadTimeValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize) {
         Napi::Env env = info.Env();
         EdsTime time_value;
-        ApiErrorWrap::ThrowIfFailed(
+        ApiError::ThrowIfFailed(
             env,
             EdsGetPropertyData(
                 edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &time_value
@@ -191,7 +191,7 @@ namespace CameraApi {
         int numElements = dataSize / itemSize;
         EdsInt32 *items = new EdsInt32[numElements];
         Napi::Array value = Napi::Array::New(env, numElements);
-        ApiErrorWrap::ThrowIfFailed(
+        ApiError::ThrowIfFailed(
             env,
             EdsGetPropertyData(
                 edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, items
@@ -208,7 +208,7 @@ namespace CameraApi {
     Napi::Object CameraProperty::ReadPictureStyleDescription(const Napi::CallbackInfo &info, EdsUInt32 dataSize) {
         Napi::Env env = info.Env();
         EdsPictureStyleDesc style_value;
-        ApiErrorWrap::ThrowIfFailed(
+        ApiError::ThrowIfFailed(
             env,
             EdsGetPropertyData(
                 edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &style_value
@@ -232,7 +232,7 @@ namespace CameraApi {
         Napi::Array values = Napi::Array::New(env);
         EdsPropertyDesc propertyDescription;
 
-        ApiErrorWrap::ThrowIfFailed(env, EdsGetPropertyDesc(edsCamera_, propertyIdentifier_, &propertyDescription));
+        ApiError::ThrowIfFailed(env, EdsGetPropertyDesc(edsCamera_, propertyIdentifier_, &propertyDescription));
         for (int i = 0; i < propertyDescription.numElements; ++i) {
             switch (propertyIdentifier_) {
                 case kEdsPropID_Av:
@@ -272,7 +272,7 @@ namespace CameraApi {
 
         if (isLookUpProperty()) {
             if (!isAllowedPropertyValue(value.As<Napi::Number>().Int32Value())) {
-                ApiErrorWrap::ThrowIfFailed(info.Env(), EDS_ERR_INVALID_DEVICEPROP_VALUE);
+                ApiError::ThrowIfFailed(info.Env(), EDS_ERR_INVALID_DEVICEPROP_VALUE);
             }
         }
 
@@ -310,7 +310,7 @@ namespace CameraApi {
                     break;
             }
         } else {
-            ApiErrorWrap::ThrowIfFailed(env, EDS_ERR_OK);
+            ApiError::ThrowIfFailed(env, EDS_ERR_OK);
         }
     }
 

@@ -434,7 +434,7 @@ namespace CameraApi {
             camera_ = CameraBrowser::instance()->getCameraAtIndex(0);
         }
         if (!camera_) {
-            ApiErrorWrap::Throw(info.Env(), EDS_ERR_DEVICE_NOT_FOUND);
+            ApiError::Throw(info.Env(), EDS_ERR_DEVICE_NOT_FOUND);
         }
     }
 
@@ -492,11 +492,11 @@ namespace CameraApi {
     };
 
     Napi::Value CameraWrap::Connect(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), camera_->connect());
+        return ApiError::ThrowIfFailed(info.Env(), camera_->connect());
     }
 
     Napi::Value CameraWrap::Disconnect(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), camera_->disconnect());
+        return ApiError::ThrowIfFailed(info.Env(), camera_->disconnect());
     }
 
     Napi::Value CameraWrap::GetProperty(const Napi::CallbackInfo &info) {
@@ -519,7 +519,7 @@ namespace CameraApi {
                 info.Env(), "Camera.sendCommand(): Argument 0 must be an command identifier."
             );
         }
-        return ApiErrorWrap::ThrowIfFailed(
+        return ApiError::ThrowIfFailed(
             info.Env(),
             camera_->sendCommand(
                 info[0].As<Napi::Number>().Int32Value(),
@@ -529,22 +529,22 @@ namespace CameraApi {
     }
 
     Napi::Value CameraWrap::TakePicture(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), camera_->takePicture());
+        return ApiError::ThrowIfFailed(info.Env(), camera_->takePicture());
     }
 
     Napi::Value CameraWrap::StartLiveView(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), camera_->startLiveView());
+        return ApiError::ThrowIfFailed(info.Env(), camera_->startLiveView());
     }
 
     Napi::Value CameraWrap::StopLiveView(const Napi::CallbackInfo &info) {
-        return ApiErrorWrap::ThrowIfFailed(info.Env(), camera_->stopLiveView());
+        return ApiError::ThrowIfFailed(info.Env(), camera_->stopLiveView());
     }
 
     Napi::Value CameraWrap::DownloadLiveViewImage(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         std::string image = "";
         EdsError error = camera_->downloadLiveViewImage(image);
-        return ApiErrorWrap::ThrowIfFailed(env, error, Napi::String::New(env, image));
+        return ApiError::ThrowIfFailed(env, error, Napi::String::New(env, image));
     }
 
     void CameraWrap::Init(Napi::Env env, Napi::Object exports) {

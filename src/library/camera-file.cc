@@ -44,7 +44,7 @@ namespace CameraApi {
 
     Napi::Value CameraFileWrap::Cancel(const Napi::CallbackInfo &info) {
         if (!isCanceled_) {
-            return ApiErrorWrap::ThrowIfFailed(info.Env(), EdsDownloadCancel(edsDirectoryItem_));
+            return ApiError::ThrowIfFailed(info.Env(), EdsDownloadCancel(edsDirectoryItem_));
             isCanceled_ = true;
         }
         return info.Env().Undefined();
