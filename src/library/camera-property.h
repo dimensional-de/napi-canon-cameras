@@ -50,7 +50,7 @@ namespace CameraApi {
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
 
-            bool isLookUpProperty();
+            bool isLookUpProperty() const;
 
             bool isAllowedPropertyValue(int propertyValue);
 

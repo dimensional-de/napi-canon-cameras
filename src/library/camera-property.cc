@@ -1,18 +1,15 @@
 #include "camera-property.h"
 #include "labels.h"
-#include "types.h"
 #include "property-flag.h"
 #include "property-option.h"
 #include "property-aperture.h"
 #include "property-shutter-speed.h"
 #include "api-error.h"
 #include "utility.h"
-#include "camera.h"
-#include <iostream>
 
 namespace CameraApi {
 
-    std::vector <EdsPropertyID> LookupProperties = {
+    std::vector<EdsPropertyID> LookupProperties = {
         kEdsPropID_AEModeSelect,
         kEdsPropID_MeteringMode,
         kEdsPropID_ISOSpeed,
@@ -41,7 +38,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         if (info.Length() > 0 && info[0].IsObject()) {
-            CameraWrap* wrap = Napi::ObjectWrap<CameraWrap>::Unwrap(info[0].As<Napi::Object>());
+            CameraWrap *wrap = Napi::ObjectWrap<CameraWrap>::Unwrap(info[0].As<Napi::Object>());
             CameraReference camera = wrap->GetCameraReference();
             edsCamera_ = camera->getEdsReference();
             EdsRetain(edsCamera_);
@@ -133,7 +130,7 @@ namespace CameraApi {
                 value = ReadTimeValue(info, dataSize);
                 break;
             case kEdsDataType_Int32_Array:
-                value = ReadInt32ArrayValue(info, dataSize, sizeof EdsInt32);
+                value = ReadInt32ArrayValue(info, dataSize, sizeof(EdsInt32));
                 break;
             case kEdsDataType_PictureStyleDesc:
                 value = ReadPictureStyleDescription(info, dataSize);
@@ -188,8 +185,8 @@ namespace CameraApi {
     Napi::Object
     CameraProperty::ReadInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize) {
         Napi::Env env = info.Env();
-        int numElements = dataSize / itemSize;
-        EdsInt32 *items = new EdsInt32[numElements];
+        EdsUInt32 numElements = dataSize / itemSize;
+        auto *items = new EdsInt32[numElements];
         Napi::Array value = Napi::Array::New(env, numElements);
         ApiError::ThrowIfFailed(
             env,
@@ -197,7 +194,7 @@ namespace CameraApi {
                 edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, items
             )
         );
-        for (int i = 0; i < numElements; i++) {
+        for (EdsUInt32 i = 0; i < numElements; i++) {
             value.Set(i, Napi::Number::New(env, items[i]));
         }
         delete[] items;
@@ -345,7 +342,7 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    bool CameraProperty::isLookUpProperty() {
+    bool CameraProperty::isLookUpProperty() const {
         int propertyID = propertyIdentifier_;
         return (
             std::any_of(
@@ -394,7 +391,7 @@ namespace CameraApi {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = constructor.New(
             {
-                CameraWrap::NewInstance(env, camera),
+                CameraWrap::NewInstance(env, std::move(camera)),
                 Napi::Number::New(env, identifier),
                 Napi::Number::New(env, specifier),
             }
@@ -414,7 +411,7 @@ namespace CameraApi {
             );
         }
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&CameraProperty::GetLabel>("label"),
             InstanceAccessor<&CameraProperty::GetIdentifier>("identifier"),
             InstanceAccessor<&CameraProperty::GetSpecifier>("specifier"),
