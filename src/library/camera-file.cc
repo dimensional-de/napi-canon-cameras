@@ -1,10 +1,8 @@
 #include "camera-file.h"
-#include "types.h"
 #include "api-error.h"
 #include <filesystem>
 #include "base64.h"
 #include "utility.h"
-#include <iostream>
 
 namespace fs =  std::filesystem;
 
@@ -22,7 +20,7 @@ namespace CameraApi {
             );
         }
 
-        Napi::External <EdsDirectoryItemRef> external = info[0].As < Napi::External < EdsDirectoryItemRef >> ();
+        auto external = info[0].As < Napi::External < EdsDirectoryItemRef >> ();
         edsDirectoryItem_ = *external.Data();
         EdsRetain(edsDirectoryItem_);
 
@@ -110,7 +108,7 @@ namespace CameraApi {
                 }
             }
             fs::path targetFile(destinationPath / edsDirectoryItemInfo_.szFileName);
-            EdsStreamRef stream = NULL;
+            EdsStreamRef stream = nullptr;
             EdsError error = EdsCreateFileStream(
                 targetFile.generic_string().c_str(),
                 kEdsFileCreateDisposition_CreateAlways,
@@ -145,8 +143,6 @@ namespace CameraApi {
                 info.Env(), "Missing file path."
             );
         }
-
-        return Napi::String::New(info.Env(), "");
     }
 
     Napi::Value CameraFileWrap::DownloadToFile(const Napi::CallbackInfo &info) {
@@ -169,7 +165,7 @@ namespace CameraApi {
                     );
                 }
             }
-            EdsStreamRef stream = NULL;
+            EdsStreamRef stream = nullptr;
             EdsError error = EdsCreateFileStream(
                 targetFile.generic_string().c_str(),
                 kEdsFileCreateDisposition_CreateAlways,
@@ -204,8 +200,6 @@ namespace CameraApi {
                 info.Env(), "Missing file name."
             );
         }
-
-        return Napi::String::New(info.Env(), "");
     }
 
     Napi::Value CameraFileWrap::DownloadToString(const Napi::CallbackInfo &info) {
@@ -213,7 +207,7 @@ namespace CameraApi {
             return Napi::String::New(info.Env(), localFile_);
         }
         EdsError error = EDS_ERR_OK;
-        EdsStreamRef stream = NULL;
+        EdsStreamRef stream = nullptr;
 
         error = EdsCreateMemoryStream(0, &stream);
         if (error != EDS_ERR_OK) {
@@ -251,9 +245,9 @@ namespace CameraApi {
         char* imageString = base64(imageData, imageDataLength, &imageStringLength);
         Napi::String result = Napi::String::New(info.Env(), imageString, imageStringLength);
         free(imageString);
-        if(stream != NULL) {
+        if(stream != nullptr) {
             EdsRelease(stream);
-            stream = NULL;
+            stream = nullptr;
         }
         return result;
     }
@@ -275,7 +269,7 @@ namespace CameraApi {
                 InstanceAccessor<&CameraFileWrap::GetSize>("size"),
                 InstanceAccessor<&CameraFileWrap::GetLocalFile>("localFile"),
                 InstanceAccessor<&CameraFileWrap::GetFormat>("format"),
-                InstanceAccessor<&CameraFileWrap::GetFormat>("groupID"),
+                InstanceAccessor<&CameraFileWrap::GetGroupID>("groupID"),
 
                 InstanceAccessor<&CameraFileWrap::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
                 InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraFileWrap::Inspect),

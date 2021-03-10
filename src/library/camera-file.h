@@ -11,9 +11,9 @@ namespace CameraApi {
         public:
             static void Init(Napi::Env env, Napi::Object exports);
 
-            CameraFileWrap(const Napi::CallbackInfo &info);
+            explicit CameraFileWrap(const Napi::CallbackInfo &info);
 
-            ~CameraFileWrap();
+            ~CameraFileWrap() override;
 
             static Napi::Object NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem);
 
@@ -26,7 +26,7 @@ namespace CameraApi {
 
             bool isDownloaded_ = false;
             bool isCanceled_ = false;
-            std::string localFile_ = "";
+            std::string localFile_;
 
             Napi::Value GetGroupID(const Napi::CallbackInfo &info);
 
