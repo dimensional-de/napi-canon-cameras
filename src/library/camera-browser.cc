@@ -8,7 +8,7 @@ namespace CameraApi {
         CameraReference camera;
     };
 
-    CameraBrowserReference CameraBrowser::singleInstance_ = 0;
+    CameraBrowserReference CameraBrowser::singleInstance_ = nullptr;
 
     CameraBrowserReference CameraBrowser::instance() {
         if (!singleInstance_) {
@@ -54,10 +54,10 @@ namespace CameraApi {
     void CameraBrowser::handleApiError(EdsError errorCode) {
         if (errorCode != EDS_ERR_OK) {
             if (hasEventEmit()) {
-                int* data = new int(errorCode);
+                int *data = new int(errorCode);
                 getEventEmit().BlockingCall(
                     data,
-                    [](Napi::Env env, Napi::Function jsCallback, int* errorCode) {
+                    [](Napi::Env env, Napi::Function jsCallback, int *errorCode) {
                         jsCallback.Call(
                             {
                                 Napi::String::New(env, EventName_Error),
@@ -74,7 +74,7 @@ namespace CameraApi {
     EdsError CameraBrowser::initialize() {
         EdsError error = EDS_ERR_OK;
         if (!isInitialized_) {
-            EdsError error = EdsInitializeSDK();
+            error = EdsInitializeSDK();
             if (error == EDS_ERR_OK) {
                 isInitialized_ = true;
                 error = EdsSetCameraAddedHandler(CameraBrowser::handleCameraAdded, this);
@@ -86,14 +86,13 @@ namespace CameraApi {
 
     EdsError CameraBrowser::terminate() {
         if (isInitialized_) {
-            EdsSetCameraAddedHandler(NULL, NULL);
+            EdsSetCameraAddedHandler(nullptr, nullptr);
             if (tsEmit_) {
                 tsEmit_.Release();
-                tsEmit_ = NULL;
+                tsEmit_ = nullptr;
             }
             isInitialized_ = false;
-            for (auto it = cameras_.begin(); it != cameras_.end(); ++it) {
-                CameraReference camera = *it;
+            for (const auto &camera : cameras_) {
                 camera->disconnect();
             }
         }
@@ -105,8 +104,8 @@ namespace CameraApi {
         auto it = std::find_if(
             cameras_.begin(),
             cameras_.end(),
-            [portName](CameraReference c) {
-                return c->getPortName().compare(portName) == 0;
+            [portName](const CameraReference &c) {
+                return c->getPortName() == portName;
             }
         );
         if (it != cameras_.end()) {
@@ -137,7 +136,7 @@ namespace CameraApi {
         return nullptr;
     }
 
-    std::vector <CameraReference> CameraBrowser::getCameraList() {
+    std::vector<CameraReference> CameraBrowser::getCameraList() {
         initialize();
         return cameras_;
     }
@@ -146,7 +145,7 @@ namespace CameraApi {
         auto it = std::find_if(
             cameras_.begin(),
             cameras_.end(),
-            [camera](CameraReference c) {
+            [camera](const CameraReference &c) {
                 return c->getEdsReference() == camera->getEdsReference();
             }
         );
@@ -181,7 +180,7 @@ namespace CameraApi {
     }
 
     void CameraBrowser::enumerateCameraList() {
-        EdsCameraListRef edsCameraList = NULL;
+        EdsCameraListRef edsCameraList = nullptr;
 
         EdsError error = EdsGetCameraList(&edsCameraList);
         if (error != EDS_ERR_OK) {
@@ -196,9 +195,9 @@ namespace CameraApi {
             return;
         }
 
-        std::vector <EdsCameraRef> currentRefs = {};
+        std::vector<EdsCameraRef> currentRefs = {};
         for (uint32_t idx = 0; idx < cameraCount; idx++) {
-            EdsCameraRef edsCamera = NULL;
+            EdsCameraRef edsCamera = nullptr;
             error = EdsGetChildAtIndex(edsCameraList, idx, &edsCamera);
             if (error != EDS_ERR_OK) {
                 continue;
@@ -206,7 +205,7 @@ namespace CameraApi {
             currentRefs.push_back(edsCamera);
         }
 
-        for (std::vector<CameraReference>::reverse_iterator it = cameras_.rbegin(); it != cameras_.rend(); ++it) {
+        for (auto it = cameras_.rbegin(); it != cameras_.rend(); ++it) {
             CameraReference camera = *it;
             if (std::none_of(
                 currentRefs.begin(), currentRefs.end(),
@@ -216,14 +215,13 @@ namespace CameraApi {
             }
         }
 
-        for (auto it = currentRefs.begin(); it != currentRefs.end(); ++it) {
-            EdsCameraRef edsCamera = *it;
+        for (auto edsCamera : currentRefs) {
             if (std::none_of(
                 cameras_.begin(), cameras_.end(),
-                [edsCamera](CameraReference c) { return c->getEdsReference() == edsCamera; }
+                [edsCamera](const CameraReference& c) { return c->getEdsReference() == edsCamera; }
             )) {
 
-                CameraReference camera = NULL;
+                CameraReference camera = nullptr;
                 try {
                     camera = Camera::create(edsCamera);
                 } catch (...) {
@@ -333,7 +331,7 @@ namespace CameraApi {
     }
 
     Napi::Value CameraBrowserWrap::GetCameras(const Napi::CallbackInfo &info) {
-        std::vector <CameraReference> cameras = CameraBrowser::instance()->getCameraList();
+        std::vector<CameraReference> cameras = CameraBrowser::instance()->getCameraList();
         int cameraIndex = 0;
         Napi::Array list = Napi::Array::New(info.Env());
         for (CameraReference &camera : CameraBrowser::instance()->getCameraList()) {
