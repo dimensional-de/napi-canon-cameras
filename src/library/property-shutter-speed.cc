@@ -1,10 +1,7 @@
 #include "property-shutter-speed.h"
-#include "types.h"
-#include "api-error.h"
 #include "utility.h"
 #include <unordered_map>
 #include <cmath>
-#include <iostream>
 
 namespace CameraApi {
 
@@ -123,15 +120,15 @@ namespace CameraApi {
     }
 
     std::string PropertyShutterSpeed::GetLabelForSeconds(double seconds) {
-        std::string label = "";
+        std::string label;
         if (seconds > 0.2999) {
             label = stringFormat("%01.1f", seconds);
             int labelLength = label.length();
-            if (label.substr( labelLength - 2).compare(".0") == 0) {
+            if (label.substr( labelLength - 2) == ".0") {
                 label.erase(labelLength - 2);
             }
         } else if (seconds > 0.0) {
-            int fraction = std::round(1.0 / seconds);
+            auto fraction = (int)std::round(1.0 / seconds);
             label = stringFormat("1/%d", fraction);
         }
         return label;
@@ -152,10 +149,10 @@ namespace CameraApi {
     Napi::Value PropertyShutterSpeed::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
-            if (hint.compare("number") == 0) {
+            if (hint == "number") {
                 return GetValue(info);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return GetLabel(info);
             }
         }
@@ -197,7 +194,7 @@ namespace CameraApi {
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         for (const auto &it : NamedShutterSpeedValueLabels) {
-            if (it.second.compare(label) == 0) {
+            if (it.second == label) {
                 return PropertyShutterSpeed::NewInstance(info.Env(), it.first);
             }
         }

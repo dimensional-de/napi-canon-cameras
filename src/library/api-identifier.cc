@@ -59,7 +59,7 @@ namespace CameraApi {
             if (hint == "number") {
                 return Napi::Number::New(info.Env(), identifier_);
             }
-            if (hint == "string") {
+            if (hint.compare("string") == 0) {
                 return Napi::String::New(info.Env(), CodeToHexLabel(identifier_));
             }
         }
