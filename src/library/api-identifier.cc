@@ -4,11 +4,10 @@
 
 namespace CameraApi {
 
-    ApiIdentifier::ApiIdentifier(const Napi::CallbackInfo &info, std::string name, LabelMap labels) {
+    ApiIdentifier::ApiIdentifier(const Napi::CallbackInfo &info, const std::string &name, const LabelMap &labels) {
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
 
-        name_ = name;
 
         if (info.Length() > 0 && info[0].IsNumber()) {
             identifier_ = info[0].As<Napi::Number>().Int32Value();
@@ -17,6 +16,7 @@ namespace CameraApi {
                 info.Env(), "Argument 0 must be an identifier."
             );
         }
+        name_ = name;
         labels_ = labels;
     }
 
@@ -29,7 +29,7 @@ namespace CameraApi {
             } else {
                 Napi::Symbol toPrimitive = Napi::Symbol::WellKnown(info.Env(), "toPrimitive");
                 if (info[0].IsObject() && info[0].As<Napi::Object>().Has(toPrimitive)) {
-                    Napi::Object o = info[0].As<Napi::Object>();
+                    auto o = info[0].As<Napi::Object>();
                     isEqual = identifier_ == o.Get(toPrimitive).As<Napi::Function>().Call(
                         o, {Napi::String::New(info.Env(), "number")}
                     ).As<Napi::Number>().Int32Value();
@@ -56,10 +56,10 @@ namespace CameraApi {
     Napi::Value ApiIdentifier::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
-            if (hint.compare("number") == 0) {
+            if (hint == "number") {
                 return Napi::Number::New(info.Env(), identifier_);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return Napi::String::New(info.Env(), CodeToHexLabel(identifier_));
             }
         }

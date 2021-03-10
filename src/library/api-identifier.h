@@ -7,7 +7,7 @@ namespace CameraApi {
 
     class ApiIdentifier {
         public:
-            ApiIdentifier(const Napi::CallbackInfo &info, std::string name, LabelMap labels);
+            ApiIdentifier(const Napi::CallbackInfo &info, const std::string &name, const LabelMap &labels);
 
             Napi::Value GetLabel(const Napi::CallbackInfo &info);
 
