@@ -1,8 +1,6 @@
 #include "property-aperture.h"
-#include "types.h"
 #include "utility.h"
 #include <unordered_map>
-#include <iostream>
 
 namespace CameraApi {
 
@@ -101,10 +99,10 @@ namespace CameraApi {
     }
 
     std::string PropertyAperture::GetLabelForAperture(double f) {
-        std::string label = "";
+        std::string label;
         label = stringFormat("f%01.1f", f);
         int labelLength = label.length();
-        if (label.substr(labelLength - 2).compare(".0") == 0) {
+        if (label.substr(labelLength - 2) == ".0") {
             label.erase(labelLength - 2);
         }
         return label;
@@ -125,10 +123,10 @@ namespace CameraApi {
     Napi::Value PropertyAperture::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
-            if (hint.compare("number") == 0) {
+            if (hint == "number") {
                 return GetValue(info);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return GetLabel(info);
             }
         }
@@ -170,13 +168,13 @@ namespace CameraApi {
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         for (const auto &it : NamedApertureLabels) {
-            if (it.second.compare(label) == 0) {
+            if (it.second == label) {
                 return PropertyAperture::NewInstance(info.Env(), it.first);
             }
         }
         try {
             double aperture;
-            int offset = label.find("f");
+            int offset = label.find('f');
             if (offset != std::string::npos) {
                 aperture = std::stod(label.substr(offset+1));
             } else {
