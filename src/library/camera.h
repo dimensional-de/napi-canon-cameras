@@ -46,7 +46,7 @@ namespace CameraApi {
             }
 
         private:
-            Napi::Env env_ = NULL;
+            Napi::Env env_ = nullptr;
             EdsCameraRef edsCamera_;
             EdsDeviceInfo deviceInfo_;
             bool isConnected_ = false;
