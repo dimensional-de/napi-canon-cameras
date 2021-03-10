@@ -28,9 +28,14 @@
     "_build:umd": "rollup stubs/esm/index.js -f umd -n napi-canon-cameras-stubs -m inline --context window -o stubs/umd/napi-canon-cameras-stubs.js",
     "_build:umd:min": "cd stubs/umd && uglifyjs -c -m --source-map -o napi-canon-cameras-stubs.min.js -- napi-canon-cameras-stubs.js && gzip napi-canon-cameras-stubs.min.js -c > napi-canon-cameras-stubs.min.js.gz",
     "_package:prepare": "mkdirp ../node_packages/@dimensional",
-    "_package:napi": "npm run prebuild && tar --exclude ./build --exclude ./examples --exclude ./node_modules --exclude src/stubs --exclude ./third_party --exclude ./.git  --exclude ./.idea -czvf ../node_packages/@dimensional/napi-canon-cameras.tgz ./*"
+    "_package:napi": "npm run prebuild && tar --exclude ./build --exclude ./examples --exclude ./node_modules --exclude src/stubs --exclude ./third_party --exclude ./.git  --exclude ./.idea -czvf ../node_packages/@dimensional/napi-canon-cameras.tgz ./*",
+    "_exp:build:cmake": "cmake-js -O cmake-build build"
   },
   "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dimensional-de/napi-canon-cameras.git"
+  },
   "dependencies": {
     "node-addon-api": "*",
     "node-gyp-build": "^4.2.3"

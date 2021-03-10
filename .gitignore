@@ -1,4 +1,5 @@
 build/
+cmake-build/
 cmake-build-debug/
 node_modules/
 prebuilds/
