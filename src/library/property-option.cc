@@ -58,10 +58,10 @@ namespace CameraApi {
     Napi::Value PropertyOption::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
-            if (hint.compare("number") == 0) {
+            if (hint == "number") {
                 return Napi::Number::New(info.Env(), value_);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return Napi::String::New(info.Env(), CodeToHexLabel(value_));
             }
         }
@@ -110,7 +110,7 @@ namespace CameraApi {
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         try {
-            int separatorAt = label.find(".");
+            int separatorAt = label.find('.');
             std::string propertyLabel = label.substr(0, separatorAt);
             std::string optionLabel = label.substr(separatorAt + 1);
             auto propertyIt = std::find_if(
