@@ -6,7 +6,7 @@
 
 namespace CameraApi {
 
-    std::vector <EdsPropertyID> FlagProperty = {
+    std::vector<EdsPropertyID> FlagProperty = {
         kEdsPropID_Evf_DepthOfFieldPreview,
         kEdsPropID_Evf_Mode,
         kEdsPropID_FixedMovie,
@@ -52,13 +52,13 @@ namespace CameraApi {
     Napi::Value PropertyFlag::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
-            if (hint.compare("number") == 0) {
+            if (hint == "number") {
                 return GetValue(info);
             }
-            if (hint.compare("boolean") == 0) {
+            if (hint == "boolean") {
                 return GetFlag(info);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return GetLabel(info);
             }
         }
@@ -117,11 +117,12 @@ namespace CameraApi {
                 label.begin(),
                 [](unsigned char c) { return std::tolower(c); }
             );
-            bool isTruthy = (
-                (label.compare("true") == 0) ||
-                (label.compare("1") == 0) ||
-                (label.compare("yes")) == 0 ||
-                (label.compare("on")) == 0
+            bool isTruthy;
+            isTruthy = (
+                (label == "true") ||
+                (label == "1") ||
+                (label == "yes") ||
+                (label == "on")
             );
             return PropertyFlag::NewInstance(info.Env(), isTruthy ? 0x01 : 0x00);
         } catch (...) {
@@ -142,7 +143,7 @@ namespace CameraApi {
     void PropertyFlag::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&PropertyFlag::GetLabel>("label"),
             InstanceAccessor<&PropertyFlag::GetValue>("value"),
             InstanceAccessor<&PropertyFlag::GetFlag>("flag"),
