@@ -15,25 +15,25 @@ namespace CameraApi {
 
     struct LiveViewEventData {
         CameraReference camera;
-        boolean isActive;
+        boolean isActive = false;
     };
 
     struct PropertyEventData {
         CameraReference camera;
-        EdsPropertyEvent eventID;
-        EdsUInt32 propertyID;
-        EdsUInt32 specifier;
+        EdsPropertyEvent eventID = 0;
+        EdsUInt32 propertyID = 0;
+        EdsUInt32 specifier = 0;
     };
 
     struct ObjectEventData {
         CameraReference camera;
-        EdsObjectEvent eventID;
-        EdsBaseRef objectRef;
+        EdsObjectEvent eventID = 0;
+        EdsBaseRef objectRef = nullptr;
     };
 
     struct StateEventData {
         CameraReference camera;
-        EdsStateEvent eventID;
+        EdsStateEvent eventID = 0;
     };
 
     LabelMap CameraCommands = {
@@ -93,11 +93,11 @@ namespace CameraApi {
         if (isConnected_) {
             disconnect();
         }
-        EdsSetCameraStateEventHandler(edsCamera_, kEdsStateEvent_All, NULL, this);
-        EdsSetPropertyEventHandler(edsCamera_, kEdsStateEvent_All, NULL, this);
-        EdsSetObjectEventHandler(edsCamera_, kEdsStateEvent_All, NULL, this);
+        EdsSetCameraStateEventHandler(edsCamera_, kEdsStateEvent_All, nullptr, this);
+        EdsSetPropertyEventHandler(edsCamera_, kEdsStateEvent_All, nullptr, this);
+        EdsSetObjectEventHandler(edsCamera_, kEdsStateEvent_All, nullptr, this);
         EdsRelease(edsCamera_);
-        edsCamera_ = NULL;
+        edsCamera_ = nullptr;
     }
 
     Napi::ThreadSafeFunction &Camera::getEventEmit() {
@@ -236,8 +236,8 @@ namespace CameraApi {
             return EDS_ERR_OK;
         }
         EdsError error = EDS_ERR_OK;
-        EdsStreamRef stream = NULL;
-        EdsEvfImageRef evfImage = NULL;
+        EdsStreamRef stream = nullptr;
+        EdsEvfImageRef evfImage = nullptr;
 
         error = EdsCreateMemoryStream(0, &stream);
         if (error == EDS_ERR_OK) {
@@ -253,26 +253,26 @@ namespace CameraApi {
 
             EdsGetLength(stream, &imageDataLength);
             if (imageDataLength > 0) {
-                EdsGetPointer(stream, (EdsVoid * *) & imageData);
+                EdsGetPointer(stream, (EdsVoid **) &imageData);
 
                 char *imageString = base64(imageData, imageDataLength, &imageStringLength);
                 image.assign(imageString);
                 free(imageString);
             }
         }
-        if (stream != NULL) {
+        if (stream != nullptr) {
             EdsRelease(stream);
-            stream = NULL;
+            stream = nullptr;
         }
-        if (stream != NULL) {
+        if (stream != nullptr) {
             EdsRelease(evfImage);
-            evfImage = NULL;
+            evfImage = nullptr;
         }
         return error;
     }
 
     EdsError __stdcall Camera::handleStateEvent(EdsStateEvent inEvent, EdsUInt32 inEventData, EdsVoid *inContext) {
-        Camera *c = (Camera *) inContext;
+        auto *c = (Camera *) inContext;
         CameraReference camera = c->shared_from_this();
 
         switch (inEvent) {
@@ -315,7 +315,7 @@ namespace CameraApi {
     EdsError __stdcall Camera::handlePropertyEvent(
         EdsPropertyEvent inEvent, EdsUInt32 inPropertyID, EdsUInt32 inParam, EdsVoid *inContext
     ) {
-        Camera *c = (Camera *) inContext;
+        auto *c = (Camera *) inContext;
         CameraReference camera = c->shared_from_this();
 
         PropertyEventData *eventDataPtr;
@@ -366,7 +366,7 @@ namespace CameraApi {
     }
 
     EdsError __stdcall Camera::handleObjectEvent(EdsObjectEvent inEvent, EdsBaseRef inRef, EdsVoid *inContext) {
-        Camera *c = (Camera *) inContext;
+        auto *c = (Camera *) inContext;
         CameraReference camera = c->shared_from_this();
 
         ObjectEventData *eventDataPtr;
@@ -423,7 +423,7 @@ namespace CameraApi {
 
         if (info.Length() > 0) {
             if (info[0].IsExternal()) {
-                Napi::External <CameraReference> external = info[0].As < Napi::External < CameraReference >> ();
+                auto external = info[0].As<Napi::External<CameraReference>>();
                 camera_ = *external.Data();
             } else if (info[0].IsNumber()) {
                 camera_ = CameraBrowser::instance()->getCameraAtIndex(info[0].As<Napi::Number>().Int32Value());
@@ -439,7 +439,7 @@ namespace CameraApi {
     }
 
     CameraWrap::~CameraWrap() {
-        camera_ = NULL;
+        camera_ = nullptr;
     }
 
     Napi::Object CameraWrap::NewInstance(Napi::Env env, CameraReference camera) {
@@ -542,7 +542,7 @@ namespace CameraApi {
 
     Napi::Value CameraWrap::DownloadLiveViewImage(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
-        std::string image = "";
+        std::string image;
         EdsError error = camera_->downloadLiveViewImage(image);
         return ApiError::ThrowIfFailed(env, error, Napi::String::New(env, image));
     }
