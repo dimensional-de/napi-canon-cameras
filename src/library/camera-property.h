@@ -8,9 +8,9 @@ namespace CameraApi {
 
     class CameraProperty : public Napi::ObjectWrap<CameraProperty> {
         public:
-            CameraProperty(const Napi::CallbackInfo &info);
+            explicit CameraProperty(const Napi::CallbackInfo &info);
 
-            ~CameraProperty();
+            ~CameraProperty() override;
 
             static void Init(Napi::Env env, Napi::Object exports);
 

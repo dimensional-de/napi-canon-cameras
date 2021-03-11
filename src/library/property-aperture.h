@@ -7,17 +7,9 @@ namespace CameraApi {
 
     class PropertyAperture : public Napi::ObjectWrap<PropertyAperture> {
         public:
-            PropertyAperture(const Napi::CallbackInfo &info);
-
-            Napi::Value GetLabel(const Napi::CallbackInfo &info);
-
-            Napi::Value GetValue(const Napi::CallbackInfo &info);
-
-            Napi::Value GetAperture(const Napi::CallbackInfo &info);
+            explicit PropertyAperture(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
-
-            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
@@ -32,6 +24,12 @@ namespace CameraApi {
 
             static std::string GetLabelForAperture(double seconds);
 
+            Napi::Value GetLabel(const Napi::CallbackInfo &info);
+
+            Napi::Value GetValue(const Napi::CallbackInfo &info);
+
+            Napi::Value GetAperture(const Napi::CallbackInfo &info);
+
             Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
 
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
@@ -39,6 +37,8 @@ namespace CameraApi {
             Napi::Value Inspect(const Napi::CallbackInfo &info);
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
+
+            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
     };
 }
 

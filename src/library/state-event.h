@@ -9,7 +9,7 @@ namespace CameraApi {
 
     class StateEvent : public Napi::ObjectWrap<StateEvent>, public ApiIdentifier {
         public:
-            StateEvent(const Napi::CallbackInfo &info);
+            explicit StateEvent(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
 

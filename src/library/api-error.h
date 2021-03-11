@@ -9,7 +9,7 @@ namespace CameraApi {
 
     class ApiError : public Napi::ObjectWrap<ApiError>, public ApiIdentifier {
         public:
-            ApiError(const Napi::CallbackInfo &info);
+            explicit ApiError(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
 

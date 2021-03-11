@@ -9,7 +9,6 @@ namespace CameraApi {
 
     class CameraFileWrap : public Napi::ObjectWrap<CameraFileWrap> {
         public:
-            static void Init(Napi::Env env, Napi::Object exports);
 
             explicit CameraFileWrap(const Napi::CallbackInfo &info);
 
@@ -17,6 +16,7 @@ namespace CameraApi {
 
             static Napi::Object NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem);
 
+            static void Init(Napi::Env env, Napi::Object exports);
         private:
             static Napi::FunctionReference constructor;
             static constexpr const char JSClassName[] = "CameraFile";

@@ -1,7 +1,7 @@
 #include "base64.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 const static char* b64="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" ;
 
@@ -40,7 +40,7 @@ const static unsigned char unb64[]={
 // (you must pass pointer flen).
 char* base64( const void* binaryData, int len, int *flen )
 {
-    const unsigned char* bin = (const unsigned char*) binaryData ;
+    const auto* bin = (const unsigned char*) binaryData ;
     char* res ;
 
     int rc = 0 ; // result counter
@@ -90,7 +90,7 @@ char* base64( const void* binaryData, int len, int *flen )
 
 unsigned char* unbase64( const char* ascii, int len, int *flen )
 {
-    const unsigned char *safeAsciiPtr = (const unsigned char*)ascii ;
+    const auto *safeAsciiPtr = (const unsigned char*)ascii ;
     unsigned char *bin ;
     int cb=0;
     int charNo;

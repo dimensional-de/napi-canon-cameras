@@ -154,7 +154,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    Napi::Object PropertyOption::CreateOptionGroup(Napi::Env env, LabelMap labels) {
+    Napi::Object PropertyOption::CreateOptionGroup(Napi::Env env, const LabelMap &labels) {
         Napi::Object optionGroup = Napi::Object::New(env);
         for (const auto &it : labels) {
             optionGroup.DefineProperty(
@@ -169,7 +169,7 @@ namespace CameraApi {
     void PropertyOption::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&PropertyOption::GetLabel>("label"),
             InstanceAccessor<&PropertyOption::GetValue>("value"),
             InstanceAccessor<&PropertyOption::GetPropertyID>("propertyID"),

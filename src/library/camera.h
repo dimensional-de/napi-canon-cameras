@@ -71,9 +71,9 @@ namespace CameraApi {
         public:
             static void Init(Napi::Env env, Napi::Object exports);
 
-            CameraWrap(const Napi::CallbackInfo &info);
+            explicit CameraWrap(const Napi::CallbackInfo &info);
 
-            ~CameraWrap();
+            ~CameraWrap() override;
 
             static Napi::Object NewInstance(Napi::Env env, CameraReference camera);
 

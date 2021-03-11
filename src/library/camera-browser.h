@@ -24,7 +24,7 @@ namespace CameraApi {
 
             CameraReference getCameraByEdsReference(EdsCameraRef edsCameraRef);
 
-            std::vector <CameraReference> getCameraList();
+            std::vector<CameraReference> getCameraList();
 
             void enumerateCameraList();
 
@@ -49,18 +49,18 @@ namespace CameraApi {
 
             Napi::ThreadSafeFunction tsEmit_;
 
-            std::vector <CameraReference> cameras_;
+            std::vector<CameraReference> cameras_;
 
             static EdsError __stdcall handleCameraAdded(EdsVoid *inContext);
     };
 
     class CameraBrowserWrap : public Napi::ObjectWrap<CameraBrowserWrap> {
         public:
-            static Napi::Object Init(Napi::Env env, Napi::Object exports);
-
-            CameraBrowserWrap(const Napi::CallbackInfo &info);
+            explicit CameraBrowserWrap(const Napi::CallbackInfo &info);
 
             static Napi::Object NewInstance(Napi::Env env);
+
+            static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
         private:
             static Napi::FunctionReference constructor;

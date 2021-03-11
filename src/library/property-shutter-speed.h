@@ -7,19 +7,11 @@ namespace CameraApi {
 
     class PropertyShutterSpeed : public Napi::ObjectWrap<PropertyShutterSpeed> {
         public:
-            PropertyShutterSpeed(const Napi::CallbackInfo &info);
-
-            Napi::Value GetLabel(const Napi::CallbackInfo &info);
-
-            Napi::Value GetValue(const Napi::CallbackInfo &info);
-
-            Napi::Value GetSeconds(const Napi::CallbackInfo &info);
+            explicit PropertyShutterSpeed(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
-
-            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
 
         private:
             static Napi::FunctionReference constructor;
@@ -32,6 +24,12 @@ namespace CameraApi {
 
             static std::string GetLabelForSeconds(double seconds);
 
+            Napi::Value GetLabel(const Napi::CallbackInfo &info);
+
+            Napi::Value GetValue(const Napi::CallbackInfo &info);
+
+            Napi::Value GetSeconds(const Napi::CallbackInfo &info);
+
             Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
@@ -39,6 +37,8 @@ namespace CameraApi {
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
+
+            static Napi::Value ForLabel(const Napi::CallbackInfo &info);
     };
 }
 
