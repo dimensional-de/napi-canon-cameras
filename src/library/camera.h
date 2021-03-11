@@ -45,6 +45,8 @@ namespace CameraApi {
                 return env_;
             }
 
+            void attachEventEmit(const Napi::Function &emit);
+
         private:
             Napi::Env env_ = nullptr;
             EdsCameraRef edsCamera_;
@@ -52,6 +54,8 @@ namespace CameraApi {
             bool isConnected_ = false;
             bool shouldKeepAlive_ = false;
             bool hasActiveLiveView_ = false;
+
+            Napi::ThreadSafeFunction tsEmit_;
 
             bool updateLiveViewStatus();
 
@@ -110,6 +114,8 @@ namespace CameraApi {
             Napi::Value Connect(const Napi::CallbackInfo &info);
 
             Napi::Value Disconnect(const Napi::CallbackInfo &info);
+
+            Napi::Value SetEventHandler(const Napi::CallbackInfo &info);
 
             Napi::Value GetProperty(const Napi::CallbackInfo &info);
 

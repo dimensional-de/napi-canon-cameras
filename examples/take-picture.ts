@@ -1,27 +1,29 @@
 import {
-    cameraBrowser, CameraBrowser, CameraProperty, DownloadRequestEvent, PropertyOption, watchCameras
+    Camera,
+    cameraBrowser, CameraProperty,
+    DownloadRequestEvent, PropertyOption,
+    watchCameras
 } from '../';
 
 process.on('exit', () => cameraBrowser.terminate());
 process.on('SIGINT', () => process.exit());
 
-// catch download request events
-cameraBrowser.setEventHandler(
-    (eventName, event) => {
-        if (eventName === CameraBrowser.Events.DownloadRequest) {
-            const file = (event as DownloadRequestEvent).file;
-            console.log(file);
-            const localFile = file.downloadToPath(__dirname + '/images');
-            console.log(`Downloaded ${file.name}.`);
+try {
+    // get first camera
+    const camera = new Camera();
+    // catch download request events
+    camera.setEventHandler(
+        (eventName, event) => {
+            if (eventName === Camera.EventName.DownloadRequest) {
+                const file = (event as DownloadRequestEvent).file;
+                console.log(file);
+                const localFile = file.downloadToPath(__dirname + '/images');
+                console.log(`Downloaded ${file.name}.`);
 
-            process.exit();
+                process.exit();
+            }
         }
-    }
-);
-
-// get first camera
-const camera = cameraBrowser.getCamera();
-if (camera) {
+    );
     console.log(camera);
     camera.connect();
     // configure
@@ -31,7 +33,7 @@ if (camera) {
 
     // trigger picture
     camera.takePicture();
-} else {
+} catch (e) {
     console.log('No camera found.');
 }
 

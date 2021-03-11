@@ -101,11 +101,24 @@ namespace CameraApi {
     }
 
     Napi::ThreadSafeFunction &Camera::getEventEmit() {
-        return CameraBrowser::instance()->getEventEmit();
+        return tsEmit_;
     }
 
     bool Camera::hasEventEmit() {
-        return CameraBrowser::instance()->hasEventEmit();
+        return tsEmit_;
+    }
+
+    void Camera::attachEventEmit(const Napi::Function &emit) {
+        tsEmit_ = Napi::ThreadSafeFunction::New(
+            emit.Env(),
+            emit,  // JavaScript function called asynchronously
+            "EDSDK Event",         // Name
+            0,                       // Unlimited queue
+            1,                       // Only one thread will use this initially
+            [](Napi::Env) {        // Finalizer used to clean threads up
+                //nativeThread.join();
+            }
+        );
     }
 
     CameraReference Camera::create(const EdsCameraRef &edsCamera) {
@@ -210,21 +223,26 @@ namespace CameraApi {
             eventDataPtr->camera = this->shared_from_this();
             eventDataPtr->isActive = activeLiveView;
 
-            if (hasEventEmit()) {
-                getEventEmit().BlockingCall(
-                    eventDataPtr, [](Napi::Env env, Napi::Function jsCallback, LiveViewEventData *dataPtr) {
-                        Napi::Object event = Napi::Object::New(env);
-                        event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
-                        jsCallback.Call(
-                            {
-                                Napi::String::New(
-                                    env, dataPtr->isActive ? EventName_LiveViewStart : EventName_LiveViewStop
-                                ),
-                                event
-                            }
-                        );
-                        delete dataPtr;
+            auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, LiveViewEventData *dataPtr) {
+                Napi::Object event = Napi::Object::New(env);
+                event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
+                jsCallback.Call(
+                    {
+                        Napi::String::New(
+                            env, dataPtr->isActive ? EventName_LiveViewStart : EventName_LiveViewStop
+                        ),
+                        event
                     }
+                );
+                delete dataPtr;
+            };
+
+            if (hasEventEmit()) {
+                getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+            }
+            if (CameraBrowser::instance()->hasEventEmit()) {
+                CameraBrowser::instance()->getEventEmit().BlockingCall(
+                    eventDataPtr, jsCallback
                 );
             }
         }
@@ -255,7 +273,7 @@ namespace CameraApi {
             if (imageDataLength > 0) {
                 EdsGetPointer(stream, (EdsVoid **) &imageData);
 
-                char *imageString = base64(imageData, (int)imageDataLength, &imageStringLength);
+                char *imageString = base64(imageData, (int) imageDataLength, &imageStringLength);
                 image.assign(imageString);
                 free(imageString);
             }
@@ -291,20 +309,25 @@ namespace CameraApi {
                 eventDataPtr->camera = camera;
                 eventDataPtr->eventID = inEvent;
 
-                if (camera->hasEventEmit()) {
-                    camera->getEventEmit().BlockingCall(
-                        eventDataPtr, [](Napi::Env env, Napi::Function jsCallback, StateEventData *dataPtr) {
-                            Napi::Object event = Napi::Object::New(env);
-                            event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
-                            event.Set("stateEvent", StateEvent::NewInstance(env, dataPtr->eventID));
-                            jsCallback.Call(
-                                {
-                                    Napi::String::New(env, EventName_StateChange),
-                                    event
-                                }
-                            );
-                            delete dataPtr;
+                auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, StateEventData *dataPtr) {
+                    Napi::Object event = Napi::Object::New(env);
+                    event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
+                    event.Set("stateEvent", StateEvent::NewInstance(env, dataPtr->eventID));
+                    jsCallback.Call(
+                        {
+                            Napi::String::New(env, EventName_StateChange),
+                            event
                         }
+                    );
+                    delete dataPtr;
+                };
+
+                if (camera->hasEventEmit()) {
+                    camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+                }
+                if (CameraBrowser::instance()->hasEventEmit()) {
+                    CameraBrowser::instance()->getEventEmit().BlockingCall(
+                        eventDataPtr, jsCallback
                     );
                 }
                 break;
@@ -331,34 +354,38 @@ namespace CameraApi {
                 break;
         }
 
-        if (camera->hasEventEmit()) {
-            camera->getEventEmit().BlockingCall(
-                eventDataPtr,
-                [](Napi::Env env, Napi::Function jsCallback, PropertyEventData *dataPtr) {
-                    Napi::Object event = Napi::Object::New(env);
-                    event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
-                    event.Set(
-                        "property",
-                        CameraProperty::NewInstance(
-                            env,
-                            dataPtr->camera,
-                            dataPtr->propertyID,
-                            dataPtr->specifier
-                        )
-                    );
-                    jsCallback.Call(
-                        {
-                            Napi::String::New(
-                                env,
-                                dataPtr->eventID == kEdsPropertyEvent_PropertyDescChanged
-                                ? EventName_PropertyChangeOptions
-                                : EventName_PropertyChangeValue
-                            ),
-                            event
-                        }
-                    );
-                    delete dataPtr;
+        auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, PropertyEventData *dataPtr) {
+            Napi::Object event = Napi::Object::New(env);
+            event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
+            event.Set(
+                "property",
+                CameraProperty::NewInstance(
+                    env,
+                    dataPtr->camera,
+                    dataPtr->propertyID,
+                    dataPtr->specifier
+                )
+            );
+            jsCallback.Call(
+                {
+                    Napi::String::New(
+                        env,
+                        dataPtr->eventID == kEdsPropertyEvent_PropertyDescChanged
+                        ? EventName_PropertyChangeOptions
+                        : EventName_PropertyChangeValue
+                    ),
+                    event
                 }
+            );
+            delete dataPtr;
+        };
+
+        if (camera->hasEventEmit()) {
+            camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+        }
+        if (CameraBrowser::instance()->hasEventEmit()) {
+            CameraBrowser::instance()->getEventEmit().BlockingCall(
+                eventDataPtr, jsCallback
             );
         }
 
@@ -376,37 +403,39 @@ namespace CameraApi {
         eventDataPtr->objectRef = inRef;
 
         try {
+            auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, ObjectEventData *dataPtr) {
+                Napi::Object event = Napi::Object::New(env);
+                event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
+                switch (dataPtr->eventID) {
+                    case kEdsObjectEvent_DirItemRequestTransfer:
+                        event.Set(
+                            "file", CameraFileWrap::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
+                        );
+                        jsCallback.Call(
+                            {
+                                Napi::String::New(env, EventName_DownloadRequest),
+                                event
+                            }
+                        );
+                        break;
+                    default:
+                        event.Set("objectEvent", ObjectEvent::NewInstance(env, dataPtr->eventID));
+                        jsCallback.Call(
+                            {
+                                Napi::String::New(env, EventName_ObjectChange),
+                                event
+                            }
+                        );
+                        break;
+                }
+                EdsRelease(dataPtr->objectRef);
+                delete dataPtr;
+            };
             if (camera->hasEventEmit()) {
-                camera->getEventEmit().BlockingCall(
-                    eventDataPtr, [](Napi::Env env, Napi::Function jsCallback, ObjectEventData *dataPtr) {
-                        Napi::Object event = Napi::Object::New(env);
-                        event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
-                        switch (dataPtr->eventID) {
-                            case kEdsObjectEvent_DirItemRequestTransfer:
-                                event.Set(
-                                    "file", CameraFileWrap::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
-                                );
-                                jsCallback.Call(
-                                    {
-                                        Napi::String::New(env, EventName_DownloadRequest),
-                                        event
-                                    }
-                                );
-                                break;
-                            default:
-                                event.Set("objectEvent", ObjectEvent::NewInstance(env, dataPtr->eventID));
-                                jsCallback.Call(
-                                    {
-                                        Napi::String::New(env, EventName_ObjectChange),
-                                        event
-                                    }
-                                );
-                                break;
-                        }
-                        EdsRelease(dataPtr->objectRef);
-                        delete dataPtr;
-                    }
-                );
+                camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+            }
+            if (CameraBrowser::instance()->hasEventEmit()) {
+                CameraBrowser::instance()->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
             }
         } catch (...) {
             EdsRelease(inRef);
@@ -497,6 +526,13 @@ namespace CameraApi {
         return ApiError::ThrowIfFailed(info.Env(), camera_->disconnect());
     }
 
+    Napi::Value CameraWrap::SetEventHandler(const Napi::CallbackInfo &info) {
+        if (info.Length() > 0 && info[0].IsFunction()) {
+            camera_->attachEventEmit(info[0].As<Napi::Function>());
+        }
+        return info.Env().Undefined();
+    }
+
     Napi::Value CameraWrap::GetProperty(const Napi::CallbackInfo &info) {
         if (info.Length() < 1) {
             throw Napi::TypeError::New(
@@ -561,6 +597,16 @@ namespace CameraApi {
             );
         }
 
+        Napi::Object eventNames = Napi::Object::New(env);
+        eventNames.Set("LiveViewStart", EventName_LiveViewStart);
+        eventNames.Set("LiveViewStop", EventName_LiveViewStop);
+        eventNames.Set("StateChange", EventName_StateChange);
+        eventNames.Set("PropertyChangeOptions", EventName_PropertyChangeOptions);
+        eventNames.Set("PropertyChangeValue", EventName_PropertyChangeValue);
+        eventNames.Set("DownloadRequest", EventName_DownloadRequest);
+        eventNames.Set("ObjectChange", EventName_ObjectChange);
+        eventNames.Set("Error", EventName_Error);
+
         Napi::Function func = DefineClass(
             env,
             CameraWrap::JSClassName,
@@ -573,6 +619,7 @@ namespace CameraApi {
 
                 InstanceMethod("connect", &CameraWrap::Connect),
                 InstanceMethod("disconnect", &CameraWrap::Disconnect),
+                InstanceMethod("setEventHandler", &CameraWrap::SetEventHandler),
                 InstanceMethod("getProperty", &CameraWrap::GetProperty),
                 InstanceMethod("sendCommand", &CameraWrap::SendCommand),
                 InstanceMethod("takePicture", &CameraWrap::TakePicture),
@@ -580,6 +627,7 @@ namespace CameraApi {
                 InstanceMethod("stopLiveView", &CameraWrap::StopLiveView),
                 InstanceMethod("downloadLiveViewImage", &CameraWrap::DownloadLiveViewImage),
 
+                StaticValue("EventName", eventNames, napi_enumerable),
                 StaticValue("Command", Commands, napi_enumerable),
                 StaticValue("PressShutterButton", ShutterButtonParameters, napi_enumerable)
             }

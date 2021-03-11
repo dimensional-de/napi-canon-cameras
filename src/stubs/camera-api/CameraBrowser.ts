@@ -105,7 +105,7 @@ export class CameraBrowser {
      * @readonly
      * @enum {string}
      */
-     static readonly Events = {"CameraAdd":"camera-add","CameraRemove":"camera-remove","DownloadRequest":"download-request","Error":"error","LiveViewStart":"camera-lv-start","LiveViewStop":"camera-lv-stop","ObjectChange":"object-change","PropertyChangeOptions":"property-change.allowed","PropertyChangeValue":"property-change.value","StateChange":"camera-state"};
+     static readonly EventName = {"CameraAdd":"camera-add","CameraRemove":"camera-remove","DownloadRequest":"download-request","Error":"error","LiveViewStart":"camera-lv-start","LiveViewStop":"camera-lv-stop","ObjectChange":"object-change","PropertyChangeOptions":"property-change.allowed","PropertyChangeValue":"property-change.value","StateChange":"camera-state"};
 
     // GenerateEnd
 }

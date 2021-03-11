@@ -2,6 +2,7 @@
  * Represents a camera device
  *
  */
+import { EventCallback } from "./CameraBrowser";
 import {CameraProperty} from "./CameraProperty";
 
 export class Camera {
@@ -14,6 +15,14 @@ export class Camera {
      * @param {number|string} [indexOrPort=0]
      */
     constructor(indexOrPort: number | string = 0) {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * Set event handler callback
+     * @param {EventCallback} listener
+     */
+    setEventHandler(listener: EventCallback) {
         throw new Error("Not implemented - stub only.");
     }
 
@@ -90,6 +99,11 @@ export class Camera {
 
     // Generate: Camera
 
+    /**
+     * @readonly
+     * @enum {string}
+     */
+     static readonly EventName = {"DownloadRequest":"download-request","Error":"error","LiveViewStart":"camera-lv-start","LiveViewStop":"camera-lv-stop","ObjectChange":"object-change","PropertyChangeOptions":"property-change.allowed","PropertyChangeValue":"property-change.value","StateChange":"camera-state"};
     /**
      * @readonly
      * @enum {number}

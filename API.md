@@ -678,6 +678,7 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
     * _instance_
         * [.description](#Camera+description)
         * [.portName](#Camera+portName)
+        * [.setEventHandler(listener)](#Camera+setEventHandler)
         * [.connect()](#Camera+connect)
         * [.disconnect()](#Camera+disconnect)
         * [.getProperty()](#Camera+getProperty)
@@ -687,6 +688,7 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
         * [.stopLiveView()](#Camera+stopLiveView)
         * [.downloadLiveViewImage()](#Camera+downloadLiveViewImage) ⇒ <code>string</code>
     * _static_
+        * [.EventName](#Camera.EventName) : <code>enum</code>
         * [.Command](#Camera.Command) : <code>enum</code>
         * [.PressShutterButton](#Camera.PressShutterButton) : <code>enum</code>
 
@@ -717,6 +719,24 @@ Camera device
 ## camera.portName
 **Kind**: instance property of [<code>Camera</code>](#Camera)  
 **Read only**: true  
+<a name="Camera+setEventHandler"></a>
+
+## camera.setEventHandler(listener)
+Set event handler callback
+
+**Kind**: instance method of [<code>Camera</code>](#Camera)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>listener</td><td><code><a href="#EventCallback">EventCallback</a></code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Camera+connect"></a>
 
 ## camera.connect()
@@ -775,6 +795,39 @@ Request LiveView stop, triggers event on success
 
 ## camera.downloadLiveViewImage() ⇒ <code>string</code>
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
+<a name="Camera.EventName"></a>
+
+## Camera.EventName : <code>enum</code>
+**Kind**: static enum of [<code>Camera</code>](#Camera)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;download-request&quot;</code></td>
+    </tr><tr>
+    <td>Error</td><td><code>string</code></td><td><code>&quot;error&quot;</code></td>
+    </tr><tr>
+    <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;camera-lv-start&quot;</code></td>
+    </tr><tr>
+    <td>LiveViewStop</td><td><code>string</code></td><td><code>&quot;camera-lv-stop&quot;</code></td>
+    </tr><tr>
+    <td>ObjectChange</td><td><code>string</code></td><td><code>&quot;object-change&quot;</code></td>
+    </tr><tr>
+    <td>PropertyChangeOptions</td><td><code>string</code></td><td><code>&quot;property-change.allowed&quot;</code></td>
+    </tr><tr>
+    <td>PropertyChangeValue</td><td><code>string</code></td><td><code>&quot;property-change.value&quot;</code></td>
+    </tr><tr>
+    <td>StateChange</td><td><code>string</code></td><td><code>&quot;camera-state&quot;</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Camera.Command"></a>
 
 ## Camera.Command : <code>enum</code>
@@ -872,7 +925,7 @@ Request LiveView stop, triggers event on success
         * ["LiveViewStop"](#CameraBrowser+event_LiveViewStop)
         * ["Error"](#CameraBrowser+event_Error)
     * _static_
-        * [.Events](#CameraBrowser.Events) : <code>enum</code>
+        * [.EventName](#CameraBrowser.EventName) : <code>enum</code>
 
 <a name="new_CameraBrowser_new"></a>
 
@@ -1148,9 +1201,9 @@ Camera live view stopped
 API Error
 
 **Kind**: event emitted by [<code>CameraBrowser</code>](#CameraBrowser)  
-<a name="CameraBrowser.Events"></a>
+<a name="CameraBrowser.EventName"></a>
 
-## CameraBrowser.Events : <code>enum</code>
+## CameraBrowser.EventName : <code>enum</code>
 **Kind**: static enum of [<code>CameraBrowser</code>](#CameraBrowser)  
 **Read only**: true  
 **Properties**

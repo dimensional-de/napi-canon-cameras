@@ -383,7 +383,7 @@ namespace CameraApi {
                 InstanceAccessor<&CameraBrowserWrap::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
                 InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraBrowserWrap::Inspect),
 
-                StaticValue("Events", eventNames, napi_enumerable)
+                StaticValue("EventName", eventNames, napi_enumerable)
             }
         );
         JSConstructor(&func);
