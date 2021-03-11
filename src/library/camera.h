@@ -56,6 +56,7 @@ namespace CameraApi {
             bool updateLiveViewStatus();
 
             Napi::ThreadSafeFunction &getEventEmit();
+
             bool hasEventEmit();
 
             static EdsError __stdcall handleStateEvent(EdsStateEvent inEvent, EdsUInt32 inParam, EdsVoid *inContext);
@@ -84,8 +85,17 @@ namespace CameraApi {
             }
 
         private:
-            static Napi::FunctionReference constructor;
             static constexpr const char JSClassName[] = "Camera";
+
+            static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
+                static Napi::FunctionReference constructor;
+
+                if (func != nullptr) {
+                    constructor = Napi::Persistent(*func);
+                    constructor.SuppressDestruct();
+                }
+                return constructor.Value();
+            }
 
             CameraReference camera_;
 

@@ -30,8 +30,6 @@ namespace CameraApi {
         kEdsPropID_TimeZone
     };
 
-    Napi::FunctionReference CameraProperty::constructor;
-
     CameraProperty::CameraProperty(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<CameraProperty>(info) {
         Napi::Env env = info.Env();
@@ -311,16 +309,6 @@ namespace CameraApi {
         }
     }
 
-    void CameraProperty::SetValue(const Napi::CallbackInfo &info) {
-        if (info.Length() > 0) {
-            SetValue(info, info[0]);
-        } else {
-            throw Napi::TypeError::New(
-                info.Env(), "Missing value argument."
-            );
-        }
-    }
-
     Napi::Value CameraProperty::ToStringTag(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), CameraProperty::JSClassName);
     }
@@ -389,7 +377,7 @@ namespace CameraApi {
         Napi::Env env, CameraReference camera, EdsPropertyID identifier, EdsInt32 specifier
     ) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 CameraWrap::NewInstance(env, std::move(camera)),
                 Napi::Number::New(env, identifier),
@@ -427,8 +415,7 @@ namespace CameraApi {
         };
 
         Napi::Function func = DefineClass(env, CameraProperty::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(CameraProperty::JSClassName, func);
     }

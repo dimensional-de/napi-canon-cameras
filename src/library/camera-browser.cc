@@ -266,8 +266,6 @@ namespace CameraApi {
 
     /* JS Wrapper Class */
 
-    Napi::FunctionReference CameraBrowserWrap::constructor;
-
     CameraBrowserWrap::CameraBrowserWrap(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<CameraBrowserWrap>(info) {
         Napi::Env env = info.Env();
@@ -351,7 +349,7 @@ namespace CameraApi {
 
     Napi::Object CameraBrowserWrap::NewInstance(Napi::Env env) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New({});
+        Napi::Object wrap = JSConstructor().New({});
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
@@ -388,8 +386,7 @@ namespace CameraApi {
                 StaticValue("Events", eventNames, napi_enumerable)
             }
         );
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(CameraBrowserWrap::JSClassName, func);
         exports.Set("cameraBrowser", CameraBrowserWrap::NewInstance(env));

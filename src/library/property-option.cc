@@ -6,8 +6,6 @@
 
 namespace CameraApi {
 
-    Napi::FunctionReference PropertyOption::constructor;
-
     PropertyOption::PropertyOption(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<PropertyOption>(info) {
         Napi::Env env = info.Env();
@@ -73,7 +71,10 @@ namespace CameraApi {
     }
 
     bool PropertyOption::IsClassOf(Napi::Value value) {
-        return (value.IsObject() && value.As<Napi::Object>().InstanceOf(constructor.Value()));
+        return (
+            value.IsObject() &&
+            value.As<Napi::Object>().InstanceOf(JSConstructor())
+        );
     }
 
     Napi::Value PropertyOption::ToJSON(const Napi::CallbackInfo &info) {
@@ -145,7 +146,7 @@ namespace CameraApi {
 
     Napi::Object PropertyOption::NewInstance(Napi::Env env, EdsInt32 identifier, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::Number::New(env, identifier),
                 Napi::Number::New(env, value)
@@ -196,8 +197,7 @@ namespace CameraApi {
         }
 
         Napi::Function func = DefineClass(env, PropertyOption::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(PropertyOption::JSClassName, func);
     }

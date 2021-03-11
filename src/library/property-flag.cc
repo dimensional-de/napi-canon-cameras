@@ -14,8 +14,6 @@ namespace CameraApi {
         kEdsPropID_SummerTimeSetting
     };
 
-    Napi::FunctionReference PropertyFlag::constructor;
-
     PropertyFlag::PropertyFlag(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<PropertyFlag>(info) {
 
@@ -132,7 +130,7 @@ namespace CameraApi {
 
     Napi::Object PropertyFlag::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::Number::New(env, value)
             }
@@ -160,8 +158,7 @@ namespace CameraApi {
         };
 
         Napi::Function func = DefineClass(env, PropertyFlag::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(PropertyFlag::JSClassName, func);
     }

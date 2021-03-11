@@ -4,10 +4,9 @@
 #include "base64.h"
 #include "utility.h"
 
-namespace fs =  std::filesystem;
+namespace fs = std::filesystem;
 
 namespace CameraApi {
-    Napi::FunctionReference CameraFileWrap::constructor;
 
     CameraFileWrap::CameraFileWrap(const Napi::CallbackInfo &info) : Napi::ObjectWrap<CameraFileWrap>(info) {
         Napi::Env env = info.Env();
@@ -20,7 +19,7 @@ namespace CameraApi {
             );
         }
 
-        auto external = info[0].As < Napi::External < EdsDirectoryItemRef >> ();
+        auto external = info[0].As<Napi::External<EdsDirectoryItemRef >>();
         edsDirectoryItem_ = *external.Data();
         EdsRetain(edsDirectoryItem_);
 
@@ -231,21 +230,21 @@ namespace CameraApi {
 
         EdsUInt64 imageDataLength;
         int imageStringLength;
-        unsigned char* imageData;
+        unsigned char *imageData;
 
-        EdsGetLength( stream, &imageDataLength );
-        if( imageDataLength <= 0 ) {
+        EdsGetLength(stream, &imageDataLength);
+        if (imageDataLength <= 0) {
             throw Napi::Error::New(
                 info.Env(), "No image data."
             );
         }
 
-        EdsGetPointer( stream, (EdsVoid**)&imageData );
+        EdsGetPointer(stream, (EdsVoid **) &imageData);
 
-        char* imageString = base64(imageData, imageDataLength, &imageStringLength);
+        char *imageString = base64(imageData, imageDataLength, &imageStringLength);
         Napi::String result = Napi::String::New(info.Env(), imageString, imageStringLength);
         free(imageString);
-        if(stream != nullptr) {
+        if (stream != nullptr) {
             EdsRelease(stream);
             stream = nullptr;
         }
@@ -254,7 +253,7 @@ namespace CameraApi {
 
     Napi::Object CameraFileWrap::NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New({Napi::External<EdsDirectoryItemRef>::New(env, &directoryItem)});
+        Napi::Object wrap = JSConstructor().New({Napi::External<EdsDirectoryItemRef>::New(env, &directoryItem)});
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
@@ -280,7 +279,6 @@ namespace CameraApi {
                 InstanceMethod("downloadToString", &CameraFileWrap::DownloadToString)
             }
         );
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
     }
 }

@@ -14,9 +14,19 @@ namespace CameraApi {
             static void Init(Napi::Env env, Napi::Object exports);
 
             static Napi::Object NewInstance(Napi::Env env, EdsUInt32 identifier);
+
         private:
-            static Napi::FunctionReference constructor;
             static constexpr const char JSClassName[] = "StateEvent";
+
+            static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
+                static Napi::FunctionReference constructor;
+
+                if (func != nullptr) {
+                    constructor = Napi::Persistent(*func);
+                    constructor.SuppressDestruct();
+                }
+                return constructor.Value();
+            }
     };
 }
 

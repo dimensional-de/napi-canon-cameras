@@ -14,8 +14,17 @@ namespace CameraApi {
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
         private:
-            static Napi::FunctionReference constructor;
             static constexpr const char JSClassName[] = "PropertyShutterSpeed";
+
+            static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
+                static Napi::FunctionReference constructor;
+
+                if (func != nullptr) {
+                    constructor = Napi::Persistent(*func);
+                    constructor.SuppressDestruct();
+                }
+                return constructor.Value();
+            }
 
             EdsInt32 value_ = 0;
             double seconds_ = 0;

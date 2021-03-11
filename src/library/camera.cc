@@ -416,8 +416,6 @@ namespace CameraApi {
 
     /* JS Wrapper Class */
 
-    Napi::FunctionReference CameraWrap::constructor;
-
     CameraWrap::CameraWrap(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<CameraWrap>(info) {
 
@@ -444,7 +442,7 @@ namespace CameraApi {
 
     Napi::Object CameraWrap::NewInstance(Napi::Env env, CameraReference camera) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::External<CameraReference>::New(env, &camera)
             }
@@ -455,7 +453,7 @@ namespace CameraApi {
     Napi::Object CameraWrap::NewInstance(Napi::Env env, EdsCameraRef edsCameraRef) {
         CameraReference camera = CameraBrowser::instance()->getCameraByEdsReference(edsCameraRef);
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::External<CameraReference>::New(env, &camera)
             }
@@ -586,8 +584,7 @@ namespace CameraApi {
                 StaticValue("PressShutterButton", ShutterButtonParameters, napi_enumerable)
             }
         );
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
         exports.Set(CameraWrap::JSClassName, func);
     }
 }

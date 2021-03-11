@@ -66,8 +66,6 @@ namespace CameraApi {
         {0x70, 91}
     };
 
-    Napi::FunctionReference PropertyAperture::constructor;
-
     PropertyAperture::PropertyAperture(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<PropertyAperture>(info) {
 
@@ -197,7 +195,7 @@ namespace CameraApi {
 
     Napi::Object PropertyAperture::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::Number::New(env, value)
             }
@@ -238,8 +236,7 @@ namespace CameraApi {
         };
 
         Napi::Function func = DefineClass(env, PropertyAperture::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(PropertyAperture::JSClassName, func);
     }

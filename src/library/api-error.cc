@@ -4,15 +4,13 @@
 
 namespace CameraApi {
 
-    Napi::FunctionReference ApiError::constructor;
-
     ApiError::ApiError(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<ApiError>(info), ApiIdentifier(info, ApiError::JSClassName, Labels::Error)  {
     }
 
     Napi::Object ApiError::NewInstance(Napi::Env env, EdsError errorCode) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New({Napi::Number::New(env, errorCode)});
+        Napi::Object wrap = JSConstructor().New({Napi::Number::New(env, errorCode)});
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
@@ -65,8 +63,7 @@ namespace CameraApi {
         };
 
         Napi::Function func = DefineClass(env, ApiError::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(ApiError::JSClassName, func);
     }

@@ -19,8 +19,17 @@ namespace CameraApi {
             static bool IsOptionsProperty(EdsPropertyID propertyID);
 
         private:
-            static Napi::FunctionReference constructor;
             static constexpr const char JSClassName[] = "PropertyOption";
+
+            static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
+                static Napi::FunctionReference constructor;
+
+                if (func != nullptr) {
+                    constructor = Napi::Persistent(*func);
+                    constructor.SuppressDestruct();
+                }
+                return constructor.Value();
+            }
 
             EdsPropertyID propertyIdentifier_ = 0;
             EdsInt32 value_ = 0;
@@ -43,7 +52,7 @@ namespace CameraApi {
 
             static Napi::Value ForLabel(const Napi::CallbackInfo &info);
 
-            static Napi::Object CreateOptionGroup(Napi::Env env, const LabelMap& labels);
+            static Napi::Object CreateOptionGroup(Napi::Env env, const LabelMap &labels);
     };
 }
 

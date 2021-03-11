@@ -87,8 +87,6 @@ namespace CameraApi {
         {0xA0, (1.0/8000)}
     };
 
-    Napi::FunctionReference PropertyShutterSpeed::constructor;
-
     PropertyShutterSpeed::PropertyShutterSpeed(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<PropertyShutterSpeed>(info) {
 
@@ -228,7 +226,7 @@ namespace CameraApi {
 
     Napi::Object PropertyShutterSpeed::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
-        Napi::Object wrap = constructor.New(
+        Napi::Object wrap = JSConstructor().New(
             {
                 Napi::Number::New(env, value)
             }
@@ -270,8 +268,7 @@ namespace CameraApi {
         };
 
         Napi::Function func = DefineClass(env, PropertyShutterSpeed::JSClassName, properties);
-        constructor = Napi::Persistent(func);
-        constructor.SuppressDestruct();
+        JSConstructor(&func);
 
         exports.Set(PropertyShutterSpeed::JSClassName, func);
     }

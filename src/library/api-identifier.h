@@ -22,6 +22,7 @@ namespace CameraApi {
             virtual Napi::Value Inspect(const Napi::CallbackInfo &info);
 
             virtual Napi::Value ToStringTag(const Napi::CallbackInfo &info);
+
         protected:
             std::string name_ = "ApiIdentifier";
             int identifier_ = 0;

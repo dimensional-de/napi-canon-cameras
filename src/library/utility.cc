@@ -13,7 +13,7 @@ namespace CameraApi {
         return label;
     }
 
-    Napi::Symbol GetPublicSymbol(const Napi::Env &env, std::string name) {
+    Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string& name) {
         auto Symbol = env.Global().Get("Symbol").As<Napi::Object>();
         auto forSymbol = Symbol.Get("for").As<Napi::Function>().Call(
             Symbol, { Napi::String::New(env, name) }

@@ -8,7 +8,7 @@ namespace CameraApi {
 
     std::string CodeToHexLabel(int code);
 
-    Napi::Symbol GetPublicSymbol(const Napi::Env &env, std::string name);
+    Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string& name);
 
     /**
      * Convert all std::strings to const char* using constexpr if (C++17)
