@@ -56,7 +56,7 @@ namespace CameraApi {
     }
 
     Napi::Value CameraFileWrap::GetSize(const Napi::CallbackInfo &info) {
-        return Napi::Number::New(info.Env(), edsDirectoryItemInfo_.size);
+        return Napi::Number::New(info.Env(), (int)edsDirectoryItemInfo_.size);
     }
 
     Napi::Value CameraFileWrap::GetLocalFile(const Napi::CallbackInfo &info) {
@@ -241,7 +241,7 @@ namespace CameraApi {
 
         EdsGetPointer(stream, (EdsVoid **) &imageData);
 
-        char *imageString = base64(imageData, imageDataLength, &imageStringLength);
+        char *imageString = base64(imageData, (int)imageDataLength, &imageStringLength);
         Napi::String result = Napi::String::New(info.Env(), imageString, imageStringLength);
         free(imageString);
         if (stream != nullptr) {

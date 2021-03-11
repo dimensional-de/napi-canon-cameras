@@ -255,7 +255,7 @@ namespace CameraApi {
             if (imageDataLength > 0) {
                 EdsGetPointer(stream, (EdsVoid **) &imageData);
 
-                char *imageString = base64(imageData, imageDataLength, &imageStringLength);
+                char *imageString = base64(imageData, (int)imageDataLength, &imageStringLength);
                 image.assign(imageString);
                 free(imageString);
             }

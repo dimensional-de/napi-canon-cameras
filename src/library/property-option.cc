@@ -111,9 +111,9 @@ namespace CameraApi {
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         try {
-            int separatorAt = label.find('.');
-            std::string propertyLabel = label.substr(0, separatorAt);
-            std::string optionLabel = label.substr(separatorAt + 1);
+            auto separatorAt = label.find('.');
+            auto propertyLabel = label.substr(0, separatorAt);
+            auto optionLabel = label.substr(separatorAt + 1);
             auto propertyIt = std::find_if(
                 std::begin(Labels::PropertyID),
                 std::end(Labels::PropertyID),
@@ -126,7 +126,7 @@ namespace CameraApi {
             }
             int propertyID = propertyIt->first;
             if (Labels::PropertyOption.find(propertyID) != Labels::PropertyOption.end()) {
-                LabelMap optionLabels = Labels::PropertyOption[propertyID];
+                auto optionLabels = Labels::PropertyOption[propertyID];
                 auto optionIt = std::find_if(
                     std::begin(optionLabels),
                     std::end(optionLabels),
@@ -135,8 +135,7 @@ namespace CameraApi {
                 if (optionIt == std::end(Labels::PropertyID)) {
                     return info.Env().Null();
                 }
-                int optionID = optionIt->first;
-                return PropertyOption::NewInstance(info.Env(), propertyID, optionID);
+                return PropertyOption::NewInstance(info.Env(), propertyID, optionIt->first);
             }
             return info.Env().Null();
         } catch (...) {

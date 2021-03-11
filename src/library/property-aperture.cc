@@ -99,7 +99,7 @@ namespace CameraApi {
     std::string PropertyAperture::GetLabelForAperture(double f) {
         std::string label;
         label = stringFormat("f%01.1f", f);
-        int labelLength = label.length();
+        auto labelLength = label.length();
         if (label.substr(labelLength - 2) == ".0") {
             label.erase(labelLength - 2);
         }
@@ -172,7 +172,7 @@ namespace CameraApi {
         }
         try {
             double aperture;
-            int offset = label.find('f');
+            auto offset = label.find('f');
             if (offset != std::string::npos) {
                 aperture = std::stod(label.substr(offset+1));
             } else {
@@ -181,7 +181,7 @@ namespace CameraApi {
             double matchDelta = 9999.0;
             EdsInt32 matchValue = 0;
             for (const auto &it : ApertureValues) {
-                double delta = std::abs(aperture - it.second);
+                auto delta = std::abs(aperture - it.second);
                 if (delta < matchDelta) {
                     matchDelta = delta;
                     matchValue = it.first;

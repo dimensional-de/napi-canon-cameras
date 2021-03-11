@@ -121,7 +121,7 @@ namespace CameraApi {
         std::string label;
         if (seconds > 0.2999) {
             label = stringFormat("%01.1f", seconds);
-            int labelLength = label.length();
+            auto labelLength = label.length();
             if (label.substr( labelLength - 2) == ".0") {
                 label.erase(labelLength - 2);
             }
@@ -198,7 +198,7 @@ namespace CameraApi {
         }
         try {
             double seconds;
-            int fractionAt = label.find("1/");
+            auto fractionAt = label.find("1/");
             if (fractionAt != std::string::npos) {
                 if (fractionAt > 1) {
                     seconds = std::stod(label.substr(0, fractionAt));
@@ -212,7 +212,7 @@ namespace CameraApi {
             double matchDelta = 9999.0;
             EdsInt32 matchValue = 0;
             for (const auto &it : ShutterSpeedValues) {
-                double delta = std::abs(seconds - it.second);
+                auto delta = std::abs(seconds - it.second);
                 if (delta < matchDelta) {
                     matchDelta = delta;
                     matchValue = it.first;
