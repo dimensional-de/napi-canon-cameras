@@ -27,7 +27,6 @@ namespace CameraApi {
             static LabelMap EvfHistogramStatus;
             static LabelMap EvfOutputDevice;
             static LabelMap EvfZoom;
-            static LabelMap ExposureCompensation;
             static LabelMap ImageQuality;
             static LabelMap ISOSpeed;
             static LabelMap LensBarrelStatus;

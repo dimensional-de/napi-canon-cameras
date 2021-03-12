@@ -5,8 +5,14 @@ import {PropertyAperture} from "./PropertyAperture";
 import {PropertyFlag} from "./PropertyFlag";
 
 let STUB = 1;
+export interface PropertyValue {
+}
+/**
+ * @interface PropertyValue
+ */
+STUB = 1;
 
-interface PropertyDateTime {
+interface PropertyDateTime extends PropertyValue {
     year: number;
     month: number;
     day: number;
@@ -17,6 +23,7 @@ interface PropertyDateTime {
 }
 /**
  * @interface PropertyDateTime
+ * @extends PropertyValue
  * @property {number} year
  * @property {number} month
  * @property {number} day
@@ -26,7 +33,7 @@ interface PropertyDateTime {
  * @property {number} milliseconds
  */
 STUB = 1;
-interface PropertyStyleDescription {
+interface PropertyStyleDescription extends PropertyValue {
     contrast: number;
     sharpness: number;
     saturation: number;
@@ -38,6 +45,7 @@ interface PropertyStyleDescription {
 }
 /**
  * @interface PropertyStyleDescription
+ * @extends PropertyValue
  * @property {number} contrast
  * @property {number} sharpness
  * @property {number} saturation
@@ -49,11 +57,11 @@ interface PropertyStyleDescription {
  */
 STUB = 1;
 /**
- * @typedef {string|number|number[]|PropertyAperture|PropertyFlag|PropertyOption|PropertyShutterSpeed|PropertyDateTime|PropertyStyleDescription} PropertyValue
+ * @typedef {string|number|number[]|PropertyValue} CameraPropertyValue
  */
 STUB = 1;
 
-export type PropertyValue = string|number|number[]|PropertyAperture|PropertyFlag|PropertyOption|PropertyShutterSpeed|PropertyDateTime|PropertyStyleDescription;
+export type CameraPropertyValue = string|number|number[]|PropertyValue;
 
 export class CameraProperty {
 
@@ -109,27 +117,27 @@ export class CameraProperty {
     }
 
     /**
-     * @type {PropertyValue}
+     * @type {CameraPropertyValue}
      */
-    get value(): PropertyValue {
+    get value(): CameraPropertyValue {
         throw new Error("Not implemented - stub only.");
     }
 
-    set value(value: PropertyValue) {
-        throw new Error("Not implemented - stub only.");
-    }
-
-    /**
-     * @type {PropertyValue[]}
-     */
-    get allowedValues(): PropertyValue[] {
+    set value(value: CameraPropertyValue) {
         throw new Error("Not implemented - stub only.");
     }
 
     /**
-     * @return {{label: string, value: PropertyValue, identifier: number, specifier: (number|undefined)}}
+     * @type {CameraPropertyValue[]}
      */
-    toJSON(): {label: string, identifier: number, specifier?: number, value: PropertyValue} {
+    get allowedValues(): CameraPropertyValue[] {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @return {{label: string, value: CameraPropertyValue, identifier: number, specifier: (number|undefined)}}
+     */
+    toJSON(): {label: string, identifier: number, specifier?: number, value: CameraPropertyValue} {
         throw new Error("Not implemented - stub only.");
     }
 

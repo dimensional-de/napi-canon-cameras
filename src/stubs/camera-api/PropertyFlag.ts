@@ -1,4 +1,6 @@
-export class PropertyFlag {
+import { PropertyValue } from "./CameraProperty";
+
+export class PropertyFlag implements PropertyValue {
 
     [Symbol.toStringTag] = 'PropertyFlag';
 

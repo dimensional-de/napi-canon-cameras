@@ -1,4 +1,6 @@
-export class PropertyAperture {
+import { PropertyValue } from "./CameraProperty";
+
+export class PropertyAperture implements PropertyValue {
 
     [Symbol.toStringTag] = 'PropertyAperture';
 
@@ -8,6 +10,7 @@ export class PropertyAperture {
     /**
      * Encapsulate Object for a Aperture value
      * @class PropertyAperture
+     * @implements PropertyValue
      * @param {number} value_
      */
     constructor(

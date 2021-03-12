@@ -27,6 +27,7 @@
                 "./src/library/object-event.cc",
                 "./src/library/property-option.cc",
                 "./src/library/property-aperture.cc",
+                "./src/library/property-exposure-compensation.cc",
                 "./src/library/property-flag.cc",
                 "./src/library/property-shutter-speed.cc",
                 "./src/library/state-event.cc",

@@ -1,4 +1,6 @@
-export class PropertyShutterSpeed {
+import { PropertyValue } from "./CameraProperty";
+
+export class PropertyShutterSpeed implements PropertyValue {
 
     [Symbol.toStringTag] = 'PropertyShutterSpeed';
 

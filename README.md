@@ -20,21 +20,18 @@ application.
 - [ ] Read Camera Properties
     - [x] Text
     - [x] Integer
+      - [x] Flags (true/false)
+      - [x] Options (named list values)
+      - [x] Aperture
+      - [x] Shutter Speed
+      - [x] Exposure Compensation
     - [x] Integer Array
     - [x] Time
-    - [x] Flags (true/false)
-    - [x] Options (named list values)
-    - [x] Aperture
-    - [x] Shutter Speed
 - [ ] Write Camera Properties
     - [ ] Text Properties
     - [x] Integer
     - [ ] Integer Array
     - [ ] Time
-    - [x] Flags (true/false)
-    - [x] Options (named list values)
-    - [x] Aperture
-    - [x] Shutter Speed
 - [x] Take Picture
     - [x] Download To Directory
     - [x] Download To File

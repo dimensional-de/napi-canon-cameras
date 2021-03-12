@@ -6,6 +6,7 @@
 #include "property-shutter-speed.h"
 #include "api-error.h"
 #include "utility.h"
+#include "property-exposure-compensation.h"
 
 namespace CameraApi {
 
@@ -146,6 +147,10 @@ namespace CameraApi {
                 return PropertyShutterSpeed::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
+            case kEdsPropID_ExposureCompensation:
+                return PropertyExposureCompensation::NewInstance(
+                    env, value.As<Napi::Number>().Int32Value()
+                );
             default:
                 if (PropertyFlag::IsFlagProperty(propertyIdentifier_)) {
                     return PropertyFlag::NewInstance(
@@ -235,6 +240,9 @@ namespace CameraApi {
                     break;
                 case kEdsPropID_Tv:
                     values.Set(i, PropertyShutterSpeed::NewInstance(env, propertyDescription.propDesc[i]));
+                    break;
+                case kEdsPropID_ExposureCompensation:
+                    values.Set(i, PropertyExposureCompensation::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 default:
                     if (PropertyOption::IsOptionsProperty(propertyIdentifier_)) {

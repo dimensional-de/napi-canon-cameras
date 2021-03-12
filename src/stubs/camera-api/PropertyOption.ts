@@ -1,6 +1,6 @@
-import {CameraProperty} from "./CameraProperty";
+import { CameraProperty, PropertyValue } from "./CameraProperty";
 
-export class PropertyOption {
+export class PropertyOption implements PropertyValue {
 
     [Symbol.toStringTag] = 'PropertyOption';
 
@@ -167,11 +167,6 @@ export class PropertyOption {
      * @enum {number}
      */
      static readonly Evf_Zoom = {"Fit":1,"x10":10,"x5":5};
-    /**
-     * @readonly
-     * @enum {number}
-     */
-     static readonly ExposureCompensation = {"NotValid":-1};
     /**
      * @readonly
      * @enum {number}

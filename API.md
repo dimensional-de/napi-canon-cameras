@@ -25,6 +25,8 @@
 <dd></dd>
 <dt><a href="#PropertyAperture">PropertyAperture</a></dt>
 <dd></dd>
+<dt><a href="#PropertyExposureCompensation">PropertyExposureCompensation</a></dt>
+<dd></dd>
 <dt><a href="#PropertyFlag">PropertyFlag</a></dt>
 <dd></dd>
 <dt><a href="#PropertyOption">PropertyOption</a></dt>
@@ -51,7 +53,7 @@
 <dl>
 <dt><a href="#EventCallback">EventCallback</a> : <code>function</code></dt>
 <dd></dd>
-<dt><a href="#PropertyValue">PropertyValue</a> : <code>string</code> | <code>number</code> | <code>Array.&lt;number&gt;</code> | <code><a href="#PropertyAperture">PropertyAperture</a></code> | <code><a href="#PropertyFlag">PropertyFlag</a></code> | <code><a href="#PropertyOption">PropertyOption</a></code> | <code><a href="#PropertyShutterSpeed">PropertyShutterSpeed</a></code> | <code><a href="#PropertyDateTime">PropertyDateTime</a></code> | <code><a href="#PropertyStyleDescription">PropertyStyleDescription</a></code></dt>
+<dt><a href="#CameraPropertyValue">CameraPropertyValue</a> : <code>string</code> | <code>number</code> | <code>Array.&lt;number&gt;</code> | <code><a href="#PropertyValue">PropertyValue</a></code></dt>
 <dd></dd>
 </dl>
 
@@ -68,9 +70,11 @@
 <dd></dd>
 <dt><a href="#StateChangeEvent">StateChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
 <dd></dd>
-<dt><a href="#PropertyDateTime">PropertyDateTime</a></dt>
+<dt><a href="#PropertyValue">PropertyValue</a></dt>
 <dd></dd>
-<dt><a href="#PropertyStyleDescription">PropertyStyleDescription</a></dt>
+<dt><a href="#PropertyDateTime">PropertyDateTime</a> ⇐ <code><a href="#PropertyValue">PropertyValue</a></code></dt>
+<dd></dd>
+<dt><a href="#PropertyStyleDescription">PropertyStyleDescription</a> ⇐ <code><a href="#PropertyValue">PropertyValue</a></code></dt>
 <dd></dd>
 </dl>
 
@@ -179,10 +183,15 @@
     </tr>  </tbody>
 </table>
 
+<a name="PropertyValue"></a>
+
+# PropertyValue
+**Kind**: global interface  
 <a name="PropertyDateTime"></a>
 
-# PropertyDateTime
+# PropertyDateTime ⇐ [<code>PropertyValue</code>](#PropertyValue)
 **Kind**: global interface  
+**Extends**: [<code>PropertyValue</code>](#PropertyValue)  
 **Properties**
 
 <table>
@@ -211,8 +220,9 @@
 
 <a name="PropertyStyleDescription"></a>
 
-# PropertyStyleDescription
+# PropertyStyleDescription ⇐ [<code>PropertyValue</code>](#PropertyValue)
 **Kind**: global interface  
+**Extends**: [<code>PropertyValue</code>](#PropertyValue)  
 **Properties**
 
 <table>
@@ -1250,8 +1260,8 @@ API Error
         * [.identifier](#CameraProperty+identifier) : <code>number</code>
         * [.specifier](#CameraProperty+specifier) : <code>number</code>
         * [.available](#CameraProperty+available) : <code>boolean</code>
-        * [.value](#CameraProperty+value) : [<code>PropertyValue</code>](#PropertyValue)
-        * [.allowedValues](#CameraProperty+allowedValues) : [<code>Array.&lt;PropertyValue&gt;</code>](#PropertyValue)
+        * [.value](#CameraProperty+value) : [<code>CameraPropertyValue</code>](#CameraPropertyValue)
+        * [.allowedValues](#CameraProperty+allowedValues) : [<code>Array.&lt;CameraPropertyValue&gt;</code>](#CameraPropertyValue)
         * [.toJSON()](#CameraProperty+toJSON) ⇒ <code>Object</code>
     * _static_
         * [.ID](#CameraProperty.ID) : <code>enum</code>
@@ -1303,11 +1313,11 @@ Camera property/setting.
 **Read only**: true  
 <a name="CameraProperty+value"></a>
 
-## cameraProperty.value : [<code>PropertyValue</code>](#PropertyValue)
+## cameraProperty.value : [<code>CameraPropertyValue</code>](#CameraPropertyValue)
 **Kind**: instance property of [<code>CameraProperty</code>](#CameraProperty)  
 <a name="CameraProperty+allowedValues"></a>
 
-## cameraProperty.allowedValues : [<code>Array.&lt;PropertyValue&gt;</code>](#PropertyValue)
+## cameraProperty.allowedValues : [<code>Array.&lt;CameraPropertyValue&gt;</code>](#CameraPropertyValue)
 **Kind**: instance property of [<code>CameraProperty</code>](#CameraProperty)  
 <a name="CameraProperty+toJSON"></a>
 
@@ -1657,6 +1667,7 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
 
 # PropertyAperture
 **Kind**: global class  
+**Implements**: [<code>PropertyValue</code>](#PropertyValue)  
 
 * [PropertyAperture](#PropertyAperture)
     * [new PropertyAperture(value_)](#new_PropertyAperture_new)
@@ -1870,6 +1881,170 @@ Create instance for label.
     </tr>  </tbody>
 </table>
 
+<a name="PropertyExposureCompensation"></a>
+
+# PropertyExposureCompensation
+**Kind**: global class  
+
+* [PropertyExposureCompensation](#PropertyExposureCompensation)
+    * [new PropertyExposureCompensation(value_)](#new_PropertyExposureCompensation_new)
+    * _instance_
+        * [.label](#PropertyExposureCompensation+label) : <code>string</code>
+        * [.value](#PropertyExposureCompensation+value) : <code>number</code>
+        * [.compensation](#PropertyExposureCompensation+compensation) : <code>number</code>
+    * _static_
+        * [.Values](#PropertyExposureCompensation.Values) : <code>enum</code>
+        * [.forLabel(label)](#PropertyExposureCompensation.forLabel) ⇒ [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation) \| <code>null</code>
+
+<a name="new_PropertyExposureCompensation_new"></a>
+
+## new PropertyExposureCompensation(value_)
+Encapsulate Object for a exposure compensation value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value_</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="PropertyExposureCompensation+label"></a>
+
+## propertyExposureCompensation.label : <code>string</code>
+**Kind**: instance property of [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation)  
+**Read only**: true  
+<a name="PropertyExposureCompensation+value"></a>
+
+## propertyExposureCompensation.value : <code>number</code>
+**Kind**: instance property of [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation)  
+**Read only**: true  
+<a name="PropertyExposureCompensation+compensation"></a>
+
+## propertyExposureCompensation.compensation : <code>number</code>
+**Kind**: instance property of [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation)  
+**Read only**: true  
+<a name="PropertyExposureCompensation.Values"></a>
+
+## PropertyExposureCompensation.Values : <code>enum</code>
+**Kind**: static enum of [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>0</td><td><code>number</code></td><td><code>0</code></td>
+    </tr><tr>
+    <td>3</td><td><code>number</code></td><td><code>0.3333333333333333</code></td>
+    </tr><tr>
+    <td>4</td><td><code>number</code></td><td><code>0.5</code></td>
+    </tr><tr>
+    <td>5</td><td><code>number</code></td><td><code>0.6666666666666666</code></td>
+    </tr><tr>
+    <td>8</td><td><code>number</code></td><td><code>1</code></td>
+    </tr><tr>
+    <td>11</td><td><code>number</code></td><td><code>1.3333333333333333</code></td>
+    </tr><tr>
+    <td>12</td><td><code>number</code></td><td><code>1.5</code></td>
+    </tr><tr>
+    <td>13</td><td><code>number</code></td><td><code>1.6666666666666665</code></td>
+    </tr><tr>
+    <td>16</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>19</td><td><code>number</code></td><td><code>2.3333333333333335</code></td>
+    </tr><tr>
+    <td>20</td><td><code>number</code></td><td><code>2.5</code></td>
+    </tr><tr>
+    <td>21</td><td><code>number</code></td><td><code>2.6666666666666665</code></td>
+    </tr><tr>
+    <td>24</td><td><code>number</code></td><td><code>3</code></td>
+    </tr><tr>
+    <td>27</td><td><code>number</code></td><td><code>3.3333333333333335</code></td>
+    </tr><tr>
+    <td>28</td><td><code>number</code></td><td><code>3.5</code></td>
+    </tr><tr>
+    <td>29</td><td><code>number</code></td><td><code>3.6666666666666665</code></td>
+    </tr><tr>
+    <td>32</td><td><code>number</code></td><td><code>4</code></td>
+    </tr><tr>
+    <td>35</td><td><code>number</code></td><td><code>4.333333333333333</code></td>
+    </tr><tr>
+    <td>36</td><td><code>number</code></td><td><code>4.5</code></td>
+    </tr><tr>
+    <td>37</td><td><code>number</code></td><td><code>4.666666666666667</code></td>
+    </tr><tr>
+    <td>40</td><td><code>number</code></td><td><code>5</code></td>
+    </tr><tr>
+    <td>216</td><td><code>number</code></td><td><code>-5</code></td>
+    </tr><tr>
+    <td>219</td><td><code>number</code></td><td><code>-4.666666666666667</code></td>
+    </tr><tr>
+    <td>220</td><td><code>number</code></td><td><code>-4.5</code></td>
+    </tr><tr>
+    <td>221</td><td><code>number</code></td><td><code>-4.333333333333333</code></td>
+    </tr><tr>
+    <td>224</td><td><code>number</code></td><td><code>-4</code></td>
+    </tr><tr>
+    <td>227</td><td><code>number</code></td><td><code>-3.6666666666666665</code></td>
+    </tr><tr>
+    <td>228</td><td><code>number</code></td><td><code>-3.5</code></td>
+    </tr><tr>
+    <td>229</td><td><code>number</code></td><td><code>-3.3333333333333335</code></td>
+    </tr><tr>
+    <td>232</td><td><code>number</code></td><td><code>-3</code></td>
+    </tr><tr>
+    <td>235</td><td><code>number</code></td><td><code>-2.6666666666666665</code></td>
+    </tr><tr>
+    <td>236</td><td><code>number</code></td><td><code>-2.5</code></td>
+    </tr><tr>
+    <td>237</td><td><code>number</code></td><td><code>-2.3333333333333335</code></td>
+    </tr><tr>
+    <td>240</td><td><code>number</code></td><td><code>-2</code></td>
+    </tr><tr>
+    <td>243</td><td><code>number</code></td><td><code>-1.6666666666666665</code></td>
+    </tr><tr>
+    <td>244</td><td><code>number</code></td><td><code>-1.5</code></td>
+    </tr><tr>
+    <td>245</td><td><code>number</code></td><td><code>-1.3333333333333333</code></td>
+    </tr><tr>
+    <td>248</td><td><code>number</code></td><td><code>-1</code></td>
+    </tr><tr>
+    <td>251</td><td><code>number</code></td><td><code>-0.6666666666666666</code></td>
+    </tr><tr>
+    <td>252</td><td><code>number</code></td><td><code>-0.5</code></td>
+    </tr><tr>
+    <td>253</td><td><code>number</code></td><td><code>-0.3333333333333333</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="PropertyExposureCompensation.forLabel"></a>
+
+## PropertyExposureCompensation.forLabel(label) ⇒ [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation) \| <code>null</code>
+Create instance for label.
+
+**Kind**: static method of [<code>PropertyExposureCompensation</code>](#PropertyExposureCompensation)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="PropertyFlag"></a>
 
 # PropertyFlag
@@ -1978,7 +2153,6 @@ Create instance for label.
         * [.Evf_OutputDevice](#PropertyOption.Evf_OutputDevice) : <code>enum</code>
         * [.Evf_WhiteBalance](#PropertyOption.Evf_WhiteBalance) : <code>enum</code>
         * [.Evf_Zoom](#PropertyOption.Evf_Zoom) : <code>enum</code>
-        * [.ExposureCompensation](#PropertyOption.ExposureCompensation) : <code>enum</code>
         * [.ISOSpeed](#PropertyOption.ISOSpeed) : <code>enum</code>
         * [.ImageQuality](#PropertyOption.ImageQuality) : <code>enum</code>
         * [.LensBarrelStatus](#PropertyOption.LensBarrelStatus) : <code>enum</code>
@@ -2663,25 +2837,6 @@ PropertyOption represents a property value from a property specific list.It pro
     <td>x10</td><td><code>number</code></td><td><code>10</code></td>
     </tr><tr>
     <td>x5</td><td><code>number</code></td><td><code>5</code></td>
-    </tr>  </tbody>
-</table>
-
-<a name="PropertyOption.ExposureCompensation"></a>
-
-## PropertyOption.ExposureCompensation : <code>enum</code>
-**Kind**: static enum of [<code>PropertyOption</code>](#PropertyOption)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>NotValid</td><td><code>number</code></td><td><code>-1</code></td>
     </tr>  </tbody>
 </table>
 
@@ -3659,7 +3814,7 @@ Global CameraBrowser instance
     </tr>  </tbody>
 </table>
 
-<a name="PropertyValue"></a>
+<a name="CameraPropertyValue"></a>
 
-# PropertyValue : <code>string</code> \| <code>number</code> \| <code>Array.&lt;number&gt;</code> \| [<code>PropertyAperture</code>](#PropertyAperture) \| [<code>PropertyFlag</code>](#PropertyFlag) \| [<code>PropertyOption</code>](#PropertyOption) \| [<code>PropertyShutterSpeed</code>](#PropertyShutterSpeed) \| [<code>PropertyDateTime</code>](#PropertyDateTime) \| [<code>PropertyStyleDescription</code>](#PropertyStyleDescription)
+# CameraPropertyValue : <code>string</code> \| <code>number</code> \| <code>Array.&lt;number&gt;</code> \| [<code>PropertyValue</code>](#PropertyValue)
 **Kind**: global typedef  

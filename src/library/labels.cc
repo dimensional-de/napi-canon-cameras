@@ -338,53 +338,6 @@ namespace CameraApi {
         {kEdsEvfZoom_x10, "x10"}
     };
 
-    LabelMap Labels::ExposureCompensation = {
-        /*
-        {0x00, "0"},
-        {0x1B, "+3 1/3"},
-        {0x1C, "+3 1/2"},
-        {0x1D, "+3 2/3"},
-        {0x03, "+1/3"},
-        {0x04, "+1/2"},
-        {0x05, "+2/3"},
-        {0x08, "+1"},
-        {0x10, "+2"},
-        {0x13, "+2 1/3"},
-        {0x14, "+2 1/2"},
-        {0x15, "+2 2/3"},
-        {0x18, "+3"},
-        {0x20, "+4"},
-        {0x23, "+4 1/3"},
-        {0x24, "+4 1/2"},
-        {0x25, "+4 2/3"},
-        {0x28, "+5"},
-        {0x0B, "+1 1/3"},
-        {0x0C, "+1 1/2"},
-        {0x0D, "+1 2/3"},
-        {0xD8, "–5"},
-        {0xDB, "–4 2/3"},
-        {0xDC, "–4 1/2"},
-        {0xDD, "–4 1/3"},
-        {0xE0, "–4"},
-        {0xE3, "–3 2/3"},
-        {0xE4, "–3 1/2"},
-        {0xE5, "–3 1/3"},
-        {0xE8, "–3"},
-        {0xEB, "–2 2/3"},
-        {0xEC, "–2 1/2"},
-        {0xED, "–2 1/3"},
-        {0xF0, "–2"},
-        {0xF3, "–1 2/3"},
-        {0xF4, "–1 1/2"},
-        {0xF5, "–1 1/3"},
-        {0xF8, "–1"},
-        {0xFB, "–2/3"},
-        {0xFC, "–1/2"},
-        {0xFD, "–1/3"},
-         */
-        {0xffffffff, "NotValid"}
-    };
-
     LabelMap Labels::ImageQuality = {
         {EdsImageQuality_LJ, "LargeJPEG"},/* Jpeg Large */
         {EdsImageQuality_M1J, "Middle1JPEG"},/* Jpeg Middle1 */
@@ -823,7 +776,6 @@ namespace CameraApi {
         {kEdsPropID_Evf_OutputDevice, EvfOutputDevice},
         {kEdsPropID_Evf_WhiteBalance, WhiteBalance},
         {kEdsPropID_Evf_Zoom, EvfZoom},
-        {kEdsPropID_ExposureCompensation, ExposureCompensation},
         {kEdsPropID_ISOSpeed, ISOSpeed},
         {kEdsPropID_ImageQuality, ImageQuality},
         {kEdsPropID_LensBarrelStatus, LensBarrelStatus},
