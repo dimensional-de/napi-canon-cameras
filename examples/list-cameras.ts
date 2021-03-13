@@ -1,4 +1,4 @@
-import {ApiError, cameraBrowser, watchCameras} from '../';
+import { cameraBrowser, watchCameras} from '../';
 
 cameraBrowser.setEventHandler(
     (eventName, ...args) => {
@@ -6,7 +6,6 @@ cameraBrowser.setEventHandler(
     }
 );
 
-process.on('exit', () => cameraBrowser.terminate());
 process.on('SIGINT', () => process.exit());
 
 try {

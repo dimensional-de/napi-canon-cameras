@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 
 const events = new EventEmitter();
 events.on(
-    CameraBrowser.Events.PropertyChangeValue,
+    CameraBrowser.EventName.PropertyChangeValue,
     (event) => {
         if (event.property.identifier === CameraProperty.ID.Evf_OutputDevice) {
             console.log(event.property.label, event.property.value);
@@ -11,13 +11,13 @@ events.on(
     }
 );
 events.on(
-    CameraBrowser.Events.LiveViewStart,
+    CameraBrowser.EventName.LiveViewStart,
     (event) => {
         console.log('LV Started', event);
     }
 );
 events.on(
-    CameraBrowser.Events.LiveViewStop,
+    CameraBrowser.EventName.LiveViewStop,
     (event) => {
         console.log('LV Stopped', event);
     }
@@ -30,7 +30,6 @@ cameraBrowser.setEventHandler(
     }
 );
 
-process.on('exit', () => cameraBrowser.terminate());
 process.on('SIGINT', () => process.exit());
 
 try {

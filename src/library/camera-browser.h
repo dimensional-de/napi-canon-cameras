@@ -40,12 +40,26 @@ namespace CameraApi {
 
             void triggerEvents();
 
+            void inline retain() {
+                referenceCount_++;
+            }
+
+            void inline release() {
+                if (referenceCount_ > 1) {
+                    referenceCount_--;
+                } else {
+                    referenceCount_ = 0;
+                    this->terminate();
+                }
+            }
+
         private:
             CameraBrowser();
 
             static CameraBrowserReference singleInstance_;
 
             bool isInitialized_ = false;
+            int referenceCount_ = 0;
 
             Napi::ThreadSafeFunction tsEmit_;
 
@@ -57,6 +71,8 @@ namespace CameraApi {
     class CameraBrowserWrap : public Napi::ObjectWrap<CameraBrowserWrap> {
         public:
             explicit CameraBrowserWrap(const Napi::CallbackInfo &info);
+
+            void Finalize(Napi::Env env) override;
 
             static Napi::Object NewInstance(Napi::Env env);
 

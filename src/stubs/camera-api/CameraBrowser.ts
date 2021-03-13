@@ -31,7 +31,6 @@ export class CameraBrowser {
      *   (eventName, event) => { console.log(eventName, event); }
      * );
      *
-     * process.on('exit', () => cameraBrowser.terminate());
      * process.on('SIGINT', () => process.exit());
      *
      * console.log(cameraBrowser.getCameras());

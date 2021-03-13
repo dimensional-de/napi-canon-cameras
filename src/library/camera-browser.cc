@@ -218,7 +218,7 @@ namespace CameraApi {
         for (auto edsCamera : currentRefs) {
             if (std::none_of(
                 cameras_.begin(), cameras_.end(),
-                [edsCamera](const CameraReference& c) { return c->getEdsReference() == edsCamera; }
+                [edsCamera](const CameraReference &c) { return c->getEdsReference() == edsCamera; }
             )) {
 
                 CameraReference camera = nullptr;
@@ -274,7 +274,14 @@ namespace CameraApi {
         if (info.Length() > 0 && info[0].IsFunction()) {
             CameraBrowser::instance()->attachEventEmit(info[0].As<Napi::Function>());
         }
+        CameraBrowser::instance()->retain();
     }
+
+    void CameraBrowserWrap::Finalize(Napi::Env env) {
+        CameraBrowser::instance()->release();
+        ObjectWrap::Finalize(env);
+    }
+
 
     Napi::Value CameraBrowserWrap::ToStringTag(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), CameraBrowserWrap::JSClassName);

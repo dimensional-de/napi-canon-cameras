@@ -1,6 +1,5 @@
-import { cameraBrowser, CameraProperty, Camera } from '../';
+import { CameraProperty, Camera } from '../';
 
-process.on('exit', () => cameraBrowser.terminate());
 process.on('SIGINT', () => process.exit());
 
 try {

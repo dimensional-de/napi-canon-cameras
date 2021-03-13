@@ -1169,7 +1169,7 @@ Access to Canon Cameras
 
 **Example**  
 
-```typescriptconst {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');cameraBrowser.setEventHandler(  (eventName, event) => { console.log(eventName, event); });process.on('exit', () => cameraBrowser.terminate());process.on('SIGINT', () => process.exit());console.log(cameraBrowser.getCameras());watchCameras();```
+```typescriptconst {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');cameraBrowser.setEventHandler(  (eventName, event) => { console.log(eventName, event); });process.on('SIGINT', () => process.exit());console.log(cameraBrowser.getCameras());watchCameras();```
 
 <a name="CameraBrowser+setEventHandler"></a>
 

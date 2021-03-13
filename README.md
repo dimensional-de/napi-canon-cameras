@@ -42,10 +42,10 @@ application.
 
 ```typescript
 import {
-    cameraBrowser, CameraBrowser, CameraProperty, DownloadRequestEvent, Option, watchCameras
+    cameraBrowser, CameraBrowser, CameraProperty, 
+    DownloadRequestEvent, Option, watchCameras
 } from '../';
 
-process.on('exit', () => cameraBrowser.terminate() );
 process.on('SIGINT', () => process.exit());
 
 // catch download request events

@@ -1,11 +1,9 @@
 import {
-    Camera,
-    cameraBrowser, CameraProperty,
+    Camera, CameraProperty,
     DownloadRequestEvent, Option,
     watchCameras
 } from '../';
 
-process.on('exit', () => cameraBrowser.terminate());
 process.on('SIGINT', () => process.exit());
 
 try {
