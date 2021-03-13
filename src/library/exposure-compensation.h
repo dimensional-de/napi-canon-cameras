@@ -1,20 +1,19 @@
-#ifndef NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H
-#define NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H
+#ifndef NAPI_CANON_CAMERAS_EXPOSURE_COMPENSATION_H
+#define NAPI_CANON_CAMERAS_EXPOSURE_COMPENSATION_H
 
 #include "types.h"
 
 namespace CameraApi {
-
-    class PropertyShutterSpeed : public Napi::ObjectWrap<PropertyShutterSpeed> {
+    class ExposureCompensation : public Napi::ObjectWrap<ExposureCompensation> {
         public:
-            explicit PropertyShutterSpeed(const Napi::CallbackInfo &info);
+            explicit ExposureCompensation(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
         private:
-            static constexpr const char JSClassName[] = "PropertyShutterSpeed";
+            static constexpr const char JSClassName[] = "ExposureCompensation";
 
             static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
                 static Napi::FunctionReference constructor;
@@ -27,28 +26,28 @@ namespace CameraApi {
             }
 
             EdsInt32 value_ = 0;
-            double seconds_ = 0;
+            double compensation_ = 0.0;
 
-            static std::string GetLabelForValue(EdsInt32 value);
-
-            static std::string GetLabelForSeconds(double seconds);
+            Napi::Value GetCompensation(const Napi::CallbackInfo &info);
 
             Napi::Value GetLabel(const Napi::CallbackInfo &info);
 
+            Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
+
             Napi::Value GetValue(const Napi::CallbackInfo &info);
 
-            Napi::Value GetSeconds(const Napi::CallbackInfo &info);
-
-            Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
+            Napi::Value Inspect(const Napi::CallbackInfo &info);
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
 
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 
-            Napi::Value Inspect(const Napi::CallbackInfo &info);
+            static std::string GetLabelForCompensation(double compensation);
+
+            static std::string GetLabelForValue(EdsInt32 value);
 
             static Napi::Value ForLabel(const Napi::CallbackInfo &info);
     };
 }
 
-#endif //NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H
+#endif //NAPI_CANON_CAMERAS_EXPOSURE_COMPENSATION_H

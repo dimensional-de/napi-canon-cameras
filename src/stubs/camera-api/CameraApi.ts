@@ -4,24 +4,24 @@ import { CameraBrowser, EventCallback } from "./CameraBrowser";
 import { CameraFile } from "./CameraFile";
 import { CameraProperty } from "./CameraProperty";
 import { ObjectEvent } from "./ObjectEvent";
-import { PropertyAperture } from "./PropertyAperture";
-import { PropertyExposureCompensation } from "./PropertyExposureCompensation";
-import { PropertyFlag } from "./PropertyFlag";
-import { PropertyOption } from "./PropertyOption";
-import { PropertyShutterSpeed } from "./PropertyShutterSpeed";
+import { Aperture } from "./Aperture";
+import { ExposureCompensation } from "./ExposureCompensation";
+import { Flag } from "./Flag";
+import { Option } from "./Option";
+import { ShutterSpeed } from "./ShutterSpeed";
 import { StateEvent } from "./StateEvent";
 
 export * from "./ObjectEvent";
-export * from "./PropertyOption";
+export * from "./Option";
 export * from "./Camera";
 export * from "./ApiError";
 export * from "./CameraBrowser";
 export * from "./CameraFile";
 export * from "./CameraProperty";
-export * from "./PropertyAperture";
-export * from "./PropertyFlag";
-export * from "./PropertyShutterSpeed";
-export * from "./PropertyExposureCompensation";
+export * from "./Aperture";
+export * from "./Flag";
+export * from "./ShutterSpeed";
+export * from "./ExposureCompensation";
 export * from "./StateEvent";
 
 let STUB = 1;
@@ -55,11 +55,11 @@ const CameraApi = {
     CameraFile,
     CameraProperty,
     ObjectEvent,
-    PropertyAperture,
-    PropertyExposureCompensation,
-    PropertyFlag,
-    PropertyOption,
-    PropertyShutterSpeed,
+    Aperture,
+    ExposureCompensation,
+    Flag,
+    Option,
+    ShutterSpeed,
     StateEvent,
     /**
      * Global CameraBrowser instance

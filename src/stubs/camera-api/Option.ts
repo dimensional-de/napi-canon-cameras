@@ -1,17 +1,17 @@
 import { CameraProperty, PropertyValue } from "./CameraProperty";
 
-export class PropertyOption implements PropertyValue {
+export class Option implements PropertyValue {
 
-    [Symbol.toStringTag] = 'PropertyOption';
+    [Symbol.toStringTag] = 'Option';
 
     private readonly label_: string;
 
     /**
-     * PropertyOption represents a property value from a property specific list.
+     * Option represents a property value from a property specific list.
      * It provides constants for all possible property values. However it depends
      * on the camera and the camera status which option values are available.
      *
-     * @class PropertyOption
+     * @class Option
      * @param {number} propertyID_
      * @param {number} value_
      */
@@ -21,8 +21,8 @@ export class PropertyOption implements PropertyValue {
     ) {
         this.label_ = `0x${value_.toString(16).padStart(8, '0')}`;
         const propertyLabel = Object.keys(CameraProperty.ID).find(key => CameraProperty.ID[key] === propertyID_);
-        if (propertyLabel && propertyLabel in PropertyOption) {
-            const optionLabels = PropertyOption[propertyLabel];
+        if (propertyLabel && propertyLabel in Option) {
+            const optionLabels = Option[propertyLabel];
             const optionLabel = Object.keys(optionLabels).find(key => optionLabels[key] === value_);
             if (optionLabel) {
                 this.label_ = propertyLabel + '.' + optionLabel;
@@ -75,22 +75,22 @@ export class PropertyOption implements PropertyValue {
      * Create instance for label.
      *
      * @param {string} label
-     * @return {PropertyOption | null}
+     * @return {Option | null}
      */
-    static forLabel(label: string): PropertyOption | null {
+    static forLabel(label: string): Option | null {
         const [propertyLabel, optionLabel] = label.split('.', 2);
         const propertyID = CameraProperty.ID[propertyLabel] || null;
         if (
             propertyID &&
-            propertyLabel in PropertyOption &&
-            optionLabel in PropertyOption[propertyLabel]
+            propertyLabel in Option &&
+            optionLabel in Option[propertyLabel]
         ) {
-            return new PropertyOption(propertyID, PropertyOption[propertyLabel][optionLabel]);
+            return new Option(propertyID, Option[propertyLabel][optionLabel]);
         }
         return null;
     }
 
-// Generate: PropertyOption
+// Generate: Option
 
     /**
      * @readonly

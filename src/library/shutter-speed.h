@@ -1,22 +1,20 @@
-#ifndef NAPI_CANON_API_PROPERTY_FLAG_VALUE_H
-#define NAPI_CANON_API_PROPERTY_FLAG_VALUE_H
+#ifndef NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H
+#define NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H
 
 #include "types.h"
 
 namespace CameraApi {
 
-    class PropertyFlag : public Napi::ObjectWrap<PropertyFlag> {
+    class ShutterSpeed : public Napi::ObjectWrap<ShutterSpeed> {
         public:
-            explicit PropertyFlag(const Napi::CallbackInfo &info);
+            explicit ShutterSpeed(const Napi::CallbackInfo &info);
 
             static void Init(Napi::Env env, Napi::Object exports);
 
             static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
 
-            static bool IsFlagProperty(EdsPropertyID propertyID);
-
         private:
-            static constexpr const char JSClassName[] = "PropertyFlag";
+            static constexpr const char JSClassName[] = "ShutterSpeed";
 
             static inline Napi::Function JSConstructor(Napi::Function *func = nullptr) {
                 static Napi::FunctionReference constructor;
@@ -29,14 +27,17 @@ namespace CameraApi {
             }
 
             EdsInt32 value_ = 0;
+            double seconds_ = 0;
 
             static std::string GetLabelForValue(EdsInt32 value);
+
+            static std::string GetLabelForSeconds(double seconds);
 
             Napi::Value GetLabel(const Napi::CallbackInfo &info);
 
             Napi::Value GetValue(const Napi::CallbackInfo &info);
 
-            Napi::Value GetFlag(const Napi::CallbackInfo &info);
+            Napi::Value GetSeconds(const Napi::CallbackInfo &info);
 
             Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
 
@@ -50,4 +51,4 @@ namespace CameraApi {
     };
 }
 
-#endif //NAPI_CANON_API_PROPERTY_FLAG_VALUE_H
+#endif //NAPI_CANON_API_PROPERTY_SHUTTER_SPEED_H

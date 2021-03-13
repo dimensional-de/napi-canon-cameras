@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "camera-browser.h"
 #include "camera-file.h"
-#include "property-option.h"
+#include "option.h"
 #include "camera-property.h"
 #include "state-event.h"
 #include "object-event.h"

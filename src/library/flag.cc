@@ -1,4 +1,4 @@
-#include "property-flag.h"
+#include "flag.h"
 #include "types.h"
 #include "utility.h"
 #include <unordered_map>
@@ -14,8 +14,8 @@ namespace CameraApi {
         kEdsPropID_SummerTimeSetting
     };
 
-    PropertyFlag::PropertyFlag(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<PropertyFlag>(info) {
+    Flag::Flag(const Napi::CallbackInfo &info)
+        : Napi::ObjectWrap<Flag>(info) {
 
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
@@ -31,23 +31,23 @@ namespace CameraApi {
         }
     }
 
-    std::string PropertyFlag::GetLabelForValue(EdsInt32 value) {
+    std::string Flag::GetLabelForValue(EdsInt32 value) {
         return value == 0x01 ? "true" : "false";
     }
 
-    Napi::Value PropertyFlag::GetLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), GetLabelForValue(value_));
     }
 
-    Napi::Value PropertyFlag::GetValue(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
     }
 
-    Napi::Value PropertyFlag::GetFlag(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::GetFlag(const Napi::CallbackInfo &info) {
         return Napi::Boolean::New(info.Env(), value_ != 0x00);
     }
 
-    Napi::Value PropertyFlag::GetPrimitive(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
             if (hint == "number") {
@@ -63,7 +63,7 @@ namespace CameraApi {
         return info.Env().Null();
     }
 
-    Napi::Value PropertyFlag::ToJSON(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::ToJSON(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
@@ -72,7 +72,7 @@ namespace CameraApi {
         return Json;
     }
 
-    bool PropertyFlag::IsFlagProperty(EdsPropertyID propertyID) {
+    bool Flag::IsFlagProperty(EdsPropertyID propertyID) {
         return (
             std::find(
                 FlagProperty.begin(), FlagProperty.end(), propertyID
@@ -80,15 +80,15 @@ namespace CameraApi {
         );
     }
 
-    Napi::Value PropertyFlag::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), PropertyFlag::JSClassName);
+    Napi::Value Flag::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), Flag::JSClassName);
     }
 
-    Napi::Value PropertyFlag::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, PropertyFlag::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, Flag::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -103,9 +103,9 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value PropertyFlag::ForLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Flag::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
-            return PropertyFlag::NewInstance(info.Env(), 0x00);
+            return Flag::NewInstance(info.Env(), 0x00);
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         try {
@@ -122,13 +122,13 @@ namespace CameraApi {
                 (label == "yes") ||
                 (label == "on")
             );
-            return PropertyFlag::NewInstance(info.Env(), isTruthy ? 0x01 : 0x00);
+            return Flag::NewInstance(info.Env(), isTruthy ? 0x01 : 0x00);
         } catch (...) {
-            return PropertyFlag::NewInstance(info.Env(), 0x00);
+            return Flag::NewInstance(info.Env(), 0x00);
         }
     }
 
-    Napi::Object PropertyFlag::NewInstance(Napi::Env env, EdsInt32 value) {
+    Napi::Object Flag::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {
@@ -138,28 +138,28 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    void PropertyFlag::Init(Napi::Env env, Napi::Object exports) {
+    void Flag::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         std::vector<PropertyDescriptor> properties = {
-            InstanceAccessor<&PropertyFlag::GetLabel>("label"),
-            InstanceAccessor<&PropertyFlag::GetValue>("value"),
-            InstanceAccessor<&PropertyFlag::GetFlag>("flag"),
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &PropertyFlag::GetPrimitive),
-            InstanceMethod("toJSON", &PropertyFlag::ToJSON),
+            InstanceAccessor<&Flag::GetLabel>("label"),
+            InstanceAccessor<&Flag::GetValue>("value"),
+            InstanceAccessor<&Flag::GetFlag>("flag"),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &Flag::GetPrimitive),
+            InstanceMethod("toJSON", &Flag::ToJSON),
 
-            InstanceAccessor<&PropertyFlag::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyFlag::Inspect),
+            InstanceAccessor<&Flag::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Flag::Inspect),
 
-            StaticMethod<&PropertyFlag::ForLabel>("forLabel"),
+            StaticMethod<&Flag::ForLabel>("forLabel"),
 
             StaticValue("True", Napi::Number::New(env, 0x01), napi_enumerable),
             StaticValue("False", Napi::Number::New(env, 0x00), napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, PropertyFlag::JSClassName, properties);
+        Napi::Function func = DefineClass(env, Flag::JSClassName, properties);
         JSConstructor(&func);
 
-        exports.Set(PropertyFlag::JSClassName, func);
+        exports.Set(Flag::JSClassName, func);
     }
 }

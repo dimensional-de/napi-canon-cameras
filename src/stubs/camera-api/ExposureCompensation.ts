@@ -1,22 +1,22 @@
 import { PropertyValue } from "./CameraProperty";
 
-export class PropertyExposureCompensation implements PropertyValue {
+export class ExposureCompensation implements PropertyValue {
 
-    [Symbol.toStringTag] = 'PropertyExposureCompensation';
+    [Symbol.toStringTag] = 'ExposureCompensation';
 
     private readonly compensation_: number;
     private readonly label_: string;
 
     /**
      * Encapsulate Object for a exposure compensation value
-     * @class PropertyExposureCompensation
+     * @class ExposureCompensation
      * @param {number} value_
      */
     constructor(
         private readonly value_: number
     ) {
-        this.compensation_ = PropertyExposureCompensation.Values[value_] || 0;
-        this.label_ = PropertyExposureCompensation.getLabelForCompensation(this.compensation_);
+        this.compensation_ = ExposureCompensation.Values[value_] || 0;
+        this.label_ = ExposureCompensation.getLabelForCompensation(this.compensation_);
     }
 
     private static getLabelForCompensation(compensation: number): string {
@@ -78,12 +78,12 @@ export class PropertyExposureCompensation implements PropertyValue {
     }
 
     private static findNearest(compensation: number): number | null {
-        const found = Object.keys(PropertyExposureCompensation.Values).reduce(
+        const found = Object.keys(ExposureCompensation.Values).reduce(
             (carry, key) => {
                 if (carry.difference < 0.001) {
                     return carry;
                 }
-                const current = PropertyExposureCompensation.Values[key];
+                const current = ExposureCompensation.Values[key];
                 const difference = Math.abs(current - compensation);
                 if (difference < carry.difference) {
                     return {
@@ -109,9 +109,9 @@ export class PropertyExposureCompensation implements PropertyValue {
      * Create instance for label.
      *
      * @param {string} label
-     * @return {PropertyExposureCompensation | null}
+     * @return {ExposureCompensation | null}
      */
-    static forLabel(label: string): PropertyExposureCompensation | null {
+    static forLabel(label: string): ExposureCompensation | null {
         const match = label.match(/([+-]\d+)\s+(?:([12])\/([23]))?/);
         if (match) {
             let compensation = parseFloat(match[1]);
@@ -122,15 +122,15 @@ export class PropertyExposureCompensation implements PropertyValue {
                     compensation += parseFloat(match[2]) / parseFloat(match[3]);
                 }
             }
-            const value = PropertyExposureCompensation.findNearest(compensation);
+            const value = ExposureCompensation.findNearest(compensation);
             if (value) {
-                return new PropertyExposureCompensation(value);
+                return new ExposureCompensation(value);
             }
         }
         return null;
     }
 
-    // Generate: PropertyExposureCompensation
+    // Generate: ExposureCompensation
 
     /**
      * @readonly

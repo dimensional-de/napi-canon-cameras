@@ -1,7 +1,7 @@
 import {
     Camera,
     cameraBrowser, CameraProperty,
-    DownloadRequestEvent, PropertyOption,
+    DownloadRequestEvent, Option,
     watchCameras
 } from '../';
 
@@ -17,7 +17,7 @@ try {
             if (eventName === Camera.EventName.DownloadRequest) {
                 const file = (event as DownloadRequestEvent).file;
                 console.log(file);
-                const localFile = file.downloadToPath(__dirname + '/images');
+                file.downloadToPath(__dirname + '/images');
                 console.log(`Downloaded ${file.name}.`);
 
                 process.exit();
@@ -27,9 +27,9 @@ try {
     console.log(camera);
     camera.connect();
     // configure
-    camera.getProperty(CameraProperty.ID.SaveTo).value = PropertyOption.SaveTo.Host;
-    camera.getProperty(CameraProperty.ID.ImageQuality).value = PropertyOption.ImageQuality.LargeJPEGFine;
-    camera.getProperty(CameraProperty.ID.WhiteBalance).value = PropertyOption.WhiteBalance.Fluorescent;
+    camera.getProperty(CameraProperty.ID.SaveTo).value = Option.SaveTo.Host;
+    camera.getProperty(CameraProperty.ID.ImageQuality).value = Option.ImageQuality.LargeJPEGFine;
+    camera.getProperty(CameraProperty.ID.WhiteBalance).value = Option.WhiteBalance.Fluorescent;
 
     // trigger picture
     camera.takePicture();

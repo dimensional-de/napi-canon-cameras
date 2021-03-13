@@ -762,7 +762,7 @@ namespace CameraApi {
         {kEdsWhiteBalance_Pasted, "Pasted"}
     };
 
-    std::unordered_map<int, LabelMap> Labels::PropertyOption = {
+    std::unordered_map<int, LabelMap> Labels::Option = {
         {kEdsPropID_AEMode, AEMode},
         {kEdsPropID_AEModeSelect, AEModeSelect},
         {kEdsPropID_AFMode, AFMode},

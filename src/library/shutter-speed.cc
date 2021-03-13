@@ -1,4 +1,4 @@
-#include "property-shutter-speed.h"
+#include "shutter-speed.h"
 #include "utility.h"
 #include <unordered_map>
 #include <cmath>
@@ -87,8 +87,8 @@ namespace CameraApi {
         {0xA0, (1.0/8000)}
     };
 
-    PropertyShutterSpeed::PropertyShutterSpeed(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<PropertyShutterSpeed>(info) {
+    ShutterSpeed::ShutterSpeed(const Napi::CallbackInfo &info)
+        : Napi::ObjectWrap<ShutterSpeed>(info) {
 
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
@@ -108,16 +108,16 @@ namespace CameraApi {
         }
     }
 
-    std::string PropertyShutterSpeed::GetLabelForValue(EdsInt32 value) {
+    std::string ShutterSpeed::GetLabelForValue(EdsInt32 value) {
         if (NamedShutterSpeedValueLabels.find(value) != NamedShutterSpeedValueLabels.end()) {
             return NamedShutterSpeedValueLabels[value];
         } else if (ShutterSpeedValues.find(value) != ShutterSpeedValues.end()) {
-            return PropertyShutterSpeed::GetLabelForSeconds(ShutterSpeedValues[value]);
+            return ShutterSpeed::GetLabelForSeconds(ShutterSpeedValues[value]);
         }
         return "";
     }
 
-    std::string PropertyShutterSpeed::GetLabelForSeconds(double seconds) {
+    std::string ShutterSpeed::GetLabelForSeconds(double seconds) {
         std::string label;
         if (seconds > 0.2999) {
             label = stringFormat("%01.1f", seconds);
@@ -132,19 +132,19 @@ namespace CameraApi {
         return label;
     }
 
-    Napi::Value PropertyShutterSpeed::GetLabel(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), GetLabelForValue(value_));
     }
 
-    Napi::Value PropertyShutterSpeed::GetValue(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
     }
 
-    Napi::Value PropertyShutterSpeed::GetSeconds(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::GetSeconds(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), seconds_);
     }
 
-    Napi::Value PropertyShutterSpeed::GetPrimitive(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
             if (hint == "number") {
@@ -157,7 +157,7 @@ namespace CameraApi {
         return info.Env().Null();
     }
 
-    Napi::Value PropertyShutterSpeed::ToJSON(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::ToJSON(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
@@ -166,15 +166,15 @@ namespace CameraApi {
         return Json;
     }
 
-    Napi::Value PropertyShutterSpeed::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), PropertyShutterSpeed::JSClassName);
+    Napi::Value ShutterSpeed::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), ShutterSpeed::JSClassName);
     }
 
-    Napi::Value PropertyShutterSpeed::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, PropertyShutterSpeed::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, ShutterSpeed::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -186,14 +186,14 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value PropertyShutterSpeed::ForLabel(const Napi::CallbackInfo &info) {
+    Napi::Value ShutterSpeed::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         for (const auto &it : NamedShutterSpeedValueLabels) {
             if (it.second == label) {
-                return PropertyShutterSpeed::NewInstance(info.Env(), it.first);
+                return ShutterSpeed::NewInstance(info.Env(), it.first);
             }
         }
         try {
@@ -218,13 +218,13 @@ namespace CameraApi {
                     matchValue = it.first;
                 }
             }
-            return PropertyShutterSpeed::NewInstance(info.Env(), matchValue);
+            return ShutterSpeed::NewInstance(info.Env(), matchValue);
         } catch (...) {
             return info.Env().Null();
         }
     }
 
-    Napi::Object PropertyShutterSpeed::NewInstance(Napi::Env env, EdsInt32 value) {
+    Napi::Object ShutterSpeed::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {
@@ -234,7 +234,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    void PropertyShutterSpeed::Init(Napi::Env env, Napi::Object exports) {
+    void ShutterSpeed::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
@@ -251,25 +251,25 @@ namespace CameraApi {
         }
 
         std::vector <PropertyDescriptor> properties = {
-            InstanceAccessor<&PropertyShutterSpeed::GetLabel>("label"),
-            InstanceAccessor<&PropertyShutterSpeed::GetValue>("value"),
-            InstanceAccessor<&PropertyShutterSpeed::GetSeconds>("seconds"),
+            InstanceAccessor<&ShutterSpeed::GetLabel>("label"),
+            InstanceAccessor<&ShutterSpeed::GetValue>("value"),
+            InstanceAccessor<&ShutterSpeed::GetSeconds>("seconds"),
 
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &PropertyShutterSpeed::GetPrimitive),
-            InstanceMethod("toJSON", &PropertyShutterSpeed::ToJSON),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ShutterSpeed::GetPrimitive),
+            InstanceMethod("toJSON", &ShutterSpeed::ToJSON),
 
-            InstanceAccessor<&PropertyShutterSpeed::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyShutterSpeed::Inspect),
+            InstanceAccessor<&ShutterSpeed::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ShutterSpeed::Inspect),
 
-            StaticMethod<&PropertyShutterSpeed::ForLabel>("forLabel"),
+            StaticMethod<&ShutterSpeed::ForLabel>("forLabel"),
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("Values", Values, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, PropertyShutterSpeed::JSClassName, properties);
+        Napi::Function func = DefineClass(env, ShutterSpeed::JSClassName, properties);
         JSConstructor(&func);
 
-        exports.Set(PropertyShutterSpeed::JSClassName, func);
+        exports.Set(ShutterSpeed::JSClassName, func);
     }
 }

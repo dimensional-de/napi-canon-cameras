@@ -1,12 +1,12 @@
 #include "camera-property.h"
 #include "labels.h"
-#include "property-flag.h"
-#include "property-option.h"
-#include "property-aperture.h"
-#include "property-shutter-speed.h"
+#include "flag.h"
+#include "option.h"
+#include "aperture.h"
+#include "shutter-speed.h"
 #include "api-error.h"
 #include "utility.h"
-#include "property-exposure-compensation.h"
+#include "exposure-compensation.h"
 
 namespace CameraApi {
 
@@ -140,24 +140,24 @@ namespace CameraApi {
         }
         switch (propertyIdentifier_) {
             case kEdsPropID_Av:
-                return PropertyAperture::NewInstance(
+                return Aperture::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
             case kEdsPropID_Tv:
-                return PropertyShutterSpeed::NewInstance(
+                return ShutterSpeed::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
             case kEdsPropID_ExposureCompensation:
-                return PropertyExposureCompensation::NewInstance(
+                return ExposureCompensation::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
             default:
-                if (PropertyFlag::IsFlagProperty(propertyIdentifier_)) {
-                    return PropertyFlag::NewInstance(
+                if (Flag::IsFlagProperty(propertyIdentifier_)) {
+                    return Flag::NewInstance(
                         env, value.As<Napi::Number>().Int32Value()
                     );
-                } else if (PropertyOption::IsOptionsProperty(propertyIdentifier_)) {
-                    return PropertyOption::NewInstance(
+                } else if (Option::IsOptionsProperty(propertyIdentifier_)) {
+                    return Option::NewInstance(
                         env, propertyIdentifier_, value.As<Napi::Number>().Int32Value()
                     );
                 }
@@ -236,19 +236,19 @@ namespace CameraApi {
         for (int i = 0; i < propertyDescription.numElements; ++i) {
             switch (propertyIdentifier_) {
                 case kEdsPropID_Av:
-                    values.Set(i, PropertyAperture::NewInstance(env, propertyDescription.propDesc[i]));
+                    values.Set(i, Aperture::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_Tv:
-                    values.Set(i, PropertyShutterSpeed::NewInstance(env, propertyDescription.propDesc[i]));
+                    values.Set(i, ShutterSpeed::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_ExposureCompensation:
-                    values.Set(i, PropertyExposureCompensation::NewInstance(env, propertyDescription.propDesc[i]));
+                    values.Set(i, ExposureCompensation::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 default:
-                    if (PropertyOption::IsOptionsProperty(propertyIdentifier_)) {
+                    if (Option::IsOptionsProperty(propertyIdentifier_)) {
                         values.Set(
                             i,
-                            PropertyOption::NewInstance(
+                            Option::NewInstance(
                                 env, propertyIdentifier_, propertyDescription.propDesc[i]
                             )
                         );
@@ -267,7 +267,7 @@ namespace CameraApi {
         EdsDataType dataType;
         EdsUInt32 dataSize;
 
-        if (PropertyOption::IsClassOf(propertyValue)) {
+        if (Option::IsClassOf(propertyValue)) {
             value = propertyValue.As<Napi::Object>().Get("value");
         }
 

@@ -1,29 +1,29 @@
 import { PropertyValue } from "./CameraProperty";
 
-export class PropertyShutterSpeed implements PropertyValue {
+export class ShutterSpeed implements PropertyValue {
 
-    [Symbol.toStringTag] = 'PropertyShutterSpeed';
+    [Symbol.toStringTag] = 'ShutterSpeed';
 
     private readonly seconds_: number;
     private readonly label_: string;
 
     /**
      * Encapsulate Object for a Shutter Speed value
-     * @class PropertyShutterSpeed
+     * @class ShutterSpeed
      * @param {number} value_
      */
     constructor(
         private readonly value_: number
     ) {
         const name = Object
-            .keys(PropertyShutterSpeed.ID)
-            .find(key => PropertyShutterSpeed.ID[key] === value_);
+            .keys(ShutterSpeed.ID)
+            .find(key => ShutterSpeed.ID[key] === value_);
         if (name) {
             this.label_ = name;
             this.seconds_ = 0;
         } else {
-            this.seconds_ = PropertyShutterSpeed.Values[value_] || 0;
-            this.label_ = PropertyShutterSpeed.getLabelForSeconds(this.seconds_);
+            this.seconds_ = ShutterSpeed.Values[value_] || 0;
+            this.label_ = ShutterSpeed.getLabelForSeconds(this.seconds_);
         }
     }
 
@@ -78,9 +78,9 @@ export class PropertyShutterSpeed implements PropertyValue {
     }
 
     private static findNearest(seconds: number): number | null {
-        const found = Object.keys(PropertyShutterSpeed.Values).reduce(
+        const found = Object.keys(ShutterSpeed.Values).reduce(
             (carry, key) => {
-                const current = PropertyShutterSpeed.Values[key];
+                const current = ShutterSpeed.Values[key];
                 const difference = Math.abs(current - seconds);
                 if (difference < carry.difference) {
                     return {
@@ -105,11 +105,11 @@ export class PropertyShutterSpeed implements PropertyValue {
      * Create instance for label.
      *
      * @param {string} label
-     * @return {PropertyShutterSpeed | null}
+     * @return {ShutterSpeed | null}
      */
-    static forLabel(label: string): PropertyShutterSpeed | null {
-        if (label in PropertyShutterSpeed.ID) {
-            return new PropertyShutterSpeed(PropertyShutterSpeed.ID[label]);
+    static forLabel(label: string): ShutterSpeed | null {
+        if (label in ShutterSpeed.ID) {
+            return new ShutterSpeed(ShutterSpeed.ID[label]);
         }
         const match = label.match(/(\d+(?:\.\d+)?)(?:\s*\/\s*(\d+))?/);
         if (match) {
@@ -117,15 +117,15 @@ export class PropertyShutterSpeed implements PropertyValue {
             if (match[2]) {
                 seconds /= parseFloat(match[2]);
             }
-            const value = PropertyShutterSpeed.findNearest(seconds);
+            const value = ShutterSpeed.findNearest(seconds);
             if (value) {
-                return new PropertyShutterSpeed(value);
+                return new ShutterSpeed(value);
             }
         }
         return null;
     }
 
-    // Generate: PropertyShutterSpeed
+    // Generate: ShutterSpeed
 
     /**
      * @readonly

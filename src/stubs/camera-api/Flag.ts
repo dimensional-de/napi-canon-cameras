@@ -1,28 +1,28 @@
 import { PropertyValue } from "./CameraProperty";
 
-export class PropertyFlag implements PropertyValue {
+export class Flag implements PropertyValue {
 
-    [Symbol.toStringTag] = 'PropertyFlag';
+    [Symbol.toStringTag] = 'Flag';
 
     private readonly label_: string;
     private readonly value_: number;
 
     /**
      * Boolean property value
-     * @class PropertyFlag
+     * @class Flag
      * @param {number | boolean} value
      */
     constructor(
         value: number | boolean
     ) {
         if (typeof value === "boolean") {
-            this.value_ = value ? PropertyFlag.True : PropertyFlag.False;
-        } else if (value === PropertyFlag.True) {
-            this.value_ = PropertyFlag.True;
+            this.value_ = value ? Flag.True : Flag.False;
+        } else if (value === Flag.True) {
+            this.value_ = Flag.True;
         } else {
-            this.value_ = PropertyFlag.False;
+            this.value_ = Flag.False;
         }
-        if (this.value_ === PropertyFlag.True) {
+        if (this.value_ === Flag.True) {
             this.label_ = 'true';
         } else {
             this.label_ = 'false';
@@ -84,16 +84,16 @@ export class PropertyFlag implements PropertyValue {
      * Create instance for label.
      *
      * @param {string} label
-     * @return {PropertyFlag}
+     * @return {Flag}
      */
-    static forLabel(label: string): PropertyFlag | null {
+    static forLabel(label: string): Flag | null {
         if (['true', '1', 'yes', 'on'].indexOf(label.toLowerCase()) >= 0) {
-            return new PropertyFlag(PropertyFlag.True);
+            return new Flag(Flag.True);
         }
-        return new PropertyFlag(PropertyFlag.False);
+        return new Flag(Flag.False);
     }
 
-    // Generate: PropertyFlag
+    // Generate: Flag
 
     /**
      * @readonly

@@ -1,4 +1,4 @@
-#include "property-exposure-compensation.h"
+#include "exposure-compensation.h"
 #include "types.h"
 #include "utility.h"
 
@@ -49,9 +49,9 @@ namespace CameraApi {
         {0xFD, -(1.0 / 3.0)}
     };
 
-    PropertyExposureCompensation::PropertyExposureCompensation(
+    ExposureCompensation::ExposureCompensation(
         const Napi::CallbackInfo &info
-    ) : Napi::ObjectWrap<PropertyExposureCompensation>(info) {
+    ) : Napi::ObjectWrap<ExposureCompensation>(info) {
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
 
@@ -70,18 +70,18 @@ namespace CameraApi {
         }
     }
 
-    std::string PropertyExposureCompensation::GetLabelForValue(EdsInt32 value) {
+    std::string ExposureCompensation::GetLabelForValue(EdsInt32 value) {
         if (value == 0) {
             return "0";
         } else if (value == 0xFFFFFF) {
             return "";
         }
-        return PropertyExposureCompensation::GetLabelForCompensation(
+        return ExposureCompensation::GetLabelForCompensation(
             ExposureCompensationValues[value]
         );
     }
 
-    std::string PropertyExposureCompensation::GetLabelForCompensation(double compensation) {
+    std::string ExposureCompensation::GetLabelForCompensation(double compensation) {
         std::string label;
         if (compensation == 0) {
             return "0";
@@ -99,19 +99,19 @@ namespace CameraApi {
         return label;
     }
 
-    Napi::Value PropertyExposureCompensation::GetLabel(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), GetLabelForValue(value_));
     }
 
-    Napi::Value PropertyExposureCompensation::GetValue(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
     }
 
-    Napi::Value PropertyExposureCompensation::GetCompensation(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::GetCompensation(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), compensation_);
     }
 
-    Napi::Value PropertyExposureCompensation::GetPrimitive(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
             if (hint == "number") {
@@ -124,7 +124,7 @@ namespace CameraApi {
         return info.Env().Null();
     }
 
-    Napi::Value PropertyExposureCompensation::ToJSON(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::ToJSON(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
@@ -133,15 +133,15 @@ namespace CameraApi {
         return Json;
     }
 
-    Napi::Value PropertyExposureCompensation::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), PropertyExposureCompensation::JSClassName);
+    Napi::Value ExposureCompensation::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), ExposureCompensation::JSClassName);
     }
 
-    Napi::Value PropertyExposureCompensation::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, PropertyExposureCompensation::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, ExposureCompensation::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -153,7 +153,7 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value PropertyExposureCompensation::ForLabel(const Napi::CallbackInfo &info) {
+    Napi::Value ExposureCompensation::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
         }
@@ -186,13 +186,13 @@ namespace CameraApi {
                     matchValue = it.first;
                 }
             }
-            return PropertyExposureCompensation::NewInstance(info.Env(), matchValue);
+            return ExposureCompensation::NewInstance(info.Env(), matchValue);
         } catch (...) {
             return info.Env().Null();
         }
     }
 
-    Napi::Object PropertyExposureCompensation::NewInstance(Napi::Env env, EdsInt32 value) {
+    Napi::Object ExposureCompensation::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {
@@ -202,7 +202,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    void PropertyExposureCompensation::Init(Napi::Env env, Napi::Object exports) {
+    void ExposureCompensation::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         Napi::Object Values = Napi::Object::New(env);
@@ -211,23 +211,23 @@ namespace CameraApi {
         }
 
         std::vector<PropertyDescriptor> properties = {
-            InstanceAccessor<&PropertyExposureCompensation::GetLabel>("label"),
-            InstanceAccessor<&PropertyExposureCompensation::GetValue>("value"),
-            InstanceAccessor<&PropertyExposureCompensation::GetCompensation>("compensation"),
+            InstanceAccessor<&ExposureCompensation::GetLabel>("label"),
+            InstanceAccessor<&ExposureCompensation::GetValue>("value"),
+            InstanceAccessor<&ExposureCompensation::GetCompensation>("compensation"),
 
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &PropertyExposureCompensation::GetPrimitive),
-            InstanceMethod("toJSON", &PropertyExposureCompensation::ToJSON),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ExposureCompensation::GetPrimitive),
+            InstanceMethod("toJSON", &ExposureCompensation::ToJSON),
 
-            InstanceAccessor<&PropertyExposureCompensation::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyExposureCompensation::Inspect),
+            InstanceAccessor<&ExposureCompensation::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ExposureCompensation::Inspect),
 
-            StaticMethod<&PropertyExposureCompensation::ForLabel>("forLabel"),
+            StaticMethod<&ExposureCompensation::ForLabel>("forLabel"),
 
             StaticValue("Values", Values, napi_enumerable)
         };
-        Napi::Function func = DefineClass(env, PropertyExposureCompensation::JSClassName, properties);
+        Napi::Function func = DefineClass(env, ExposureCompensation::JSClassName, properties);
         JSConstructor(&func);
 
-        exports.Set(PropertyExposureCompensation::JSClassName, func);
+        exports.Set(ExposureCompensation::JSClassName, func);
     }
 }

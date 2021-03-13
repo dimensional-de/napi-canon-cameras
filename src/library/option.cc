@@ -1,4 +1,4 @@
-#include "property-option.h"
+#include "option.h"
 #include "camera-property.h"
 #include <iostream>
 #include "utility.h"
@@ -6,8 +6,8 @@
 
 namespace CameraApi {
 
-    PropertyOption::PropertyOption(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<PropertyOption>(info) {
+    Option::Option(const Napi::CallbackInfo &info)
+        : Napi::ObjectWrap<Option>(info) {
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
 
@@ -27,33 +27,33 @@ namespace CameraApi {
         }
 
         if (
-            Labels::PropertyOption.find(propertyIdentifier_) != Labels::PropertyOption.end() &&
-            Labels::PropertyOption[propertyIdentifier_].find(value_) !=
-            Labels::PropertyOption[propertyIdentifier_].end()
+            Labels::Option.find(propertyIdentifier_) != Labels::Option.end() &&
+            Labels::Option[propertyIdentifier_].find(value_) !=
+            Labels::Option[propertyIdentifier_].end()
             ) {
             isNamedValue_ = true;
             label_ = CameraProperty::GetLabelFor(propertyIdentifier_);
             label_.append(".");
-            label_.append(Labels::PropertyOption[propertyIdentifier_][value_]);
+            label_.append(Labels::Option[propertyIdentifier_][value_]);
         } else {
             isNamedValue_ = false;
             label_ = CodeToHexLabel(value_);
         }
     }
 
-    Napi::Value PropertyOption::GetLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Option::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), label_);
     }
 
-    Napi::Value PropertyOption::GetValue(const Napi::CallbackInfo &info) {
+    Napi::Value Option::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
     }
 
-    Napi::Value PropertyOption::GetPropertyID(const Napi::CallbackInfo &info) {
+    Napi::Value Option::GetPropertyID(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), propertyIdentifier_);
     }
 
-    Napi::Value PropertyOption::GetPrimitive(const Napi::CallbackInfo &info) {
+    Napi::Value Option::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
             if (hint == "number") {
@@ -66,18 +66,18 @@ namespace CameraApi {
         return info.Env().Null();
     }
 
-    bool PropertyOption::IsOptionsProperty(EdsPropertyID propertyID) {
-        return Labels::PropertyOption.find(propertyID) != Labels::PropertyOption.end();
+    bool Option::IsOptionsProperty(EdsPropertyID propertyID) {
+        return Labels::Option.find(propertyID) != Labels::Option.end();
     }
 
-    bool PropertyOption::IsClassOf(Napi::Value value) {
+    bool Option::IsClassOf(Napi::Value value) {
         return (
             value.IsObject() &&
             value.As<Napi::Object>().InstanceOf(JSConstructor())
         );
     }
 
-    Napi::Value PropertyOption::ToJSON(const Napi::CallbackInfo &info) {
+    Napi::Value Option::ToJSON(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
@@ -85,15 +85,15 @@ namespace CameraApi {
         return Json;
     }
 
-    Napi::Value PropertyOption::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), PropertyOption::JSClassName);
+    Napi::Value Option::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), Option::JSClassName);
     }
 
-    Napi::Value PropertyOption::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value Option::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, PropertyOption::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, Option::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -105,7 +105,7 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value PropertyOption::ForLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Option::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
         }
@@ -121,12 +121,12 @@ namespace CameraApi {
             );
             if (propertyIt == std::end(Labels::PropertyID)) {
                 throw Napi::TypeError::New(
-                    info.Env(), "PropertyOption::forLabel(): property not found."
+                    info.Env(), "Option::forLabel(): property not found."
                 );
             }
             int propertyID = propertyIt->first;
-            if (Labels::PropertyOption.find(propertyID) != Labels::PropertyOption.end()) {
-                auto optionLabels = Labels::PropertyOption[propertyID];
+            if (Labels::Option.find(propertyID) != Labels::Option.end()) {
+                auto optionLabels = Labels::Option[propertyID];
                 auto optionIt = std::find_if(
                     std::begin(optionLabels),
                     std::end(optionLabels),
@@ -135,7 +135,7 @@ namespace CameraApi {
                 if (optionIt == std::end(Labels::PropertyID)) {
                     return info.Env().Null();
                 }
-                return PropertyOption::NewInstance(info.Env(), propertyID, optionIt->first);
+                return Option::NewInstance(info.Env(), propertyID, optionIt->first);
             }
             return info.Env().Null();
         } catch (...) {
@@ -143,7 +143,7 @@ namespace CameraApi {
         }
     }
 
-    Napi::Object PropertyOption::NewInstance(Napi::Env env, EdsInt32 identifier, EdsInt32 value) {
+    Napi::Object Option::NewInstance(Napi::Env env, EdsInt32 identifier, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {
@@ -154,7 +154,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    Napi::Object PropertyOption::CreateOptionGroup(Napi::Env env, const LabelMap &labels) {
+    Napi::Object Option::CreateOptionGroup(Napi::Env env, const LabelMap &labels) {
         Napi::Object optionGroup = Napi::Object::New(env);
         for (const auto &it : labels) {
             optionGroup.DefineProperty(
@@ -166,23 +166,23 @@ namespace CameraApi {
         return optionGroup;
     }
 
-    void PropertyOption::Init(Napi::Env env, Napi::Object exports) {
+    void Option::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         std::vector<PropertyDescriptor> properties = {
-            InstanceAccessor<&PropertyOption::GetLabel>("label"),
-            InstanceAccessor<&PropertyOption::GetValue>("value"),
-            InstanceAccessor<&PropertyOption::GetPropertyID>("propertyID"),
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &PropertyOption::GetPrimitive),
-            InstanceMethod("toJSON", &PropertyOption::ToJSON),
+            InstanceAccessor<&Option::GetLabel>("label"),
+            InstanceAccessor<&Option::GetValue>("value"),
+            InstanceAccessor<&Option::GetPropertyID>("propertyID"),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &Option::GetPrimitive),
+            InstanceMethod("toJSON", &Option::ToJSON),
 
-            InstanceAccessor<&PropertyOption::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyOption::Inspect),
+            InstanceAccessor<&Option::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Option::Inspect),
 
-            StaticMethod<&PropertyOption::ForLabel>("forLabel")
+            StaticMethod<&Option::ForLabel>("forLabel")
         };
 
-        for (const auto &it : Labels::PropertyOption) {
+        for (const auto &it : Labels::Option) {
             std::string name = CameraProperty::GetLabelFor(it.first);
             char *c_str = new char[name.length() + 1];
             std::strcpy(c_str, name.c_str());
@@ -195,9 +195,9 @@ namespace CameraApi {
             );
         }
 
-        Napi::Function func = DefineClass(env, PropertyOption::JSClassName, properties);
+        Napi::Function func = DefineClass(env, Option::JSClassName, properties);
         JSConstructor(&func);
 
-        exports.Set(PropertyOption::JSClassName, func);
+        exports.Set(Option::JSClassName, func);
     }
 }

@@ -4,11 +4,11 @@
 #include "camera-file.h"
 #include "camera-property.h"
 #include "object-event.h"
-#include "property-aperture.h"
-#include "property-exposure-compensation.h"
-#include "property-flag.h"
-#include "property-option.h"
-#include "property-shutter-speed.h"
+#include "aperture.h"
+#include "exposure-compensation.h"
+#include "flag.h"
+#include "option.h"
+#include "shutter-speed.h"
 #include "state-event.h"
 
 namespace CameraApi {
@@ -19,11 +19,11 @@ namespace CameraApi {
         CameraFileWrap::Init(env, exports);
         CameraWrap::Init(env, exports);
         ObjectEvent::Init(env, exports);
-        PropertyOption::Init(env, exports);
-        PropertyAperture::Init(env, exports);
-        PropertyExposureCompensation::Init(env, exports);
-        PropertyFlag::Init(env, exports);
-        PropertyShutterSpeed::Init(env, exports);
+        Option::Init(env, exports);
+        Aperture::Init(env, exports);
+        ExposureCompensation::Init(env, exports);
+        Flag::Init(env, exports);
+        ShutterSpeed::Init(env, exports);
         CameraProperty::Init(env, exports);
         StateEvent::Init(env, exports);
         return exports;

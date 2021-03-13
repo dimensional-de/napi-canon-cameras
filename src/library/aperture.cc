@@ -1,4 +1,4 @@
-#include "property-aperture.h"
+#include "aperture.h"
 #include "utility.h"
 #include <unordered_map>
 
@@ -66,8 +66,8 @@ namespace CameraApi {
         {0x70, 91}
     };
 
-    PropertyAperture::PropertyAperture(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<PropertyAperture>(info) {
+    Aperture::Aperture(const Napi::CallbackInfo &info)
+        : Napi::ObjectWrap<Aperture>(info) {
 
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
@@ -87,16 +87,16 @@ namespace CameraApi {
         }
     }
 
-    std::string PropertyAperture::GetLabelForValue(EdsInt32 value) {
+    std::string Aperture::GetLabelForValue(EdsInt32 value) {
         if (NamedApertureLabels.find(value) != NamedApertureLabels.end()) {
             return NamedApertureLabels[value];
         } else if (ApertureValues.find(value) != ApertureValues.end()) {
-            return PropertyAperture::GetLabelForAperture(ApertureValues[value]);
+            return Aperture::GetLabelForAperture(ApertureValues[value]);
         }
         return "";
     }
 
-    std::string PropertyAperture::GetLabelForAperture(double f) {
+    std::string Aperture::GetLabelForAperture(double f) {
         std::string label;
         label = stringFormat("f%01.1f", f);
         auto labelLength = label.length();
@@ -106,19 +106,19 @@ namespace CameraApi {
         return label;
     }
 
-    Napi::Value PropertyAperture::GetLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), GetLabelForValue(value_));
     }
 
-    Napi::Value PropertyAperture::GetValue(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
     }
 
-    Napi::Value PropertyAperture::GetAperture(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::GetAperture(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), f_);
     }
 
-    Napi::Value PropertyAperture::GetPrimitive(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::GetPrimitive(const Napi::CallbackInfo &info) {
         if (info.Length() > 0 && info[0].IsString()) {
             std::string hint = info[0].As<Napi::String>().Utf8Value();
             if (hint == "number") {
@@ -131,7 +131,7 @@ namespace CameraApi {
         return info.Env().Null();
     }
 
-    Napi::Value PropertyAperture::ToJSON(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::ToJSON(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
@@ -140,15 +140,15 @@ namespace CameraApi {
         return Json;
     }
 
-    Napi::Value PropertyAperture::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), PropertyAperture::JSClassName);
+    Napi::Value Aperture::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), Aperture::JSClassName);
     }
 
-    Napi::Value PropertyAperture::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, PropertyAperture::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, Aperture::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -160,14 +160,14 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value PropertyAperture::ForLabel(const Napi::CallbackInfo &info) {
+    Napi::Value Aperture::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         for (const auto &it : NamedApertureLabels) {
             if (it.second == label) {
-                return PropertyAperture::NewInstance(info.Env(), it.first);
+                return Aperture::NewInstance(info.Env(), it.first);
             }
         }
         try {
@@ -187,13 +187,13 @@ namespace CameraApi {
                     matchValue = it.first;
                 }
             }
-            return PropertyAperture::NewInstance(info.Env(), matchValue);
+            return Aperture::NewInstance(info.Env(), matchValue);
         } catch (...) {
             return info.Env().Null();
         }
     }
 
-    Napi::Object PropertyAperture::NewInstance(Napi::Env env, EdsInt32 value) {
+    Napi::Object Aperture::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {
@@ -203,7 +203,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    void PropertyAperture::Init(Napi::Env env, Napi::Object exports) {
+    void Aperture::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
@@ -220,24 +220,24 @@ namespace CameraApi {
         }
 
         std::vector <PropertyDescriptor> properties = {
-            InstanceAccessor<&PropertyAperture::GetLabel>("label"),
-            InstanceAccessor<&PropertyAperture::GetValue>("value"),
-            InstanceAccessor<&PropertyAperture::GetAperture>("aperture"),
-            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &PropertyAperture::GetPrimitive),
-            InstanceMethod("toJSON", &PropertyAperture::ToJSON),
+            InstanceAccessor<&Aperture::GetLabel>("label"),
+            InstanceAccessor<&Aperture::GetValue>("value"),
+            InstanceAccessor<&Aperture::GetAperture>("aperture"),
+            InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &Aperture::GetPrimitive),
+            InstanceMethod("toJSON", &Aperture::ToJSON),
 
-            InstanceAccessor<&PropertyAperture::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &PropertyAperture::Inspect),
+            InstanceAccessor<&Aperture::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Aperture::Inspect),
 
-            StaticMethod<&PropertyAperture::ForLabel>("forLabel"),
+            StaticMethod<&Aperture::ForLabel>("forLabel"),
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("Values", Values, napi_enumerable)
         };
 
-        Napi::Function func = DefineClass(env, PropertyAperture::JSClassName, properties);
+        Napi::Function func = DefineClass(env, Aperture::JSClassName, properties);
         JSConstructor(&func);
 
-        exports.Set(PropertyAperture::JSClassName, func);
+        exports.Set(Aperture::JSClassName, func);
     }
 }

@@ -13,7 +13,7 @@ namespace CameraApi {
             static LabelMap StateEventID;
             static LabelMap PropertyID;
 
-            static std::unordered_map<int, LabelMap> PropertyOption;
+            static std::unordered_map<int, LabelMap> Option;
 
             static LabelMap AEMode;
             static LabelMap AEModeSelect;

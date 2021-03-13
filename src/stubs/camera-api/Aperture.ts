@@ -1,27 +1,28 @@
 import { PropertyValue } from "./CameraProperty";
 
-export class PropertyAperture implements PropertyValue {
+export class Aperture implements PropertyValue {
 
-    [Symbol.toStringTag] = 'PropertyAperture';
+    [Symbol.toStringTag] = 'Aperture';
 
     private readonly label_: string;
     private readonly aperture_: number;
 
     /**
-     * Encapsulate Object for a Aperture value
-     * @class PropertyAperture
+     * Aperture property value
+     *
+     * @class Aperture
      * @implements PropertyValue
      * @param {number} value_
      */
     constructor(
         private readonly value_: number
     ) {
-        const name = Object.keys(PropertyAperture.ID).find(key => PropertyAperture.ID[key] === value_);
+        const name = Object.keys(Aperture.ID).find(key => Aperture.ID[key] === value_);
         if (name) {
             this.label_ = name;
             this.aperture_ = 0;
         } else {
-            this.aperture_ = PropertyAperture.Values[value_] || 0;
+            this.aperture_ = Aperture.Values[value_] || 0;
             this.label_ = 'f' + this.aperture_.toFixed(1).replace(/\.0$/, '');
         }
     }
@@ -78,9 +79,9 @@ export class PropertyAperture implements PropertyValue {
     }
 
     private static findNearest(aperture: number): number | null {
-        const found = Object.keys(PropertyAperture.Values).reduce(
+        const found = Object.keys(Aperture.Values).reduce(
             (carry, key) => {
-                const current = PropertyAperture.Values[key];
+                const current = Aperture.Values[key];
                 const difference = Math.abs(current - aperture);
                 if (difference < carry.difference) {
                     return {
@@ -106,23 +107,23 @@ export class PropertyAperture implements PropertyValue {
      * Create instance for label.
      *
      * @param {string} label
-     * @return {PropertyAperture | null}
+     * @return {Aperture | null}
      */
-    static forLabel(label: string): PropertyAperture | null {
-        if (label in PropertyAperture.ID) {
-            return new PropertyAperture(PropertyAperture.ID[label]);
+    static forLabel(label: string): Aperture | null {
+        if (label in Aperture.ID) {
+            return new Aperture(Aperture.ID[label]);
         }
         const match = label.match(/f?(\d+(?:\.\d+)?)/);
         if (match) {
-            const value = PropertyAperture.findNearest(parseFloat(match[1]) || 0.0);
+            const value = Aperture.findNearest(parseFloat(match[1]) || 0.0);
             if (value) {
-                return new PropertyAperture(value);
+                return new Aperture(value);
             }
         }
         return null;
     }
 
-    // Generate: PropertyAperture
+    // Generate: Aperture
 
     /**
      * @readonly

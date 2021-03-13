@@ -1,8 +1,8 @@
-import {PropertyOption} from "./PropertyOption";
-import {PropertyShutterSpeed} from "./PropertyShutterSpeed";
+import {Option} from "./Option";
+import {ShutterSpeed} from "./ShutterSpeed";
 import {Camera} from "./Camera";
-import {PropertyAperture} from "./PropertyAperture";
-import {PropertyFlag} from "./PropertyFlag";
+import {Aperture} from "./Aperture";
+import {Flag} from "./Flag";
 
 let STUB = 1;
 export interface PropertyValue {
