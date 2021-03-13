@@ -32,6 +32,7 @@
                 "./src/library/shutter-speed.cc",
                 "./src/library/state-event.cc",
                 "./src/library/utility.cc",
+                "./src/library/volume.cc",
             ],
             "include_dirs": [
                 "./src",

@@ -1,15 +1,16 @@
 #include <napi.h>
+#include "aperture.h"
 #include "api-error.h"
 #include "camera-browser.h"
 #include "camera-file.h"
 #include "camera-property.h"
-#include "object-event.h"
-#include "aperture.h"
 #include "exposure-compensation.h"
 #include "flag.h"
+#include "object-event.h"
 #include "option.h"
 #include "shutter-speed.h"
 #include "state-event.h"
+#include "volume.h"
 
 namespace CameraApi {
     Napi::Object RegisterModule(Napi::Env env, Napi::Object exports) {
@@ -26,6 +27,7 @@ namespace CameraApi {
         ShutterSpeed::Init(env, exports);
         CameraProperty::Init(env, exports);
         StateEvent::Init(env, exports);
+        Volume::Init(env, exports);
         return exports;
     }
 

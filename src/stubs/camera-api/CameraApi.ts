@@ -10,6 +10,7 @@ import { Flag } from "./Flag";
 import { Option } from "./Option";
 import { ShutterSpeed } from "./ShutterSpeed";
 import { StateEvent } from "./StateEvent";
+import { Volume } from "./Volume";
 
 export * from "./ObjectEvent";
 export * from "./Option";
@@ -23,6 +24,7 @@ export * from "./Flag";
 export * from "./ShutterSpeed";
 export * from "./ExposureCompensation";
 export * from "./StateEvent";
+export * from "./Volume";
 
 let STUB = 1;
 /**
@@ -49,18 +51,19 @@ export const cameraBrowser = new CameraBrowser();
  * @module CameraApi
  */
 const CameraApi = {
+    Aperture,
     ApiError,
     Camera,
     CameraBrowser,
     CameraFile,
     CameraProperty,
-    ObjectEvent,
-    Aperture,
     ExposureCompensation,
     Flag,
+    ObjectEvent,
     Option,
     ShutterSpeed,
     StateEvent,
+    Volume,
     /**
      * Global CameraBrowser instance
      * @type {CameraBrowser}

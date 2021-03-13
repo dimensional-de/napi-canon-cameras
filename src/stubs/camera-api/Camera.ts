@@ -4,6 +4,7 @@
  */
 import { EventCallback } from "./CameraBrowser";
 import {CameraProperty} from "./CameraProperty";
+import { Volume } from "./Volume";
 
 export class Camera {
 
@@ -94,6 +95,13 @@ export class Camera {
      * @return {string}
      */
     downloadLiveViewImage(): string {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @return {Volume[]}
+     */
+    getVolumes(): Volume[] {
         throw new Error("Not implemented - stub only.");
     }
 

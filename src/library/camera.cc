@@ -1,15 +1,16 @@
-#include "camera.h"
-#include "camera-browser.h"
-#include "camera-file.h"
-#include "option.h"
-#include "camera-property.h"
-#include "state-event.h"
-#include "object-event.h"
-#include "api-error.h"
-#include "base64.h"
-#include "utility.h"
 #include <iostream>
 #include <napi.h>
+#include "api-error.h"
+#include "base64.h"
+#include "camera-browser.h"
+#include "camera-file.h"
+#include "camera-property.h"
+#include "camera.h"
+#include "object-event.h"
+#include "option.h"
+#include "state-event.h"
+#include "utility.h"
+#include "volume.h"
 
 namespace CameraApi {
 
@@ -581,6 +582,24 @@ namespace CameraApi {
         return ApiError::ThrowIfFailed(env, error, Napi::String::New(env, image));
     }
 
+    Napi::Value CameraWrap::GetVolumes(const Napi::CallbackInfo &info) {
+        Napi::Env env = info.Env();
+
+        EdsUInt32 volumeCount = 0;
+        auto cameraRef = camera_->getEdsReference();
+        auto error = EdsGetChildCount(cameraRef, &volumeCount);
+        ApiError::ThrowIfFailed(env, error);
+
+        auto volumes = Napi::Array::New(env);
+        for (uint32_t idx = 0; idx < volumeCount; idx++) {
+            EdsVolumeRef edsVolume = nullptr;
+            error = EdsGetChildAtIndex(cameraRef, idx, &edsVolume);
+            ApiError::ThrowIfFailed(info.Env(), error);
+            volumes.Set(idx, Volume::NewInstance(env, edsVolume));
+        }
+        return volumes;
+    }
+
     void CameraWrap::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
@@ -626,6 +645,7 @@ namespace CameraApi {
                 InstanceMethod("startLiveView", &CameraWrap::StartLiveView),
                 InstanceMethod("stopLiveView", &CameraWrap::StopLiveView),
                 InstanceMethod("downloadLiveViewImage", &CameraWrap::DownloadLiveViewImage),
+                InstanceMethod("getVolumes", &CameraWrap::GetVolumes),
 
                 StaticValue("EventName", eventNames, napi_enumerable),
                 StaticValue("Command", Commands, napi_enumerable),

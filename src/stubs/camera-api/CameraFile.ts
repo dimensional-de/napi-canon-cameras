@@ -4,7 +4,6 @@ export class CameraFile {
     /**
      * Provided in the {@link DownloadRequestEvent}. Allows to download the file from camera.
      * @class CameraFile
-     * @private
      */
     private constructor() {
         throw new Error("Not implemented - stub only.");
