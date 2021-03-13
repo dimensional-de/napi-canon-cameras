@@ -410,7 +410,7 @@ namespace CameraApi {
                 switch (dataPtr->eventID) {
                     case kEdsObjectEvent_DirItemRequestTransfer:
                         event.Set(
-                            "file", CameraFileWrap::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
+                            "file", CameraFile::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
                         );
                         jsCallback.Call(
                             {

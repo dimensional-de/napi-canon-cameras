@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 
 namespace CameraApi {
 
-    CameraFileWrap::CameraFileWrap(const Napi::CallbackInfo &info) : Napi::ObjectWrap<CameraFileWrap>(info) {
+    CameraFile::CameraFile(const Napi::CallbackInfo &info) : Napi::ObjectWrap<CameraFile>(info) {
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
 
@@ -31,7 +31,7 @@ namespace CameraApi {
         }
     }
 
-    CameraFileWrap::~CameraFileWrap() {
+    CameraFile::~CameraFile() {
         if (!(isDownloaded_ || isCanceled_)) {
             EdsDownloadCancel(edsDirectoryItem_);
         }
@@ -39,7 +39,7 @@ namespace CameraApi {
         edsDirectoryItem_ = NULL;
     }
 
-    Napi::Value CameraFileWrap::Cancel(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::Cancel(const Napi::CallbackInfo &info) {
         if (!isCanceled_) {
             return ApiError::ThrowIfFailed(info.Env(), EdsDownloadCancel(edsDirectoryItem_));
             isCanceled_ = true;
@@ -47,35 +47,35 @@ namespace CameraApi {
         return info.Env().Undefined();
     }
 
-    Napi::Value CameraFileWrap::GetName(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::GetName(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), edsDirectoryItemInfo_.szFileName);
     }
 
-    Napi::Value CameraFileWrap::GetGroupID(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::GetGroupID(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), edsDirectoryItemInfo_.groupID);
     }
 
-    Napi::Value CameraFileWrap::GetSize(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::GetSize(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), (int)edsDirectoryItemInfo_.size);
     }
 
-    Napi::Value CameraFileWrap::GetLocalFile(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::GetLocalFile(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), localFile_);
     }
 
-    Napi::Value CameraFileWrap::GetFormat(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::GetFormat(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), edsDirectoryItemInfo_.format);
     }
 
-    Napi::Value CameraFileWrap::ToStringTag(const Napi::CallbackInfo &info) {
-        return Napi::String::New(info.Env(), CameraFileWrap::JSClassName);
+    Napi::Value CameraFile::ToStringTag(const Napi::CallbackInfo &info) {
+        return Napi::String::New(info.Env(), CameraFile::JSClassName);
     }
 
-    Napi::Value CameraFileWrap::Inspect(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
-            {Napi::String::New(env, CameraFileWrap::JSClassName), Napi::String::New(env, "special")}
+            {Napi::String::New(env, CameraFile::JSClassName), Napi::String::New(env, "special")}
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         output.append(
@@ -87,7 +87,7 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     };
 
-    Napi::Value CameraFileWrap::DownloadToPath(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::DownloadToPath(const Napi::CallbackInfo &info) {
         if (isDownloaded_) {
             return Napi::String::New(info.Env(), localFile_);
         }
@@ -144,7 +144,7 @@ namespace CameraApi {
         }
     }
 
-    Napi::Value CameraFileWrap::DownloadToFile(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::DownloadToFile(const Napi::CallbackInfo &info) {
         if (isDownloaded_) {
             return Napi::String::New(info.Env(), localFile_);
         }
@@ -201,7 +201,7 @@ namespace CameraApi {
         }
     }
 
-    Napi::Value CameraFileWrap::DownloadToString(const Napi::CallbackInfo &info) {
+    Napi::Value CameraFile::DownloadToString(const Napi::CallbackInfo &info) {
         if (isDownloaded_) {
             return Napi::String::New(info.Env(), localFile_);
         }
@@ -251,32 +251,32 @@ namespace CameraApi {
         return result;
     }
 
-    Napi::Object CameraFileWrap::NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem) {
+    Napi::Object CameraFile::NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New({Napi::External<EdsDirectoryItemRef>::New(env, &directoryItem)});
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    void CameraFileWrap::Init(Napi::Env env, Napi::Object exports) {
+    void CameraFile::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
         Napi::Function func = DefineClass(
             env,
-            CameraFileWrap::JSClassName,
+            CameraFile::JSClassName,
             {
-                InstanceAccessor<&CameraFileWrap::GetName>("name"),
-                InstanceAccessor<&CameraFileWrap::GetSize>("size"),
-                InstanceAccessor<&CameraFileWrap::GetLocalFile>("localFile"),
-                InstanceAccessor<&CameraFileWrap::GetFormat>("format"),
-                InstanceAccessor<&CameraFileWrap::GetGroupID>("groupID"),
+                InstanceAccessor<&CameraFile::GetName>("name"),
+                InstanceAccessor<&CameraFile::GetSize>("size"),
+                InstanceAccessor<&CameraFile::GetLocalFile>("localFile"),
+                InstanceAccessor<&CameraFile::GetFormat>("format"),
+                InstanceAccessor<&CameraFile::GetGroupID>("groupID"),
 
-                InstanceAccessor<&CameraFileWrap::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-                InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraFileWrap::Inspect),
+                InstanceAccessor<&CameraFile::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
+                InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraFile::Inspect),
 
-                InstanceMethod("cancel", &CameraFileWrap::Cancel),
-                InstanceMethod("downloadToPath", &CameraFileWrap::DownloadToPath),
-                InstanceMethod("downloadToFile", &CameraFileWrap::DownloadToFile),
-                InstanceMethod("downloadToString", &CameraFileWrap::DownloadToString)
+                InstanceMethod("cancel", &CameraFile::Cancel),
+                InstanceMethod("downloadToPath", &CameraFile::DownloadToPath),
+                InstanceMethod("downloadToFile", &CameraFile::DownloadToFile),
+                InstanceMethod("downloadToString", &CameraFile::DownloadToString)
             }
         );
         JSConstructor(&func);

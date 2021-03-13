@@ -7,12 +7,12 @@
 namespace CameraApi {
 
 
-    class CameraFileWrap : public Napi::ObjectWrap<CameraFileWrap> {
+    class CameraFile : public Napi::ObjectWrap<CameraFile> {
         public:
 
-            explicit CameraFileWrap(const Napi::CallbackInfo &info);
+            explicit CameraFile(const Napi::CallbackInfo &info);
 
-            ~CameraFileWrap() override;
+            ~CameraFile() override;
 
             static Napi::Object NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem);
 
