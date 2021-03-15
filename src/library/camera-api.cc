@@ -11,6 +11,7 @@
 #include "shutter-speed.h"
 #include "state-event.h"
 #include "volume.h"
+#include "directory.h"
 
 namespace CameraApi {
     Napi::Object RegisterModule(Napi::Env env, Napi::Object exports) {
@@ -19,6 +20,7 @@ namespace CameraApi {
         CameraBrowserWrap::Init(env, exports);
         CameraFile::Init(env, exports);
         CameraWrap::Init(env, exports);
+        Directory::Init(env, exports);
         ObjectEvent::Init(env, exports);
         Option::Init(env, exports);
         Aperture::Init(env, exports);

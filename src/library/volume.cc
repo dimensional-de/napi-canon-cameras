@@ -2,6 +2,8 @@
 #include "utility.h"
 #include "volume.h"
 #include "labels.h"
+#include "directory.h"
+#include "camera-file.h"
 
 namespace CameraApi {
 
@@ -64,6 +66,31 @@ namespace CameraApi {
         error = EdsGetChildCount(volumeRef_, &count);
         ApiError::ThrowIfFailed(env, error);
         return Napi::Number::New(env, count);
+    }
+
+    Napi::Value Volume::GetEntries(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        auto entries = Napi::Array::New(env);
+        EdsError error;
+        EdsUInt32 count = 0;
+        error = EdsGetChildCount(volumeRef_, &count);
+        ApiError::ThrowIfFailed(env, error);
+        for (EdsUInt32 idx = 0; idx < count; idx++) {
+            EdsDirectoryItemRef entryRef;
+            error = EdsGetChildAtIndex(volumeRef_, idx, &entryRef);
+            ApiError::ThrowIfFailed(env, error);
+
+            EdsDirectoryItemInfo entryInfo;
+            error = EdsGetDirectoryItemInfo(entryRef, &entryInfo);
+            ApiError::ThrowIfFailed(env, error);
+            entries.Set(
+                idx,
+                entryInfo.isFolder
+                  ? Directory::NewInstance(env, entryRef)
+                  : CameraFile::NewInstance(env, entryRef)
+            );
+        }
+        return entries;
     }
 
     Napi::Value Volume::ToJSON(const Napi::CallbackInfo &info) {
@@ -130,6 +157,9 @@ namespace CameraApi {
                 InstanceAccessor<&Volume::IsWritable>("isWritable"),
                 InstanceAccessor<&Volume::GetMaximumCapacity>("maximumCapacity"),
                 InstanceAccessor<&Volume::GetFreeCapacity>("freeCapacity"),
+
+                InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &Volume::GetEntries),
+                InstanceMethod("getEntries", &Volume::GetEntries),
 
                 InstanceMethod("toJSON", &Volume::ToJSON),
 

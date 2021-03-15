@@ -1,3 +1,5 @@
+import { CameraFile } from "./CameraFile";
+import { Directory } from "./Directory";
 
 export class Volume {
 
@@ -17,6 +19,7 @@ export class Volume {
     get label(): string {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * Storage type
      * @readonly
@@ -26,30 +29,35 @@ export class Volume {
     get type(): number {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * @return {boolean}
      */
     get isReadable(): boolean {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * @return {boolean}
      */
     get isWritable(): boolean {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * @return {number}
      */
     get freeSpace(): number {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * @return {number}
      */
     get maximumCapacity(): number {
         throw new Error("Not implemented - stub only.");
     }
+
     /**
      * Entry count
      * @return {number}
@@ -58,6 +66,13 @@ export class Volume {
         throw new Error("Not implemented - stub only.");
     }
 
+    getEntries(): (Directory | CameraFile)[] {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    [Symbol.iterator](): (Directory | CameraFile)[] {
+        throw new Error("Not implemented - stub only.");
+    }
 
     // Generate: Volume
 

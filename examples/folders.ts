@@ -11,6 +11,9 @@ try {
     for (const volume of camera.getVolumes()) {
         console.log(volume);
         console.log(JSON.parse(JSON.stringify(volume)));
+        for (const entry of volume.getEntries()) {
+            console.log(entry);
+        }
     }
 } catch (e) {
     console.log(e);

@@ -50,6 +50,8 @@ namespace CameraApi {
             Napi::Value GetFreeCapacity(const Napi::CallbackInfo &info);
 
             Napi::Value GetLength(const Napi::CallbackInfo &info);
+
+            Napi::Value GetEntries(const Napi::CallbackInfo &info);
     };
 
 }

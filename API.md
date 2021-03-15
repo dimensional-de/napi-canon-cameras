@@ -22,6 +22,8 @@
 <dd></dd>
 <dt><a href="#CameraProperty">CameraProperty</a></dt>
 <dd></dd>
+<dt><a href="#Directory">Directory</a></dt>
+<dd></dd>
 <dt><a href="#ExposureCompensation">ExposureCompensation</a></dt>
 <dd></dd>
 <dt><a href="#Flag">Flag</a></dt>
@@ -1861,6 +1863,26 @@ Camera property/setting.
     </tr>  </tbody>
 </table>
 
+<a name="Directory"></a>
+
+# Directory
+**Kind**: global class  
+
+* [Directory](#Directory)
+    * [.name](#Directory+name) ⇒ <code>string</code>
+    * [.length](#Directory+length) ⇒ <code>number</code>
+
+<a name="Directory+name"></a>
+
+## directory.name ⇒ <code>string</code>
+**Kind**: instance property of [<code>Directory</code>](#Directory)  
+**Read only**: true  
+<a name="Directory+length"></a>
+
+## directory.length ⇒ <code>number</code>
+Entry count
+
+**Kind**: instance property of [<code>Directory</code>](#Directory)  
 <a name="ExposureCompensation"></a>
 
 # ExposureCompensation

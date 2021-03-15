@@ -23,6 +23,7 @@
                 "./src/library/camera-file.cc",
                 "./src/library/camera-property.cc",
                 "./src/library/camera-api.cc",
+                "./src/library/directory.cc",
                 "./src/library/labels.cc",
                 "./src/library/object-event.cc",
                 "./src/library/option.cc",

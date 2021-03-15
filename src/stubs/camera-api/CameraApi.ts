@@ -3,6 +3,7 @@ import { Camera } from "./Camera";
 import { CameraBrowser, EventCallback } from "./CameraBrowser";
 import { CameraFile } from "./CameraFile";
 import { CameraProperty } from "./CameraProperty";
+import { Directory } from "./Directory";
 import { ObjectEvent } from "./ObjectEvent";
 import { Aperture } from "./Aperture";
 import { ExposureCompensation } from "./ExposureCompensation";
@@ -19,6 +20,7 @@ export * from "./ApiError";
 export * from "./CameraBrowser";
 export * from "./CameraFile";
 export * from "./CameraProperty";
+export * from "./Directory";
 export * from "./Aperture";
 export * from "./Flag";
 export * from "./ShutterSpeed";
@@ -57,6 +59,7 @@ const CameraApi = {
     CameraBrowser,
     CameraFile,
     CameraProperty,
+    Directory,
     ExposureCompensation,
     Flag,
     ObjectEvent,
