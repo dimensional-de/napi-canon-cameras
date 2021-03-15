@@ -1,5 +1,4 @@
-import { CameraFile } from "./CameraFile";
-import { Directory } from "./Directory";
+import { DirectoryEntry } from "./Directory";
 
 export class Volume {
 
@@ -26,7 +25,7 @@ export class Volume {
      * @see Volume.StorageType
      * @return {number}
      */
-    get type(): number {
+    get storageType(): number {
         throw new Error("Not implemented - stub only.");
     }
 
@@ -47,7 +46,7 @@ export class Volume {
     /**
      * @return {number}
      */
-    get freeSpace(): number {
+    get freeCapacity(): number {
         throw new Error("Not implemented - stub only.");
     }
 
@@ -66,11 +65,14 @@ export class Volume {
         throw new Error("Not implemented - stub only.");
     }
 
-    getEntries(): (Directory | CameraFile)[] {
+    /**
+     * @return {DirectoryEntry[]}
+     */
+    getEntries(): DirectoryEntry[] {
         throw new Error("Not implemented - stub only.");
     }
 
-    [Symbol.iterator](): (Directory | CameraFile)[] {
+    [Symbol.iterator](): DirectoryEntry[] {
         throw new Error("Not implemented - stub only.");
     }
 

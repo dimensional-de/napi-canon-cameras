@@ -1,5 +1,15 @@
+export interface DirectoryEntry {
+    name: string
+}
 
-export class Directory {
+let STUB = 0;
+/**
+ * @interface DirectoryEntry
+ * @property {string} name
+ */
+STUB = 1;
+
+export class Directory implements DirectoryEntry {
 
     /**
      * @class Directory
@@ -23,6 +33,17 @@ export class Directory {
      * @return {number}
      */
     get length(): number {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @return {DirectoryEntry[]}
+     */
+    getEntries(): DirectoryEntry[] {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    [Symbol.iterator](): DirectoryEntry[] {
         throw new Error("Not implemented - stub only.");
     }
 

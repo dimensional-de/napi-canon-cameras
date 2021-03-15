@@ -79,6 +79,8 @@
 <dd></dd>
 <dt><a href="#PropertyStyleDescription">PropertyStyleDescription</a> ⇐ <code><a href="#PropertyValue">PropertyValue</a></code></dt>
 <dd></dd>
+<dt><a href="#DirectoryEntry">DirectoryEntry</a></dt>
+<dd></dd>
 </dl>
 
 <a name="module_CameraApi"></a>
@@ -251,6 +253,24 @@
     <td>sharpFineness</td><td><code>number</code></td>
     </tr><tr>
     <td>sharpThreshold</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="DirectoryEntry"></a>
+
+# DirectoryEntry
+**Kind**: global interface  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>name</td><td><code>string</code></td>
     </tr>  </tbody>
 </table>
 
@@ -1871,6 +1891,7 @@ Camera property/setting.
 * [Directory](#Directory)
     * [.name](#Directory+name) ⇒ <code>string</code>
     * [.length](#Directory+length) ⇒ <code>number</code>
+    * [.getEntries()](#Directory+getEntries) ⇒ [<code>Array.&lt;DirectoryEntry&gt;</code>](#DirectoryEntry)
 
 <a name="Directory+name"></a>
 
@@ -1883,6 +1904,10 @@ Camera property/setting.
 Entry count
 
 **Kind**: instance property of [<code>Directory</code>](#Directory)  
+<a name="Directory+getEntries"></a>
+
+## directory.getEntries() ⇒ [<code>Array.&lt;DirectoryEntry&gt;</code>](#DirectoryEntry)
+**Kind**: instance method of [<code>Directory</code>](#Directory)  
 <a name="ExposureCompensation"></a>
 
 # ExposureCompensation
@@ -3908,12 +3933,13 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
 * [Volume](#Volume)
     * _instance_
         * [.label](#Volume+label) ⇒ <code>string</code>
-        * [.type](#Volume+type) ⇒ <code>number</code>
+        * [.storageType](#Volume+storageType) ⇒ <code>number</code>
         * [.isReadable](#Volume+isReadable) ⇒ <code>boolean</code>
         * [.isWritable](#Volume+isWritable) ⇒ <code>boolean</code>
-        * [.freeSpace](#Volume+freeSpace) ⇒ <code>number</code>
+        * [.freeCapacity](#Volume+freeCapacity) ⇒ <code>number</code>
         * [.maximumCapacity](#Volume+maximumCapacity) ⇒ <code>number</code>
         * [.length](#Volume+length) ⇒ <code>number</code>
+        * [.getEntries()](#Volume+getEntries) ⇒ [<code>Array.&lt;DirectoryEntry&gt;</code>](#DirectoryEntry)
     * _static_
         * [.StorageType](#Volume.StorageType) : <code>enum</code>
 
@@ -3922,9 +3948,9 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
 ## volume.label ⇒ <code>string</code>
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
 **Read only**: true  
-<a name="Volume+type"></a>
+<a name="Volume+storageType"></a>
 
-## volume.type ⇒ <code>number</code>
+## volume.storageType ⇒ <code>number</code>
 Storage type
 
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
@@ -3938,9 +3964,9 @@ Storage type
 
 ## volume.isWritable ⇒ <code>boolean</code>
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
-<a name="Volume+freeSpace"></a>
+<a name="Volume+freeCapacity"></a>
 
-## volume.freeSpace ⇒ <code>number</code>
+## volume.freeCapacity ⇒ <code>number</code>
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
 <a name="Volume+maximumCapacity"></a>
 
@@ -3952,6 +3978,10 @@ Storage type
 Entry count
 
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume+getEntries"></a>
+
+## volume.getEntries() ⇒ [<code>Array.&lt;DirectoryEntry&gt;</code>](#DirectoryEntry)
+**Kind**: instance method of [<code>Volume</code>](#Volume)  
 <a name="Volume.StorageType"></a>
 
 ## Volume.StorageType : <code>enum</code>

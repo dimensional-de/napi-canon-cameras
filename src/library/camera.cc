@@ -596,6 +596,7 @@ namespace CameraApi {
             error = EdsGetChildAtIndex(cameraRef, idx, &edsVolume);
             ApiError::ThrowIfFailed(info.Env(), error);
             volumes.Set(idx, Volume::NewInstance(env, edsVolume));
+            EdsRelease(edsVolume);
         }
         return volumes;
     }

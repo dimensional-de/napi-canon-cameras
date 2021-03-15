@@ -82,13 +82,17 @@ namespace CameraApi {
 
             EdsDirectoryItemInfo entryInfo;
             error = EdsGetDirectoryItemInfo(entryRef, &entryInfo);
-            ApiError::ThrowIfFailed(env, error);
+            if (error != EDS_ERR_OK) {
+                EdsRelease(entryRef);
+                ApiError::Throw(env, error);
+            }
             entries.Set(
                 idx,
                 entryInfo.isFolder
                   ? Directory::NewInstance(env, entryRef)
                   : CameraFile::NewInstance(env, entryRef)
             );
+            EdsRelease(entryRef);
         }
         return entries;
     }

@@ -1,5 +1,6 @@
+import { DirectoryEntry } from "./Directory";
 
-export class CameraFile {
+export class CameraFile implements DirectoryEntry {
 
     /**
      * Provided in the {@link DownloadRequestEvent}. Allows to download the file from camera.

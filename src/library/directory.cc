@@ -1,5 +1,7 @@
 #include "directory.h"
 #include "utility.h"
+#include "api-error.h"
+#include "camera-file.h"
 
 namespace CameraApi {
 
@@ -34,6 +36,44 @@ namespace CameraApi {
 
     Napi::Value Directory::GetName(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), directoryInfo_.szFileName);
+    }
+
+    Napi::Value Directory::GetLength(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        EdsError error;
+        EdsUInt32 count = 0;
+        error = EdsGetChildCount(directoryRef_, &count);
+        ApiError::ThrowIfFailed(env, error);
+        return Napi::Number::New(env, count);
+    }
+
+    Napi::Value Directory::GetEntries(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        auto entries = Napi::Array::New(env);
+        EdsError error;
+        EdsUInt32 count = 0;
+        error = EdsGetChildCount(directoryRef_, &count);
+        ApiError::ThrowIfFailed(env, error);
+        for (EdsUInt32 idx = 0; idx < count; idx++) {
+            EdsDirectoryItemRef entryRef;
+            error = EdsGetChildAtIndex(directoryRef_, idx, &entryRef);
+            ApiError::ThrowIfFailed(env, error);
+
+            EdsDirectoryItemInfo entryInfo;
+            error = EdsGetDirectoryItemInfo(entryRef, &entryInfo);
+            if (error != EDS_ERR_OK) {
+                EdsRelease(entryRef);
+                ApiError::Throw(env, error);
+            }
+            entries.Set(
+                idx,
+                entryInfo.isFolder
+                ? Directory::NewInstance(env, entryRef)
+                : CameraFile::NewInstance(env, entryRef)
+            );
+            EdsRelease(entryRef);
+        }
+        return entries;
     }
 
     Napi::Value Directory::ToStringTag(const Napi::CallbackInfo &info) {
@@ -72,7 +112,10 @@ namespace CameraApi {
             Directory::JSClassName,
             {
                 InstanceAccessor<&Directory::GetName>("name"),
-                //InstanceAccessor<&Directory::GetLength>("length"),
+                InstanceAccessor<&Directory::GetLength>("length"),
+
+                InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &Directory::GetEntries),
+                InstanceMethod("getEntries", &Directory::GetEntries),
 
                 //InstanceMethod("toJSON", &Directory::ToJSON),
 

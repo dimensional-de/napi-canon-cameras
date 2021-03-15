@@ -36,6 +36,10 @@ namespace CameraApi {
             Napi::Value Inspect(const Napi::CallbackInfo &info);
 
             Napi::Value GetName(const Napi::CallbackInfo &info);
+
+            Napi::Value GetLength(const Napi::CallbackInfo &info);
+
+            Napi::Value GetEntries(const Napi::CallbackInfo &info);
     };
 }
 
