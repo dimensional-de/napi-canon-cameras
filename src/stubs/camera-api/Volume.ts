@@ -61,5 +61,11 @@ export class Volume {
 
     // Generate: Volume
 
+    /**
+     * @readonly
+     * @enum {number}
+     */
+     static readonly StorageType = {"CompactFlash":2,"NoMemoryCard":0,"SDCard":1};
+
     // GenerateEnd
 }

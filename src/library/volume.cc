@@ -1,6 +1,7 @@
 #include "api-error.h"
 #include "utility.h"
 #include "volume.h"
+#include "labels.h"
 
 namespace CameraApi {
 
@@ -109,6 +110,15 @@ namespace CameraApi {
     void Volume::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
+        Napi::Object StorageTypes = Napi::Object::New(env);
+        for (const auto &it : Labels::StorageType) {
+            StorageTypes.DefineProperty(
+                Napi::PropertyDescriptor::Value(
+                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
+                )
+            );
+        }
+
         Napi::Function func = DefineClass(
             env,
             Volume::JSClassName,
@@ -125,8 +135,12 @@ namespace CameraApi {
 
                 InstanceAccessor<&Volume::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
                 InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Volume::Inspect),
+
+                StaticValue("StorageType", StorageTypes, napi_enumerable)
             }
         );
         JSConstructor(&func);
+
+        exports.Set(Volume::JSClassName, func);
     }
 }

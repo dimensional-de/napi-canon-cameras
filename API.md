@@ -3882,11 +3882,77 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
 
 # Volume
 **Kind**: global class  
+
+* [Volume](#Volume)
+    * _instance_
+        * [.label](#Volume+label) ⇒ <code>string</code>
+        * [.type](#Volume+type) ⇒ <code>number</code>
+        * [.isReadable](#Volume+isReadable) ⇒ <code>boolean</code>
+        * [.isWritable](#Volume+isWritable) ⇒ <code>boolean</code>
+        * [.freeSpace](#Volume+freeSpace) ⇒ <code>number</code>
+        * [.maximumCapacity](#Volume+maximumCapacity) ⇒ <code>number</code>
+        * [.length](#Volume+length) ⇒ <code>number</code>
+    * _static_
+        * [.StorageType](#Volume.StorageType) : <code>enum</code>
+
 <a name="Volume+label"></a>
 
-## volume.label
+## volume.label ⇒ <code>string</code>
 **Kind**: instance property of [<code>Volume</code>](#Volume)  
 **Read only**: true  
+<a name="Volume+type"></a>
+
+## volume.type ⇒ <code>number</code>
+Storage type
+
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+**Read only**: true  
+**See**: Volume.StorageType  
+<a name="Volume+isReadable"></a>
+
+## volume.isReadable ⇒ <code>boolean</code>
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume+isWritable"></a>
+
+## volume.isWritable ⇒ <code>boolean</code>
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume+freeSpace"></a>
+
+## volume.freeSpace ⇒ <code>number</code>
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume+maximumCapacity"></a>
+
+## volume.maximumCapacity ⇒ <code>number</code>
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume+length"></a>
+
+## volume.length ⇒ <code>number</code>
+Entry count
+
+**Kind**: instance property of [<code>Volume</code>](#Volume)  
+<a name="Volume.StorageType"></a>
+
+## Volume.StorageType : <code>enum</code>
+**Kind**: static enum of [<code>Volume</code>](#Volume)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>CompactFlash</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>NoMemoryCard</td><td><code>number</code></td><td><code>0</code></td>
+    </tr><tr>
+    <td>SDCard</td><td><code>number</code></td><td><code>1</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="watchCameras"></a>
 
 # watchCameras ⇒ <code>function</code>
