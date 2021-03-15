@@ -1,5 +1,6 @@
-#include "volume.h"
+#include "api-error.h"
 #include "utility.h"
+#include "volume.h"
 
 namespace CameraApi {
 
@@ -29,6 +30,52 @@ namespace CameraApi {
 
     Napi::Value Volume::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), volumeInfo_.szVolumeLabel);
+    }
+
+    Napi::Value Volume::GetStorageType(const Napi::CallbackInfo &info) {
+        return Napi::Number::New(info.Env(), volumeInfo_.storageType);
+    }
+
+    Napi::Value Volume::IsReadable(const Napi::CallbackInfo &info) {
+        return Napi::Boolean::New(
+            info.Env(), (volumeInfo_.access == 0) || (volumeInfo_.access == 2)
+        );
+    }
+
+    Napi::Value Volume::IsWritable(const Napi::CallbackInfo &info) {
+        return Napi::Boolean::New(
+            info.Env(), (volumeInfo_.access == 1) || (volumeInfo_.access == 2)
+        );
+    }
+
+    Napi::Value Volume::GetMaximumCapacity(const Napi::CallbackInfo &info) {
+        return Napi::Number::New(info.Env(), (int) volumeInfo_.maxCapacity);
+    }
+
+    Napi::Value Volume::GetFreeCapacity(const Napi::CallbackInfo &info) {
+        return Napi::Number::New(info.Env(), (int) volumeInfo_.freeSpaceInBytes);
+    }
+
+    Napi::Value Volume::GetLength(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        EdsError error;
+        EdsUInt32 count = 0;
+        error = EdsGetChildCount(volumeRef_, &count);
+        ApiError::ThrowIfFailed(env, error);
+        return Napi::Number::New(env, count);
+    }
+
+    Napi::Value Volume::ToJSON(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        auto json = Napi::Object::New(env);
+        json.Set("label", GetLabel(info));
+        json.Set("length", GetLength(info));
+        json.Set("storageType", GetStorageType(info));
+        json.Set("isReadable", IsReadable(info));
+        json.Set("isWritable", IsReadable(info));
+        json.Set("maximumCapacity", GetMaximumCapacity(info));
+        json.Set("freeCapacity", GetFreeCapacity(info));
+        return json;
     }
 
     Napi::Value Volume::ToStringTag(const Napi::CallbackInfo &info) {
@@ -67,6 +114,14 @@ namespace CameraApi {
             Volume::JSClassName,
             {
                 InstanceAccessor<&Volume::GetLabel>("label"),
+                InstanceAccessor<&Volume::GetLength>("length"),
+                InstanceAccessor<&Volume::GetStorageType>("storageType"),
+                InstanceAccessor<&Volume::IsReadable>("isReadable"),
+                InstanceAccessor<&Volume::IsWritable>("isWritable"),
+                InstanceAccessor<&Volume::GetMaximumCapacity>("maximumCapacity"),
+                InstanceAccessor<&Volume::GetFreeCapacity>("freeCapacity"),
+
+                InstanceMethod("toJSON", &Volume::ToJSON),
 
                 InstanceAccessor<&Volume::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
                 InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Volume::Inspect),

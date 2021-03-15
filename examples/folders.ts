@@ -1,7 +1,5 @@
 import {
-    Camera, CameraProperty,
-    DownloadRequestEvent, Option,
-    watchCameras
+    Camera, watchCameras
 } from '../';
 
 process.on('SIGINT', () => process.exit());
@@ -12,9 +10,10 @@ try {
 
     for (const volume of camera.getVolumes()) {
         console.log(volume);
+        console.log(JSON.parse(JSON.stringify(volume)));
     }
 } catch (e) {
     console.log(e);
 }
 
-watchCameras();
+process.exit();

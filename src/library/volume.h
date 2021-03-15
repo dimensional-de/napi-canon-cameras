@@ -1,8 +1,7 @@
 #ifndef NAPI_CANON_CAMERAS_VOLUME_H
 #define NAPI_CANON_CAMERAS_VOLUME_H
 
-#include <napi.h>
-#include <EDSDK.h>
+#include "types.h"
 
 namespace CameraApi {
 
@@ -37,6 +36,20 @@ namespace CameraApi {
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
+
+            Napi::Value GetStorageType(const Napi::CallbackInfo &info);
+
+            Napi::Value ToJSON(const Napi::CallbackInfo &info);
+
+            Napi::Value IsReadable(const Napi::CallbackInfo &info);
+
+            Napi::Value IsWritable(const Napi::CallbackInfo &info);
+
+            Napi::Value GetMaximumCapacity(const Napi::CallbackInfo &info);
+
+            Napi::Value GetFreeCapacity(const Napi::CallbackInfo &info);
+
+            Napi::Value GetLength(const Napi::CallbackInfo &info);
     };
 
 }

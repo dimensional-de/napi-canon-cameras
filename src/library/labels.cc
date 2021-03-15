@@ -945,4 +945,10 @@ namespace CameraApi {
         {EDS_ERR_TAKE_PICTURE_SPECIAL_MOVIE_MODE_NG, "TAKE_PICTURE_SPECIAL_MOVIE_MODE_NG"},
         {EDS_ERR_TAKE_PICTURE_LV_REL_PROHIBIT_MODE_NG, "TAKE_PICTURE_LV_REL_PROHIBIT_MODE_NG"}
     };
+
+    LabelMap Labels::StorageType = {
+        {0, "NoMemoryCard"},
+        {1, "SDCard"},
+        {2, "CompactFlash"},
+    };
 }

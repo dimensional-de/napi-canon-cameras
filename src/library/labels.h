@@ -40,6 +40,8 @@ namespace CameraApi {
             static LabelMap RedEye;
             static LabelMap SaveTo;
             static LabelMap WhiteBalance;
+
+            static LabelMap StorageType;
     };
 }
 
