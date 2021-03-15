@@ -5,6 +5,7 @@ export class CameraFile implements DirectoryEntry {
     /**
      * Provided in the {@link DownloadRequestEvent}. Allows to download the file from camera.
      * @class CameraFile
+     * @implements DirectoryEntry
      */
     private constructor() {
         throw new Error("Not implemented - stub only.");

@@ -37,6 +37,10 @@ application.
     - [x] Download To File
     - [x] Download To String (Base64)
 - [x] Live View
+- [ ] Storage
+    - [x] List Volumes
+    - [x] List Directories and Files
+
 
 ## Usage
 

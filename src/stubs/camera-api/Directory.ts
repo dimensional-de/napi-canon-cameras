@@ -13,6 +13,7 @@ export class Directory implements DirectoryEntry {
 
     /**
      * @class Directory
+     * @implements DirectoryEntry
      */
     private constructor() {
         throw new Error("Not implemented - stub only.");

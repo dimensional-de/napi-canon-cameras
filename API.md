@@ -1498,6 +1498,7 @@ API Error
 
 # CameraFile
 **Kind**: global class  
+**Implements**: [<code>DirectoryEntry</code>](#DirectoryEntry)  
 
 * [CameraFile](#CameraFile)
     * [new CameraFile()](#new_CameraFile_new)
@@ -1887,6 +1888,7 @@ Camera property/setting.
 
 # Directory
 **Kind**: global class  
+**Implements**: [<code>DirectoryEntry</code>](#DirectoryEntry)  
 
 * [Directory](#Directory)
     * [.name](#Directory+name) ⇒ <code>string</code>
