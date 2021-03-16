@@ -42,6 +42,10 @@ namespace CameraApi {
             static LabelMap WhiteBalance;
 
             static LabelMap StorageType;
+
+            static LabelMap ImageFormat;
+            static LabelMap ImageSize;
+            static LabelMap ImageCompression;
     };
 }
 

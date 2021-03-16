@@ -40,6 +40,12 @@ namespace CameraApi {
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
+
+            Napi::Value GetMain(const Napi::CallbackInfo &info);
+
+            Napi::Value GetSecondary(const Napi::CallbackInfo &info);
+
+            static int readBitsValue(EdsInt32 buffer, int offset, int length);
     };
 }
 

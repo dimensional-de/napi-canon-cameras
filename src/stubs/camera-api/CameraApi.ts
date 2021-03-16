@@ -1,30 +1,32 @@
+import { Aperture } from "./Aperture";
 import { ApiError } from "./ApiError";
 import { Camera } from "./Camera";
 import { CameraBrowser, EventCallback } from "./CameraBrowser";
 import { CameraFile } from "./CameraFile";
 import { CameraProperty } from "./CameraProperty";
 import { Directory } from "./Directory";
-import { ObjectEvent } from "./ObjectEvent";
-import { Aperture } from "./Aperture";
 import { ExposureCompensation } from "./ExposureCompensation";
 import { Flag } from "./Flag";
+import { ImageQuality } from "./ImageQuality";
+import { ObjectEvent } from "./ObjectEvent";
 import { Option } from "./Option";
 import { ShutterSpeed } from "./ShutterSpeed";
 import { StateEvent } from "./StateEvent";
 import { Volume } from "./Volume";
 
-export * from "./ObjectEvent";
-export * from "./Option";
-export * from "./Camera";
+export * from "./Aperture";
 export * from "./ApiError";
+export * from "./Camera";
 export * from "./CameraBrowser";
 export * from "./CameraFile";
 export * from "./CameraProperty";
 export * from "./Directory";
-export * from "./Aperture";
-export * from "./Flag";
-export * from "./ShutterSpeed";
 export * from "./ExposureCompensation";
+export * from "./Flag";
+export * from "./ImageQuality";
+export * from "./ObjectEvent";
+export * from "./Option";
+export * from "./ShutterSpeed";
 export * from "./StateEvent";
 export * from "./Volume";
 
@@ -62,6 +64,7 @@ const CameraApi = {
     Directory,
     ExposureCompensation,
     Flag,
+    ImageQuality,
     ObjectEvent,
     Option,
     ShutterSpeed,

@@ -28,6 +28,8 @@
 <dd></dd>
 <dt><a href="#Flag">Flag</a></dt>
 <dd></dd>
+<dt><a href="#ImageQuality">ImageQuality</a></dt>
+<dd></dd>
 <dt><a href="#ObjectEvent">ObjectEvent</a> ⇐ <code><a href="#ApiIdentifier">ApiIdentifier</a></code></dt>
 <dd></dd>
 <dt><a href="#Option">Option</a></dt>
@@ -2152,6 +2154,371 @@ Create instance for label.
   <tbody>
 <tr>
     <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQuality"></a>
+
+# ImageQuality
+**Kind**: global class  
+
+* [ImageQuality](#ImageQuality)
+    * [new ImageQuality(value_)](#new_ImageQuality_new)
+    * _instance_
+        * [.label](#ImageQuality+label) : <code>string</code>
+        * [.value](#ImageQuality+value) : <code>number</code>
+        * [.main](#ImageQuality+main) : <code>ImageQualityProperties</code>
+        * [.secondary](#ImageQuality+secondary) : <code>ImageQualityProperties</code>
+    * _static_
+        * [.ID](#ImageQuality.ID) : <code>enum</code>
+        * [.Format](#ImageQuality.Format) : <code>enum</code>
+        * [.Size](#ImageQuality.Size) : <code>enum</code>
+        * [.CompressionQuality](#ImageQuality.CompressionQuality) : <code>enum</code>
+
+<a name="new_ImageQuality_new"></a>
+
+## new ImageQuality(value_)
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value_</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQuality+label"></a>
+
+## imageQuality.label : <code>string</code>
+**Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+<a name="ImageQuality+value"></a>
+
+## imageQuality.value : <code>number</code>
+**Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+<a name="ImageQuality+main"></a>
+
+## imageQuality.main : <code>ImageQualityProperties</code>
+**Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+<a name="ImageQuality+secondary"></a>
+
+## imageQuality.secondary : <code>ImageQualityProperties</code>
+**Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+<a name="ImageQuality.ID"></a>
+
+## ImageQuality.ID : <code>enum</code>
+**Kind**: static enum of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>CR</td><td><code>number</code></td><td><code>6553359</code></td>
+    </tr><tr>
+    <td>CRHEIFL</td><td><code>number</code></td><td><code>6488192</code></td>
+    </tr><tr>
+    <td>CRHEIFLF</td><td><code>number</code></td><td><code>6488195</code></td>
+    </tr><tr>
+    <td>CRHEIFLN</td><td><code>number</code></td><td><code>6488194</code></td>
+    </tr><tr>
+    <td>CRHEIFMF</td><td><code>number</code></td><td><code>6488451</code></td>
+    </tr><tr>
+    <td>CRHEIFMN</td><td><code>number</code></td><td><code>6488450</code></td>
+    </tr><tr>
+    <td>CRHEIFS1F</td><td><code>number</code></td><td><code>6491779</code></td>
+    </tr><tr>
+    <td>CRHEIFS1N</td><td><code>number</code></td><td><code>6491778</code></td>
+    </tr><tr>
+    <td>CRHEIFS2F</td><td><code>number</code></td><td><code>6492035</code></td>
+    </tr><tr>
+    <td>CRLJ</td><td><code>number</code></td><td><code>6488080</code></td>
+    </tr><tr>
+    <td>CRLJF</td><td><code>number</code></td><td><code>6488083</code></td>
+    </tr><tr>
+    <td>CRLJN</td><td><code>number</code></td><td><code>6488082</code></td>
+    </tr><tr>
+    <td>CRM1J</td><td><code>number</code></td><td><code>6489360</code></td>
+    </tr><tr>
+    <td>CRM1JF</td><td><code>number</code></td><td><code>6489363</code></td>
+    </tr><tr>
+    <td>CRM1JN</td><td><code>number</code></td><td><code>6489362</code></td>
+    </tr><tr>
+    <td>CRM2J</td><td><code>number</code></td><td><code>6489616</code></td>
+    </tr><tr>
+    <td>CRM2JF</td><td><code>number</code></td><td><code>6489619</code></td>
+    </tr><tr>
+    <td>CRM2JN</td><td><code>number</code></td><td><code>6489618</code></td>
+    </tr><tr>
+    <td>CRMJF</td><td><code>number</code></td><td><code>6488339</code></td>
+    </tr><tr>
+    <td>CRMJN</td><td><code>number</code></td><td><code>6488338</code></td>
+    </tr><tr>
+    <td>CRS1JF</td><td><code>number</code></td><td><code>6491667</code></td>
+    </tr><tr>
+    <td>CRS1JN</td><td><code>number</code></td><td><code>6491666</code></td>
+    </tr><tr>
+    <td>CRS2JF</td><td><code>number</code></td><td><code>6491923</code></td>
+    </tr><tr>
+    <td>CRS3JF</td><td><code>number</code></td><td><code>6492179</code></td>
+    </tr><tr>
+    <td>CRSJ</td><td><code>number</code></td><td><code>6488592</code></td>
+    </tr><tr>
+    <td>CRSJF</td><td><code>number</code></td><td><code>6488595</code></td>
+    </tr><tr>
+    <td>CRSJN</td><td><code>number</code></td><td><code>6488594</code></td>
+    </tr><tr>
+    <td>HEIFL</td><td><code>number</code></td><td><code>8453903</code></td>
+    </tr><tr>
+    <td>HEIFLF</td><td><code>number</code></td><td><code>8650511</code></td>
+    </tr><tr>
+    <td>HEIFLN</td><td><code>number</code></td><td><code>8584975</code></td>
+    </tr><tr>
+    <td>HEIFMF</td><td><code>number</code></td><td><code>25427727</code></td>
+    </tr><tr>
+    <td>HEIFMN</td><td><code>number</code></td><td><code>25362191</code></td>
+    </tr><tr>
+    <td>HEIFS1F</td><td><code>number</code></td><td><code>243531535</code></td>
+    </tr><tr>
+    <td>HEIFS1N</td><td><code>number</code></td><td><code>243465999</code></td>
+    </tr><tr>
+    <td>HEIFS2F</td><td><code>number</code></td><td><code>260308751</code></td>
+    </tr><tr>
+    <td>LargeJPEG</td><td><code>number</code></td><td><code>1113871</code></td>
+    </tr><tr>
+    <td>LargeJPEGFine</td><td><code>number</code></td><td><code>1310479</code></td>
+    </tr><tr>
+    <td>LargeJPEGNormal</td><td><code>number</code></td><td><code>1244943</code></td>
+    </tr><tr>
+    <td>MR</td><td><code>number</code></td><td><code>23396111</code></td>
+    </tr><tr>
+    <td>MRLJ</td><td><code>number</code></td><td><code>23330832</code></td>
+    </tr><tr>
+    <td>MRLJF</td><td><code>number</code></td><td><code>23330835</code></td>
+    </tr><tr>
+    <td>MRLJN</td><td><code>number</code></td><td><code>23330834</code></td>
+    </tr><tr>
+    <td>MRM1J</td><td><code>number</code></td><td><code>23332112</code></td>
+    </tr><tr>
+    <td>MRM2J</td><td><code>number</code></td><td><code>23332368</code></td>
+    </tr><tr>
+    <td>MRMJF</td><td><code>number</code></td><td><code>23331091</code></td>
+    </tr><tr>
+    <td>MRMJN</td><td><code>number</code></td><td><code>23331090</code></td>
+    </tr><tr>
+    <td>MRS1JF</td><td><code>number</code></td><td><code>23334419</code></td>
+    </tr><tr>
+    <td>MRS1JN</td><td><code>number</code></td><td><code>23334418</code></td>
+    </tr><tr>
+    <td>MRS2JF</td><td><code>number</code></td><td><code>23334675</code></td>
+    </tr><tr>
+    <td>MRS3JF</td><td><code>number</code></td><td><code>23334931</code></td>
+    </tr><tr>
+    <td>MRSJ</td><td><code>number</code></td><td><code>23331344</code></td>
+    </tr><tr>
+    <td>MRSJF</td><td><code>number</code></td><td><code>23331347</code></td>
+    </tr><tr>
+    <td>MRSJN</td><td><code>number</code></td><td><code>23331346</code></td>
+    </tr><tr>
+    <td>Middle1JPEG</td><td><code>number</code></td><td><code>84999951</code></td>
+    </tr><tr>
+    <td>Middle2JPEG</td><td><code>number</code></td><td><code>101777167</code></td>
+    </tr><tr>
+    <td>MiddleJPEGFine</td><td><code>number</code></td><td><code>18087695</code></td>
+    </tr><tr>
+    <td>MiddleJPEGNormal</td><td><code>number</code></td><td><code>18022159</code></td>
+    </tr><tr>
+    <td>RAW</td><td><code>number</code></td><td><code>6618895</code></td>
+    </tr><tr>
+    <td>RAWAndLargeJPEG</td><td><code>number</code></td><td><code>6553616</code></td>
+    </tr><tr>
+    <td>RAWAndLargeJPEGFine</td><td><code>number</code></td><td><code>6553619</code></td>
+    </tr><tr>
+    <td>RAWAndLargeJPEGNormal</td><td><code>number</code></td><td><code>6553618</code></td>
+    </tr><tr>
+    <td>RAWAndMiddle1JPEG</td><td><code>number</code></td><td><code>6554896</code></td>
+    </tr><tr>
+    <td>RAWAndMiddle2JPEG</td><td><code>number</code></td><td><code>6555152</code></td>
+    </tr><tr>
+    <td>RAWAndMiddleJPEGFine</td><td><code>number</code></td><td><code>6553875</code></td>
+    </tr><tr>
+    <td>RAWAndMiddleJPEGNormal</td><td><code>number</code></td><td><code>6553874</code></td>
+    </tr><tr>
+    <td>RAWAndSmall1JPEGFine</td><td><code>number</code></td><td><code>6557203</code></td>
+    </tr><tr>
+    <td>RAWAndSmall1JPEGNormal</td><td><code>number</code></td><td><code>6557202</code></td>
+    </tr><tr>
+    <td>RAWAndSmall2JPEGFine</td><td><code>number</code></td><td><code>6557459</code></td>
+    </tr><tr>
+    <td>RAWAndSmall3JPEGFine</td><td><code>number</code></td><td><code>6557715</code></td>
+    </tr><tr>
+    <td>RAWAndSmallJPEG</td><td><code>number</code></td><td><code>6554128</code></td>
+    </tr><tr>
+    <td>RAWAndSmallJPEGFine</td><td><code>number</code></td><td><code>6554131</code></td>
+    </tr><tr>
+    <td>RAWAndSmallJPEGNormal</td><td><code>number</code></td><td><code>6554130</code></td>
+    </tr><tr>
+    <td>RHEIFL</td><td><code>number</code></td><td><code>6553728</code></td>
+    </tr><tr>
+    <td>RHEIFLF</td><td><code>number</code></td><td><code>6553731</code></td>
+    </tr><tr>
+    <td>RHEIFLN</td><td><code>number</code></td><td><code>6553730</code></td>
+    </tr><tr>
+    <td>RHEIFMF</td><td><code>number</code></td><td><code>6553987</code></td>
+    </tr><tr>
+    <td>RHEIFMN</td><td><code>number</code></td><td><code>6553986</code></td>
+    </tr><tr>
+    <td>RHEIFS1F</td><td><code>number</code></td><td><code>6557315</code></td>
+    </tr><tr>
+    <td>RHEIFS1N</td><td><code>number</code></td><td><code>6557314</code></td>
+    </tr><tr>
+    <td>RHEIFS2F</td><td><code>number</code></td><td><code>6557571</code></td>
+    </tr><tr>
+    <td>SR</td><td><code>number</code></td><td><code>40173327</code></td>
+    </tr><tr>
+    <td>SRLJ</td><td><code>number</code></td><td><code>40108048</code></td>
+    </tr><tr>
+    <td>SRLJF</td><td><code>number</code></td><td><code>40108051</code></td>
+    </tr><tr>
+    <td>SRLJN</td><td><code>number</code></td><td><code>40108050</code></td>
+    </tr><tr>
+    <td>SRM1J</td><td><code>number</code></td><td><code>40109328</code></td>
+    </tr><tr>
+    <td>SRM2J</td><td><code>number</code></td><td><code>40109584</code></td>
+    </tr><tr>
+    <td>SRMJF</td><td><code>number</code></td><td><code>40108307</code></td>
+    </tr><tr>
+    <td>SRMJN</td><td><code>number</code></td><td><code>40108306</code></td>
+    </tr><tr>
+    <td>SRS1JF</td><td><code>number</code></td><td><code>40111635</code></td>
+    </tr><tr>
+    <td>SRS1JN</td><td><code>number</code></td><td><code>40111634</code></td>
+    </tr><tr>
+    <td>SRS2JF</td><td><code>number</code></td><td><code>40111891</code></td>
+    </tr><tr>
+    <td>SRS3JF</td><td><code>number</code></td><td><code>40112147</code></td>
+    </tr><tr>
+    <td>SRSJ</td><td><code>number</code></td><td><code>40108560</code></td>
+    </tr><tr>
+    <td>SRSJF</td><td><code>number</code></td><td><code>40108563</code></td>
+    </tr><tr>
+    <td>SRSJN</td><td><code>number</code></td><td><code>40108562</code></td>
+    </tr><tr>
+    <td>Small1JPEGFine</td><td><code>number</code></td><td><code>236191503</code></td>
+    </tr><tr>
+    <td>Small1JPEGNormal</td><td><code>number</code></td><td><code>236125967</code></td>
+    </tr><tr>
+    <td>Small2JPEGFine</td><td><code>number</code></td><td><code>252968719</code></td>
+    </tr><tr>
+    <td>Small3JPEGFine</td><td><code>number</code></td><td><code>269745935</code></td>
+    </tr><tr>
+    <td>SmallJPEG</td><td><code>number</code></td><td><code>34668303</code></td>
+    </tr><tr>
+    <td>SmallJPEGFine</td><td><code>number</code></td><td><code>34864911</code></td>
+    </tr><tr>
+    <td>SmallJPEGNormal</td><td><code>number</code></td><td><code>34799375</code></td>
+    </tr><tr>
+    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQuality.Format"></a>
+
+## ImageQuality.Format : <code>enum</code>
+**Kind**: static enum of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>CR2</td><td><code>number</code></td><td><code>6</code></td>
+    </tr><tr>
+    <td>CRW</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>Jpeg</td><td><code>number</code></td><td><code>1</code></td>
+    </tr><tr>
+    <td>RAW</td><td><code>number</code></td><td><code>4</code></td>
+    </tr><tr>
+    <td>Unknown</td><td><code>number</code></td><td><code>0</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQuality.Size"></a>
+
+## ImageQuality.Size : <code>enum</code>
+**Kind**: static enum of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>Large</td><td><code>number</code></td><td><code>0</code></td>
+    </tr><tr>
+    <td>Middle</td><td><code>number</code></td><td><code>1</code></td>
+    </tr><tr>
+    <td>Middle1</td><td><code>number</code></td><td><code>5</code></td>
+    </tr><tr>
+    <td>Middle2</td><td><code>number</code></td><td><code>6</code></td>
+    </tr><tr>
+    <td>Small</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>Small1</td><td><code>number</code></td><td><code>14</code></td>
+    </tr><tr>
+    <td>Small2</td><td><code>number</code></td><td><code>15</code></td>
+    </tr><tr>
+    <td>Small3</td><td><code>number</code></td><td><code>16</code></td>
+    </tr><tr>
+    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQuality.CompressionQuality"></a>
+
+## ImageQuality.CompressionQuality : <code>enum</code>
+**Kind**: static enum of [<code>ImageQuality</code>](#ImageQuality)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>Fine</td><td><code>number</code></td><td><code>3</code></td>
+    </tr><tr>
+    <td>Lossless</td><td><code>number</code></td><td><code>4</code></td>
+    </tr><tr>
+    <td>Normal</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>SuperFine</td><td><code>number</code></td><td><code>5</code></td>
+    </tr><tr>
+    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
     </tr>  </tbody>
 </table>
 

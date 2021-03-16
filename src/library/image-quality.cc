@@ -23,12 +23,53 @@ namespace CameraApi {
         }
     }
 
+
+    int ImageQuality::readBitsValue(EdsInt32 buffer, int offset, int length) {
+        return (((1 << length) - 1) & (buffer >> (offset)));
+    }
+
     Napi::Value ImageQuality::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), label_);
     }
 
     Napi::Value ImageQuality::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
+    }
+
+    Napi::Value ImageQuality::GetMain(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        auto quality = Napi::Object::New(env);
+        quality.Set(
+            "size",
+            Napi::Number::New(env, readBitsValue(value_, 24, 8))
+        );
+        quality.Set(
+            "format",
+            Napi::Number::New(env, readBitsValue(value_, 20, 4))
+        );
+        quality.Set(
+            "quality",
+            Napi::Number::New(env, readBitsValue(value_, 16, 4))
+        );
+        return quality;
+    }
+
+    Napi::Value ImageQuality::GetSecondary(const Napi::CallbackInfo &info) {
+        auto env = info.Env();
+        auto quality = Napi::Object::New(env);
+        quality.Set(
+            "size",
+            Napi::Number::New(env, readBitsValue(value_, 8, 8))
+        );
+        quality.Set(
+            "format",
+            Napi::Number::New(env, readBitsValue(value_, 4, 4))
+        );
+        quality.Set(
+            "quality",
+            Napi::Number::New(env, readBitsValue(value_, 0, 4))
+        );
+        return quality;
     }
 
     Napi::Value ImageQuality::GetPrimitive(const Napi::CallbackInfo &info) {
@@ -49,6 +90,8 @@ namespace CameraApi {
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
         Json.Set("value", GetValue(info));
+        Json.Set("main", GetMain(info));
+        Json.Set("secondary", GetSecondary(info));
         return Json;
     }
 
@@ -95,9 +138,36 @@ namespace CameraApi {
             );
         }
 
+        Napi::Object ImageFormats = Napi::Object::New(env);
+        for (const auto &it : Labels::ImageFormat) {
+            ImageFormats.DefineProperty(
+                Napi::PropertyDescriptor::Value(
+                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
+                )
+            );
+        }
+        Napi::Object ImageSizes = Napi::Object::New(env);
+        for (const auto &it : Labels::ImageSize) {
+            ImageSizes.DefineProperty(
+                Napi::PropertyDescriptor::Value(
+                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
+                )
+            );
+        }
+        Napi::Object ImageCompressions = Napi::Object::New(env);
+        for (const auto &it : Labels::ImageCompression) {
+            ImageCompressions.DefineProperty(
+                Napi::PropertyDescriptor::Value(
+                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
+                )
+            );
+        }
+
         std::vector <PropertyDescriptor> properties = {
             InstanceAccessor<&ImageQuality::GetLabel>("label"),
             InstanceAccessor<&ImageQuality::GetValue>("value"),
+            InstanceAccessor<&ImageQuality::GetMain>("main"),
+            InstanceAccessor<&ImageQuality::GetSecondary>("secondary"),
 
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ImageQuality::GetPrimitive),
             InstanceMethod("toJSON", &ImageQuality::ToJSON),
@@ -105,7 +175,10 @@ namespace CameraApi {
             InstanceAccessor<&ImageQuality::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ImageQuality::Inspect),
 
-            StaticValue("ID", IDs, napi_enumerable)
+            StaticValue("ID", IDs, napi_enumerable),
+            StaticValue("Format", ImageFormats, napi_enumerable),
+            StaticValue("Size", ImageSizes, napi_enumerable),
+            StaticValue("CompressionQuality", ImageCompressions, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, ImageQuality::JSClassName, properties);

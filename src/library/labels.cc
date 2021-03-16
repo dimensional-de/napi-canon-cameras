@@ -951,4 +951,30 @@ namespace CameraApi {
         {1, "SDCard"},
         {2, "CompactFlash"},
     };
+
+    LabelMap Labels::ImageFormat = {
+        {0x00000000,"Unknown"} ,
+        {0x00000001,"Jpeg"} ,
+        {0x00000002,"CRW"} ,
+        {0x00000004,"RAW"} ,
+        {0x00000006,"CR2"} 
+    };
+    LabelMap Labels::ImageSize = {    
+        {0,"Large"},
+        {1,"Middle"},
+        {2,"Small"},
+        {5,"Middle1"},
+        {6,"Middle2"},
+        {14,"Small1"},
+        {15,"Small2"},
+        {16,"Small3"},
+        {0xffffffff,"Unknown"}
+    };
+    LabelMap Labels::ImageCompression = {
+        {2,"Normal"},
+        {3,"Fine"},
+        {4,"Lossless"},
+        {5,"SuperFine"},
+        {0xffffffff,"Unknown"}
+    };
 }
