@@ -30,6 +30,7 @@
                 "./src/library/aperture.cc",
                 "./src/library/exposure-compensation.cc",
                 "./src/library/flag.cc",
+                "./src/library/image-quality.cc",
                 "./src/library/shutter-speed.cc",
                 "./src/library/state-event.cc",
                 "./src/library/utility.cc",

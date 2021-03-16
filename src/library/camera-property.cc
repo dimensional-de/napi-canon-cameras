@@ -7,6 +7,7 @@
 #include "api-error.h"
 #include "utility.h"
 #include "exposure-compensation.h"
+#include "image-quality.h"
 
 namespace CameraApi {
 
@@ -151,6 +152,10 @@ namespace CameraApi {
                 return ExposureCompensation::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
+            case kEdsPropID_ImageQuality:
+                return ImageQuality::NewInstance(
+                    env, value.As<Napi::Number>().Int32Value()
+                );
             default:
                 if (Flag::IsFlagProperty(propertyIdentifier_)) {
                     return Flag::NewInstance(
@@ -243,6 +248,9 @@ namespace CameraApi {
                     break;
                 case kEdsPropID_ExposureCompensation:
                     values.Set(i, ExposureCompensation::NewInstance(env, propertyDescription.propDesc[i]));
+                    break;
+                case kEdsPropID_ImageQuality:
+                    values.Set(i, ImageQuality::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 default:
                     if (Option::IsOptionsProperty(propertyIdentifier_)) {
