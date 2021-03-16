@@ -5,6 +5,14 @@ export interface ImageQualityProperties {
     size: number,
     quality: number
 }
+let STUB = 0;
+/**
+ * @interface ImageQualityProperties
+ * @property {number} format
+ * @property {number} size
+ * @property {number} quality
+ */
+STUB = 1;
 
 export class ImageQuality implements PropertyValue {
 

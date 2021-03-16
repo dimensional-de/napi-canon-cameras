@@ -7,7 +7,7 @@ export class CameraFile implements DirectoryEntry {
      * @class CameraFile
      * @implements DirectoryEntry
      */
-    private constructor() {
+    constructor() {
         throw new Error("Not implemented - stub only.");
     }
 
