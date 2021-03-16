@@ -83,6 +83,8 @@
 <dd></dd>
 <dt><a href="#DirectoryEntry">DirectoryEntry</a></dt>
 <dd></dd>
+<dt><a href="#ImageQualityProperties">ImageQualityProperties</a></dt>
+<dd></dd>
 </dl>
 
 <a name="module_CameraApi"></a>
@@ -273,6 +275,28 @@
   <tbody>
 <tr>
     <td>name</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ImageQualityProperties"></a>
+
+# ImageQualityProperties
+**Kind**: global interface  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>format</td><td><code>number</code></td>
+    </tr><tr>
+    <td>size</td><td><code>number</code></td>
+    </tr><tr>
+    <td>quality</td><td><code>number</code></td>
     </tr>  </tbody>
 </table>
 
@@ -2167,8 +2191,8 @@ Create instance for label.
     * _instance_
         * [.label](#ImageQuality+label) : <code>string</code>
         * [.value](#ImageQuality+value) : <code>number</code>
-        * [.main](#ImageQuality+main) : <code>ImageQualityProperties</code>
-        * [.secondary](#ImageQuality+secondary) : <code>ImageQualityProperties</code>
+        * [.main](#ImageQuality+main) : [<code>ImageQualityProperties</code>](#ImageQualityProperties)
+        * [.secondary](#ImageQuality+secondary) : [<code>ImageQualityProperties</code>](#ImageQualityProperties)
     * _static_
         * [.ID](#ImageQuality.ID) : <code>enum</code>
         * [.Format](#ImageQuality.Format) : <code>enum</code>
@@ -2202,12 +2226,12 @@ Create instance for label.
 **Read only**: true  
 <a name="ImageQuality+main"></a>
 
-## imageQuality.main : <code>ImageQualityProperties</code>
+## imageQuality.main : [<code>ImageQualityProperties</code>](#ImageQualityProperties)
 **Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
 **Read only**: true  
 <a name="ImageQuality+secondary"></a>
 
-## imageQuality.secondary : <code>ImageQualityProperties</code>
+## imageQuality.secondary : [<code>ImageQualityProperties</code>](#ImageQualityProperties)
 **Kind**: instance property of [<code>ImageQuality</code>](#ImageQuality)  
 **Read only**: true  
 <a name="ImageQuality.ID"></a>
