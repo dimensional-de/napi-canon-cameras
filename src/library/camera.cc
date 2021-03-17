@@ -537,21 +537,65 @@ namespace CameraApi {
     Napi::Value CameraWrap::GetProperty(const Napi::CallbackInfo &info) {
         if (info.Length() < 1) {
             throw Napi::TypeError::New(
-                info.Env(), "Camera.setProperty(): Argument 0 must be an property identifier."
+                info.Env(), "Argument 0 must be an property identifier."
             );
         }
         return CameraProperty::NewInstance(
             info.Env(),
             camera_,
-            info[0].As<Napi::Number>().Int32Value(),
+            CameraProperty::GetIDFor(info[0]),
             (info.Length() > 1) ? info[1].As<Napi::Number>().Int32Value() : 0
         );
+    }
+
+    Napi::Value CameraWrap::SetProperty(const Napi::CallbackInfo &info) {
+        if (info.Length() < 1) {
+            throw Napi::TypeError::New(
+                info.Env(), "Argument 0 must be an property identifier."
+            );
+        }
+        if (info.Length() < 1) {
+            throw Napi::TypeError::New(
+                info.Env(), "Argument 1 must be an property value."
+            );
+        }
+        auto property = Napi::ObjectWrap<CameraProperty>::Unwrap(
+            CameraProperty::NewInstance(
+                info.Env(),
+                camera_,
+                CameraProperty::GetIDFor(info[0]),
+                (info.Length() > 1) ? info[1].As<Napi::Number>().Int32Value() : 0
+            )
+        );
+        property->SetValue(info, info[1]);
+        return info.Env().Undefined();
+    }
+
+    Napi::Value CameraWrap::SetProperties(const Napi::CallbackInfo &info) {
+        if (info.Length() > 0 && info[0].IsObject()) {
+            auto properties = info[0].As<Napi::Object>();
+            auto propertyNames = properties.GetPropertyNames();
+            for (uint32_t i = 0; i < propertyNames.Length(); i++) {
+                auto propertyLabel = propertyNames.Get(i).As<Napi::String>().Utf8Value();
+                auto propertyID = CameraProperty::GetIDFor(propertyNames.Get(i));
+                if (!propertyID) {
+                    ApiError::Throw(info.Env(), EDS_ERR_PROPERTIES_MISMATCH);
+                }
+                auto property = Napi::ObjectWrap<CameraProperty>::Unwrap(
+                    CameraProperty::NewInstance(
+                      info.Env(), GetCameraReference(), propertyID, 0
+                    )
+                );
+                property->SetValue(info, properties.Get(propertyLabel));
+            }
+        }
+        return Napi::Value();
     }
 
     Napi::Value CameraWrap::SendCommand(const Napi::CallbackInfo &info) {
         if (info.Length() < 1 || !info[0].IsNumber()) {
             throw Napi::TypeError::New(
-                info.Env(), "Camera.sendCommand(): Argument 0 must be an command identifier."
+                info.Env(), "Argument 0 must be an command identifier."
             );
         }
         return ApiError::ThrowIfFailed(
@@ -641,6 +685,8 @@ namespace CameraApi {
                 InstanceMethod("disconnect", &CameraWrap::Disconnect),
                 InstanceMethod("setEventHandler", &CameraWrap::SetEventHandler),
                 InstanceMethod("getProperty", &CameraWrap::GetProperty),
+                InstanceMethod("setProperty", &CameraWrap::SetProperty),
+                InstanceMethod("setProperties", &CameraWrap::SetProperties),
                 InstanceMethod("sendCommand", &CameraWrap::SendCommand),
                 InstanceMethod("takePicture", &CameraWrap::TakePicture),
                 InstanceMethod("startLiveView", &CameraWrap::StartLiveView),

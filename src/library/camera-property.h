@@ -18,7 +18,13 @@ namespace CameraApi {
                 Napi::Env env, CameraReference camera, EdsPropertyID identifier, EdsInt32 specifier
             );
 
+            void SetValue(const Napi::CallbackInfo &info, const Napi::Value &propertyValue);
+
             static std::string GetLabelFor(EdsPropertyID propertyID);
+
+            static EdsPropertyID GetIDFor(const std::string &label);
+
+            static EdsPropertyID GetIDFor(Napi::Value labelOrID);
 
         private:
             static constexpr const char JSClassName[] = "CameraProperty";
@@ -50,9 +56,6 @@ namespace CameraApi {
             Napi::Value GetAllowedValues(const Napi::CallbackInfo &info);
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
-
-            void SetValue(const Napi::CallbackInfo &info, const Napi::Value &propertyValue);
-
 
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 

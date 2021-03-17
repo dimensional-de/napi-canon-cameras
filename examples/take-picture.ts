@@ -25,14 +25,18 @@ try {
     console.log(camera);
     camera.connect();
     // configure
-    camera.getProperty(CameraProperty.ID.SaveTo).value = Option.SaveTo.Host;
-    camera.getProperty(CameraProperty.ID.ImageQuality).value = Option.ImageQuality.LargeJPEGFine;
-    camera.getProperty(CameraProperty.ID.WhiteBalance).value = Option.WhiteBalance.Fluorescent;
+    camera.setProperties(
+        {
+            [CameraProperty.ID.SaveTo]: Option.SaveTo.Host,
+            [CameraProperty.ID.ImageQuality]: Option.ImageQuality.LargeJPEGFine,
+            [CameraProperty.ID.WhiteBalance]: Option.WhiteBalance.Fluorescent
+        }
+    );
 
     // trigger picture
     camera.takePicture();
 } catch (e) {
-    console.log('No camera found.');
+    console.log('Failed.', e);
 }
 
 // watch for camera events

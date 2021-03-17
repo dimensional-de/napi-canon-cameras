@@ -389,6 +389,24 @@ namespace CameraApi {
         return Labels::PropertyID[propertyID];
     }
 
+    EdsPropertyID CameraProperty::GetIDFor(const std::string &label) {
+        for (const auto &it : Labels::PropertyID) {
+            if ((it.second == label) || (std::to_string(it.first) == label)) {
+                return it.first;
+            }
+        }
+        return 0;
+    }
+
+    EdsPropertyID CameraProperty::GetIDFor(Napi::Value labelOrID) {
+        if (labelOrID.IsNumber()) {
+            return labelOrID.As<Napi::Number>().Int32Value();
+        } else if (labelOrID.IsString()) {
+            return GetIDFor(labelOrID.As<Napi::String>().Utf8Value());
+        }
+        return 0;
+    }
+
     Napi::Object CameraProperty::NewInstance(
         Napi::Env env, CameraReference camera, EdsPropertyID identifier, EdsInt32 specifier
     ) {
@@ -435,4 +453,5 @@ namespace CameraApi {
 
         exports.Set(CameraProperty::JSClassName, func);
     }
+
 }

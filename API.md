@@ -958,7 +958,9 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
         * [.setEventHandler(listener)](#Camera+setEventHandler)
         * [.connect()](#Camera+connect)
         * [.disconnect()](#Camera+disconnect)
-        * [.getProperty()](#Camera+getProperty)
+        * [.getProperty(propertyID, specifier)](#Camera+getProperty) ⇒ [<code>CameraProperty</code>](#CameraProperty)
+        * [.setProperty(propertyID, value)](#Camera+setProperty)
+        * [.setProperties(properties)](#Camera+setProperties)
         * [.sendCommand(command, parameter)](#Camera+sendCommand)
         * [.takePicture()](#Camera+takePicture)
         * [.startLiveView()](#Camera+startLiveView)
@@ -1029,10 +1031,58 @@ Disconnect from device
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
 <a name="Camera+getProperty"></a>
 
-## camera.getProperty()
-Fetch a camera property by ID
+## camera.getProperty(propertyID, specifier) ⇒ [<code>CameraProperty</code>](#CameraProperty)
+Fetch a camera property by ID or label
 
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>propertyID</td><td><code>number</code> | <code>string</code></td><td></td>
+    </tr><tr>
+    <td>specifier</td><td><code>number</code></td><td><code>0</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Camera+setProperty"></a>
+
+## camera.setProperty(propertyID, value)
+**Kind**: instance method of [<code>Camera</code>](#Camera)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>propertyID</td><td><code>PropertyIdentifier</code></td>
+    </tr><tr>
+    <td>value</td><td><code><a href="#PropertyValue">PropertyValue</a></code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Camera+setProperties"></a>
+
+## camera.setProperties(properties)
+**Kind**: instance method of [<code>Camera</code>](#Camera)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>properties</td><td><code>PropertiesData</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Camera+sendCommand"></a>
 
 ## camera.sendCommand(command, parameter)

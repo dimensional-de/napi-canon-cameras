@@ -119,6 +119,10 @@ namespace CameraApi {
 
             Napi::Value GetProperty(const Napi::CallbackInfo &info);
 
+            Napi::Value SetProperty(const Napi::CallbackInfo &info);
+
+            Napi::Value SetProperties(const Napi::CallbackInfo &info);
+
             Napi::Value SendCommand(const Napi::CallbackInfo &info);
 
             Napi::Value TakePicture(const Napi::CallbackInfo &info);

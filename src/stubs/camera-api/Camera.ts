@@ -3,8 +3,11 @@
  *
  */
 import { EventCallback } from "./CameraBrowser";
-import {CameraProperty} from "./CameraProperty";
+import { CameraProperty, PropertyValue } from "./CameraProperty";
 import { Volume } from "./Volume";
+
+type PropertyIdentifier = string|number;
+type PropertiesData = {[key in PropertyIdentifier]?: PropertyValue};
 
 export class Camera {
 
@@ -56,9 +59,27 @@ export class Camera {
     }
 
     /**
-     * Fetch a camera property by ID
+     * Fetch a camera property by ID or label
+     * @param {number|string} propertyID
+     * @param {number} specifier
+     * @return {CameraProperty}
      */
-    getProperty(propertyID: number, specifier: number = 0): CameraProperty {
+    getProperty(propertyID: PropertyIdentifier, specifier: number = 0): CameraProperty {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @param {PropertyIdentifier} propertyID
+     * @param {PropertyValue} value
+     */
+    setProperty(propertyID: PropertyIdentifier, value: PropertyValue): void {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @param {PropertiesData} properties
+     */
+    setProperties(properties: PropertiesData): void {
         throw new Error("Not implemented - stub only.");
     }
 
