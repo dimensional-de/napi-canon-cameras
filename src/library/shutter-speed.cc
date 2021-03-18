@@ -224,6 +224,40 @@ namespace CameraApi {
         }
     }
 
+    Napi::Value ShutterSpeed::FindNearest(const Napi::CallbackInfo &info) {
+        const Napi::Env &env = info.Env();
+        if (!((info.Length() > 0) && info[0].IsNumber())) {
+            throw Napi::TypeError::New(
+                env, "Argument 0 must be a number."
+            );
+        }
+        auto seconds = info[0].As<Napi::Number>().DoubleValue();
+        Napi::Function filter;
+        bool ignoreFilter = true;
+        if ((info.Length() > 1) && info[1].IsFunction()) {
+            filter = info[1].As<Napi::Function>();
+            ignoreFilter = false;
+        }
+        double matchDelta = 9999.0;
+        EdsInt32 matchValue = 0;
+        for (const auto &it : ShutterSpeedValues) {
+            auto delta = std::abs(seconds - it.second);
+            if (delta < matchDelta) {
+                auto allowed = (
+                    ignoreFilter ||
+                    filter.Call(
+                        {ShutterSpeed::NewInstance(env, it.first)}
+                    ).As<Napi::Boolean>().Value()
+                );
+                if (allowed) {
+                    matchDelta = delta;
+                    matchValue = it.first;
+                }
+            }
+        }
+        return matchValue > 0 ? ShutterSpeed::NewInstance(env, matchValue) : env.Null();
+    }
+
     Napi::Object ShutterSpeed::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
@@ -262,6 +296,7 @@ namespace CameraApi {
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ShutterSpeed::Inspect),
 
             StaticMethod<&ShutterSpeed::ForLabel>("forLabel"),
+            StaticMethod<&ShutterSpeed::FindNearest>("findNearest"),
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("Values", Values, napi_enumerable)

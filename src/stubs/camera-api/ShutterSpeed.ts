@@ -77,12 +77,18 @@ export class ShutterSpeed implements PropertyValue {
         }
     }
 
-    private static findNearest(seconds: number): number | null {
-        const found = Object.keys(ShutterSpeed.Values).reduce(
-            (carry, key) => {
+    static findNearest(
+        seconds: number, filter: (aperture: ShutterSpeed) => boolean = null
+    ): ShutterSpeed | null {
+        let found;
+        found = Object.keys(ShutterSpeed.Values).reduce(
+            (carry: null | { value: number, difference: number }, key) => {
                 const current = ShutterSpeed.Values[key];
                 const difference = Math.abs(current - seconds);
-                if (difference < carry.difference) {
+                if (!carry || difference < carry.difference) {
+                    if (filter && !filter(new ShutterSpeed(+key))) {
+                        return carry;
+                    }
                     return {
                         value: +key,
                         difference
@@ -90,13 +96,10 @@ export class ShutterSpeed implements PropertyValue {
                 }
                 return carry;
             },
-            {
-                value: 0,
-                difference: 100
-            }
+            null
         );
         if (found) {
-            return found.value;
+            return new ShutterSpeed(found.value);
         }
         return null;
     }
@@ -117,10 +120,7 @@ export class ShutterSpeed implements PropertyValue {
             if (match[2]) {
                 seconds /= parseFloat(match[2]);
             }
-            const value = ShutterSpeed.findNearest(seconds);
-            if (value) {
-                return new ShutterSpeed(value);
-            }
+            return ShutterSpeed.findNearest(seconds);
         }
         return null;
     }

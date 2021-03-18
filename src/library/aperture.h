@@ -48,6 +48,8 @@ namespace CameraApi {
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
 
             static Napi::Value ForLabel(const Napi::CallbackInfo &info);
+
+            static Napi::Value FindNearest(const Napi::CallbackInfo &info);
     };
 }
 

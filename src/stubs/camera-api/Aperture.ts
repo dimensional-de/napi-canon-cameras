@@ -70,7 +70,7 @@ export class Aperture implements PropertyValue {
     /**
      * @return {{label: string, value: number, aperture: number}}
      */
-    toJSON(): {label: string, value: number, aperture: number} {
+    toJSON(): { label: string, value: number, aperture: number } {
         return {
             label: this.label,
             value: this.value,
@@ -78,12 +78,18 @@ export class Aperture implements PropertyValue {
         };
     }
 
-    private static findNearest(aperture: number): number | null {
-        const found = Object.keys(Aperture.Values).reduce(
-            (carry, key) => {
+    static findNearest(
+        aperture: number, filter: (aperture: Aperture) => boolean = null
+    ): Aperture | null {
+        let found;
+        found = Object.keys(Aperture.Values).reduce(
+            (carry: null | { value: number, difference: number }, key) => {
                 const current = Aperture.Values[key];
                 const difference = Math.abs(current - aperture);
-                if (difference < carry.difference) {
+                if (!carry || difference < carry.difference) {
+                    if (filter && !filter(new Aperture(+key))) {
+                        return carry;
+                    }
                     return {
                         value: +key,
                         difference
@@ -91,13 +97,10 @@ export class Aperture implements PropertyValue {
                 }
                 return carry;
             },
-            {
-                value: 0,
-                difference: 100
-            }
+            null
         );
         if (found) {
-            return found.value;
+            return new Aperture(found.value);
         }
         return null;
     }
@@ -115,10 +118,7 @@ export class Aperture implements PropertyValue {
         }
         const match = label.match(/f?(\d+(?:\.\d+)?)/);
         if (match) {
-            const value = Aperture.findNearest(parseFloat(match[1]) || 0.0);
-            if (value) {
-                return new Aperture(value);
-            }
+            return Aperture.findNearest(parseFloat(match[1]) || 0.0);
         }
         return null;
     }
