@@ -209,16 +209,13 @@ namespace CameraApi {
             } else {
                 seconds = std::stod(label);
             }
-            double matchDelta = 9999.0;
-            EdsInt32 matchValue = 0;
             for (const auto &it : ShutterSpeedValues) {
                 auto delta = std::abs(seconds - it.second);
-                if (delta < matchDelta) {
-                    matchDelta = delta;
-                    matchValue = it.first;
+                if (delta < 0.00000001) {
+                    return ShutterSpeed::NewInstance(info.Env(), it.first);
                 }
             }
-            return ShutterSpeed::NewInstance(info.Env(), matchValue);
+            return info.Env().Null();
         } catch (...) {
             return info.Env().Null();
         }

@@ -179,16 +179,13 @@ namespace CameraApi {
             } else {
                 aperture = std::stod(label);
             }
-            double matchDelta = 9999.0;
-            EdsInt32 matchValue = 0;
             for (const auto &it : ApertureValues) {
                 auto delta = std::abs(aperture - it.second);
-                if (delta < matchDelta) {
-                    matchDelta = delta;
-                    matchValue = it.first;
+                if (delta < 0.001) {
+                    return Aperture::NewInstance(info.Env(), it.first);
                 }
             }
-            return Aperture::NewInstance(info.Env(), matchValue);
+            return info.Env().Null();
         } catch (...) {
             return info.Env().Null();
         }
