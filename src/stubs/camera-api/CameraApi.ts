@@ -8,6 +8,7 @@ import { Directory } from "./Directory";
 import { ExposureCompensation } from "./ExposureCompensation";
 import { Flag } from "./Flag";
 import { ImageQuality } from "./ImageQuality";
+import { ISOSensitivity } from "./ISOSensitivity";
 import { ObjectEvent } from "./ObjectEvent";
 import { Option } from "./Option";
 import { ShutterSpeed } from "./ShutterSpeed";
@@ -24,6 +25,7 @@ export * from "./Directory";
 export * from "./ExposureCompensation";
 export * from "./Flag";
 export * from "./ImageQuality";
+export * from "./ISOSensitivity";
 export * from "./ObjectEvent";
 export * from "./Option";
 export * from "./ShutterSpeed";
@@ -65,6 +67,7 @@ const CameraApi = {
     ExposureCompensation,
     Flag,
     ImageQuality,
+    ISOSensitivity,
     ObjectEvent,
     Option,
     ShutterSpeed,

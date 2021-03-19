@@ -13,6 +13,7 @@
 #include "volume.h"
 #include "directory.h"
 #include "image-quality.h"
+#include "iso-sensitivity.h"
 
 namespace CameraApi {
     Napi::Object RegisterModule(Napi::Env env, Napi::Object exports) {
@@ -27,6 +28,7 @@ namespace CameraApi {
         ExposureCompensation::Init(env, exports);
         Flag::Init(env, exports);
         ImageQuality::Init(env, exports);
+        ISOSensitivity::Init(env, exports);
         ObjectEvent::Init(env, exports);
         Option::Init(env, exports);
         ShutterSpeed::Init(env, exports);
