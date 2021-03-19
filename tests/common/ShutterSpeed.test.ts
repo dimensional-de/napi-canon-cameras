@@ -79,6 +79,13 @@ const CommonShutterSpeedTests = (api: typeof CameraApi) => {
                 }
             );
             test(
+                'ShutterSpeed.findNearest()',
+                () => {
+                    const shutterSpeed = api.ShutterSpeed.findNearest('1/400');
+                    expect(shutterSpeed.seconds).toStrictEqual(1.0 / 400);
+                }
+            );
+            test(
                 'ShutterSpeed.findNearest() filtering all expecting null',
                 () => {
                     const shutterSpeed = api.ShutterSpeed.findNearest(3, () => false);

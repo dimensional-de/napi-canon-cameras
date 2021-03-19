@@ -78,9 +78,18 @@ export class ShutterSpeed implements PropertyValue {
     }
 
     static findNearest(
-        seconds: number, filter: (aperture: ShutterSpeed) => boolean = null
+        secondsOrLabel: number | string, filter: (aperture: ShutterSpeed) => boolean = null
     ): ShutterSpeed | null {
-        let found;
+        let found, seconds;
+        if (typeof secondsOrLabel === 'string') {
+            const speed = ShutterSpeed.forLabel(secondsOrLabel);
+            if (!speed) {
+                return null;
+            }
+            seconds = speed.seconds;
+        } else {
+            seconds = secondsOrLabel;
+        }
         found = Object.keys(ShutterSpeed.Values).reduce(
             (carry: null | { value: number, difference: number }, key) => {
                 const current = ShutterSpeed.Values[key];

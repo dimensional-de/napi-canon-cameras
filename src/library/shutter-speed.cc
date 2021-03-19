@@ -186,6 +186,28 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
+    EdsInt32 ShutterSpeed::ForLabel(const std::string& label) {
+        double seconds;
+        auto fractionAt = label.find("1/");
+        if (fractionAt != std::string::npos) {
+            if (fractionAt > 1) {
+                seconds = std::stod(label.substr(0, fractionAt));
+            } else {
+                seconds = 0;
+            }
+            seconds += 1.0 / std::stod(label.substr(fractionAt + 2));
+        } else {
+            seconds = std::stod(label);
+        }
+        for (const auto &it : ShutterSpeedValues) {
+            auto delta = std::abs(seconds - it.second);
+            if (delta < 0.00000001) {
+                return it.first;
+            }
+        }
+        throw std::exception("Label does not match any value");
+    }
+
     Napi::Value ShutterSpeed::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
@@ -197,25 +219,9 @@ namespace CameraApi {
             }
         }
         try {
-            double seconds;
-            auto fractionAt = label.find("1/");
-            if (fractionAt != std::string::npos) {
-                if (fractionAt > 1) {
-                    seconds = std::stod(label.substr(0, fractionAt));
-                } else {
-                    seconds = 0;
-                }
-                seconds += 1.0 / std::stod(label.substr(fractionAt + 2));
-            } else {
-                seconds = std::stod(label);
-            }
-            for (const auto &it : ShutterSpeedValues) {
-                auto delta = std::abs(seconds - it.second);
-                if (delta < 0.00000001) {
-                    return ShutterSpeed::NewInstance(info.Env(), it.first);
-                }
-            }
-            return info.Env().Null();
+            return ShutterSpeed::NewInstance(
+                info.Env(), ShutterSpeed::ForLabel(label)
+            );
         } catch (...) {
             return info.Env().Null();
         }
@@ -223,12 +229,28 @@ namespace CameraApi {
 
     Napi::Value ShutterSpeed::FindNearest(const Napi::CallbackInfo &info) {
         const Napi::Env &env = info.Env();
-        if (!((info.Length() > 0) && info[0].IsNumber())) {
+        double seconds;
+        bool validArgument = false;
+        if (info.Length() > 0) {
+            try {
+                if (info[0].IsString()) {
+                    auto value = ShutterSpeed::ForLabel(
+                        info[0].As<Napi::String>().Utf8Value()
+                    );
+                    seconds = ShutterSpeedValues[value];
+                    validArgument = true;
+                } else if (info[0].IsNumber()) {
+                    seconds = info[0].As<Napi::Number>().DoubleValue();
+                    validArgument = true;
+                }
+            } catch (...) {
+            }
+        }
+        if (!validArgument) {
             throw Napi::TypeError::New(
-                env, "Argument 0 must be a number."
+                env, "Argument 0 must be a number or string."
             );
         }
-        auto seconds = info[0].As<Napi::Number>().DoubleValue();
         Napi::Function filter;
         bool ignoreFilter = true;
         if ((info.Length() > 1) && info[1].IsFunction()) {
