@@ -115,11 +115,7 @@ export class ISOSensitivity implements PropertyValue {
         if (label in ISOSensitivity.ID) {
             return new ISOSensitivity(ISOSensitivity.ID[label]);
         }
-        const match = label.match(/f?(\d+(?:\.\d+)?)/);
-        if (match) {
-            return ISOSensitivity.findNearest(parseFloat(match[1]) || 0.0);
-        }
-        return null;
+        return ISOSensitivity.findNearest(parseInt(label) || 0);
     }
 
     // Generate: ISOSensitivity
