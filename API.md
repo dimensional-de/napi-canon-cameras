@@ -30,6 +30,8 @@
 <dd></dd>
 <dt><a href="#ImageQuality">ImageQuality</a></dt>
 <dd></dd>
+<dt><a href="#ISOSensitivity">ISOSensitivity</a></dt>
+<dd></dd>
 <dt><a href="#ObjectEvent">ObjectEvent</a> ⇐ <code><a href="#ApiIdentifier">ApiIdentifier</a></code></dt>
 <dd></dd>
 <dt><a href="#Option">Option</a></dt>
@@ -2596,6 +2598,190 @@ Create instance for label.
     </tr>  </tbody>
 </table>
 
+<a name="ISOSensitivity"></a>
+
+# ISOSensitivity
+**Kind**: global class  
+**Implements**: [<code>PropertyValue</code>](#PropertyValue)  
+
+* [ISOSensitivity](#ISOSensitivity)
+    * [new ISOSensitivity(value_)](#new_ISOSensitivity_new)
+    * _instance_
+        * [.label](#ISOSensitivity+label) : <code>string</code>
+        * [.value](#ISOSensitivity+value) : <code>number</code>
+        * [.sensitivity](#ISOSensitivity+sensitivity) : <code>number</code>
+        * [.toJSON()](#ISOSensitivity+toJSON) ⇒ <code>Object</code>
+    * _static_
+        * [.ID](#ISOSensitivity.ID) : <code>enum</code>
+        * [.Values](#ISOSensitivity.Values) : <code>enum</code>
+        * [.forLabel(label)](#ISOSensitivity.forLabel) ⇒ [<code>ISOSensitivity</code>](#ISOSensitivity) \| <code>null</code>
+
+<a name="new_ISOSensitivity_new"></a>
+
+## new ISOSensitivity(value_)
+ISO Sensitivity property value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value_</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ISOSensitivity+label"></a>
+
+## isoSensitivity.label : <code>string</code>
+**Kind**: instance property of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+**Read only**: true  
+<a name="ISOSensitivity+value"></a>
+
+## isoSensitivity.value : <code>number</code>
+**Kind**: instance property of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+**Read only**: true  
+<a name="ISOSensitivity+sensitivity"></a>
+
+## isoSensitivity.sensitivity : <code>number</code>
+**Kind**: instance property of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+**Read only**: true  
+<a name="ISOSensitivity+toJSON"></a>
+
+## isoSensitivity.toJSON() ⇒ <code>Object</code>
+**Kind**: instance method of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+<a name="ISOSensitivity.ID"></a>
+
+## ISOSensitivity.ID : <code>enum</code>
+**Kind**: static enum of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>Auto</td><td><code>number</code></td><td><code>0</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ISOSensitivity.Values"></a>
+
+## ISOSensitivity.Values : <code>enum</code>
+**Kind**: static enum of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>40</td><td><code>number</code></td><td><code>6</code></td>
+    </tr><tr>
+    <td>48</td><td><code>number</code></td><td><code>12</code></td>
+    </tr><tr>
+    <td>56</td><td><code>number</code></td><td><code>25</code></td>
+    </tr><tr>
+    <td>64</td><td><code>number</code></td><td><code>50</code></td>
+    </tr><tr>
+    <td>72</td><td><code>number</code></td><td><code>100</code></td>
+    </tr><tr>
+    <td>75</td><td><code>number</code></td><td><code>125</code></td>
+    </tr><tr>
+    <td>77</td><td><code>number</code></td><td><code>160</code></td>
+    </tr><tr>
+    <td>80</td><td><code>number</code></td><td><code>200</code></td>
+    </tr><tr>
+    <td>83</td><td><code>number</code></td><td><code>250</code></td>
+    </tr><tr>
+    <td>85</td><td><code>number</code></td><td><code>320</code></td>
+    </tr><tr>
+    <td>88</td><td><code>number</code></td><td><code>400</code></td>
+    </tr><tr>
+    <td>91</td><td><code>number</code></td><td><code>500</code></td>
+    </tr><tr>
+    <td>93</td><td><code>number</code></td><td><code>640</code></td>
+    </tr><tr>
+    <td>96</td><td><code>number</code></td><td><code>800</code></td>
+    </tr><tr>
+    <td>99</td><td><code>number</code></td><td><code>1000</code></td>
+    </tr><tr>
+    <td>101</td><td><code>number</code></td><td><code>1250</code></td>
+    </tr><tr>
+    <td>104</td><td><code>number</code></td><td><code>1600</code></td>
+    </tr><tr>
+    <td>107</td><td><code>number</code></td><td><code>2000</code></td>
+    </tr><tr>
+    <td>109</td><td><code>number</code></td><td><code>2500</code></td>
+    </tr><tr>
+    <td>112</td><td><code>number</code></td><td><code>3200</code></td>
+    </tr><tr>
+    <td>115</td><td><code>number</code></td><td><code>4000</code></td>
+    </tr><tr>
+    <td>117</td><td><code>number</code></td><td><code>5000</code></td>
+    </tr><tr>
+    <td>120</td><td><code>number</code></td><td><code>6400</code></td>
+    </tr><tr>
+    <td>123</td><td><code>number</code></td><td><code>8000</code></td>
+    </tr><tr>
+    <td>125</td><td><code>number</code></td><td><code>10000</code></td>
+    </tr><tr>
+    <td>128</td><td><code>number</code></td><td><code>12800</code></td>
+    </tr><tr>
+    <td>131</td><td><code>number</code></td><td><code>16000</code></td>
+    </tr><tr>
+    <td>133</td><td><code>number</code></td><td><code>20000</code></td>
+    </tr><tr>
+    <td>136</td><td><code>number</code></td><td><code>25600</code></td>
+    </tr><tr>
+    <td>139</td><td><code>number</code></td><td><code>32000</code></td>
+    </tr><tr>
+    <td>141</td><td><code>number</code></td><td><code>40000</code></td>
+    </tr><tr>
+    <td>144</td><td><code>number</code></td><td><code>51200</code></td>
+    </tr><tr>
+    <td>147</td><td><code>number</code></td><td><code>64000</code></td>
+    </tr><tr>
+    <td>149</td><td><code>number</code></td><td><code>80000</code></td>
+    </tr><tr>
+    <td>152</td><td><code>number</code></td><td><code>102400</code></td>
+    </tr><tr>
+    <td>160</td><td><code>number</code></td><td><code>204800</code></td>
+    </tr><tr>
+    <td>168</td><td><code>number</code></td><td><code>409600</code></td>
+    </tr><tr>
+    <td>176</td><td><code>number</code></td><td><code>819200</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ISOSensitivity.forLabel"></a>
+
+## ISOSensitivity.forLabel(label) ⇒ [<code>ISOSensitivity</code>](#ISOSensitivity) \| <code>null</code>
+Create instance for label.
+
+**Kind**: static method of [<code>ISOSensitivity</code>](#ISOSensitivity)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="ObjectEvent"></a>
 
 # ObjectEvent ⇐ [<code>ApiIdentifier</code>](#ApiIdentifier)
@@ -2750,7 +2936,6 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
         * [.Evf_OutputDevice](#Option.Evf_OutputDevice) : <code>enum</code>
         * [.Evf_WhiteBalance](#Option.Evf_WhiteBalance) : <code>enum</code>
         * [.Evf_Zoom](#Option.Evf_Zoom) : <code>enum</code>
-        * [.ISOSpeed](#Option.ISOSpeed) : <code>enum</code>
         * [.ImageQuality](#Option.ImageQuality) : <code>enum</code>
         * [.LensBarrelStatus](#Option.LensBarrelStatus) : <code>enum</code>
         * [.LensStatus](#Option.LensStatus) : <code>enum</code>
@@ -3434,101 +3619,6 @@ Option represents a property value from a property specific list.It provides co
     <td>x10</td><td><code>number</code></td><td><code>10</code></td>
     </tr><tr>
     <td>x5</td><td><code>number</code></td><td><code>5</code></td>
-    </tr>  </tbody>
-</table>
-
-<a name="Option.ISOSpeed"></a>
-
-## Option.ISOSpeed : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>Auto</td><td><code>number</code></td><td><code>0</code></td>
-    </tr><tr>
-    <td>ISO100</td><td><code>number</code></td><td><code>72</code></td>
-    </tr><tr>
-    <td>ISO1000</td><td><code>number</code></td><td><code>99</code></td>
-    </tr><tr>
-    <td>ISO10000</td><td><code>number</code></td><td><code>125</code></td>
-    </tr><tr>
-    <td>ISO102400</td><td><code>number</code></td><td><code>152</code></td>
-    </tr><tr>
-    <td>ISO12</td><td><code>number</code></td><td><code>48</code></td>
-    </tr><tr>
-    <td>ISO125</td><td><code>number</code></td><td><code>75</code></td>
-    </tr><tr>
-    <td>ISO1250</td><td><code>number</code></td><td><code>101</code></td>
-    </tr><tr>
-    <td>ISO12800</td><td><code>number</code></td><td><code>128</code></td>
-    </tr><tr>
-    <td>ISO160</td><td><code>number</code></td><td><code>77</code></td>
-    </tr><tr>
-    <td>ISO1600</td><td><code>number</code></td><td><code>104</code></td>
-    </tr><tr>
-    <td>ISO16000</td><td><code>number</code></td><td><code>131</code></td>
-    </tr><tr>
-    <td>ISO200</td><td><code>number</code></td><td><code>80</code></td>
-    </tr><tr>
-    <td>ISO2000</td><td><code>number</code></td><td><code>107</code></td>
-    </tr><tr>
-    <td>ISO20000</td><td><code>number</code></td><td><code>133</code></td>
-    </tr><tr>
-    <td>ISO204800</td><td><code>number</code></td><td><code>160</code></td>
-    </tr><tr>
-    <td>ISO25</td><td><code>number</code></td><td><code>56</code></td>
-    </tr><tr>
-    <td>ISO250</td><td><code>number</code></td><td><code>83</code></td>
-    </tr><tr>
-    <td>ISO2500</td><td><code>number</code></td><td><code>109</code></td>
-    </tr><tr>
-    <td>ISO25600</td><td><code>number</code></td><td><code>136</code></td>
-    </tr><tr>
-    <td>ISO320</td><td><code>number</code></td><td><code>85</code></td>
-    </tr><tr>
-    <td>ISO3200</td><td><code>number</code></td><td><code>112</code></td>
-    </tr><tr>
-    <td>ISO32000</td><td><code>number</code></td><td><code>139</code></td>
-    </tr><tr>
-    <td>ISO400</td><td><code>number</code></td><td><code>88</code></td>
-    </tr><tr>
-    <td>ISO4000</td><td><code>number</code></td><td><code>115</code></td>
-    </tr><tr>
-    <td>ISO40000</td><td><code>number</code></td><td><code>141</code></td>
-    </tr><tr>
-    <td>ISO409600</td><td><code>number</code></td><td><code>168</code></td>
-    </tr><tr>
-    <td>ISO50</td><td><code>number</code></td><td><code>64</code></td>
-    </tr><tr>
-    <td>ISO500</td><td><code>number</code></td><td><code>91</code></td>
-    </tr><tr>
-    <td>ISO5000</td><td><code>number</code></td><td><code>117</code></td>
-    </tr><tr>
-    <td>ISO51200</td><td><code>number</code></td><td><code>144</code></td>
-    </tr><tr>
-    <td>ISO6</td><td><code>number</code></td><td><code>40</code></td>
-    </tr><tr>
-    <td>ISO640</td><td><code>number</code></td><td><code>93</code></td>
-    </tr><tr>
-    <td>ISO6400</td><td><code>number</code></td><td><code>120</code></td>
-    </tr><tr>
-    <td>ISO64000</td><td><code>number</code></td><td><code>147</code></td>
-    </tr><tr>
-    <td>ISO800</td><td><code>number</code></td><td><code>96</code></td>
-    </tr><tr>
-    <td>ISO8000</td><td><code>number</code></td><td><code>123</code></td>
-    </tr><tr>
-    <td>ISO80000</td><td><code>number</code></td><td><code>149</code></td>
-    </tr><tr>
-    <td>ISO819200</td><td><code>number</code></td><td><code>176</code></td>
     </tr>  </tbody>
 </table>
 
