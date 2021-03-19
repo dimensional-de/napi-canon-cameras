@@ -9,7 +9,7 @@ const targetDirectory = path.resolve(
     __dirname,  '../..', 'node_packages/@dimensional'
 );
 const targetFile = path.resolve(
-    targetDirectory, 'napi-canon-camera.tgz'
+    targetDirectory, 'napi-canon-cameras.tgz'
 );
 
 if (!fs.existsSync(targetDirectory)){
@@ -30,6 +30,10 @@ directoryToTgz(
             'package.json',
             'package-lock.json',
             'README.md'
-        ]
+        ],
+        map: function(header) {
+            header.name = './'+header.name
+            return header
+        }
     }
 ).pipe(fs.createWriteStream(targetFile));
