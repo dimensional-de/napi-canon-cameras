@@ -88,7 +88,7 @@ const CommonApertureTests = (api: typeof CameraApi) => {
                 }
             );
             test(
-                'Aperture.findNearest() fromm label',
+                'Aperture.findNearest() for label',
                 () => {
                     const aperture = api.Aperture.findNearest(
                         'f5.6',

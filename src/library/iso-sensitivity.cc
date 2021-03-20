@@ -167,12 +167,28 @@ namespace CameraApi {
 
     Napi::Value ISOSensitivity::FindNearest(const Napi::CallbackInfo &info) {
         const Napi::Env &env = info.Env();
-        if (!((info.Length() > 0) && info[0].IsNumber())) {
+        int sensitivity;
+        bool validArgument = false;
+        if (info.Length() > 0) {
+            try {
+                if (info[0].IsString()) {
+                    auto value = ISOSensitivity::ForLabel(
+                        info[0].As<Napi::String>().Utf8Value()
+                    );
+                    sensitivity = ISOSensitivityValues[value];
+                    validArgument = true;
+                } else if (info[0].IsNumber()) {
+                    sensitivity = info[0].As<Napi::Number>().DoubleValue();
+                    validArgument = true;
+                }
+            } catch (...) {
+            }
+        }
+        if (!validArgument) {
             throw Napi::TypeError::New(
-                env, "Argument 0 must be a number."
+                env, "Argument 0 must be a number or string."
             );
         }
-        auto ISOSensitivity = info[0].As<Napi::Number>().Int32Value();
         Napi::Function filter;
         bool ignoreFilter = true;
         if ((info.Length() > 1) && info[1].IsFunction()) {
@@ -182,7 +198,7 @@ namespace CameraApi {
         int matchDelta = INT_MAX;
         EdsInt32 matchValue = 0;
         for (const auto &it : ISOSensitivityValues) {
-            auto delta = std::abs(ISOSensitivity - it.second);
+            auto delta = std::abs(sensitivity - it.second);
             if (delta < matchDelta) {
                 auto allowed = (
                     ignoreFilter ||

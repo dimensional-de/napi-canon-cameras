@@ -102,6 +102,16 @@ const CommonShutterSpeedTests = (api: typeof CameraApi) => {
                     expect(shutterSpeed.seconds).toStrictEqual(6);
                 }
             );
+            test(
+                'ShutterSpeed.findNearest() for label',
+                () => {
+                    const shutterSpeed = api.ShutterSpeed.findNearest(
+                        "3",
+                        (speed) => speed.seconds >= 6
+                    );
+                    expect(shutterSpeed.seconds).toStrictEqual(6);
+                }
+            );
         }
     );
 }

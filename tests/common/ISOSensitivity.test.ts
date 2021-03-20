@@ -87,6 +87,16 @@ const CommonISOSensitivityTests = (api: typeof CameraApi) => {
                     expect(sensitivity.sensitivity).toStrictEqual(3200);
                 }
             );
+            test(
+                'ISOSensitivity.findNearest() for label',
+                () => {
+                    const sensitivity = api.ISOSensitivity.findNearest(
+                        "8000",
+                        (a) => a.sensitivity < 4000
+                    );
+                    expect(sensitivity.sensitivity).toStrictEqual(3200);
+                }
+            );
         }
     );
 }
