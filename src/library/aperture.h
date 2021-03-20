@@ -47,6 +47,8 @@ namespace CameraApi {
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);
 
+            static EdsInt32 ForLabel(const std::string &label);
+
             static Napi::Value ForLabel(const Napi::CallbackInfo &info);
 
             static Napi::Value FindNearest(const Napi::CallbackInfo &info);

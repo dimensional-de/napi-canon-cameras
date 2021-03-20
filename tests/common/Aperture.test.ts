@@ -87,6 +87,16 @@ const CommonApertureTests = (api: typeof CameraApi) => {
                     expect(aperture.aperture).toStrictEqual(3.2);
                 }
             );
+            test(
+                'Aperture.findNearest() fromm label',
+                () => {
+                    const aperture = api.Aperture.findNearest(
+                        'f5.6',
+                        (a) => a.aperture < 3.4
+                    );
+                    expect(aperture.aperture).toStrictEqual(3.2);
+                }
+            );
         }
     );
 }

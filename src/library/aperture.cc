@@ -161,16 +161,7 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
-    Napi::Value Aperture::ForLabel(const Napi::CallbackInfo &info) {
-        if (!(info.Length() > 0 && info[0].IsString())) {
-            return info.Env().Null();
-        }
-        std::string label = info[0].As<Napi::String>().Utf8Value();
-        for (const auto &it : NamedApertureLabels) {
-            if (it.second == label) {
-                return Aperture::NewInstance(info.Env(), it.first);
-            }
-        }
+    EdsInt32 Aperture::ForLabel(const std::string& label) {
         try {
             double aperture;
             auto offset = label.find('f');
@@ -182,10 +173,27 @@ namespace CameraApi {
             for (const auto &it : ApertureValues) {
                 auto delta = std::abs(aperture - it.second);
                 if (delta < 0.001) {
-                    return Aperture::NewInstance(info.Env(), it.first);
+                    return it.first;
                 }
             }
+        } catch (...) {
+        }
+        throw std::exception("Label does not match any value");
+    }
+
+    Napi::Value Aperture::ForLabel(const Napi::CallbackInfo &info) {
+        if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
+        }
+        std::string label = info[0].As<Napi::String>().Utf8Value();
+        for (const auto &it : NamedApertureLabels) {
+            if (it.second == label) {
+                return Aperture::NewInstance(info.Env(), it.first);
+            }
+        }
+        try {
+            auto value = Aperture::ForLabel(label);
+            return Aperture::NewInstance(info.Env(), value);
         } catch (...) {
             return info.Env().Null();
         }
@@ -193,12 +201,28 @@ namespace CameraApi {
 
     Napi::Value Aperture::FindNearest(const Napi::CallbackInfo &info) {
         const Napi::Env &env = info.Env();
-        if (!((info.Length() > 0) && info[0].IsNumber())) {
+        double aperture;
+        bool validArgument = false;
+        if (info.Length() > 0) {
+            try {
+                if (info[0].IsString()) {
+                    auto value = Aperture::ForLabel(
+                        info[0].As<Napi::String>().Utf8Value()
+                    );
+                    aperture = ApertureValues[value];
+                    validArgument = true;
+                } else if (info[0].IsNumber()) {
+                    aperture = info[0].As<Napi::Number>().DoubleValue();
+                    validArgument = true;
+                }
+            } catch (...) {
+            }
+        }
+        if (!validArgument) {
             throw Napi::TypeError::New(
-                env, "Argument 0 must be a number."
+                env, "Argument 0 must be a number or string."
             );
         }
-        auto aperture = info[0].As<Napi::Number>().DoubleValue();
         Napi::Function filter;
         bool ignoreFilter = true;
         if ((info.Length() > 1) && info[1].IsFunction()) {

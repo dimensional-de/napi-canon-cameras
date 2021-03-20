@@ -135,6 +135,19 @@ namespace CameraApi {
         return Napi::String::New(env, output);
     }
 
+    EdsInt32 ISOSensitivity::ForLabel(const std::string& label) {
+        try {
+            int sensitivity = std::stoi(label);
+            for (const auto &it : ISOSensitivityValues) {
+                if (sensitivity == it.second) {
+                    return it.first;
+                }
+            }
+        } catch (...) {
+        }
+        throw std::exception("Label does not match any value");
+    }
+
     Napi::Value ISOSensitivity::ForLabel(const Napi::CallbackInfo &info) {
         if (!(info.Length() > 0 && info[0].IsString())) {
             return info.Env().Null();
@@ -144,14 +157,9 @@ namespace CameraApi {
             return ISOSensitivity::NewInstance(info.Env(), 0);
         }
         try {
-            int ISOSensitivity = std::stoi(label);
-            for (const auto &it : ISOSensitivityValues) {
-                auto delta = std::abs(ISOSensitivity - it.second);
-                if (delta < 0.001) {
-                    return ISOSensitivity::NewInstance(info.Env(), it.first);
-                }
-            }
-            return info.Env().Null();
+            return ISOSensitivity::NewInstance(
+                info.Env(), ISOSensitivity::ForLabel(label)
+            );
         } catch (...) {
             return info.Env().Null();
         }

@@ -79,8 +79,18 @@ export class Aperture implements PropertyValue {
     }
 
     static findNearest(
-        aperture: number, filter: (aperture: Aperture) => boolean = null
+        apertureOrLabel: number | string, filter: (aperture: Aperture) => boolean = null
     ): Aperture | null {
+        let aperture: number;
+        if (typeof apertureOrLabel === 'string') {
+            const a = Aperture.forLabel(apertureOrLabel);
+            if (!a) {
+                return null;
+            }
+            aperture = a.aperture;
+        } else {
+            aperture = +apertureOrLabel;
+        }
         let found;
         found = Object.keys(Aperture.Values).reduce(
             (carry: null | { value: number, difference: number }, key) => {
