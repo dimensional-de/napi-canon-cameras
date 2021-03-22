@@ -78,17 +78,17 @@ export class ISOSensitivity implements PropertyValue {
     }
 
     static findNearest(
-        sensitivityOrLabel: number | string, filter: (sensitivity: ISOSensitivity) => boolean = null
+        valueOrLabel: number | string, filter: (sensitivity: ISOSensitivity) => boolean = null
     ): ISOSensitivity | null {
         let sensitivity: number;
-        if (typeof sensitivityOrLabel === 'string') {
-            const iso = ISOSensitivity.forLabel(sensitivityOrLabel);
+        if (typeof valueOrLabel === 'string') {
+            const iso = ISOSensitivity.forLabel(valueOrLabel);
             if (!iso) {
                 return null;
             }
             sensitivity = iso.sensitivity;
         } else {
-            sensitivity = +sensitivityOrLabel;
+            sensitivity = (new ISOSensitivity(valueOrLabel)).sensitivity;
         }
         let found;
         found = Object.keys(ISOSensitivity.Values).reduce(

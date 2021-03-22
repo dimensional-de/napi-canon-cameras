@@ -59,21 +59,21 @@ const CommonISOSensitivityTests = (api: typeof CameraApi) => {
             test(
                 'ISOSensitivity.findNearest() for 400',
                 () => {
-                    const sensitivity = api.ISOSensitivity.findNearest(400);
+                    const sensitivity = api.ISOSensitivity.findNearest(0x00000058);
                     expect(sensitivity.sensitivity).toStrictEqual(400);
                 }
             );
             test(
                 'ISOSensitivity.findNearest() for 8000',
                 () => {
-                    const sensitivity = api.ISOSensitivity.findNearest(8000);
+                    const sensitivity = api.ISOSensitivity.findNearest(0x0000007b);
                     expect(sensitivity.sensitivity).toStrictEqual(8000);
                 }
             );
             test(
                 'ISOSensitivity.findNearest() filtering all expecting null',
                 () => {
-                    const sensitivity = api.ISOSensitivity.findNearest(8000, () => false);
+                    const sensitivity = api.ISOSensitivity.findNearest(0x0000007b, () => false);
                     expect(sensitivity).toBeNull();
                 }
             );
@@ -81,7 +81,7 @@ const CommonISOSensitivityTests = (api: typeof CameraApi) => {
                 'ISOSensitivity.findNearest() filtering below 4000',
                 () => {
                     const sensitivity = api.ISOSensitivity.findNearest(
-                        8000,
+                        0x0000007b,
                         (a) => a.sensitivity < 4000
                     );
                     expect(sensitivity.sensitivity).toStrictEqual(3200);

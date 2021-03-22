@@ -67,14 +67,14 @@ const CommonShutterSpeedTests = (api: typeof CameraApi) => {
             test(
                 'ShutterSpeed.findNearest()',
                 () => {
-                    const shutterSpeed = api.ShutterSpeed.findNearest(0.5);
+                    const shutterSpeed = api.ShutterSpeed.findNearest(0x40);
                     expect(shutterSpeed.seconds).toStrictEqual(0.5);
                 }
             );
             test(
                 'ShutterSpeed.findNearest()',
                 () => {
-                    const shutterSpeed = api.ShutterSpeed.findNearest(13);
+                    const shutterSpeed = api.ShutterSpeed.findNearest(0x1B);
                     expect(shutterSpeed.seconds).toStrictEqual(13);
                 }
             );
@@ -88,7 +88,7 @@ const CommonShutterSpeedTests = (api: typeof CameraApi) => {
             test(
                 'ShutterSpeed.findNearest() filtering all expecting null',
                 () => {
-                    const shutterSpeed = api.ShutterSpeed.findNearest(3, () => false);
+                    const shutterSpeed = api.ShutterSpeed.findNearest(0x2C, () => false);
                     expect(shutterSpeed).toBeNull();
                 }
             );
@@ -96,7 +96,7 @@ const CommonShutterSpeedTests = (api: typeof CameraApi) => {
                 'ShutterSpeed.findNearest() filtering larger or equal 6',
                 () => {
                     const shutterSpeed = api.ShutterSpeed.findNearest(
-                        3,
+                        0x2C,
                         (speed) => speed.seconds >= 6
                     );
                     expect(shutterSpeed.seconds).toStrictEqual(6);

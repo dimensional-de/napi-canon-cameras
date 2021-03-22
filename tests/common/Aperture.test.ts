@@ -59,21 +59,21 @@ const CommonApertureTests = (api: typeof CameraApi) => {
             test(
                 'Aperture.findNearest() for 3.4',
                 () => {
-                    const aperture = api.Aperture.findNearest(3.4);
+                    const aperture = api.Aperture.findNearest(0x85);
                     expect(aperture.aperture).toStrictEqual(3.4);
                 }
             );
             test(
                 'Aperture.findNearest() for 5.6',
                 () => {
-                    const aperture = api.Aperture.findNearest(5.6);
+                    const aperture = api.Aperture.findNearest(0x30);
                     expect(aperture.aperture).toStrictEqual(5.6);
                 }
             );
             test(
                 'Aperture.findNearest() filtering all expecting null',
                 () => {
-                    const aperture = api.Aperture.findNearest(5.6, () => false);
+                    const aperture = api.Aperture.findNearest(0x30, () => false);
                     expect(aperture).toBeNull();
                 }
             );
@@ -81,7 +81,7 @@ const CommonApertureTests = (api: typeof CameraApi) => {
                 'Aperture.findNearest() filtering below 3.4',
                 () => {
                     const aperture = api.Aperture.findNearest(
-                        5.6,
+                        0x30,
                         (a) => a.aperture < 3.4
                     );
                     expect(aperture.aperture).toStrictEqual(3.2);

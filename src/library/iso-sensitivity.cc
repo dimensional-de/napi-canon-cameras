@@ -178,8 +178,11 @@ namespace CameraApi {
                     sensitivity = ISOSensitivityValues[value];
                     validArgument = true;
                 } else if (info[0].IsNumber()) {
-                    sensitivity = info[0].As<Napi::Number>().DoubleValue();
-                    validArgument = true;
+                    auto value = info[0].As<Napi::Number>().Int32Value();
+                    if (ISOSensitivityValues.find(value) != ISOSensitivityValues.end()) {
+                        sensitivity = ISOSensitivityValues[value];
+                        validArgument = true;
+                    }
                 }
             } catch (...) {
             }

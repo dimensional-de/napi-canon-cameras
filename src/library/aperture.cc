@@ -212,8 +212,11 @@ namespace CameraApi {
                     aperture = ApertureValues[value];
                     validArgument = true;
                 } else if (info[0].IsNumber()) {
-                    aperture = info[0].As<Napi::Number>().DoubleValue();
-                    validArgument = true;
+                    auto value = info[0].As<Napi::Number>().Int32Value();
+                    if (ApertureValues.find(value) != ApertureValues.end()) {
+                        aperture = ApertureValues[value];
+                        validArgument = true;
+                    }
                 }
             } catch (...) {
             }

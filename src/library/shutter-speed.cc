@@ -240,8 +240,11 @@ namespace CameraApi {
                     seconds = ShutterSpeedValues[value];
                     validArgument = true;
                 } else if (info[0].IsNumber()) {
-                    seconds = info[0].As<Napi::Number>().DoubleValue();
-                    validArgument = true;
+                    auto value = info[0].As<Napi::Number>().Int32Value();
+                    if (ShutterSpeedValues.find(value) != ShutterSpeedValues.end()) {
+                        seconds = ShutterSpeedValues[value];
+                        validArgument = true;
+                    }
                 }
             } catch (...) {
             }

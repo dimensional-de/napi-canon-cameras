@@ -11,6 +11,26 @@ export interface PropertyValue {
  * @interface PropertyValue
  */
 STUB = 1;
+export interface MatchablePropertyValue extends PropertyValue {
+    findNearest<T>(needle: number|string, filter: (value: T) => boolean);
+}
+/**
+ * @interface MatchablePropertyValue
+ */
+STUB = 1;
+/**
+ * @callback MatchablePropertyValue#findNearestFilter
+ * @param {MatchablePropertyValue} value
+ * @return {boolean} isAllowed
+ */
+STUB = 1;
+/**
+ * @method MatchablePropertyValue#findNearest
+ * @param {string|number} needle
+ * @param {MatchablePropertyValue~findNearestFilter}
+ */
+STUB = 1;
+
 
 interface PropertyDateTime extends PropertyValue {
     year: number;
