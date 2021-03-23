@@ -42,8 +42,8 @@ const lists: OptionsExport[] = [
     ]
 ];
 
-let fileName, generator;
-for ([fileName, generator] of lists) {
+for (const list of lists) {
+    const [fileName, generator] = list;
     fs.writeFileSync(
         __dirname + '/options/' + fileName,
         generator()
