@@ -65,7 +65,7 @@ export class Option implements PropertyValue {
             case 'number':
                 return this.value_;
             case 'string':
-                return `0x${this.value_.toString(16).padStart(8, '0')}`;
+                return this.label_;
             default:
                 return null;
         }

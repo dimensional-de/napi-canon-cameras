@@ -60,6 +60,7 @@ namespace CameraApi {
 
             Napi::Value DownloadToString(const Napi::CallbackInfo &info);
 
+            Napi::Value DownloadThumbnailToString(const Napi::CallbackInfo &info);
     };
 }
 

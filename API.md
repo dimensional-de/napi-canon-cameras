@@ -79,6 +79,8 @@
 <dd></dd>
 <dt><a href="#PropertyValue">PropertyValue</a></dt>
 <dd></dd>
+<dt><a href="#MatchablePropertyValue">MatchablePropertyValue</a></dt>
+<dd></dd>
 <dt><a href="#PropertyDateTime">PropertyDateTime</a> ⇐ <code><a href="#PropertyValue">PropertyValue</a></code></dt>
 <dd></dd>
 <dt><a href="#PropertyStyleDescription">PropertyStyleDescription</a> ⇐ <code><a href="#PropertyValue">PropertyValue</a></code></dt>
@@ -198,6 +200,50 @@
 
 # PropertyValue
 **Kind**: global interface  
+<a name="MatchablePropertyValue"></a>
+
+# MatchablePropertyValue
+**Kind**: global interface  
+
+* [MatchablePropertyValue](#MatchablePropertyValue)
+    * [.findNearest(needle)](#MatchablePropertyValue+findNearest)
+    * [.findNearestFilter](#MatchablePropertyValue+findNearestFilter) ⇒ <code>boolean</code>
+
+<a name="MatchablePropertyValue+findNearest"></a>
+
+## matchablePropertyValue.findNearest(needle)
+**Kind**: instance method of [<code>MatchablePropertyValue</code>](#MatchablePropertyValue)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>needle</td><td><code>string</code> | <code>number</code></td>
+    </tr><tr>
+    <td></td><td><code>MatchablePropertyValue~findNearestFilter</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="MatchablePropertyValue+findNearestFilter"></a>
+
+## matchablePropertyValue.findNearestFilter ⇒ <code>boolean</code>
+**Kind**: instance typedef of [<code>MatchablePropertyValue</code>](#MatchablePropertyValue)  
+**Returns**: <code>boolean</code> - isAllowed  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value</td><td><code><a href="#MatchablePropertyValue">MatchablePropertyValue</a></code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="PropertyDateTime"></a>
 
 # PropertyDateTime ⇐ [<code>PropertyValue</code>](#PropertyValue)
@@ -1588,6 +1634,7 @@ API Error
     * [.downloadToPath(path)](#CameraFile+downloadToPath) ⇒ <code>string</code>
     * [.downloadToFile(fileName)](#CameraFile+downloadToFile) ⇒ <code>string</code>
     * [.downloadToString()](#CameraFile+downloadToString) ⇒ <code>string</code>
+    * [.downloadThumbnailToString()](#CameraFile+downloadThumbnailToString) ⇒ <code>string</code>
 
 <a name="new_CameraFile_new"></a>
 
@@ -1671,6 +1718,13 @@ Download into a specific file
 
 ## cameraFile.downloadToString() ⇒ <code>string</code>
 Download into a base64 encoded string
+
+**Kind**: instance method of [<code>CameraFile</code>](#CameraFile)  
+**Returns**: <code>string</code> - base64 encoded string  
+<a name="CameraFile+downloadThumbnailToString"></a>
+
+## cameraFile.downloadThumbnailToString() ⇒ <code>string</code>
+Download thumbnail into a base64 encoded string
 
 **Kind**: instance method of [<code>CameraFile</code>](#CameraFile)  
 **Returns**: <code>string</code> - base64 encoded string  

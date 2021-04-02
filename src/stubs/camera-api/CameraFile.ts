@@ -81,4 +81,12 @@ export class CameraFile implements DirectoryEntry {
     downloadToString(): string {
         throw new Error("Not implemented - stub only.");
     }
+    /**
+     * Download thumbnail into a base64 encoded string
+     *
+     * @return {string} base64 encoded string
+     */
+    downloadThumbnailToString(): string {
+        throw new Error("Not implemented - stub only.");
+    }
 }

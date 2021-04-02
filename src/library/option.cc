@@ -60,7 +60,7 @@ namespace CameraApi {
                 return Napi::Number::New(info.Env(), value_);
             }
             if (hint == "string") {
-                return Napi::String::New(info.Env(), CodeToHexLabel(value_));
+                return GetLabel(info);
             }
         }
         return info.Env().Null();

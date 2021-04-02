@@ -251,6 +251,52 @@ namespace CameraApi {
         return result;
     }
 
+    Napi::Value CameraFile::DownloadThumbnailToString(const Napi::CallbackInfo &info) {
+        EdsError error = EDS_ERR_OK;
+        EdsStreamRef stream = nullptr;
+
+        error = EdsCreateMemoryStream(0, &stream);
+        if (error != EDS_ERR_OK) {
+            throw Napi::Error::New(
+                info.Env(), "Can not create memory stream."
+            );
+        }
+        error = EdsDownloadThumbnail(edsDirectoryItem_, stream);
+        if (error != EDS_ERR_OK) {
+            throw Napi::Error::New(
+                info.Env(), "Download failed."
+            );
+        }
+        error = EdsDownloadComplete(edsDirectoryItem_);
+        if (error != EDS_ERR_OK) {
+            throw Napi::Error::New(
+                info.Env(), "Download could not be completed."
+            );
+        }
+
+        EdsUInt64 imageDataLength;
+        int imageStringLength;
+        unsigned char *imageData;
+
+        EdsGetLength(stream, &imageDataLength);
+        if (imageDataLength <= 0) {
+            throw Napi::Error::New(
+                info.Env(), "No image data."
+            );
+        }
+
+        EdsGetPointer(stream, (EdsVoid **) &imageData);
+
+        char *imageString = base64(imageData, (int)imageDataLength, &imageStringLength);
+        Napi::String result = Napi::String::New(info.Env(), imageString, imageStringLength);
+        free(imageString);
+        if (stream != nullptr) {
+            EdsRelease(stream);
+            stream = nullptr;
+        }
+        return result;
+    }
+
     Napi::Object CameraFile::NewInstance(Napi::Env env, EdsDirectoryItemRef directoryItem) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New({Napi::External<EdsDirectoryItemRef>::New(env, &directoryItem)});
@@ -276,7 +322,8 @@ namespace CameraApi {
                 InstanceMethod("cancel", &CameraFile::Cancel),
                 InstanceMethod("downloadToPath", &CameraFile::DownloadToPath),
                 InstanceMethod("downloadToFile", &CameraFile::DownloadToFile),
-                InstanceMethod("downloadToString", &CameraFile::DownloadToString)
+                InstanceMethod("downloadToString", &CameraFile::DownloadToString),
+                InstanceMethod("downloadThumbnailToString", &CameraFile::DownloadToString)
             }
         );
         JSConstructor(&func);
