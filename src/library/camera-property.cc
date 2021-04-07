@@ -137,7 +137,11 @@ namespace CameraApi {
                 value = ReadPictureStyleDescription(info, dataSize);
                 break;
             default:
-                throw Napi::Error::New(env, "Failed to get property (data type not implemented)");
+                std::string message = "Failed to get property: ";
+                message.append(CodeToHexLabel(propertyIdentifier_));
+                message.append("data type not implemented: ");
+                message.append(std::to_string(dataType));
+                throw Napi::Error::New(env, message);
                 break;
         }
         switch (propertyIdentifier_) {
@@ -313,7 +317,11 @@ namespace CameraApi {
                 }
                 break;
             default:
-                throw Napi::Error::New(env, "Failed to set property (data type not implemented)");
+                std::string message = "Failed to set property: ";
+                message.append(CodeToHexLabel(propertyIdentifier_));
+                message.append("data type not implemented: ");
+                message.append(std::to_string(dataType));
+                throw Napi::Error::New(env, message);
                 break;
         }
         if (error == EDS_ERR_OK) {
