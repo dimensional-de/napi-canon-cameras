@@ -15,6 +15,7 @@
 #include "image-quality.h"
 #include "iso-sensitivity.h"
 #include "time-zone.h"
+#include "output-device.h"
 
 namespace CameraApi {
     Napi::Object RegisterModule(Napi::Env env, Napi::Object exports) {
@@ -32,6 +33,7 @@ namespace CameraApi {
         ISOSensitivity::Init(env, exports);
         ObjectEvent::Init(env, exports);
         Option::Init(env, exports);
+        OutputDevice::Init(env, exports);
         ShutterSpeed::Init(env, exports);
         StateEvent::Init(env, exports);
         TimeZone::Init(env, exports);

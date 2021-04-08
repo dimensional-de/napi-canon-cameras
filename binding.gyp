@@ -27,6 +27,7 @@
                 "./src/library/labels.cc",
                 "./src/library/object-event.cc",
                 "./src/library/option.cc",
+                "./src/library/output-device.cc",
                 "./src/library/aperture.cc",
                 "./src/library/exposure-compensation.cc",
                 "./src/library/flag.cc",

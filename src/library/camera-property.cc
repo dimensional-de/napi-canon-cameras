@@ -10,6 +10,7 @@
 #include "image-quality.h"
 #include "iso-sensitivity.h"
 #include "time-zone.h"
+#include "output-device.h"
 
 namespace CameraApi {
 
@@ -169,6 +170,10 @@ namespace CameraApi {
                 return ISOSensitivity::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
                 );
+            case kEdsPropID_Evf_OutputDevice:
+                return OutputDevice::NewInstance(
+                    env, value.As<Napi::Number>().Int32Value()
+                );
             case kEdsPropID_TimeZone:
                 return TimeZone::NewInstance(
                     env, value.As<Napi::Number>().Uint32Value()
@@ -274,6 +279,9 @@ namespace CameraApi {
                     break;
                 case kEdsPropID_ISOSpeed:
                     values.Set(i, ISOSensitivity::NewInstance(env, propertyDescription.propDesc[i]));
+                    break;
+                case kEdsPropID_Evf_OutputDevice:
+                    values.Set(i, OutputDevice::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_TimeZone:
                     values.Set(i, TimeZone::NewInstance(env, propertyDescription.propDesc[i]));
