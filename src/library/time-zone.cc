@@ -40,7 +40,8 @@ namespace CameraApi {
         {0x0021, "Samoa"},
         {0x0022, "Riyadh"},
         {0x0023, "Manaus"},
-        {0x0100, "UTC"}
+        {0x0100, "UTC"},
+        {0xFFFF, "UTC"}
     };
 
     TimeZone::TimeZone(const Napi::CallbackInfo &info)
@@ -60,13 +61,27 @@ namespace CameraApi {
         }
 
         value_ = value;
-        difference_ = ReadBitsValue(value, 0, 16);
-        zone_ = ReadBitsValue(value, 16, 16);
+        difference_ = (((1 << 16) - 1) & (value >> (0)));
+        zone_ = (((1 << 16) - 1) & (value >> (16)));
+    }
+
+    std::string TimeZone::GetDifferenceAsOffset(EdsInt32 differenceInMinutes) {
+        auto hours = (int)std::floor(differenceInMinutes / 60);
+        auto minutes = (int)std::abs(differenceInMinutes - (hours * 60));
+        return stringFormat(
+            "%s%02d:%02d",
+            hours > 0 ? "+" : "-",
+            (int)std::abs(hours),
+            minutes
+        );
     }
 
     Napi::Value TimeZone::GetLabel(const Napi::CallbackInfo &info) {
         if (TimeZoneLabels.find(zone_) != TimeZoneLabels.end()) {
-            return Napi::String::New(info.Env(), TimeZoneLabels[zone_]);
+            auto label = GetDifferenceAsOffset(difference_);
+            label.append(" ");
+            label.append(TimeZoneLabels[zone_]);
+            return Napi::String::New(info.Env(), label);
         }
         return Napi::String::New(info.Env(), CodeToHexLabel(zone_));
     }
@@ -115,9 +130,11 @@ namespace CameraApi {
         std::string label;
         if (TimeZoneLabels.find(zone_) != TimeZoneLabels.end()) {
             existingZone = true;
-            label = TimeZoneLabels[zone_];
+            label = GetDifferenceAsOffset(difference_);
+            label.append(" ");
+            label.append(TimeZoneLabels[zone_]);
         } else {
-            label = CodeToHexLabel(zone_);
+            label = CodeToHexLabel(value_);
         }
         auto env = info.Env();
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
@@ -151,13 +168,9 @@ namespace CameraApi {
 
         Napi::HandleScope scope(env);
 
-        Napi::Object Names = Napi::Object::New(env);
+        Napi::Object Zones = Napi::Object::New(env);
         for (const auto &it : TimeZoneLabels) {
-            Names.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
-            );
+            Zones.Set(it.first, Napi::String::New(env, it.second));
         }
 
         std::vector <PropertyDescriptor> properties = {
@@ -172,7 +185,7 @@ namespace CameraApi {
             InstanceAccessor<&TimeZone::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &TimeZone::Inspect),
 
-            StaticValue("Names", Names, napi_enumerable)
+            StaticValue("Zones", Zones, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, TimeZone::JSClassName, properties);

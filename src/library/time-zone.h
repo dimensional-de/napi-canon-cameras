@@ -26,8 +26,8 @@ namespace CameraApi {
             }
 
             EdsUInt32 value_ = 0;
-            EdsInt32 difference_ = 0;
-            EdsInt32 zone_ = 0;
+            EdsInt16 difference_ = 0;
+            EdsUInt16 zone_ = 0;
 
             Napi::Value GetLabel(const Napi::CallbackInfo &info);
 
@@ -44,6 +44,8 @@ namespace CameraApi {
             Napi::Value ToStringTag(const Napi::CallbackInfo &info);
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
+
+            static std::string GetDifferenceAsOffset(EdsInt32 differenceInMinutes);
     };
 }
 
