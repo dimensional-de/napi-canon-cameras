@@ -14,7 +14,9 @@ try {
             if (entry instanceof Directory) {
                 json.entries.push(directoryToJSON(entry));
             } else {
-                json.entries.push(entry.name);
+                json.entries.push(
+                    { name: entry.name, format: (entry as any).format }
+                );
             }
         }
         return json;

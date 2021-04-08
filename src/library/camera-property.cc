@@ -132,10 +132,10 @@ namespace CameraApi {
                 value = ReadTimeValue(info, dataSize);
                 break;
             case kEdsDataType_Int32_Array:
-                value = ReadInt32ArrayValue(info, dataSize, sizeof(EdsInt32));
+                value = ReadIntegerArrayValue<EdsInt32>(info, dataSize);
                 break;
             case kEdsDataType_UInt32_Array:
-                value = ReadInt32ArrayValue(info, dataSize, sizeof(EdsUInt32));
+                value = ReadIntegerArrayValue<EdsUInt32>(info, dataSize);
                 break;
             case kEdsDataType_PictureStyleDesc:
                 value = ReadPictureStyleDescription(info, dataSize);
@@ -207,31 +207,14 @@ namespace CameraApi {
         return value;
     }
 
-    Napi::Object
-    CameraProperty::ReadInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize) {
+    template <typename T>
+    Napi::Object CameraProperty::ReadIntegerArrayValue(
+        const Napi::CallbackInfo &info, EdsUInt32 dataSize
+    ) {
+        EdsUInt32 itemSize = sizeof(T);
         Napi::Env env = info.Env();
         EdsUInt32 numElements = dataSize / itemSize;
-        auto *items = new EdsInt32[numElements];
-        Napi::Array value = Napi::Array::New(env, numElements);
-        ApiError::ThrowIfFailed(
-            env,
-            EdsGetPropertyData(
-                edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, items
-            )
-        );
-        for (EdsUInt32 i = 0; i < numElements; i++) {
-            value.Set(i, Napi::Number::New(env, items[i]));
-        }
-        delete[] items;
-
-        return value;
-    }
-
-    Napi::Object
-    CameraProperty::ReadUInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize) {
-        Napi::Env env = info.Env();
-        EdsUInt32 numElements = dataSize / itemSize;
-        auto *items = new EdsUInt32[numElements];
+        auto *items = new T[numElements];
         Napi::Array value = Napi::Array::New(env, numElements);
         ApiError::ThrowIfFailed(
             env,
