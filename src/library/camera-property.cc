@@ -134,13 +134,16 @@ namespace CameraApi {
             case kEdsDataType_Int32_Array:
                 value = ReadInt32ArrayValue(info, dataSize, sizeof(EdsInt32));
                 break;
+            case kEdsDataType_UInt32_Array:
+                value = ReadInt32ArrayValue(info, dataSize, sizeof(EdsUInt32));
+                break;
             case kEdsDataType_PictureStyleDesc:
                 value = ReadPictureStyleDescription(info, dataSize);
                 break;
             default:
                 std::string message = "Failed to get property: ";
                 message.append(CodeToHexLabel(propertyIdentifier_));
-                message.append("data type not implemented: ");
+                message.append(", data type not implemented: ");
                 message.append(std::to_string(dataType));
                 throw Napi::Error::New(env, message);
                 break;
@@ -209,6 +212,26 @@ namespace CameraApi {
         Napi::Env env = info.Env();
         EdsUInt32 numElements = dataSize / itemSize;
         auto *items = new EdsInt32[numElements];
+        Napi::Array value = Napi::Array::New(env, numElements);
+        ApiError::ThrowIfFailed(
+            env,
+            EdsGetPropertyData(
+                edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, items
+            )
+        );
+        for (EdsUInt32 i = 0; i < numElements; i++) {
+            value.Set(i, Napi::Number::New(env, items[i]));
+        }
+        delete[] items;
+
+        return value;
+    }
+
+    Napi::Object
+    CameraProperty::ReadUInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize) {
+        Napi::Env env = info.Env();
+        EdsUInt32 numElements = dataSize / itemSize;
+        auto *items = new EdsUInt32[numElements];
         Napi::Array value = Napi::Array::New(env, numElements);
         ApiError::ThrowIfFailed(
             env,
@@ -327,7 +350,7 @@ namespace CameraApi {
             default:
                 std::string message = "Failed to set property: ";
                 message.append(CodeToHexLabel(propertyIdentifier_));
-                message.append("data type not implemented: ");
+                message.append(", data type not implemented: ");
                 message.append(std::to_string(dataType));
                 throw Napi::Error::New(env, message);
                 break;

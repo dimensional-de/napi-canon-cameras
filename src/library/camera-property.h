@@ -69,7 +69,10 @@ namespace CameraApi {
 
             Napi::Object ReadInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize);
 
+            Napi::Object ReadUInt32ArrayValue(const Napi::CallbackInfo &info, EdsUInt32 dataSize, EdsUInt32 itemSize);
+
             Napi::Object ReadPictureStyleDescription(const Napi::CallbackInfo &info, EdsUInt32 dataSize);
+
     };
 }
 
