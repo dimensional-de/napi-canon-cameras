@@ -1,8 +1,7 @@
 #include "flag.h"
-#include "types.h"
 #include "utility.h"
 #include <unordered_map>
-#include <iostream>
+// #include <cctype>
 
 namespace CameraApi {
 
@@ -109,12 +108,13 @@ namespace CameraApi {
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
         try {
+            /*
             std::transform(
                 label.begin(),
                 label.end(),
                 label.begin(),
                 [](unsigned char c) { return std::tolower(c); }
-            );
+            );*/
             bool isTruthy;
             isTruthy = (
                 (label == "true") ||

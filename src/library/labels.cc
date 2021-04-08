@@ -44,6 +44,7 @@ namespace CameraApi {
         {kEdsPropID_SaveTo, "SaveTo"},
         {kEdsPropID_CurrentStorage, "CurrentStorage"},
         {kEdsPropID_CurrentFolder, "CurrentFolder"},
+        {kEdsPropID_MyMenu, "MyMenu"},
 
         {kEdsPropID_BatteryQuality, "BatteryQuality"},
 
@@ -54,6 +55,7 @@ namespace CameraApi {
 
         // Image Properties
         {kEdsPropID_ImageQuality, "ImageQuality"},
+        {kEdsPropID_JpegQuality, "JpegQuality"},
         {kEdsPropID_Orientation, "Orientation"},
         {kEdsPropID_ICCProfile, "ICCProfile"},
         {kEdsPropID_FocusInfo, "FocusInfo"},
@@ -104,6 +106,8 @@ namespace CameraApi {
         {kEdsPropID_Artist, "Artist"},
         {kEdsPropID_Copyright, "Copyright"},
         {kEdsPropID_AEModeSelect, "AEModeSelect"},
+        {kEdsPropID_DepthOfField, "DepthOfField"},
+        {kEdsPropID_EFCompensation, "EFCompensation"},
         {kEdsPropID_PowerZoom_Speed, "PowerZoom_Speed"},
 
         // EVF Properties
@@ -116,6 +120,7 @@ namespace CameraApi {
         // EVF IMAGE DATA Properties
         {kEdsPropID_Evf_Zoom, "Evf_Zoom"},
         {kEdsPropID_Evf_ZoomPosition, "Evf_ZoomPosition"},
+        {kEdsPropID_Evf_FocusAid, "Evf_FocusAid"},
         {kEdsPropID_Evf_Histogram, "Evf_Histogram"},
         {kEdsPropID_Evf_ImagePosition, "Evf_ImagePosition"},
         {kEdsPropID_Evf_HistogramStatus, "Evf_HistogramStatus"},
@@ -910,28 +915,28 @@ namespace CameraApi {
     };
 
     LabelMap Labels::ImageFormat = {
-        {0x00000000,"Unknown"} ,
-        {0x00000001,"Jpeg"} ,
-        {0x00000002,"CRW"} ,
-        {0x00000004,"RAW"} ,
-        {0x00000006,"CR2"}
+        {0x00000000, "Unknown"},
+        {0x00000001, "Jpeg"},
+        {0x00000002, "CRW"},
+        {0x00000004, "RAW"},
+        {0x00000006, "CR2"}
     };
     LabelMap Labels::ImageSize = {
-        {0,"Large"},
-        {1,"Middle"},
-        {2,"Small"},
-        {5,"Middle1"},
-        {6,"Middle2"},
-        {14,"Small1"},
-        {15,"Small2"},
-        {16,"Small3"},
-        {0xffffffff,"Unknown"}
+        {0, "Large"},
+        {1, "Middle"},
+        {2, "Small"},
+        {5, "Middle1"},
+        {6, "Middle2"},
+        {14, "Small1"},
+        {15, "Small2"},
+        {16, "Small3"},
+        {0xffffffff, "Unknown"}
     };
     LabelMap Labels::ImageCompression = {
-        {2,"Normal"},
-        {3,"Fine"},
-        {4,"Lossless"},
-        {5,"SuperFine"},
-        {0xffffffff,"Unknown"}
+        {2, "Normal"},
+        {3, "Fine"},
+        {4, "Lossless"},
+        {5, "SuperFine"},
+        {0xffffffff, "Unknown"}
     };
 }
