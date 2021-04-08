@@ -70,7 +70,7 @@ namespace CameraApi {
         auto minutes = (int)std::abs(differenceInMinutes - (hours * 60));
         return stringFormat(
             "%s%02d:%02d",
-            hours > 0 ? "+" : "-",
+            hours < 0 ? "-" : "+",
             (int)std::abs(hours),
             minutes
         );

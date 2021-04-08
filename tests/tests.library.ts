@@ -8,6 +8,7 @@ import CommonObjectEventTests from "./common/ObjectEvent.test";
 import CommonOptionTests from "./common/Option.test";
 import CommonShutterSpeedTests from "./common/ShutterSpeed.test";
 import CommonStateEventTests from "./common/StateEvent.test";
+import CommonTimeZoneTests from "./common/TimeZone.test";
 import LibraryApertureTests from "./library/Aperture.test";
 import LibraryApiErrorTests from "./library/ApiError.test";
 import LibraryCameraBrowserTests from "./library/CameraBrowser.test";
@@ -30,6 +31,7 @@ describe(
         CommonOptionTests(CameraApiLibrary);
         CommonShutterSpeedTests(CameraApiLibrary);
         CommonStateEventTests(CameraApiLibrary);
+        CommonTimeZoneTests(CameraApiLibrary);
 
         LibraryApertureTests(CameraApiLibrary);
         LibraryApiErrorTests(CameraApiLibrary);

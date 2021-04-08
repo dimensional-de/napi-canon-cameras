@@ -13,6 +13,7 @@ import { ObjectEvent } from "./ObjectEvent";
 import { Option } from "./Option";
 import { ShutterSpeed } from "./ShutterSpeed";
 import { StateEvent } from "./StateEvent";
+import { TimeZone } from "./TimeZone";
 import { Volume } from "./Volume";
 
 export * from "./Aperture";
@@ -30,6 +31,7 @@ export * from "./ObjectEvent";
 export * from "./Option";
 export * from "./ShutterSpeed";
 export * from "./StateEvent";
+export * from "./TimeZone";
 export * from "./Volume";
 
 let STUB = 1;
@@ -72,6 +74,7 @@ const CameraApi = {
     Option,
     ShutterSpeed,
     StateEvent,
+    TimeZone,
     Volume,
     /**
      * Global CameraBrowser instance
