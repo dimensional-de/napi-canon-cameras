@@ -8,6 +8,8 @@ namespace CameraApi {
 
     std::string CodeToHexLabel(int code);
 
+    int ReadBitsValue(EdsInt32 buffer, int offset, int length);
+
     Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string& name);
 
     /**

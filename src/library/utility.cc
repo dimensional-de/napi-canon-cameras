@@ -13,6 +13,10 @@ namespace CameraApi {
         return label;
     }
 
+    int ReadBitsValue(EdsInt32 buffer, int offset, int length) {
+        return (((1 << length) - 1) & (buffer >> (offset)));
+    }
+
     Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string& name) {
         auto Symbol = env.Global().Get("Symbol").As<Napi::Object>();
         auto forSymbol = Symbol.Get("for").As<Napi::Function>().Call(

@@ -23,11 +23,6 @@ namespace CameraApi {
         }
     }
 
-
-    int ImageQuality::readBitsValue(EdsInt32 buffer, int offset, int length) {
-        return (((1 << length) - 1) & (buffer >> (offset)));
-    }
-
     Napi::Value ImageQuality::GetLabel(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), label_);
     }
@@ -41,15 +36,15 @@ namespace CameraApi {
         auto quality = Napi::Object::New(env);
         quality.Set(
             "size",
-            Napi::Number::New(env, readBitsValue(value_, 24, 8))
+            Napi::Number::New(env, ReadBitsValue(value_, 24, 8))
         );
         quality.Set(
             "format",
-            Napi::Number::New(env, readBitsValue(value_, 20, 4))
+            Napi::Number::New(env, ReadBitsValue(value_, 20, 4))
         );
         quality.Set(
             "quality",
-            Napi::Number::New(env, readBitsValue(value_, 16, 4))
+            Napi::Number::New(env, ReadBitsValue(value_, 16, 4))
         );
         return quality;
     }
@@ -59,15 +54,15 @@ namespace CameraApi {
         auto quality = Napi::Object::New(env);
         quality.Set(
             "size",
-            Napi::Number::New(env, readBitsValue(value_, 8, 8))
+            Napi::Number::New(env, ReadBitsValue(value_, 8, 8))
         );
         quality.Set(
             "format",
-            Napi::Number::New(env, readBitsValue(value_, 4, 4))
+            Napi::Number::New(env, ReadBitsValue(value_, 4, 4))
         );
         quality.Set(
             "quality",
-            Napi::Number::New(env, readBitsValue(value_, 0, 4))
+            Napi::Number::New(env, ReadBitsValue(value_, 0, 4))
         );
         return quality;
     }

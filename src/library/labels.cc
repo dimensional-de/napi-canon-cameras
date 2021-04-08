@@ -914,9 +914,9 @@ namespace CameraApi {
         {0x00000001,"Jpeg"} ,
         {0x00000002,"CRW"} ,
         {0x00000004,"RAW"} ,
-        {0x00000006,"CR2"} 
+        {0x00000006,"CR2"}
     };
-    LabelMap Labels::ImageSize = {    
+    LabelMap Labels::ImageSize = {
         {0,"Large"},
         {1,"Middle"},
         {2,"Small"},

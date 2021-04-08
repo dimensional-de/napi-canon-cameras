@@ -34,6 +34,7 @@
                 "./src/library/iso-sensitivity.cc",
                 "./src/library/shutter-speed.cc",
                 "./src/library/state-event.cc",
+                "./src/library/time-zone.cc",
                 "./src/library/utility.cc",
                 "./src/library/volume.cc",
             ],

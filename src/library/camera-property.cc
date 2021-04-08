@@ -9,6 +9,7 @@
 #include "exposure-compensation.h"
 #include "image-quality.h"
 #include "iso-sensitivity.h"
+#include "time-zone.h"
 
 namespace CameraApi {
 
@@ -108,7 +109,7 @@ namespace CameraApi {
                 value = Napi::Number::New(env, int32_value);
                 break;
             case kEdsDataType_UInt32:
-                EdsInt32 uint32_value;
+                EdsUInt32 uint32_value;
                 ApiError::ThrowIfFailed(
                     env,
                     EdsGetPropertyData(
@@ -164,6 +165,10 @@ namespace CameraApi {
             case kEdsPropID_ISOSpeed:
                 return ISOSensitivity::NewInstance(
                     env, value.As<Napi::Number>().Int32Value()
+                );
+            case kEdsPropID_TimeZone:
+                return TimeZone::NewInstance(
+                    env, value.As<Napi::Number>().Uint32Value()
                 );
             default:
                 if (Flag::IsFlagProperty(propertyIdentifier_)) {
@@ -263,6 +268,9 @@ namespace CameraApi {
                     break;
                 case kEdsPropID_ISOSpeed:
                     values.Set(i, ISOSensitivity::NewInstance(env, propertyDescription.propDesc[i]));
+                    break;
+                case kEdsPropID_TimeZone:
+                    values.Set(i, TimeZone::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 default:
                     if (Option::IsOptionsProperty(propertyIdentifier_)) {
