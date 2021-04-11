@@ -18,7 +18,7 @@ try {
             }
             try {
                 const value = p.value;
-                console.log(p, p.value);
+                console.log(p, p.value, p.allowedValues);
             } catch (e) {
                 console.error(
                     p, e.message

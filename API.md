@@ -40,6 +40,8 @@
 <dd></dd>
 <dt><a href="#StateEvent">StateEvent</a> ⇐ <code><a href="#ApiIdentifier">ApiIdentifier</a></code></dt>
 <dd></dd>
+<dt><a href="#TimeZone">TimeZone</a></dt>
+<dd></dd>
 <dt><a href="#Volume">Volume</a></dt>
 <dd></dd>
 </dl>
@@ -71,7 +73,11 @@
 <dd></dd>
 <dt><a href="#PropertyChangeEvent">PropertyChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
 <dd></dd>
-<dt><a href="#DownloadRequestEvent">DownloadRequestEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
+<dt><a href="#FileChangeEvent">FileChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
+<dd></dd>
+<dt><a href="#DirectoryChangeEvent">DirectoryChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
+<dd></dd>
+<dt><a href="#VolumeChangeEvent">VolumeChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
 <dd></dd>
 <dt><a href="#ObjectChangeEvent">ObjectChangeEvent</a> ⇐ <code><a href="#CameraDeviceEvent">CameraDeviceEvent</a></code></dt>
 <dd></dd>
@@ -133,9 +139,51 @@
     </tr>  </tbody>
 </table>
 
-<a name="DownloadRequestEvent"></a>
+<a name="FileChangeEvent"></a>
 
-# DownloadRequestEvent ⇐ [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)
+# FileChangeEvent ⇐ [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)
+**Kind**: global interface  
+**Extends**: [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>camera</td><td><code><a href="#Camera">Camera</a></code></td>
+    </tr><tr>
+    <td>file</td><td><code><a href="#CameraFile">CameraFile</a></code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="DirectoryChangeEvent"></a>
+
+# DirectoryChangeEvent ⇐ [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)
+**Kind**: global interface  
+**Extends**: [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>camera</td><td><code><a href="#Camera">Camera</a></code></td>
+    </tr><tr>
+    <td>file</td><td><code><a href="#CameraFile">CameraFile</a></code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="VolumeChangeEvent"></a>
+
+# VolumeChangeEvent ⇐ [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)
 **Kind**: global interface  
 **Extends**: [<code>CameraDeviceEvent</code>](#CameraDeviceEvent)  
 **Properties**
@@ -1190,21 +1238,27 @@ Request LiveView stop, triggers event on success
   </thead>
   <tbody>
 <tr>
-    <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;download-request&quot;</code></td>
+    <td>DirectoryCreate</td><td><code>string</code></td><td><code>&quot;DirectoryCreate&quot;</code></td>
     </tr><tr>
-    <td>Error</td><td><code>string</code></td><td><code>&quot;error&quot;</code></td>
+    <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;DownloadRequest&quot;</code></td>
     </tr><tr>
-    <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;camera-lv-start&quot;</code></td>
+    <td>Error</td><td><code>string</code></td><td><code>&quot;Error&quot;</code></td>
     </tr><tr>
-    <td>LiveViewStop</td><td><code>string</code></td><td><code>&quot;camera-lv-stop&quot;</code></td>
+    <td>FileCreate</td><td><code>string</code></td><td><code>&quot;FileCreate&quot;</code></td>
     </tr><tr>
-    <td>ObjectChange</td><td><code>string</code></td><td><code>&quot;object-change&quot;</code></td>
+    <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;LiveViewStart&quot;</code></td>
     </tr><tr>
-    <td>PropertyChangeOptions</td><td><code>string</code></td><td><code>&quot;property-change.allowed&quot;</code></td>
+    <td>LiveViewStop</td><td><code>string</code></td><td><code>&quot;LiveViewStop&quot;</code></td>
     </tr><tr>
-    <td>PropertyChangeValue</td><td><code>string</code></td><td><code>&quot;property-change.value&quot;</code></td>
+    <td>ObjectChange</td><td><code>string</code></td><td><code>&quot;ObjectChange&quot;</code></td>
     </tr><tr>
-    <td>StateChange</td><td><code>string</code></td><td><code>&quot;camera-state&quot;</code></td>
+    <td>PropertyChangeOptions</td><td><code>string</code></td><td><code>&quot;PropertyChangeOptions&quot;</code></td>
+    </tr><tr>
+    <td>PropertyChangeValue</td><td><code>string</code></td><td><code>&quot;PropertyChangeValue&quot;</code></td>
+    </tr><tr>
+    <td>StateChange</td><td><code>string</code></td><td><code>&quot;StateChange&quot;</code></td>
+    </tr><tr>
+    <td>VolumeChange</td><td><code>string</code></td><td><code>&quot;VolumeChange&quot;</code></td>
     </tr>  </tbody>
 </table>
 
@@ -1596,25 +1650,31 @@ API Error
   </thead>
   <tbody>
 <tr>
-    <td>CameraAdd</td><td><code>string</code></td><td><code>&quot;camera-add&quot;</code></td>
+    <td>CameraAdd</td><td><code>string</code></td><td><code>&quot;CameraAdd&quot;</code></td>
     </tr><tr>
-    <td>CameraRemove</td><td><code>string</code></td><td><code>&quot;camera-remove&quot;</code></td>
+    <td>DirectoryCreate</td><td><code>string</code></td><td><code>&quot;DirectoryCreate&quot;</code></td>
     </tr><tr>
-    <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;download-request&quot;</code></td>
+    <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;DownloadRequest&quot;</code></td>
     </tr><tr>
-    <td>Error</td><td><code>string</code></td><td><code>&quot;error&quot;</code></td>
+    <td>Error</td><td><code>string</code></td><td><code>&quot;Error&quot;</code></td>
     </tr><tr>
-    <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;camera-lv-start&quot;</code></td>
+    <td>FileCreate</td><td><code>string</code></td><td><code>&quot;FileCreate&quot;</code></td>
     </tr><tr>
-    <td>LiveViewStop</td><td><code>string</code></td><td><code>&quot;camera-lv-stop&quot;</code></td>
+    <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;LiveViewStart&quot;</code></td>
     </tr><tr>
-    <td>ObjectChange</td><td><code>string</code></td><td><code>&quot;object-change&quot;</code></td>
+    <td>LiveViewStop</td><td><code>string</code></td><td><code>&quot;LiveViewStop&quot;</code></td>
     </tr><tr>
-    <td>PropertyChangeOptions</td><td><code>string</code></td><td><code>&quot;property-change.allowed&quot;</code></td>
+    <td>ObjectChange</td><td><code>string</code></td><td><code>&quot;ObjectChange&quot;</code></td>
     </tr><tr>
-    <td>PropertyChangeValue</td><td><code>string</code></td><td><code>&quot;property-change.value&quot;</code></td>
+    <td>PropertyChangeOptions</td><td><code>string</code></td><td><code>&quot;PropertyChangeOptions&quot;</code></td>
     </tr><tr>
-    <td>StateChange</td><td><code>string</code></td><td><code>&quot;camera-state&quot;</code></td>
+    <td>PropertyChangeValue</td><td><code>string</code></td><td><code>&quot;PropertyChangeValue&quot;</code></td>
+    </tr><tr>
+    <td>StateChange</td><td><code>string</code></td><td><code>&quot;StateChange&quot;</code></td>
+    </tr><tr>
+    <td>VolumeChange</td><td><code>string</code></td><td><code>&quot;VolumeChange&quot;</code></td>
+    </tr><tr>
+    <td>cameraRemove</td><td><code>string</code></td><td><code>&quot;cameraRemove&quot;</code></td>
     </tr>  </tbody>
 </table>
 
@@ -1639,7 +1699,7 @@ API Error
 <a name="new_CameraFile_new"></a>
 
 ## new CameraFile()
-Provided in the [DownloadRequestEvent](#DownloadRequestEvent). Allows to download the file from camera.
+Provided in the [DownloadRequestEvent](DownloadRequestEvent). Allows to download the file from camera.
 
 <a name="CameraFile+name"></a>
 
@@ -1860,7 +1920,11 @@ Camera property/setting.
     </tr><tr>
     <td>DateTime</td><td><code>number</code></td><td><code>6</code></td>
     </tr><tr>
+    <td>DepthOfField</td><td><code>number</code></td><td><code>1051</code></td>
+    </tr><tr>
     <td>DriveMode</td><td><code>number</code></td><td><code>1025</code></td>
+    </tr><tr>
+    <td>EFCompensation</td><td><code>number</code></td><td><code>1054</code></td>
     </tr><tr>
     <td>EVF_RollingPitching</td><td><code>number</code></td><td><code>16778564</code></td>
     </tr><tr>
@@ -1873,6 +1937,8 @@ Camera property/setting.
     <td>Evf_CoordinateSystem</td><td><code>number</code></td><td><code>1344</code></td>
     </tr><tr>
     <td>Evf_DepthOfFieldPreview</td><td><code>number</code></td><td><code>1284</code></td>
+    </tr><tr>
+    <td>Evf_FocusAid</td><td><code>number</code></td><td><code>1289</code></td>
     </tr><tr>
     <td>Evf_Histogram</td><td><code>number</code></td><td><code>1290</code></td>
     </tr><tr>
@@ -1958,6 +2024,8 @@ Camera property/setting.
     </tr><tr>
     <td>ImageQuality</td><td><code>number</code></td><td><code>256</code></td>
     </tr><tr>
+    <td>JpegQuality</td><td><code>number</code></td><td><code>257</code></td>
+    </tr><tr>
     <td>LensBarrelStatus</td><td><code>number</code></td><td><code>1541</code></td>
     </tr><tr>
     <td>LensName</td><td><code>number</code></td><td><code>1037</code></td>
@@ -1975,6 +2043,8 @@ Camera property/setting.
     <td>MirrorUpSetting</td><td><code>number</code></td><td><code>16778296</code></td>
     </tr><tr>
     <td>MovieParam</td><td><code>number</code></td><td><code>16778275</code></td>
+    </tr><tr>
+    <td>MyMenu</td><td><code>number</code></td><td><code>14</code></td>
     </tr><tr>
     <td>NoiseReduction</td><td><code>number</code></td><td><code>1041</code></td>
     </tr><tr>
@@ -4509,6 +4579,157 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
     <td>Shutdown</td><td><code>number</code></td><td><code>769</code></td>
     </tr><tr>
     <td>WillSoonShutDown</td><td><code>number</code></td><td><code>771</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="TimeZone"></a>
+
+# TimeZone
+**Kind**: global class  
+**Implements**: [<code>PropertyValue</code>](#PropertyValue)  
+
+* [TimeZone](#TimeZone)
+    * [new TimeZone(value_)](#new_TimeZone_new)
+    * _instance_
+        * [.label](#TimeZone+label) : <code>string</code>
+        * [.value](#TimeZone+value) : <code>number</code>
+        * [.zone](#TimeZone+zone) : <code>number</code>
+        * [.difference](#TimeZone+difference) : <code>number</code>
+        * [.toJSON()](#TimeZone+toJSON) ⇒ <code>Object</code>
+    * _static_
+        * [.Zones](#TimeZone.Zones) : <code>enum</code>
+
+<a name="new_TimeZone_new"></a>
+
+## new TimeZone(value_)
+TimeZone property value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value_</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="TimeZone+label"></a>
+
+## timeZone.label : <code>string</code>
+**Kind**: instance property of [<code>TimeZone</code>](#TimeZone)  
+**Read only**: true  
+<a name="TimeZone+value"></a>
+
+## timeZone.value : <code>number</code>
+**Kind**: instance property of [<code>TimeZone</code>](#TimeZone)  
+**Read only**: true  
+<a name="TimeZone+zone"></a>
+
+## timeZone.zone : <code>number</code>
+**Kind**: instance property of [<code>TimeZone</code>](#TimeZone)  
+**Read only**: true  
+<a name="TimeZone+difference"></a>
+
+## timeZone.difference : <code>number</code>
+**Kind**: instance property of [<code>TimeZone</code>](#TimeZone)  
+**Read only**: true  
+<a name="TimeZone+toJSON"></a>
+
+## timeZone.toJSON() ⇒ <code>Object</code>
+**Kind**: instance method of [<code>TimeZone</code>](#TimeZone)  
+<a name="TimeZone.Zones"></a>
+
+## TimeZone.Zones : <code>enum</code>
+**Kind**: static enum of [<code>TimeZone</code>](#TimeZone)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>0</td><td><code>string</code></td><td><code>&quot;None&quot;</code></td>
+    </tr><tr>
+    <td>1</td><td><code>string</code></td><td><code>&quot;Chatham Islands&quot;</code></td>
+    </tr><tr>
+    <td>2</td><td><code>string</code></td><td><code>&quot;Wellington&quot;</code></td>
+    </tr><tr>
+    <td>3</td><td><code>string</code></td><td><code>&quot;Solomon Island&quot;</code></td>
+    </tr><tr>
+    <td>4</td><td><code>string</code></td><td><code>&quot;Sydney&quot;</code></td>
+    </tr><tr>
+    <td>5</td><td><code>string</code></td><td><code>&quot;Adeladie&quot;</code></td>
+    </tr><tr>
+    <td>6</td><td><code>string</code></td><td><code>&quot;Tokyo&quot;</code></td>
+    </tr><tr>
+    <td>7</td><td><code>string</code></td><td><code>&quot;Hong Kong&quot;</code></td>
+    </tr><tr>
+    <td>8</td><td><code>string</code></td><td><code>&quot;Bangkok&quot;</code></td>
+    </tr><tr>
+    <td>9</td><td><code>string</code></td><td><code>&quot;Yangon&quot;</code></td>
+    </tr><tr>
+    <td>10</td><td><code>string</code></td><td><code>&quot;Dacca&quot;</code></td>
+    </tr><tr>
+    <td>11</td><td><code>string</code></td><td><code>&quot;Kathmandu&quot;</code></td>
+    </tr><tr>
+    <td>12</td><td><code>string</code></td><td><code>&quot;Delhi&quot;</code></td>
+    </tr><tr>
+    <td>13</td><td><code>string</code></td><td><code>&quot;Karachi&quot;</code></td>
+    </tr><tr>
+    <td>14</td><td><code>string</code></td><td><code>&quot;Kabul&quot;</code></td>
+    </tr><tr>
+    <td>15</td><td><code>string</code></td><td><code>&quot;Dubai&quot;</code></td>
+    </tr><tr>
+    <td>16</td><td><code>string</code></td><td><code>&quot;Tehran&quot;</code></td>
+    </tr><tr>
+    <td>17</td><td><code>string</code></td><td><code>&quot;Moscow&quot;</code></td>
+    </tr><tr>
+    <td>18</td><td><code>string</code></td><td><code>&quot;Cairo&quot;</code></td>
+    </tr><tr>
+    <td>19</td><td><code>string</code></td><td><code>&quot;Paris&quot;</code></td>
+    </tr><tr>
+    <td>20</td><td><code>string</code></td><td><code>&quot;London&quot;</code></td>
+    </tr><tr>
+    <td>21</td><td><code>string</code></td><td><code>&quot;Azores&quot;</code></td>
+    </tr><tr>
+    <td>22</td><td><code>string</code></td><td><code>&quot;Fernando de Noronha&quot;</code></td>
+    </tr><tr>
+    <td>23</td><td><code>string</code></td><td><code>&quot;São Paulo&quot;</code></td>
+    </tr><tr>
+    <td>24</td><td><code>string</code></td><td><code>&quot;Newfoundland&quot;</code></td>
+    </tr><tr>
+    <td>25</td><td><code>string</code></td><td><code>&quot;Santiago&quot;</code></td>
+    </tr><tr>
+    <td>26</td><td><code>string</code></td><td><code>&quot;Caracas&quot;</code></td>
+    </tr><tr>
+    <td>27</td><td><code>string</code></td><td><code>&quot;New York&quot;</code></td>
+    </tr><tr>
+    <td>28</td><td><code>string</code></td><td><code>&quot;Chicago&quot;</code></td>
+    </tr><tr>
+    <td>29</td><td><code>string</code></td><td><code>&quot;Denver&quot;</code></td>
+    </tr><tr>
+    <td>30</td><td><code>string</code></td><td><code>&quot;Los Angeles&quot;</code></td>
+    </tr><tr>
+    <td>31</td><td><code>string</code></td><td><code>&quot;Anchorage&quot;</code></td>
+    </tr><tr>
+    <td>32</td><td><code>string</code></td><td><code>&quot;Honolulu&quot;</code></td>
+    </tr><tr>
+    <td>33</td><td><code>string</code></td><td><code>&quot;Samoa&quot;</code></td>
+    </tr><tr>
+    <td>34</td><td><code>string</code></td><td><code>&quot;Riyadh&quot;</code></td>
+    </tr><tr>
+    <td>35</td><td><code>string</code></td><td><code>&quot;Manaus&quot;</code></td>
+    </tr><tr>
+    <td>256</td><td><code>string</code></td><td><code>&quot;UTC&quot;</code></td>
+    </tr><tr>
+    <td>65535</td><td><code>string</code></td><td><code>&quot;UTC&quot;</code></td>
     </tr>  </tbody>
 </table>
 

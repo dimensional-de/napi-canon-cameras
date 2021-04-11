@@ -1,9 +1,11 @@
 import {Camera} from "./Camera";
 import {CameraProperty} from "./CameraProperty";
 import {CameraFile} from "./CameraFile";
+import { Directory } from "./Directory";
 import {ObjectEvent} from "./ObjectEvent";
 import {StateEvent} from "./StateEvent";
 import {ApiError} from "./ApiError";
+import { Volume } from "./Volume";
 
 export class CameraBrowser {
 
@@ -104,7 +106,7 @@ export class CameraBrowser {
      * @readonly
      * @enum {string}
      */
-     static readonly EventName = {"CameraAdd":"camera-add","CameraRemove":"camera-remove","DownloadRequest":"download-request","Error":"error","LiveViewStart":"camera-lv-start","LiveViewStop":"camera-lv-stop","ObjectChange":"object-change","PropertyChangeOptions":"property-change.allowed","PropertyChangeValue":"property-change.value","StateChange":"camera-state"};
+     static readonly EventName = {"CameraAdd":"CameraAdd","DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange","cameraRemove":"cameraRemove"};
 
     // GenerateEnd
 }
@@ -198,7 +200,21 @@ STUB = 1;
  */
 STUB = 1;
 /**
- * @interface DownloadRequestEvent
+ * @interface FileChangeEvent
+ * @extends CameraDeviceEvent
+ * @property {Camera} camera
+ * @property {CameraFile} file
+ */
+STUB = 1;
+/**
+ * @interface DirectoryChangeEvent
+ * @extends CameraDeviceEvent
+ * @property {Camera} camera
+ * @property {CameraFile} file
+ */
+STUB = 1;
+/**
+ * @interface VolumeChangeEvent
  * @extends CameraDeviceEvent
  * @property {Camera} camera
  * @property {CameraFile} file
@@ -226,9 +242,17 @@ export interface PropertyChangeEvent extends CameraDeviceEvent {
     camera: Camera;
     property: CameraProperty;
 }
-export interface DownloadRequestEvent extends CameraDeviceEvent {
+export interface FileChangeEvent extends CameraDeviceEvent {
     camera: Camera;
     file: CameraFile;
+}
+export interface DirectoryChangeEvent extends CameraDeviceEvent {
+    camera: Camera;
+    directory: Directory;
+}
+export interface VolumeChangeEvent extends CameraDeviceEvent {
+    camera: Camera;
+    volume: Volume;
 }
 export interface ObjectChangeEvent extends CameraDeviceEvent {
     camera: Camera;

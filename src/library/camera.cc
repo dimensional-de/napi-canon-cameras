@@ -11,6 +11,8 @@
 #include "state-event.h"
 #include "utility.h"
 #include "volume.h"
+#include "directory.h"
+#include "events.h"
 
 namespace CameraApi {
 
@@ -405,6 +407,7 @@ namespace CameraApi {
 
         try {
             auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, ObjectEventData *dataPtr) {
+                EdsError error = EDS_ERR_OK;
                 Napi::Object event = Napi::Object::New(env);
                 event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
                 switch (dataPtr->eventID) {
@@ -419,6 +422,34 @@ namespace CameraApi {
                             }
                         );
                         break;
+                    case kEdsObjectEvent_DirItemCreated:
+                        EdsDirectoryItemInfo entryInfo;
+                        error = EdsGetDirectoryItemInfo(dataPtr->objectRef, &entryInfo);
+                        if (error == EDS_ERR_OK) {
+                            if (entryInfo.isFolder) {
+                                event.Set(
+                                    "directory", Directory::NewInstance(env, dataPtr->objectRef)
+                                );
+                                jsCallback.Call(
+                                    {
+                                        Napi::String::New(env, EventName_DirectoryCreate),
+                                        event
+                                    }
+                                );
+                            } else {
+                                event.Set(
+                                    "file", CameraFile::NewInstance(env, dataPtr->objectRef)
+                                );
+                                jsCallback.Call(
+                                    {
+                                        Napi::String::New(env, EventName_FileCreate),
+                                        event
+                                    }
+                                );
+                            }
+                        }
+                        break;
+
                     default:
                         event.Set("objectEvent", ObjectEvent::NewInstance(env, dataPtr->eventID));
                         jsCallback.Call(
@@ -583,7 +614,7 @@ namespace CameraApi {
                 }
                 auto property = Napi::ObjectWrap<CameraProperty>::Unwrap(
                     CameraProperty::NewInstance(
-                      info.Env(), GetCameraReference(), propertyID, 0
+                        info.Env(), GetCameraReference(), propertyID, 0
                     )
                 );
                 property->SetValue(info, properties.Get(propertyLabel));
@@ -662,14 +693,9 @@ namespace CameraApi {
         }
 
         Napi::Object eventNames = Napi::Object::New(env);
-        eventNames.Set("LiveViewStart", EventName_LiveViewStart);
-        eventNames.Set("LiveViewStop", EventName_LiveViewStop);
-        eventNames.Set("StateChange", EventName_StateChange);
-        eventNames.Set("PropertyChangeOptions", EventName_PropertyChangeOptions);
-        eventNames.Set("PropertyChangeValue", EventName_PropertyChangeValue);
-        eventNames.Set("DownloadRequest", EventName_DownloadRequest);
-        eventNames.Set("ObjectChange", EventName_ObjectChange);
-        eventNames.Set("Error", EventName_Error);
+        for (auto it: CameraEvents) {
+            eventNames.Set(it, it);
+        }
 
         Napi::Function func = DefineClass(
             env,

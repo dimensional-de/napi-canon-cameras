@@ -1,6 +1,6 @@
 import {
-    Camera, CameraProperty,
-    DownloadRequestEvent, Option,
+    Camera, CameraProperty, FileChangeEvent,
+    Option,
     watchCameras
 } from '../';
 
@@ -12,8 +12,11 @@ try {
     // catch download request events
     camera.setEventHandler(
         (eventName, event) => {
-            if (eventName === Camera.EventName.DownloadRequest) {
-                const file = (event as DownloadRequestEvent).file;
+            if (
+                eventName === Camera.EventName.FileCreate ||
+                eventName === Camera.EventName.DownloadRequest
+            ) {
+                const file = (event as FileChangeEvent).file;
                 console.log(file);
                 file.downloadToPath(__dirname + '/images');
                 console.log(`Downloaded ${file.name}.`);
@@ -28,6 +31,7 @@ try {
     camera.setProperties(
         {
             [CameraProperty.ID.SaveTo]: Option.SaveTo.Host,
+            //[CameraProperty.ID.SaveTo]: Option.SaveTo.Camera,
             [CameraProperty.ID.ImageQuality]: Option.ImageQuality.LargeJPEGFine,
             [CameraProperty.ID.WhiteBalance]: Option.WhiteBalance.Fluorescent
         }

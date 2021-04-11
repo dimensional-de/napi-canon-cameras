@@ -132,7 +132,7 @@ export class Camera {
      * @readonly
      * @enum {string}
      */
-     static readonly EventName = {"DownloadRequest":"download-request","Error":"error","LiveViewStart":"camera-lv-start","LiveViewStop":"camera-lv-stop","ObjectChange":"object-change","PropertyChangeOptions":"property-change.allowed","PropertyChangeValue":"property-change.value","StateChange":"camera-state"};
+     static readonly EventName = {"DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
     /**
      * @readonly
      * @enum {number}

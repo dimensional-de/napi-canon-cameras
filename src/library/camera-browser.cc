@@ -1,6 +1,7 @@
 #include "camera-browser.h"
 #include "api-error.h"
 #include "utility.h"
+#include "events.h"
 
 namespace CameraApi {
 
@@ -364,16 +365,9 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object eventNames = Napi::Object::New(env);
-        eventNames.Set("CameraAdd", EventName_CameraAdd);
-        eventNames.Set("CameraRemove", EventName_CameraRemove);
-        eventNames.Set("LiveViewStart", EventName_LiveViewStart);
-        eventNames.Set("LiveViewStop", EventName_LiveViewStop);
-        eventNames.Set("StateChange", EventName_StateChange);
-        eventNames.Set("PropertyChangeOptions", EventName_PropertyChangeOptions);
-        eventNames.Set("PropertyChangeValue", EventName_PropertyChangeValue);
-        eventNames.Set("DownloadRequest", EventName_DownloadRequest);
-        eventNames.Set("ObjectChange", EventName_ObjectChange);
-        eventNames.Set("Error", EventName_Error);
+        for (auto it: CameraBrowserEvents) {
+            eventNames.Set(it, it);
+        }
 
         Napi::Function func = DefineClass(
             env,
