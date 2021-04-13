@@ -4,7 +4,7 @@
 namespace CameraApi {
 
     const char EventName_CameraAdd[] = "CameraAdd";
-    const char EventName_CameraRemove[] = "cameraRemove";
+    const char EventName_CameraRemove[] = "CameraRemove";
     const char EventName_StateChange[] = "StateChange";
     const char EventName_LiveViewStart[] = "LiveViewStart";
     const char EventName_LiveViewStop[] = "LiveViewStop";
