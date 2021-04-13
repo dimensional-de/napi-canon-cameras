@@ -915,12 +915,12 @@ namespace CameraApi {
     };
 
     LabelMap Labels::ImageFormat = {
-        {0x00000000, "Unknown"},
-        {0x00000001, "JPEG"},
-        {0x00000002, "CRW"},
-        {0x00000004, "RAW"},
-        {0x00000006, "CR2"},
-        {0x00000008, "CR3"}
+        {kEdsImageType_Unknown, "Unknown"},
+        {kEdsImageType_Jpeg, "JPEG"},
+        {kEdsImageType_CRW, "CRW"},
+        {kEdsImageType_RAW, "RAW"},
+        {kEdsImageType_CR2, "CR2"},
+        {kEdsImageType_CR3, "CR3"}
     };
     LabelMap Labels::ImageSize = {
         {0, "Large"},

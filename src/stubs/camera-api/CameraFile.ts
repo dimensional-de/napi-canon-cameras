@@ -1,4 +1,5 @@
 import { DirectoryEntry } from "./Directory";
+import { FileFormat } from "./FileFormat";
 
 export class CameraFile implements DirectoryEntry {
 
@@ -49,7 +50,7 @@ export class CameraFile implements DirectoryEntry {
      * Format
      * @readonly
      */
-    get format(): number {
+    get format(): FileFormat {
         throw new Error("Not implemented - stub only.");
     }
 
