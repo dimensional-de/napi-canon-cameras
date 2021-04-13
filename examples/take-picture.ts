@@ -17,7 +17,7 @@ try {
                 eventName === Camera.EventName.DownloadRequest
             ) {
                 const file = (event as FileChangeEvent).file;
-                console.log(file);
+                console.log(file, file.format);
                 file.downloadToPath(__dirname + '/images');
                 console.log(`Downloaded ${file.name}.`);
 

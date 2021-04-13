@@ -1,4 +1,5 @@
 #include "camera-file.h"
+#include "file-format.h"
 #include "api-error.h"
 #include <filesystem>
 #include "base64.h"
@@ -64,7 +65,7 @@ namespace CameraApi {
     }
 
     Napi::Value CameraFile::GetFormat(const Napi::CallbackInfo &info) {
-        return Napi::Number::New(info.Env(), edsDirectoryItemInfo_.format);
+        return FileFormat::NewInstance(info.Env(), edsDirectoryItemInfo_.format);
     }
 
     Napi::Value CameraFile::ToStringTag(const Napi::CallbackInfo &info) {

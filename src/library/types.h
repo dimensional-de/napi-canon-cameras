@@ -6,11 +6,18 @@
 #include <napi.h>
 #include <EDSDK.h>
 
-#define kEdsPropID_MyMenu          0x0000000e
-#define kEdsPropID_JpegQuality     0x00000101
-#define kEdsPropID_DepthOfField    0x0000041b
-#define kEdsPropID_EFCompensation  0x0000041e
-#define kEdsPropID_Evf_FocusAid    0x00000509
+#define kEdsPropID_MyMenu           0x0000000e
+#define kEdsPropID_JpegQuality      0x00000101
+#define kEdsPropID_DepthOfField     0x0000041b
+#define kEdsPropID_EFCompensation   0x0000041e
+#define kEdsPropID_Evf_FocusAid     0x00000509
+
+#define kEdsFileType_Unknown        0x00000000
+#define kEdsFileType_JPEG           0x00000001
+#define kEdsFileType_CRW            0x00000002
+#define kEdsFileType_RAW            0x00000004
+#define kEdsFileType_CR2            0x00000006
+#define kEdsFileType_CR3            0x00000008
 
 namespace CameraApi {
 

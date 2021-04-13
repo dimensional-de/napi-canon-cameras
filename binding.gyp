@@ -30,6 +30,7 @@
                 "./src/library/output-device.cc",
                 "./src/library/aperture.cc",
                 "./src/library/exposure-compensation.cc",
+                "./src/library/file-format.cc",
                 "./src/library/flag.cc",
                 "./src/library/image-quality.cc",
                 "./src/library/iso-sensitivity.cc",

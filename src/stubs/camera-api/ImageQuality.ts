@@ -108,7 +108,7 @@ export class ImageQuality implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly Format = {"CR2":6,"CRW":2,"Jpeg":1,"RAW":4,"Unknown":0};
+     static readonly Format = {"CR2":6,"CR3":8,"CRW":2,"JPEG":1,"RAW":4,"Unknown":0};
     /**
      * @readonly
      * @enum {number}
