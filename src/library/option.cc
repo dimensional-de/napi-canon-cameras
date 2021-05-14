@@ -164,6 +164,10 @@ namespace CameraApi {
         return optionGroup;
     }
 
+    Napi::Object Option::CreateOptionGroup(Napi::Env env, EdsPropertyID propertyID) {
+        return CreateOptionGroup(env, Labels::Option[propertyID]);
+    }
+
     void Option::Init(Napi::Env env, Napi::Object exports) {
         Napi::HandleScope scope(env);
 
@@ -177,21 +181,31 @@ namespace CameraApi {
             InstanceAccessor<&Option::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &Option::Inspect),
 
-            StaticMethod<&Option::ForLabel>("forLabel")
-        };
+            StaticMethod<&Option::ForLabel>("forLabel"),
 
-        for (const auto &it : Labels::Option) {
-            std::string name = CameraProperty::GetLabelFor(it.first);
-            char *c_str = new char[name.length() + 1];
-            std::strcpy(c_str, name.c_str());
-            properties.push_back(
-                StaticValue(
-                    c_str,
-                    CreateOptionGroup(env, it.second),
-                    napi_enumerable
-                )
-            );
-        }
+            StaticValue("AEMode", CreateOptionGroup(env, kEdsPropID_AEMode), napi_enumerable),
+            StaticValue("AEModeSelect", CreateOptionGroup(env, kEdsPropID_AEModeSelect), napi_enumerable),
+            StaticValue("AFMode", CreateOptionGroup(env, kEdsPropID_AFMode), napi_enumerable),
+            StaticValue("BatteryQuality", CreateOptionGroup(env, kEdsPropID_BatteryQuality), napi_enumerable),
+            StaticValue("Bracket", CreateOptionGroup(env, kEdsPropID_Bracket), napi_enumerable),
+            StaticValue("ColorSpace", CreateOptionGroup(env, kEdsPropID_ColorSpace), napi_enumerable),
+            StaticValue("DCStrobe", CreateOptionGroup(env, kEdsPropID_DC_Strobe), napi_enumerable),
+            StaticValue("DriveMode", CreateOptionGroup(env, kEdsPropID_DriveMode), napi_enumerable),
+            StaticValue("EvfAFMode", CreateOptionGroup(env, kEdsPropID_Evf_AFMode), napi_enumerable),
+            StaticValue("EvfHistogramStatus", CreateOptionGroup(env, kEdsPropID_Evf_HistogramStatus), napi_enumerable),
+            StaticValue("EvfOutputDevice", CreateOptionGroup(env, kEdsPropID_Evf_OutputDevice), napi_enumerable),
+            StaticValue("EvfZoom", CreateOptionGroup(env, kEdsPropID_Evf_Zoom), napi_enumerable),
+            StaticValue("LensBarrelStatus", CreateOptionGroup(env, kEdsPropID_LensBarrelStatus), napi_enumerable),
+            StaticValue("LensStatus", CreateOptionGroup(env, kEdsPropID_LensStatus), napi_enumerable),
+            StaticValue("MeteringMode", CreateOptionGroup(env, kEdsPropID_MeteringMode), napi_enumerable),
+            StaticValue("MirrorUpStatus", CreateOptionGroup(env, kEdsPropID_MirrorLockUpState), napi_enumerable),
+            StaticValue("MovieQuality", CreateOptionGroup(env, kEdsPropID_MovieParam), napi_enumerable),
+            StaticValue("NoiseReduction", CreateOptionGroup(env, kEdsPropID_NoiseReduction), napi_enumerable),
+            StaticValue("RedEye", CreateOptionGroup(env, kEdsPropID_RedEye), napi_enumerable),
+            StaticValue("Record", CreateOptionGroup(env, kEdsPropID_Record), napi_enumerable),
+            StaticValue("SaveTo", CreateOptionGroup(env, kEdsPropID_SaveTo), napi_enumerable),
+            StaticValue("WhiteBalance", CreateOptionGroup(env, kEdsPropID_WhiteBalance), napi_enumerable)
+        };
 
         Napi::Function func = DefineClass(env, Option::JSClassName, properties);
         JSConstructor(&func);

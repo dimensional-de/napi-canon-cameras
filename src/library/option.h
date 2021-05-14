@@ -53,6 +53,8 @@ namespace CameraApi {
             static Napi::Value ForLabel(const Napi::CallbackInfo &info);
 
             static Napi::Object CreateOptionGroup(Napi::Env env, const LabelMap &labels);
+
+            static Napi::Object CreateOptionGroup(Napi::Env env, EdsPropertyID propertyID);
     };
 }
 
