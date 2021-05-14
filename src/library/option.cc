@@ -157,10 +157,8 @@ namespace CameraApi {
     Napi::Object Option::CreateOptionGroup(Napi::Env env, const LabelMap &labels) {
         Napi::Object optionGroup = Napi::Object::New(env);
         for (const auto &it : labels) {
-            optionGroup.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            optionGroup.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
         return optionGroup;

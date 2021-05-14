@@ -295,10 +295,8 @@ namespace CameraApi {
 
         Napi::Object IDs = Napi::Object::New(env);
         for (const auto &it : NamedShutterSpeedValueLabels) {
-            IDs.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            IDs.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object Values = Napi::Object::New(env);

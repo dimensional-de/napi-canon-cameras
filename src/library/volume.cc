@@ -143,10 +143,8 @@ namespace CameraApi {
 
         Napi::Object StorageTypes = Napi::Object::New(env);
         for (const auto &it : Labels::StorageType) {
-            StorageTypes.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            StorageTypes.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
 

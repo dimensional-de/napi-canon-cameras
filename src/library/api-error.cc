@@ -42,10 +42,8 @@ namespace CameraApi {
 
         Napi::Object Codes = Napi::Object::New(env);
         for (const auto &it : Labels::Error) {
-            Codes.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            Codes.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
 

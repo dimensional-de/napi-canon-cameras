@@ -126,35 +126,27 @@ namespace CameraApi {
 
         Napi::Object IDs = Napi::Object::New(env);
         for (const auto &it : Labels::ImageQuality) {
-            IDs.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            IDs.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
 
         Napi::Object ImageFormats = Napi::Object::New(env);
         for (const auto &it : Labels::ImageFormat) {
-            ImageFormats.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            ImageFormats.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object ImageSizes = Napi::Object::New(env);
         for (const auto &it : Labels::ImageSize) {
-            ImageSizes.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            ImageSizes.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object ImageCompressions = Napi::Object::New(env);
         for (const auto &it : Labels::ImageCompression) {
-            ImageCompressions.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            ImageCompressions.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
 

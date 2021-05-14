@@ -95,10 +95,8 @@ namespace CameraApi {
 
         Napi::Object FileTypes = Napi::Object::New(env);
         for (const auto &it : Labels::ImageFormat) {
-            FileTypes.DefineProperty(
-                Napi::PropertyDescriptor::Value(
-                    it.second.c_str(), Napi::Number::New(env, it.first), napi_enumerable
-                )
+            FileTypes.Set(
+                it.second, Napi::Number::New(env, it.first)
             );
         }
 

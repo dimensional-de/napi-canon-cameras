@@ -232,11 +232,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        IDs.DefineProperty(
-            Napi::PropertyDescriptor::Value(
-                "Auto", Napi::Number::New(env, 0), napi_enumerable
-            )
-        );
+        IDs.Set("Auto", Napi::Number::New(env, 0));
         Napi::Object Values = Napi::Object::New(env);
         for (const auto &it : ISOSensitivityValues) {
             Values.Set(it.first, it.second);
