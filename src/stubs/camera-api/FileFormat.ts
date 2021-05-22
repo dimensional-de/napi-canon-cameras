@@ -4,7 +4,7 @@ export class FileFormat implements PropertyValue {
 
     [Symbol.toStringTag] = 'FileFormat';
 
-    private readonly type_: number;
+    private label_: string;
 
     /**
      * @class FileFormat
@@ -13,11 +13,10 @@ export class FileFormat implements PropertyValue {
     constructor(
         private readonly value_: number
     ) {
-        this.type_ = FileFormat.extractBits(value_, 0, 8);
-    }
-
-    private static extractBits(buffer: number, offset: number, length: number): number {
-        return (((1 << length) - 1) & (buffer >> (offset)));
+        this.label_ = Object
+            .keys(FileFormat.ID)
+            .find(key => FileFormat.ID[key] === this.value_) ||
+                `0x${value_.toString(16).padStart(8, '0')}`;
     }
 
     /**
@@ -25,10 +24,7 @@ export class FileFormat implements PropertyValue {
      * @type {string}
      */
     get label(): string {
-        const name = Object
-            .keys(FileFormat.Type)
-            .find(key => FileFormat.Type[key] === this.type_);
-        return name || "Unknown";
+        return this.label_;
     }
 
     /**
@@ -37,14 +33,6 @@ export class FileFormat implements PropertyValue {
      */
     get value(): number {
         return this.value_;
-    }
-
-    /**
-     * @readonly
-     * @type {number}
-     */
-    get type(): number {
-        return this.type_;
     }
 
     /**
@@ -69,7 +57,7 @@ export class FileFormat implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly Type = {"CR2":6,"CR3":8,"CRW":2,"JPEG":1,"RAW":4,"Unknown":0};
+     static readonly ID = {"CR2":45315,"CR3":45320,"HEIF_CODE":45323,"JPEG":14337,"MP4":47490,"Unknown":0};
 
     // GenerateEnd
 }

@@ -4,6 +4,16 @@
 
 namespace CameraApi {
 
+
+    LabelMap FileFormatLabels = {
+        {kEdsObjectFormat_Unknown, "Unknown"},
+        {kEdsObjectFormat_JPEG, "JPEG"},
+        {kEdsObjectFormat_CR2, "CR2"},
+        {kEdsObjectFormat_CR3, "CR3"},
+        {kEdsObjectFormat_MP4, "MP4"},
+        {kEdsObjectFormat_HEIF_CODE, "HEIF_CODE"}
+    };
+
     FileFormat::FileFormat(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         Napi::Env env = info.Env();
         Napi::HandleScope scope(env);
@@ -15,26 +25,20 @@ namespace CameraApi {
                 info.Env(), "Argument 0 must be a property value."
             );
         }
-        fileType_ = ReadBitsValue(value_, 0, 8);
     }
 
     Napi::Value FileFormat::GetLabel(const Napi::CallbackInfo &info) {
         std::string label;
-        if (Labels::ImageFormat.find(fileType_) != Labels::ImageFormat.end()) {
-            label.append(Labels::ImageFormat[fileType_]);
+        if (FileFormatLabels.find(value_) != FileFormatLabels.end()) {
+            label.append(FileFormatLabels[value_]);
         } else {
-            label.append(CodeToHexLabel(fileType_));
+            label.append(CodeToHexLabel(value_));
         }
         return Napi::String::New(info.Env(), label);
     }
 
     Napi::Value FileFormat::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
-    }
-
-    Napi::Value FileFormat::GetType(const Napi::CallbackInfo &info) {
-        auto env = info.Env();
-        return Napi::Number::New(env, fileType_);
     }
 
     Napi::Value FileFormat::GetPrimitive(const Napi::CallbackInfo &info) {
@@ -55,7 +59,6 @@ namespace CameraApi {
         Napi::Object Json = Napi::Object::New(env);
         Json.Set("label", GetLabel(info));
         Json.Set("value", GetValue(info));
-        Json.Set("type", GetType(info));
         return Json;
     }
 
@@ -94,16 +97,15 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object FileTypes = Napi::Object::New(env);
-        for (const auto &it : Labels::ImageFormat) {
+        for (const auto &it : FileFormatLabels) {
             FileTypes.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&FileFormat::GetLabel>("label"),
             InstanceAccessor<&FileFormat::GetValue>("value"),
-            InstanceAccessor<&FileFormat::GetType>("type"),
 
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &FileFormat::GetPrimitive),
             InstanceMethod("toJSON", &FileFormat::ToJSON),
@@ -111,7 +113,7 @@ namespace CameraApi {
             InstanceAccessor<&FileFormat::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &FileFormat::Inspect),
 
-            StaticValue("Type", FileTypes, napi_enumerable)
+            StaticValue("ID", FileTypes, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, FileFormat::JSClassName, properties);

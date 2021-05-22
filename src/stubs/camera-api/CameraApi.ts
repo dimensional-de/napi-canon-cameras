@@ -6,6 +6,7 @@ import { CameraFile } from "./CameraFile";
 import { CameraProperty } from "./CameraProperty";
 import { Directory } from "./Directory";
 import { ExposureCompensation } from "./ExposureCompensation";
+import { FileFormat } from "./FileFormat";
 import { Flag } from "./Flag";
 import { ImageQuality } from "./ImageQuality";
 import { ISOSensitivity } from "./ISOSensitivity";
@@ -25,6 +26,7 @@ export * from "./CameraFile";
 export * from "./CameraProperty";
 export * from "./Directory";
 export * from "./ExposureCompensation";
+export * from "./FileFormat";
 export * from "./Flag";
 export * from "./ImageQuality";
 export * from "./ISOSensitivity";
@@ -69,6 +71,7 @@ const CameraApi = {
     CameraProperty,
     Directory,
     ExposureCompensation,
+    FileFormat,
     Flag,
     ImageQuality,
     ISOSensitivity,

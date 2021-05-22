@@ -2,6 +2,7 @@ import * as CameraApiStubs from "../src/stubs/index";
 import CommonApertureTests from "./common/Aperture.test";
 import CommonApiErrorTests from "./common/ApiError.test";
 import CommonExposureCompensationTests from "./common/ExposureCompensation.test";
+import CommonFileFormatTests from "./common/FileFormat.test";
 import CommonFlagTests from "./common/Flag.test";
 import CommonISOSensitivityTests from "./common/ISOSensitivity.test";
 import CommonObjectEventTests from "./common/ObjectEvent.test";
@@ -18,6 +19,7 @@ describe(
         CommonApiErrorTests(stubs);
         CommonExposureCompensationTests(stubs);
         CommonFlagTests(stubs);
+        CommonFileFormatTests(stubs);
         CommonISOSensitivityTests(stubs);
         CommonObjectEventTests(stubs);
         CommonOptionTests(stubs);

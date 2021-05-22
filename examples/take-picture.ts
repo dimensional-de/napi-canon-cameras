@@ -1,5 +1,5 @@
 import {
-    Camera, CameraProperty, FileChangeEvent,
+    Camera, CameraProperty, FileChangeEvent, ImageQuality,
     Option,
     watchCameras
 } from '../';
@@ -19,13 +19,12 @@ try {
                 const file = (event as FileChangeEvent).file;
                 console.log(
                     file,
-                    file.format,
-                    '0x' + file.format.value.toString(16).padStart(8, '0')
+                    file.format
                 );
                 file.downloadToPath(__dirname + '/images');
                 console.log(`Downloaded ${file.name}.`);
 
-                //process.exit();
+                process.exit();
             }
         }
     );
@@ -36,7 +35,7 @@ try {
         {
             [CameraProperty.ID.SaveTo]: Option.SaveTo.Host,
             //[CameraProperty.ID.SaveTo]: Option.SaveTo.Camera,
-            [CameraProperty.ID.ImageQuality]: Option.ImageQuality.RAWAndLargeJPEGFine,
+            [CameraProperty.ID.ImageQuality]: ImageQuality.ID.LargeJPEGFine,
             [CameraProperty.ID.WhiteBalance]: Option.WhiteBalance.Fluorescent
         }
     );
