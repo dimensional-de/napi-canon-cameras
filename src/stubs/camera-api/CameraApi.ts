@@ -11,6 +11,7 @@ import { ImageQuality } from "./ImageQuality";
 import { ISOSensitivity } from "./ISOSensitivity";
 import { ObjectEvent } from "./ObjectEvent";
 import { Option } from "./Option";
+import { OutputDevice } from "./OutputDevice";
 import { ShutterSpeed } from "./ShutterSpeed";
 import { StateEvent } from "./StateEvent";
 import { TimeZone } from "./TimeZone";
@@ -29,6 +30,7 @@ export * from "./ImageQuality";
 export * from "./ISOSensitivity";
 export * from "./ObjectEvent";
 export * from "./Option";
+export * from "./OutputDevice";
 export * from "./ShutterSpeed";
 export * from "./StateEvent";
 export * from "./TimeZone";
@@ -72,6 +74,7 @@ const CameraApi = {
     ISOSensitivity,
     ObjectEvent,
     Option,
+    OutputDevice,
     ShutterSpeed,
     StateEvent,
     TimeZone,

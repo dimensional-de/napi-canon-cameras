@@ -44,18 +44,18 @@
     "node-gyp-build": "^4.2.3"
   },
   "devDependencies": {
-    "@babel/types": "^7.13.0",
-    "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.27",
+    "@babel/types": "^7.14.2",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.3",
     "directory-to-tgz": "^1.0.0",
     "jest": "^26.6.3",
-    "jsdoc-to-markdown": "^7.0.0",
+    "jsdoc-to-markdown": "^7.0.1",
     "prebuildify": "^4.1.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.38.5",
-    "ts-jest": "^26.5.2",
+    "rollup": "^2.47.0",
+    "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.2",
+    "typescript": "^4.2.4",
     "uglifyjs": "^2.4.11"
   }
 }

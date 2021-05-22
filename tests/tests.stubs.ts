@@ -6,6 +6,7 @@ import CommonFlagTests from "./common/Flag.test";
 import CommonISOSensitivityTests from "./common/ISOSensitivity.test";
 import CommonObjectEventTests from "./common/ObjectEvent.test";
 import CommonOptionTests from "./common/Option.test";
+import CommonOutputDeviceTests from "./common/OutputDevice.test";
 import CommonShutterSpeedTests from "./common/ShutterSpeed.test";
 import CommonStateEventTests from "./common/StateEvent.test";
 
@@ -20,6 +21,7 @@ describe(
         CommonISOSensitivityTests(stubs);
         CommonObjectEventTests(stubs);
         CommonOptionTests(stubs);
+        CommonOutputDeviceTests(stubs);
         CommonShutterSpeedTests(stubs);
         CommonStateEventTests(stubs);
     }

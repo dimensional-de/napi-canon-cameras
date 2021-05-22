@@ -4,10 +4,10 @@
 namespace CameraApi {
 
     LabelMap OutputDeviceLabels = {
-        {kEdsEvfOutputDevice_PC, "PC"},
-        {kEdsEvfOutputDevice_TFT, "TFT"},
         {kEdsEvfOutputDevice_MOBILE, "Mobile"},
-        {kEdsEvfOutputDevice_MOBILE2, "Mobile2"}
+        {kEdsEvfOutputDevice_MOBILE2, "Mobile2"},
+        {kEdsEvfOutputDevice_PC, "PC"},
+        {kEdsEvfOutputDevice_TFT, "TFT"}
     };
 
     OutputDevice::OutputDevice(const Napi::CallbackInfo &info) : ObjectWrap(info) {
@@ -26,7 +26,7 @@ namespace CameraApi {
 
     Napi::Value OutputDevice::GetLabel(const Napi::CallbackInfo &info) {
         std::string label;
-        for (auto it : OutputDeviceLabels) {
+        for (const auto& it : OutputDeviceLabels) {
             auto deviceID = it.first;
             if (IsEnabled(deviceID)) {
                 label.append(", ");
@@ -34,13 +34,22 @@ namespace CameraApi {
             }
         }
         if (label.empty()) {
-            label = "None";
+            label = ", None";
         }
         return Napi::String::New(info.Env(), label.substr(2));
     }
 
     Napi::Value OutputDevice::GetValue(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), value_);
+    }
+
+    EdsInt32 OutputDevice::GetValueForDeviceName(const std::string& deviceName) {
+        for (const auto& it : OutputDeviceLabels) {
+            if (it.second == deviceName) {
+                return it.first;
+            }
+        }
+        return 0;
     }
 
     Napi::Value OutputDevice::GetPrimitive(const Napi::CallbackInfo &info) {
@@ -59,9 +68,10 @@ namespace CameraApi {
     Napi::Value OutputDevice::ToJSON(const Napi::CallbackInfo &info) {
         auto env = info.Env();
         auto json = Napi::Object::New(env);
+        json.Set("label", GetLabel(info));
         json.Set("value", GetValue(info));
         auto status = Napi::Object::New(env);
-        for (auto it : OutputDeviceLabels) {
+        for (const auto& it : OutputDeviceLabels) {
             status.Set(it.second, Napi::Boolean::New(env, IsEnabled(it.first)));
         }
         json.Set("devices", status);
@@ -118,7 +128,7 @@ namespace CameraApi {
         return devices;
     }
 
-    bool OutputDevice::IsEnabled(EdsInt32 deviceID) {
+    bool OutputDevice::IsEnabled(EdsInt32 deviceID) const {
         return (value_ & deviceID) == deviceID;
     }
 
@@ -133,6 +143,26 @@ namespace CameraApi {
         );
     }
 
+    Napi::Value OutputDevice::ForLabel(const Napi::CallbackInfo &info) {
+        if (!(info.Length() > 0 && info[0].IsString())) { ;
+            throw Napi::TypeError::New(
+                info.Env(), "Argument 0 must be a label string."
+            );
+        }
+        std::string separator = ",";
+        std::string label = info[0].As<Napi::String>().Utf8Value();
+        size_t separatorOffset = 0;
+        EdsInt32 value = 0;
+        while ((separatorOffset = label.find(separator)) != std::string::npos) {
+            std::string deviceName = trim_copy(label.substr(0, separatorOffset));
+            value |= GetValueForDeviceName(deviceName);
+            label.erase(0, separatorOffset + 1);
+        }
+        trim(label);
+        value |= GetValueForDeviceName(label);
+        return NewInstance(info.Env(), value);
+    }
+
     Napi::Object OutputDevice::NewInstance(Napi::Env env, EdsInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
@@ -144,6 +174,14 @@ namespace CameraApi {
     }
 
     void OutputDevice::Init(Napi::Env env, Napi::Object exports) {
+        Napi::Object IDs = Napi::Object::New(env);
+        IDs.Set("None", Napi::Number::New(env, 0));
+        for (const auto &it : OutputDeviceLabels) {
+            IDs.Set(
+                it.second, Napi::Number::New(env, it.first)
+            );
+        }
+
         std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&OutputDevice::GetLabel>("label"),
             InstanceAccessor<&OutputDevice::GetValue>("value"),
@@ -156,14 +194,8 @@ namespace CameraApi {
             InstanceAccessor<&OutputDevice::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &OutputDevice::Inspect),
 
-            /*
-
-
             StaticMethod<&OutputDevice::ForLabel>("forLabel"),
-            StaticMethod<&OutputDevice::FindNearest>("findNearest"),
-
-            StaticValue("ID", IDs, napi_enumerable),
-             */
+            StaticValue("ID", IDs, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, OutputDevice::JSClassName, properties);
