@@ -40,14 +40,17 @@ application.
 - [ ] Storage
     - [x] List Volumes
     - [x] List Directories and Files
+    - [x] Download Thumbnail
+    - [x] Download Files
 
 
 ## Usage
 
 ```typescript
 import {
-    cameraBrowser, CameraBrowser, CameraProperty, 
-    DownloadRequestEvent, Option, watchCameras
+    Camera, CameraProperty, FileChangeEvent, ImageQuality,
+    Option,
+    watchCameras
 } from '../';
 
 process.on('SIGINT', () => process.exit());
@@ -72,10 +75,13 @@ if (camera) {
     console.log(camera);
     camera.connect();
     // configure
-    camera.getProperty(CameraProperty.ID.SaveTo).value = Option.SaveTo.Host;
-    camera.getProperty(CameraProperty.ID.ImageQuality).value = Option.ImageQuality.LargeJPEGFine;
-    camera.getProperty(CameraProperty.ID.WhiteBalance).value = Option.WhiteBalance.Fluorescent;
-
+    camera.setProperties(
+        {
+            [CameraProperty.ID.SaveTo]: Option.SaveTo.Host,
+            [CameraProperty.ID.ImageQuality]: ImageQuality.ID.LargeJPEGFine,
+            [CameraProperty.ID.WhiteBalance]: Option.WhiteBalance.Fluorescent
+        }
+    );
     // trigger picture
     camera.takePicture();
 } else {
@@ -88,13 +94,14 @@ watchCameras();
  
 ## Build Package
 
-The package does not include the Canon EDSDK files. To install the package you will have to build a TGZ.
+The package does not include the Canon EDSDK files. To install the package you will have 
+to build a TGZ.
  
  1. Unpack the Canon EDSDK as `EDSDK` subdirectory into `third_party`.
  2. Run `npm run package`
  3. Look for `../node_packages/@dimensional/napi-canon-cameras.tgz`
  4. `cd ../YourProject` (Switch tp your project directory)
- 5. `npm -i ../node_packages/@dimensional/napi-canon-cameras.tgz`
+ 5. `npm i ../node_packages/@dimensional/napi-canon-cameras.tgz`
 
 ### NPM Tasks
 

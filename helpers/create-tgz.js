@@ -13,7 +13,7 @@ const targetFile = path.resolve(
 );
 
 if (!fs.existsSync(targetDirectory)){
-    fs.mkdirSync(targetDirectory);
+    fs.mkdirSync(targetDirectory,  { recursive: true });
 }
 directoryToTgz(
     sourceDirectory,
