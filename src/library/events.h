@@ -5,7 +5,10 @@ namespace CameraApi {
 
     const char EventName_CameraAdd[] = "CameraAdd";
     const char EventName_CameraRemove[] = "CameraRemove";
+    const char EventName_CameraConnect[] = "CameraConnect";
+    const char EventName_CameraDisconnect[] = "CameraDisconnect";
     const char EventName_StateChange[] = "StateChange";
+    const char EventName_KeepAlive[] = "KeepAlive";
     const char EventName_LiveViewStart[] = "LiveViewStart";
     const char EventName_LiveViewStop[] = "LiveViewStop";
     const char EventName_PropertyChangeOptions[] = "PropertyChangeOptions";
@@ -20,7 +23,10 @@ namespace CameraApi {
     const std::vector CameraBrowserEvents = {
         EventName_CameraAdd,
         EventName_CameraRemove,
+        EventName_CameraConnect,
+        EventName_CameraDisconnect,
         EventName_StateChange,
+        EventName_KeepAlive,
         EventName_LiveViewStart,
         EventName_LiveViewStop,
         EventName_PropertyChangeOptions,
@@ -34,7 +40,10 @@ namespace CameraApi {
     };
 
     const std::vector CameraEvents = {
+        EventName_CameraConnect,
+        EventName_CameraDisconnect,
         EventName_StateChange,
+        EventName_KeepAlive,
         EventName_LiveViewStart,
         EventName_LiveViewStop,
         EventName_PropertyChangeOptions,

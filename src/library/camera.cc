@@ -16,6 +16,10 @@
 
 namespace CameraApi {
 
+    struct DeviceEventData {
+        CameraReference camera;
+    };
+
     struct LiveViewEventData {
         CameraReference camera;
         boolean isActive = false;
@@ -147,6 +151,7 @@ namespace CameraApi {
             return error;
         }
         isConnected_ = true;
+        emitCameraEvent(EventName_CameraConnect);
         return EDS_ERR_OK;
     }
 
@@ -156,7 +161,38 @@ namespace CameraApi {
         }
         stopLiveView();
         isConnected_ = false;
-        return EdsCloseSession(edsCamera_);
+        EdsError error = EdsCloseSession(edsCamera_);
+        if (error == EDS_ERR_OK) {
+           emitCameraEvent(EventName_CameraDisconnect);
+        }
+        return error;
+    }
+
+    void Camera::emitCameraEvent(const std::string& eventName) {
+        DeviceEventData *eventDataPtr;
+        eventDataPtr = new DeviceEventData;
+        eventDataPtr->camera = this->shared_from_this();
+
+        auto jsCallback = [eventName](Napi::Env env, Napi::Function jsCallback, DeviceEventData *dataPtr) {
+            Napi::Object event = Napi::Object::New(env);
+            event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
+            jsCallback.Call(
+                {
+                    Napi::String::New(env, eventName),
+                    event
+                }
+            );
+            delete dataPtr;
+        };
+
+        if (this->hasEventEmit()) {
+            this->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+        }
+        if (CameraBrowser::instance()->hasEventEmit()) {
+            CameraBrowser::instance()->getEventEmit().BlockingCall(
+                eventDataPtr, jsCallback
+            );
+        }
     }
 
     EdsError Camera::sendCommand(EdsCameraCommand command, EdsInt32 parameter) {
@@ -297,15 +333,16 @@ namespace CameraApi {
         CameraReference camera = c->shared_from_this();
 
         switch (inEvent) {
-            case kEdsStateEvent_WillSoonShutDown:
-                if (camera->isConnected_ && camera->shouldKeepAlive_) {
-                    EdsSendCommand(camera->edsCamera_, kEdsCameraCommand_ExtendShutDownTimer, 0);
-                }
-                break;
             case kEdsStateEvent_Shutdown:
                 camera->disconnect();
                 CameraBrowser::instance()->removeCamera(camera);
                 break;
+            case kEdsStateEvent_WillSoonShutDown:
+                if (camera->isConnected_ && camera->shouldKeepAlive_) {
+                    EdsSendCommand(camera->edsCamera_, kEdsCameraCommand_ExtendShutDownTimer, 0);
+                    camera->emitCameraEvent(EventName_KeepAlive);
+                    break;
+                }
             default:
                 StateEventData *eventDataPtr;
                 eventDataPtr = new StateEventData;
@@ -551,7 +588,11 @@ namespace CameraApi {
     };
 
     Napi::Value CameraWrap::Connect(const Napi::CallbackInfo &info) {
-        return ApiError::ThrowIfFailed(info.Env(), camera_->connect());
+        bool keepAlive = false;
+        if (info.Length() > 0 && info[0].IsBoolean()) {
+            keepAlive = info[0].As<Napi::Boolean>().Value();
+        }
+        return ApiError::ThrowIfFailed(info.Env(), camera_->connect(keepAlive));
     }
 
     Napi::Value CameraWrap::Disconnect(const Napi::CallbackInfo &info) {

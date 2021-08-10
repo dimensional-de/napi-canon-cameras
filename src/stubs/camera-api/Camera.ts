@@ -47,7 +47,7 @@ export class Camera {
     /**
      * Connect to device
      */
-    connect(): void {
+    connect(shouldKeepAlive = false): void {
         throw new Error("Not implemented - stub only.");
     }
 
@@ -132,7 +132,7 @@ export class Camera {
      * @readonly
      * @enum {string}
      */
-     static readonly EventName = {"DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
+     static readonly EventName = {"CameraConnect":"CameraConnect","CameraDisconnect":"CameraDisconnect","DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","KeepAlive":"KeepAlive","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
     /**
      * @readonly
      * @enum {number}

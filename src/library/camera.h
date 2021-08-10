@@ -70,6 +70,8 @@ namespace CameraApi {
             );
 
             static EdsError __stdcall handleObjectEvent(EdsObjectEvent inEvent, EdsBaseRef inRef, EdsVoid *inContext);
+
+            void emitCameraEvent(const std::string& eventName);
     };
 
     class CameraWrap : public Napi::ObjectWrap<CameraWrap> {
