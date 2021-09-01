@@ -206,18 +206,28 @@ namespace CameraApi {
         if (!isConnected_) {
             return EDS_ERR_SESSION_NOT_OPEN;
         }
-        EdsError error;
-        error = EdsSendCommand(
-            edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Halfway
-        );
-        if (EDS_ERR_OK == error) {
+        EdsError error = EDS_ERR_OK;
+        if (!isLegacy_) {
             error = EdsSendCommand(
-                edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Completely
+                edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Halfway
             );
+            if (EDS_ERR_OK == error) {
+                error = EdsSendCommand(
+                    edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Completely
+                );
+            }
+            if (EDS_ERR_OK == error) {
+                error = EdsSendCommand(
+                    edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_OFF
+                );
+            }
         }
-        EdsSendCommand(
-            edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_OFF
-        );
+        if (isLegacy_ || EDS_ERR_INVALID_PARAMETER == error) {
+            isLegacy_ = true;
+            EdsSendStatusCommand(edsCamera_,  kEdsCameraStatusCommand_UILock, 0);
+            error = EdsSendCommand(edsCamera_, kEdsCameraCommand_TakePicture, 0);
+            EdsSendStatusCommand(edsCamera_,  kEdsCameraStatusCommand_UIUnLock, 0);
+        }
         return error;
     }
 

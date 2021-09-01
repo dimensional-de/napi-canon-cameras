@@ -54,6 +54,7 @@ namespace CameraApi {
             bool isConnected_ = false;
             bool shouldKeepAlive_ = false;
             bool hasActiveLiveView_ = false;
+            bool isLegacy_ = false;
 
             Napi::ThreadSafeFunction tsEmit_;
 
