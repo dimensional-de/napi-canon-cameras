@@ -22,7 +22,7 @@ string(REPLACE "\"" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
 if(WIN32)
-    include_directories(third_party/Node/node-v15.14.0/include/node)
+    include_directories(third_party/Node/node-v17.0.0/include/node)
 
     if(NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
         target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/third_party/EDSDK/Windows/EDSDK_64/Library/EDSDK.lib)

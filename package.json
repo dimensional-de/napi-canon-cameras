@@ -40,8 +40,8 @@
     "url": "git@github.com:dimensional-de/napi-canon-cameras.git"
   },
   "dependencies": {
-    "node-addon-api": "^3.2.0",
-    "node-gyp-build": "^4.2.3"
+    "node-addon-api": "^3.2.1",
+    "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
     "@babel/types": "^7.14.2",
