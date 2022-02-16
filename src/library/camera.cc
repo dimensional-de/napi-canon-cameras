@@ -261,9 +261,8 @@ namespace CameraApi {
     }
 
     bool Camera::updateLiveViewStatus() {
-        EdsError error;
         EdsUInt32 device;
-        error = EdsGetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
+        EdsGetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
         bool activeLiveView = ((device & kEdsEvfOutputDevice_PC) == kEdsEvfOutputDevice_PC);
         if (hasActiveLiveView_ != activeLiveView) {
             hasActiveLiveView_ = activeLiveView;
