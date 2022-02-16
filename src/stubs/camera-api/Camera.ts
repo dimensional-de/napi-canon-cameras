@@ -137,7 +137,7 @@ export class Camera {
      * @readonly
      * @enum {number}
      */
-     static readonly Command = {"BulbEnd":3,"BulbStart":2,"DoClickWBEvf":260,"DoEvfAf":258,"DriveLensEvf":259,"DrivePowerZoom":269,"ExtendShutDownTimer":1,"MovieSelectSwOFF":264,"MovieSelectSwON":263,"PressShutterButton":4,"RequestRollPitchLevel":265,"SetRemoteShootingMode":271,"TakePicture":0};
+     static readonly Command = {"BulbEnd":3,"BulbStart":2,"DoClickWBEvf":260,"DoEvfAf":258,"DriveLensEvf":259,"DrivePowerZoom":269,"ExtendShutDownTimer":1,"MovieSelectSwOFF":264,"MovieSelectSwON":263,"PressShutterButton":4,"RequestRollPitchLevel":265,"RequestSensorCleaning":274,"SetRemoteShootingMode":271,"TakePicture":0};
     /**
      * @readonly
      * @enum {number}

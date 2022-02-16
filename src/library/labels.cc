@@ -90,6 +90,7 @@ namespace CameraApi {
         {kEdsPropID_Av, "Av"},
         {kEdsPropID_Tv, "Tv"},
         {kEdsPropID_ExposureCompensation, "ExposureCompensation"},
+        {kEdsPropID_FlashCompensation, "FlashCompensation"},
         {kEdsPropID_FocalLength, "FocalLength"},
         {kEdsPropID_AvailableShots, "AvailableShots"},
         {kEdsPropID_Bracket, "Bracket"},
@@ -225,6 +226,7 @@ namespace CameraApi {
         {kEdsAEMode_StarTrails, "StarTrails"},
         {kEdsAEMode_StarTimelapseMovie, "StarTimelapseMovie"},
         {kEdsAEMode_BackgroundBlur, "BackgroundBlur"},
+        {kEdsAEMode_VideoBlog, "VideoBlog"},
         {kEdsAEMode_Unknown, "Unknown"}
     };
 
@@ -333,8 +335,7 @@ namespace CameraApi {
         {0x00, "None"},
         {kEdsEvfOutputDevice_PC, "PC"},
         {kEdsEvfOutputDevice_TFT, "TFT"},
-        {kEdsEvfOutputDevice_MOBILE, "Mobile"},
-        {kEdsEvfOutputDevice_MOBILE2, "Mobile2"}
+        {kEdsEvfOutputDevice_PC_Small, "SmallPC"},
     };
 
     LabelMap Labels::EvfZoom = {
@@ -345,9 +346,12 @@ namespace CameraApi {
 
     LabelMap Labels::ImageQuality = {
         {EdsImageQuality_LJ, "LargeJPEG"},/* Jpeg Large */
+        {EdsImageQuality_MJ, "MiddleJPEG"},/* Jpeg Middle */
         {EdsImageQuality_M1J, "Middle1JPEG"},/* Jpeg Middle1 */
         {EdsImageQuality_M2J, "Middle2JPEG"},/* Jpeg Middle2 */
         {EdsImageQuality_SJ, "SmallJPEG"},/* Jpeg Small */
+        {EdsImageQuality_S1J, "SmallJPEG1"},/* Jpeg Small1 */
+        {EdsImageQuality_S2J, "SmallJPEG2"},/* Jpeg Small2 */
         {EdsImageQuality_LJF, "LargeJPEGFine"},/* Jpeg Large Fine */
         {EdsImageQuality_LJN, "LargeJPEGNormal"},/* Jpeg Large Normal */
         {EdsImageQuality_MJF, "MiddleJPEGFine"},/* Jpeg Middle Fine */
@@ -373,9 +377,12 @@ namespace CameraApi {
         {EdsImageQuality_LRS3JF, "RAWAndSmall3JPEGFine"},/* RAW + Jpeg Small3 */
 
         {EdsImageQuality_LRLJ, "RAWAndLargeJPEG"},/* RAW + Jpeg Large */
+        {EdsImageQuality_LRMJ, "RAWAndMiddleJPEG"},/* RAW + Jpeg Middle */
         {EdsImageQuality_LRM1J, "RAWAndMiddle1JPEG"},/* RAW + Jpeg Middle1 */
         {EdsImageQuality_LRM2J, "RAWAndMiddle2JPEG"},/* RAW + Jpeg Middle2 */
         {EdsImageQuality_LRSJ, "RAWAndSmallJPEG"},/* RAW + Jpeg Small */
+        {EdsImageQuality_LRS1J, "RAWAndSmall1JPEG"},/* RAW + Jpeg Small1 */
+        {EdsImageQuality_LRS2J, "RAWAndSmall2JPEG"},/* RAW + Jpeg Small2 */
 
         /* MRAW(SRAW1) + Jpeg */
         {EdsImageQuality_MR, "MR"},/* MRAW(SRAW1) */
@@ -431,9 +438,12 @@ namespace CameraApi {
         {EdsImageQuality_CRS1JN, "CRS1JN"},/* CRAW + Jpeg Small1 Normal */
 
         {EdsImageQuality_CRLJ, "CRLJ"},/* CRAW + Jpeg Large */
+        {EdsImageQuality_CRMJ, "CRMJ"},/* CRAW + Jpeg Middle */
         {EdsImageQuality_CRM1J, "CRM1J"},/* CRAW + Jpeg Middle1 */
         {EdsImageQuality_CRM2J, "CRM2J"},/* CRAW + Jpeg Middle2 */
         {EdsImageQuality_CRSJ, "CRSJ"},/* CRAW + Jpeg Small */
+        {EdsImageQuality_CRS1J, "CRS1J"},/* CRAW + Jpeg Small1 */
+        {EdsImageQuality_CRS2J, "CRS2J"},/* CRAW + Jpeg Small2 */
 
         /* HEIF */
         {EdsImageQuality_HEIFL, "HEIFL"},/* HEIF Large */
@@ -909,9 +919,11 @@ namespace CameraApi {
     };
 
     LabelMap Labels::StorageType = {
-        {0, "NoMemoryCard"},
-        {1, "SDCard"},
-        {2, "CompactFlash"},
+        {kEdsStorageType_Non, "NoMemoryCard"},
+        {kEdsStorageType_CF, "CompactFlash"},
+        {kEdsStorageType_SD, "SDCard"},
+        {kEdsStorageType_HD, "HardDrive"},
+        {kEdsStorageType_CFast, "CFast"},
     };
 
     LabelMap Labels::ImageFormat = {
@@ -920,24 +932,24 @@ namespace CameraApi {
         {kEdsImageType_CRW, "CRW"},
         {kEdsImageType_RAW, "RAW"},
         {kEdsImageType_CR2, "CR2"},
-        {kEdsImageType_CR3, "CR3"}
+        {kEdsImageType_HEIF, "HEIF"}
     };
     LabelMap Labels::ImageSize = {
-        {0, "Large"},
-        {1, "Middle"},
-        {2, "Small"},
-        {5, "Middle1"},
-        {6, "Middle2"},
-        {14, "Small1"},
-        {15, "Small2"},
-        {16, "Small3"},
-        {0xffffffff, "Unknown"}
+        {kEdsImageSize_Large, "Large"},
+        {kEdsImageSize_Middle, "Middle"},
+        {kEdsImageSize_Small, "Small"},
+        {kEdsImageSize_Middle1, "Middle1"},
+        {kEdsImageSize_Middle2, "Middle2"},
+        {kEdsImageSize_Small1, "Small1"},
+        {kEdsImageSize_Small2, "Small2"},
+        {kEdsImageSize_Small3, "Small3"},
+        {kEdsImageSize_Unknown, "Unknown"}
     };
     LabelMap Labels::ImageCompression = {
-        {2, "Normal"},
-        {3, "Fine"},
-        {4, "Lossless"},
-        {5, "SuperFine"},
-        {0xffffffff, "Unknown"}
+        {kEdsCompressQuality_Normal, "Normal"},
+        {kEdsCompressQuality_Fine, "Fine"},
+        {kEdsCompressQuality_Lossless, "Lossless"},
+        {kEdsCompressQuality_SuperFine, "SuperFine"},
+        {kEdsCompressQuality_Unknown, "Unknown"}
     };
 }

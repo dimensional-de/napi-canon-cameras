@@ -56,7 +56,8 @@ namespace CameraApi {
         {kEdsCameraCommand_PressShutterButton, "PressShutterButton"},
         {kEdsCameraCommand_RequestRollPitchLevel, "RequestRollPitchLevel"},
         {kEdsCameraCommand_DrivePowerZoom, "DrivePowerZoom"},
-        {kEdsCameraCommand_SetRemoteShootingMode, "SetRemoteShootingMode"}
+        {kEdsCameraCommand_SetRemoteShootingMode, "SetRemoteShootingMode"},
+        {kEdsCameraCommand_RequestSensorCleaning, "RequestSensorCleaning"}
     };
 
     LabelMap CameraParametersShutterButton = {

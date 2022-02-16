@@ -4,10 +4,9 @@
 namespace CameraApi {
 
     LabelMap OutputDeviceLabels = {
-        {kEdsEvfOutputDevice_MOBILE, "Mobile"},
-        {kEdsEvfOutputDevice_MOBILE2, "Mobile2"},
+        {kEdsEvfOutputDevice_TFT, "TFT"},
         {kEdsEvfOutputDevice_PC, "PC"},
-        {kEdsEvfOutputDevice_TFT, "TFT"}
+        {kEdsEvfOutputDevice_PC_Small, "PCSmall"},
     };
 
     OutputDevice::OutputDevice(const Napi::CallbackInfo &info) : ObjectWrap(info) {

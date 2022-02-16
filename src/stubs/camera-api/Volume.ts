@@ -104,7 +104,7 @@ export class Volume {
      * @readonly
      * @enum {number}
      */
-     static readonly StorageType = {"CompactFlash":2,"NoMemoryCard":0,"SDCard":1};
+     static readonly StorageType = {"CFast":5,"CompactFlash":1,"HardDrive":4,"NoMemoryCard":0,"SDCard":2};
 
     // GenerateEnd
 }

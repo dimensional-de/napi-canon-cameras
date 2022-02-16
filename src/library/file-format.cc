@@ -1,5 +1,4 @@
 #include "file-format.h"
-#include "labels.h"
 #include "utility.h"
 
 namespace CameraApi {
@@ -7,7 +6,7 @@ namespace CameraApi {
 
     LabelMap FileFormatLabels = {
         {kEdsObjectFormat_Unknown, "Unknown"},
-        {kEdsObjectFormat_JPEG, "JPEG"},
+        {kEdsObjectFormat_Jpeg, "JPEG"},
         {kEdsObjectFormat_CR2, "CR2"},
         {kEdsObjectFormat_CR3, "CR3"},
         {kEdsObjectFormat_MP4, "MP4"},

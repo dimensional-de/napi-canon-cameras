@@ -96,7 +96,7 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly AEMode = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":-1,"WaterColor":34};
+     static readonly AEMode = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":-1,"VideoBlog":63,"WaterColor":34};
     /**
      * @readonly
      * @enum {number}
@@ -146,7 +146,7 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly EvfOutputDevice = {"Mobile":4,"Mobile2":8,"None":0,"PC":2,"TFT":1};
+     static readonly EvfOutputDevice = {"None":0,"PC":2,"SmallPC":8,"TFT":1};
     /**
      * @readonly
      * @enum {number}
