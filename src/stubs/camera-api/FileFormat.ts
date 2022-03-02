@@ -15,7 +15,7 @@ export class FileFormat implements PropertyValue {
     ) {
         this.label_ = Object
             .keys(FileFormat.ID)
-            .find(key => FileFormat.ID[key as any] === this.value_) ||
+            .find(key => FileFormat.ID[key] === this.value_) ||
                 `0x${value_.toString(16).padStart(8, '0')}`;
     }
 
@@ -57,7 +57,7 @@ export class FileFormat implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID = {"CR2":45315,"CR3":45320,"HEIF_CODE":45323,"JPEG":14337,"MP4":47490,"Unknown":0};
+     static readonly ID: {[label: string]: number} = {"CR2":45315,"CR3":45320,"HEIF_CODE":45323,"JPEG":14337,"MP4":47490,"Unknown":0};
 
     // GenerateEnd
 }

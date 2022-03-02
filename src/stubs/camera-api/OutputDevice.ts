@@ -6,7 +6,7 @@ export class OutputDevice implements PropertyValue {
 
     [Symbol.toStringTag] = 'OutputDevice';
 
-    private readonly label_: string;
+    private readonly label_: string = '';
     private readonly value_: number;
 
     /**
@@ -18,13 +18,6 @@ export class OutputDevice implements PropertyValue {
         value: number
     ) {
         this.value_ = value;
-    }
-
-    /**
-     * @readonly
-     * @type {string}
-     */
-    get label(): string {
         const deviceNames = [];
         for (const deviceName of Object.keys(OutputDevice.ID)) {
             if (
@@ -34,8 +27,15 @@ export class OutputDevice implements PropertyValue {
                 deviceNames.push(deviceName)
             }
         }
-        const label = deviceNames.join(', ');
-        return (label) ? label : 'None';
+        this.label_ = deviceNames.join(', ');
+    }
+
+    /**
+     * @readonly
+     * @type {string}
+     */
+    get label(): string {
+        return (this.label_) ? this.label_ : 'None';
     }
 
     /**
@@ -74,7 +74,7 @@ export class OutputDevice implements PropertyValue {
      * @returns {OutputDeviceStatusList}
      */
     getDevices(): OutputDeviceStatusList {
-        const devices = {};
+        const devices: {[name: string]: boolean} = {};
         for (const deviceName of Object.keys(OutputDevice.ID)) {
             if (OutputDevice.ID[deviceName] > 0) {
                 devices[deviceName] = this.isEnabled(OutputDevice.ID[deviceName])
@@ -101,7 +101,7 @@ export class OutputDevice implements PropertyValue {
      * @return {OutputDevice}
      */
     static forLabel(label: string): OutputDevice | null {
-        const deviceNames = label.match(/[\w\d]+/g);
+        const deviceNames = label.match(/[\w\d]+/g) || [];
         let value = OutputDevice.ID.None;
         for (const deviceName of deviceNames) {
             if (deviceName in OutputDevice.ID) {
@@ -117,7 +117,7 @@ export class OutputDevice implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID = {"None":0,"PC":2,"PCSmall":8,"TFT":1};
+     static readonly ID: {[label: string]: number} = {"None":0,"PC":2,"PCSmall":8,"TFT":1};
 
     // GenerateEnd
 }

@@ -132,17 +132,17 @@ export class Camera {
      * @readonly
      * @enum {string}
      */
-     static readonly EventName = {"CameraConnect":"CameraConnect","CameraDisconnect":"CameraDisconnect","DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","KeepAlive":"KeepAlive","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
+     static readonly EventName: {[label: string]: string} = {"CameraConnect":"CameraConnect","CameraDisconnect":"CameraDisconnect","DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","KeepAlive":"KeepAlive","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly Command = {"BulbEnd":3,"BulbStart":2,"DoClickWBEvf":260,"DoEvfAf":258,"DriveLensEvf":259,"DrivePowerZoom":269,"ExtendShutDownTimer":1,"MovieSelectSwOFF":264,"MovieSelectSwON":263,"PressShutterButton":4,"RequestRollPitchLevel":265,"RequestSensorCleaning":274,"SetRemoteShootingMode":271,"TakePicture":0};
+     static readonly Command: {[label: string]: number} = {"BulbEnd":3,"BulbStart":2,"DoClickWBEvf":260,"DoEvfAf":258,"DriveLensEvf":259,"DrivePowerZoom":269,"ExtendShutDownTimer":1,"MovieSelectSwOFF":264,"MovieSelectSwON":263,"PressShutterButton":4,"RequestRollPitchLevel":265,"RequestSensorCleaning":274,"SetRemoteShootingMode":271,"TakePicture":0};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly PressShutterButton = {"Completely":3,"CompletelyNonAF":65539,"Halfway":1,"HalfwayNonAF":65537,"OFF":0};
+     static readonly PressShutterButton: {[label: string]: number} = {"Completely":3,"CompletelyNonAF":65539,"Halfway":1,"HalfwayNonAF":65537,"OFF":0};
 
     // GenerateEnd
 }

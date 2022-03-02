@@ -3,6 +3,7 @@
     "./index.ts"
   ],
   "compilerOptions":{
+    "strict": true,
     "target": "ES2015",
     "experimentalDecorators": true,
     "moduleResolution": "node",

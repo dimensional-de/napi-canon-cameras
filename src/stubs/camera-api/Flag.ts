@@ -99,12 +99,12 @@ export class Flag implements PropertyValue {
      * @readonly
      * @type {number}
      */
-     static readonly True = 1;
+     static readonly True: number = 1;
     /**
      * @readonly
      * @type {number}
      */
-     static readonly False = 0;
+     static readonly False: number = 0;
 
     // GenerateEnd
 }

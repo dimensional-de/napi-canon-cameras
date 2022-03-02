@@ -17,12 +17,12 @@ export class Aperture implements PropertyValue {
     constructor(
         private readonly value_: number
     ) {
-        const name = Object.keys(Aperture.ID).find(key => Aperture.ID[key as any] === value_);
+        const name = Object.keys(Aperture.ID).find(key => Aperture.ID[key] === value_);
         if (name) {
             this.label_ = name;
             this.aperture_ = 0;
         } else {
-            this.aperture_ = Aperture.Values[`${value_}` as any] || 0;
+            this.aperture_ = Aperture.Values[`${value_}`] || 0;
             this.label_ = 'f' + this.aperture_.toFixed(1).replace(/\.0$/, '');
         }
     }
@@ -79,7 +79,7 @@ export class Aperture implements PropertyValue {
     }
 
     static findNearest(
-        valueOrLabel: number | string, filter: (aperture: Aperture) => boolean = null
+        valueOrLabel: number | string, filter?: (aperture: Aperture) => boolean
     ): Aperture | null {
         let aperture: number;
         if (typeof valueOrLabel === 'string') {
@@ -94,7 +94,7 @@ export class Aperture implements PropertyValue {
         let found;
         found = Object.keys(Aperture.Values).reduce(
             (carry: null | { value: number, difference: number }, key) => {
-                const current = Aperture.Values[key as any];
+                const current = Aperture.Values[key];
                 const difference = Math.abs(current - aperture);
                 if (!carry || difference < carry.difference) {
                     if (filter && !filter(new Aperture(+key))) {
@@ -124,15 +124,15 @@ export class Aperture implements PropertyValue {
      */
     static forLabel(label: string): Aperture | null {
         if (label in Aperture.ID) {
-            return new Aperture(Aperture.ID[label as any]);
+            return new Aperture(Aperture.ID[label]);
         }
         const match = label.match(/f?(\d+(?:\.\d+)?)/);
         if (match) {
             const aperture = parseFloat(match[1]) || 0.0;
             const value = Object.keys(Aperture.Values).find(
-                (straw) => Math.abs(Aperture.Values[straw as any] - aperture) < 0.00001
+                (straw) => Math.abs(Aperture.Values[straw] - aperture) < 0.00001
             );
-            return new Aperture(+value);
+            return new Aperture(+(value || -1));
         }
         return null;
     }
@@ -143,12 +143,12 @@ export class Aperture implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID = {"Auto":0,"NotValid":-1};
+     static readonly ID: {[label: string]: number} = {"Auto":0,"NotValid":-1};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly Values = {"8":1,"11":1.1,"12":1.2,"13":1.2,"16":1.4,"19":1.6,"20":1.8,"21":1.8,"24":2,"27":2.2,"28":2.5,"29":2.5,"32":2.8,"35":3.2,"36":3.5,"37":3.5,"40":4,"43":4.5,"44":4.5,"45":5,"48":5.6,"51":6.3,"52":6.7,"53":7.1,"56":8,"59":9,"60":9.5,"61":10,"64":11,"67":13,"68":13,"69":14,"72":16,"75":18,"76":19,"77":20,"80":22,"83":25,"84":27,"85":29,"88":32,"91":36,"92":38,"93":40,"96":45,"99":51,"100":54,"101":57,"104":64,"107":72,"108":76,"109":80,"112":91,"133":3.4};
+     static readonly Values: {[label: string]: number} = {"8":1,"11":1.1,"12":1.2,"13":1.2,"16":1.4,"19":1.6,"20":1.8,"21":1.8,"24":2,"27":2.2,"28":2.5,"29":2.5,"32":2.8,"35":3.2,"36":3.5,"37":3.5,"40":4,"43":4.5,"44":4.5,"45":5,"48":5.6,"51":6.3,"52":6.7,"53":7.1,"56":8,"59":9,"60":9.5,"61":10,"64":11,"67":13,"68":13,"69":14,"72":16,"75":18,"76":19,"77":20,"80":22,"83":25,"84":27,"85":29,"88":32,"91":36,"92":38,"93":40,"96":45,"99":51,"100":54,"101":57,"104":64,"107":72,"108":76,"109":80,"112":91,"133":3.4};
 
     // GenerateEnd
 }

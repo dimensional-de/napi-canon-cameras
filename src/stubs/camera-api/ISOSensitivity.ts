@@ -78,7 +78,7 @@ export class ISOSensitivity implements PropertyValue {
     }
 
     static findNearest(
-        valueOrLabel: number | string, filter: (sensitivity: ISOSensitivity) => boolean = null
+        valueOrLabel: number | string, filter?: (sensitivity: ISOSensitivity) => boolean
     ): ISOSensitivity | null {
         let sensitivity: number;
         if (typeof valueOrLabel === 'string') {
@@ -140,12 +140,12 @@ export class ISOSensitivity implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID = {"Auto":0};
+     static readonly ID: {[label: string]: number} = {"Auto":0};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly Values = {"40":6,"48":12,"56":25,"64":50,"72":100,"75":125,"77":160,"80":200,"83":250,"85":320,"88":400,"91":500,"93":640,"96":800,"99":1000,"101":1250,"104":1600,"107":2000,"109":2500,"112":3200,"115":4000,"117":5000,"120":6400,"123":8000,"125":10000,"128":12800,"131":16000,"133":20000,"136":25600,"139":32000,"141":40000,"144":51200,"147":64000,"149":80000,"152":102400,"160":204800,"168":409600,"176":819200};
+     static readonly Values: {[label: string]: number} = {"40":6,"48":12,"56":25,"64":50,"72":100,"75":125,"77":160,"80":200,"83":250,"85":320,"88":400,"91":500,"93":640,"96":800,"99":1000,"101":1250,"104":1600,"107":2000,"109":2500,"112":3200,"115":4000,"117":5000,"120":6400,"123":8000,"125":10000,"128":12800,"131":16000,"133":20000,"136":25600,"139":32000,"141":40000,"144":51200,"147":64000,"149":80000,"152":102400,"160":204800,"168":409600,"176":819200};
 
     // GenerateEnd
 }

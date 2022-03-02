@@ -28,7 +28,7 @@ export class StateEvent extends ApiIdentifier {
      * @readonly
      * @enum {number}
      */
-     static readonly ID = {"AfResult":777,"All":768,"BulbExposureTime":784,"CaptureError":773,"InternalError":774,"JobStatusChanged":770,"PowerZoomInfoChanged":785,"ShutDownTimerUpdate":772,"Shutdown":769,"WillSoonShutDown":771};
+     static readonly ID: {[label: string]: number} = {"AfResult":777,"All":768,"BulbExposureTime":784,"CaptureError":773,"InternalError":774,"JobStatusChanged":770,"PowerZoomInfoChanged":785,"ShutDownTimerUpdate":772,"Shutdown":769,"WillSoonShutDown":771};
 
     // GenerateEnd
 }
