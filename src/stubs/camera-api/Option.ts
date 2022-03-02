@@ -20,7 +20,7 @@ export class Option implements PropertyValue {
         private readonly value_: number
     ) {
         this.label_ = `0x${value_.toString(16).padStart(8, '0')}`;
-        const propertyLabel = Object.keys(CameraProperty.ID).find(key => CameraProperty.ID[key] === propertyID_);
+        const propertyLabel = Object.keys(CameraProperty.ID).find(key => CameraProperty.ID[key as any] === propertyID_);
         if (propertyLabel && propertyLabel in Option) {
             const optionLabels = Option[propertyLabel];
             const optionLabel = Object.keys(optionLabels).find(key => optionLabels[key] === value_);
@@ -60,7 +60,7 @@ export class Option implements PropertyValue {
      * @param {string} hint
      * @return {string | number | null}
      */
-    [Symbol.toPrimitive](hint): string | number | null {
+    [Symbol.toPrimitive](hint: string): string | number | null {
         switch (hint) {
             case 'number':
                 return this.value_;
@@ -79,13 +79,13 @@ export class Option implements PropertyValue {
      */
     static forLabel(label: string): Option | null {
         const [propertyLabel, optionLabel] = label.split('.', 2);
-        const propertyID = CameraProperty.ID[propertyLabel] || null;
+        const propertyID = CameraProperty.ID[propertyLabel as any] || null;
         if (
             propertyID &&
             propertyLabel in Option &&
-            optionLabel in Option[propertyLabel]
+            optionLabel in Option[propertyLabel as any]
         ) {
-            return new Option(propertyID, Option[propertyLabel][optionLabel]);
+            return new Option(propertyID, Option[propertyLabel as any][optionLabel as any]);
         }
         return null;
     }

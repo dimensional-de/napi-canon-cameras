@@ -66,7 +66,7 @@ export class ShutterSpeed implements PropertyValue {
      * @param {string} hint
      * @return {number|string|null}
      */
-    [Symbol.toPrimitive](hint): string | number | null {
+    [Symbol.toPrimitive](hint: string): string | number | null {
         switch (hint) {
             case 'number':
                 return this.value_;
@@ -80,7 +80,8 @@ export class ShutterSpeed implements PropertyValue {
     static findNearest(
         valueOrLabel: number | string, filter: (aperture: ShutterSpeed) => boolean = null
     ): ShutterSpeed | null {
-        let found, seconds;
+        let found: null | { value: number, difference: number };
+        let seconds: number = 0;
         if (typeof valueOrLabel === 'string') {
             const speed = ShutterSpeed.forLabel(valueOrLabel);
             if (!speed) {
@@ -92,7 +93,7 @@ export class ShutterSpeed implements PropertyValue {
         }
         found = Object.keys(ShutterSpeed.Values).reduce(
             (carry: null | { value: number, difference: number }, key) => {
-                const current = ShutterSpeed.Values[key];
+                const current = ShutterSpeed.Values[key as any];
                 const difference = Math.abs(current - seconds);
                 if (!carry || difference < carry.difference) {
                     if (filter && !filter(new ShutterSpeed(+key))) {
@@ -121,7 +122,7 @@ export class ShutterSpeed implements PropertyValue {
      */
     static forLabel(label: string): ShutterSpeed | null {
         if (label in ShutterSpeed.ID) {
-            return new ShutterSpeed(ShutterSpeed.ID[label]);
+            return new ShutterSpeed(ShutterSpeed.ID[label as any]);
         }
         const match = label.match(/(\d+(?:\.\d+)?)(?:\s*\/\s*(\d+))?/);
         if (match) {
@@ -130,7 +131,7 @@ export class ShutterSpeed implements PropertyValue {
                 seconds /= parseFloat(match[2]);
             }
             const value = Object.keys(ShutterSpeed.Values).find(
-                (straw) => Math.abs(ShutterSpeed.Values[straw] - seconds) < 0.0000001
+                (straw) => Math.abs(ShutterSpeed.Values[straw as any] - seconds) < 0.0000001
             );
             return new ShutterSpeed(+value);
         }

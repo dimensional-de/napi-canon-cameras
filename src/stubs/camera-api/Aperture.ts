@@ -17,12 +17,12 @@ export class Aperture implements PropertyValue {
     constructor(
         private readonly value_: number
     ) {
-        const name = Object.keys(Aperture.ID).find(key => Aperture.ID[key] === value_);
+        const name = Object.keys(Aperture.ID).find(key => Aperture.ID[key as any] === value_);
         if (name) {
             this.label_ = name;
             this.aperture_ = 0;
         } else {
-            this.aperture_ = Aperture.Values[value_] || 0;
+            this.aperture_ = Aperture.Values[`${value_}` as any] || 0;
             this.label_ = 'f' + this.aperture_.toFixed(1).replace(/\.0$/, '');
         }
     }
@@ -56,7 +56,7 @@ export class Aperture implements PropertyValue {
      * @param {string} hint
      * @return { number | string | null}
      */
-    [Symbol.toPrimitive](hint): string | number | null {
+    [Symbol.toPrimitive](hint: string): string | number | null {
         switch (hint) {
             case 'number':
                 return this.value_;
@@ -94,7 +94,7 @@ export class Aperture implements PropertyValue {
         let found;
         found = Object.keys(Aperture.Values).reduce(
             (carry: null | { value: number, difference: number }, key) => {
-                const current = Aperture.Values[key];
+                const current = Aperture.Values[key as any];
                 const difference = Math.abs(current - aperture);
                 if (!carry || difference < carry.difference) {
                     if (filter && !filter(new Aperture(+key))) {
@@ -124,13 +124,13 @@ export class Aperture implements PropertyValue {
      */
     static forLabel(label: string): Aperture | null {
         if (label in Aperture.ID) {
-            return new Aperture(Aperture.ID[label]);
+            return new Aperture(Aperture.ID[label as any]);
         }
         const match = label.match(/f?(\d+(?:\.\d+)?)/);
         if (match) {
             const aperture = parseFloat(match[1]) || 0.0;
             const value = Object.keys(Aperture.Values).find(
-                (straw) => Math.abs(Aperture.Values[straw] - aperture) < 0.00001
+                (straw) => Math.abs(Aperture.Values[straw as any] - aperture) < 0.00001
             );
             return new Aperture(+value);
         }

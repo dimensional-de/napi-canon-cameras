@@ -32,7 +32,7 @@
     "_build:esm": "tsc -p src/stubs/ --module es2015 --target es5 --lib es2015 --removeComments --outDir stubs/esm",
     "_build:umd": "rollup stubs/esm/index.js -f umd -n napi-canon-cameras-stubs -m inline --context window -o stubs/umd/napi-canon-cameras-stubs.js",
     "_build:umd:min": "cd stubs/umd && uglifyjs -c -m --source-map -o napi-canon-cameras-stubs.min.js -- napi-canon-cameras-stubs.js && node ../../helpers/gzip-file.js napi-canon-cameras-stubs.min.js > napi-canon-cameras-stubs.min.js.gz",
-    "_exp:build:cmake": "cmake-js -O cmake-build build"
+    "_exp:build:cmake": "cmake-js -O cmake-build rebuild"
   },
   "license": "GPL-3.0-or-later",
   "repository": {

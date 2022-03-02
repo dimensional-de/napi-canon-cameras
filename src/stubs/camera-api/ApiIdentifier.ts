@@ -48,7 +48,7 @@ export abstract class ApiIdentifier {
      * @param {string} hint
      * @return {string|number|null}
      */
-    [Symbol.toPrimitive](hint): string | number {
+    [Symbol.toPrimitive](hint: string): string | number {
         switch(hint) {
             case 'number':
                 return this.identifier_;

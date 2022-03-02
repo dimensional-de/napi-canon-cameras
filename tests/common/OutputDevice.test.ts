@@ -12,8 +12,7 @@ const CommonOutputDeviceTests = (api: typeof CameraApi) => {
                     expect(
                         {
                             "devices": {
-                                "Mobile": false,
-                                "Mobile2": false,
+                                "PCSmall": false,
                                 "PC": false,
                                 "TFT": false,
                             },
@@ -31,8 +30,7 @@ const CommonOutputDeviceTests = (api: typeof CameraApi) => {
                     expect(
                         {
                             "devices": {
-                                "Mobile": false,
-                                "Mobile2": false,
+                                "PCSmall": false,
                                 "PC": true,
                                 "TFT": false,
                             },
@@ -45,43 +43,42 @@ const CommonOutputDeviceTests = (api: typeof CameraApi) => {
             test(
                 'OutputDevice for multiple output device (PC, Mobile)',
                 () => {
-                    const devices = new api.OutputDevice(api.OutputDevice.ID.PC | api.OutputDevice.ID.Mobile);
-                    expect(devices.value).toStrictEqual(api.OutputDevice.ID.PC | api.OutputDevice.ID.Mobile);
+                    const devices = new api.OutputDevice(api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall);
+                    expect(devices.value).toStrictEqual(api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall);
                     expect(
                         {
                             "devices": {
-                                "Mobile": true,
-                                "Mobile2": false,
+                                "PCSmall": true,
                                 "PC": true,
                                 "TFT": false,
                             },
-                            "label": "Mobile, PC",
-                            "value": api.OutputDevice.ID.PC | api.OutputDevice.ID.Mobile,
+                            "label": "PC, PCSmall",
+                            "value": api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall,
                         }
                     ).toEqual(devices.toJSON());
                 }
             );
             test(
-                'OutputDevice.forLabel("PC, Mobile")',
+                'OutputDevice.forLabel("PC, PCSmall")',
                 () => {
-                    const devices = api.OutputDevice.forLabel("PC, Mobile");
+                    const devices = api.OutputDevice.forLabel("PC, PCSmall");
                     expect(devices.value).toStrictEqual(
-                        api.OutputDevice.ID.PC | api.OutputDevice.ID.Mobile
+                        api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall
                     );
                 }
             );
             test(
                 'OutputDevice.isEnabled() expecting true',
                 () => {
-                    const devices = api.OutputDevice.forLabel("PC, Mobile");
+                    const devices = api.OutputDevice.forLabel("PC, PCSmall");
                     expect(devices.isEnabled(api.OutputDevice.ID.PC)).toBeTruthy();
                 }
             );
             test(
                 'OutputDevice.isEnabled() expecting false',
                 () => {
-                    const devices = api.OutputDevice.forLabel("PC, Mobile");
-                    expect(devices.isEnabled(api.OutputDevice.ID.Mobile2)).toBeFalsy();
+                    const devices = api.OutputDevice.forLabel("PC, PCSmall");
+                    expect(devices.isEnabled(api.OutputDevice.ID.TFT)).toBeFalsy();
                 }
             );
         }

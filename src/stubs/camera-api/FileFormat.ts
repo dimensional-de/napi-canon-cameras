@@ -4,7 +4,7 @@ export class FileFormat implements PropertyValue {
 
     [Symbol.toStringTag] = 'FileFormat';
 
-    private label_: string;
+    private readonly label_: string;
 
     /**
      * @class FileFormat
@@ -15,7 +15,7 @@ export class FileFormat implements PropertyValue {
     ) {
         this.label_ = Object
             .keys(FileFormat.ID)
-            .find(key => FileFormat.ID[key] === this.value_) ||
+            .find(key => FileFormat.ID[key as any] === this.value_) ||
                 `0x${value_.toString(16).padStart(8, '0')}`;
     }
 
@@ -40,7 +40,7 @@ export class FileFormat implements PropertyValue {
      * @param {string} hint
      * @return {number|string|null}
      */
-    [Symbol.toPrimitive](hint): string | number | null {
+    [Symbol.toPrimitive](hint: string): string | number | null {
         switch (hint) {
             case 'number':
                 return this.value_;

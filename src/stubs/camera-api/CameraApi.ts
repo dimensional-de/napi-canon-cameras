@@ -1,7 +1,7 @@
 import { Aperture } from "./Aperture";
 import { ApiError } from "./ApiError";
 import { Camera } from "./Camera";
-import { CameraBrowser, EventCallback } from "./CameraBrowser";
+import { CameraBrowser } from "./CameraBrowser";
 import { CameraFile } from "./CameraFile";
 import { CameraProperty } from "./CameraProperty";
 import { Directory } from "./Directory";

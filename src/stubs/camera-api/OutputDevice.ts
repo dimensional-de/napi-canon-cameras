@@ -51,7 +51,7 @@ export class OutputDevice implements PropertyValue {
      * @param {string} hint
      * @return { number | string | null}
      */
-    [Symbol.toPrimitive](hint): string | number | null {
+    [Symbol.toPrimitive](hint: string): string | number | null {
         switch (hint) {
             case 'number':
                 return this.value_;

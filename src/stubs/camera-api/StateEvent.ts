@@ -1,4 +1,4 @@
-import {ApiIdentifier} from "./ApiIdentifier";
+import { ApiIdentifier } from "./ApiIdentifier";
 
 export class StateEvent extends ApiIdentifier {
 

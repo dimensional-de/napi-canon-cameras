@@ -9,7 +9,12 @@ include_directories(third_party/EDSDK/Windows/EDSDK/Header)
 file(GLOB SOURCE_FILES CONFIGURE_DEPENDS "src/library/*.cc" "src/library/*.h")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC})
-set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+    PREFIX ""
+    SUFFIX ".node"
+)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
 # Include N-API wrappers
@@ -25,9 +30,9 @@ if(WIN32)
     include_directories(third_party/Node/node-v17.0.0/include/node)
 
     if(NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
-        target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/third_party/EDSDK/Windows/EDSDK_64/Library/EDSDK.lib)
-    else()
         target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/third_party/EDSDK/Windows/EDSDK/Library/EDSDK.lib)
+    else()
+        target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/third_party/EDSDK/Windows/EDSDK_64/Library/EDSDK.lib)
     endif()
 endif()
 

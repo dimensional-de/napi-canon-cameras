@@ -18,7 +18,7 @@ export class ApiError extends ApiIdentifier {
      * }
      * ```
      */
-    constructor(identifier) {
+    constructor(identifier: number) {
         super(identifier, ApiError.Code);
     }
 

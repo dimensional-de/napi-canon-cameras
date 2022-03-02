@@ -27,11 +27,11 @@ const LibraryOutputDeviceTests = (api: typeof CameraApi) => {
                 'OutputDevice[Symbol.for("nodejs.util.inspect.custom")] with "PC, Mobile"',
                 () => {
                     const value = new api.OutputDevice(
-                        api.OutputDevice.ID.PC | api.OutputDevice.ID.Mobile
+                        api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall
                     );
                     expect(
                         util.inspect(value)
-                    ).toBe('OutputDevice <Mobile|PC>');
+                    ).toBe('OutputDevice <PC|PCSmall>');
                 }
             );
         }

@@ -1,8 +1,4 @@
-import {Option} from "./Option";
-import {ShutterSpeed} from "./ShutterSpeed";
 import {Camera} from "./Camera";
-import {Aperture} from "./Aperture";
-import {Flag} from "./Flag";
 
 let STUB = 1;
 export interface PropertyValue {
@@ -12,7 +8,7 @@ export interface PropertyValue {
  */
 STUB = 1;
 export interface MatchablePropertyValue extends PropertyValue {
-    findNearest<T>(needle: number|string, filter: (value: T) => boolean);
+    findNearest<T>(needle: number|string, filter: (value: T) => boolean): number | string;
 }
 /**
  * @interface MatchablePropertyValue
@@ -30,7 +26,6 @@ STUB = 1;
  * @param {MatchablePropertyValue~findNearestFilter}
  */
 STUB = 1;
-
 
 interface PropertyDateTime extends PropertyValue {
     year: number;
