@@ -1,4 +1,4 @@
-import { CameraProperty, Camera, watchCameras } from '../';
+import { Camera, watchCameras } from '../';
 
 process.on('SIGINT', () => process.exit());
 
