@@ -187,10 +187,10 @@ namespace CameraApi {
         };
 
         if (this->hasEventEmit()) {
-            this->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+            this->getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
         }
         if (CameraBrowser::instance()->hasEventEmit()) {
-            CameraBrowser::instance()->getEventEmit().BlockingCall(
+            CameraBrowser::instance()->getEventEmit().NonBlockingCall(
                 eventDataPtr, jsCallback
             );
         }
@@ -287,10 +287,10 @@ namespace CameraApi {
             };
 
             if (hasEventEmit()) {
-                getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+                getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
             }
             if (CameraBrowser::instance()->hasEventEmit()) {
-                CameraBrowser::instance()->getEventEmit().BlockingCall(
+                CameraBrowser::instance()->getEventEmit().NonBlockingCall(
                     eventDataPtr, jsCallback
                 );
             }
@@ -373,10 +373,10 @@ namespace CameraApi {
                 };
 
                 if (camera->hasEventEmit()) {
-                    camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+                    camera->getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
                 }
                 if (CameraBrowser::instance()->hasEventEmit()) {
-                    CameraBrowser::instance()->getEventEmit().BlockingCall(
+                    CameraBrowser::instance()->getEventEmit().NonBlockingCall(
                         eventDataPtr, jsCallback
                     );
                 }
@@ -431,10 +431,10 @@ namespace CameraApi {
         };
 
         if (camera->hasEventEmit()) {
-            camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+            camera->getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
         }
         if (CameraBrowser::instance()->hasEventEmit()) {
-            CameraBrowser::instance()->getEventEmit().BlockingCall(
+            CameraBrowser::instance()->getEventEmit().NonBlockingCall(
                 eventDataPtr, jsCallback
             );
         }
@@ -511,10 +511,10 @@ namespace CameraApi {
                 delete dataPtr;
             };
             if (camera->hasEventEmit()) {
-                camera->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+                camera->getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
             }
             if (CameraBrowser::instance()->hasEventEmit()) {
-                CameraBrowser::instance()->getEventEmit().BlockingCall(eventDataPtr, jsCallback);
+                CameraBrowser::instance()->getEventEmit().NonBlockingCall(eventDataPtr, jsCallback);
             }
         } catch (...) {
             EdsRelease(inRef);

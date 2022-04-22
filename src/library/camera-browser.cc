@@ -80,6 +80,7 @@ namespace CameraApi {
                 isInitialized_ = true;
                 error = EdsSetCameraAddedHandler(CameraBrowser::handleCameraAdded, this);
             }
+            cameras_.clear();
             enumerateCameraList();
         }
         return error;
@@ -161,7 +162,7 @@ namespace CameraApi {
             eventDataPtr = new DeviceEventData;
             eventDataPtr->camera = camera;
 
-            tsEmit_.BlockingCall(
+            tsEmit_.NonBlockingCall(
                 eventDataPtr,
                 [](Napi::Env env, Napi::Function jsCallback, DeviceEventData *dataPtr) {
                     Napi::Object event = Napi::Object::New(env);
@@ -208,19 +209,25 @@ namespace CameraApi {
 
         for (auto it = cameras_.rbegin(); it != cameras_.rend(); ++it) {
             CameraReference camera = *it;
-            if (std::none_of(
-                currentRefs.begin(), currentRefs.end(),
-                [camera](EdsCameraRef edsCamera) { return camera->getEdsReference() == edsCamera; }
-            )) {
+            if (
+                std::none_of(
+                    currentRefs.begin(),
+                    currentRefs.end(),
+                    [camera](EdsCameraRef edsCamera) { return camera->getEdsReference() == edsCamera; }
+                )
+            ) {
                 removeCamera(camera);
             }
         }
 
         for (auto edsCamera : currentRefs) {
-            if (std::none_of(
-                cameras_.begin(), cameras_.end(),
-                [edsCamera](const CameraReference &c) { return c->getEdsReference() == edsCamera; }
-            )) {
+            if (
+                std::none_of(
+                    cameras_.begin(),
+                    cameras_.end(),
+                    [edsCamera](const CameraReference &c) { return c->getEdsReference() == edsCamera; }
+                )
+            ) {
 
                 CameraReference camera = nullptr;
                 try {
@@ -238,7 +245,7 @@ namespace CameraApi {
                     eventDataPtr = new DeviceEventData;
                     eventDataPtr->camera = camera;
 
-                    tsEmit_.BlockingCall(
+                    tsEmit_.NonBlockingCall(
                         eventDataPtr,
                         [](Napi::Env env, Napi::Function jsCallback, DeviceEventData *dataPtr) {
                             Napi::Object event = Napi::Object::New(env);
