@@ -701,6 +701,10 @@ namespace CameraApi {
         return ApiError::ThrowIfFailed(info.Env(), camera_->stopLiveView());
     }
 
+    Napi::Value CameraWrap::IsLiveViewActive(const Napi::CallbackInfo &info) {
+        return Napi::Boolean::New(info.Env(), camera_->isLiveViewActive());
+    }
+
     Napi::Value CameraWrap::DownloadLiveViewImage(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
         std::string image;
@@ -767,6 +771,7 @@ namespace CameraApi {
                 InstanceMethod("sendCommand", &CameraWrap::SendCommand),
                 InstanceMethod("takePicture", &CameraWrap::TakePicture),
                 InstanceMethod("startLiveView", &CameraWrap::StartLiveView),
+                InstanceMethod("isLiveViewActive", &CameraWrap::IsLiveViewActive),
                 InstanceMethod("stopLiveView", &CameraWrap::StopLiveView),
                 InstanceMethod("downloadLiveViewImage", &CameraWrap::DownloadLiveViewImage),
                 InstanceMethod("getVolumes", &CameraWrap::GetVolumes),

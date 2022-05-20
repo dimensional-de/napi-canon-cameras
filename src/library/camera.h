@@ -41,6 +41,10 @@ namespace CameraApi {
                 return edsCamera_;
             }
 
+            inline bool isLiveViewActive() const {
+                return hasActiveLiveView_;
+            }
+
             inline Napi::Env Env() const {
                 return env_;
             }
@@ -131,6 +135,8 @@ namespace CameraApi {
             Napi::Value TakePicture(const Napi::CallbackInfo &info);
 
             Napi::Value StartLiveView(const Napi::CallbackInfo &info);
+
+            Napi::Value IsLiveViewActive(const Napi::CallbackInfo &info);
 
             Napi::Value StopLiveView(const Napi::CallbackInfo &info);
 

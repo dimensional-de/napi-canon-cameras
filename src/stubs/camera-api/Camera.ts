@@ -99,6 +99,14 @@ export class Camera {
     }
 
     /**
+     * Return true if the LiveView is currently active
+     * @returns {boolean}
+     */
+    isLiveViewActive(): boolean {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
      * Request LiveView start, triggers event on success
      */
     startLiveView(): void {
