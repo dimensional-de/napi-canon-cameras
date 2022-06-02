@@ -7,6 +7,8 @@ namespace CameraApi {
 
     class Labels {
         public:
+            static void Init();
+            
             static LabelMap Error;
 
             static LabelMap ObjectEventID;

@@ -735,32 +735,7 @@ namespace CameraApi {
         {kEdsWhiteBalance_Pasted, "Pasted"}
     };
 
-    std::unordered_map<int, LabelMap> Labels::Option = {
-        {kEdsPropID_AEMode, AEMode},
-        {kEdsPropID_AEModeSelect, AEModeSelect},
-        {kEdsPropID_AFMode, AFMode},
-        {kEdsPropID_BatteryQuality, BatteryQuality},
-        {kEdsPropID_Bracket, Bracket},
-        {kEdsPropID_ColorSpace, ColorSpace},
-        {kEdsPropID_DC_Strobe, DCStrobe},
-        {kEdsPropID_DriveMode, DriveMode},
-        {kEdsPropID_Evf_AFMode, EvfAFMode},
-        {kEdsPropID_Evf_HistogramStatus, EvfHistogramStatus},
-        {kEdsPropID_Evf_OutputDevice, EvfOutputDevice},
-        {kEdsPropID_Evf_WhiteBalance, WhiteBalance},
-        {kEdsPropID_Evf_Zoom, EvfZoom},
-        {kEdsPropID_ImageQuality, ImageQuality},
-        {kEdsPropID_LensBarrelStatus, LensBarrelStatus},
-        {kEdsPropID_LensStatus, LensStatus},
-        {kEdsPropID_MeteringMode, MeteringMode},
-        {kEdsPropID_MirrorLockUpState, MirrorUpStatus},
-        {kEdsPropID_MovieParam, MovieQuality},
-        {kEdsPropID_NoiseReduction, NoiseReduction},
-        {kEdsPropID_RedEye, RedEye},
-        {kEdsPropID_Record, Record},
-        {kEdsPropID_SaveTo, SaveTo},
-        {kEdsPropID_WhiteBalance, WhiteBalance}
-    };
+    std::unordered_map<int, LabelMap> Labels::Option;
 
     LabelMap Labels::Error = {
 
@@ -952,4 +927,36 @@ namespace CameraApi {
         {kEdsCompressQuality_SuperFine, "SuperFine"},
         {kEdsCompressQuality_Unknown, "Unknown"}
     };
+
+    void Labels::Init() {
+        // Defer creation of option map until 'initialization' phase to
+        // prevent out-of-order dynamic initialization error
+        // Note: Called by Option::Init()
+        Labels::Option = {
+            {kEdsPropID_AEMode, AEMode},
+            {kEdsPropID_AEModeSelect, AEModeSelect},
+            {kEdsPropID_AFMode, AFMode},
+            {kEdsPropID_BatteryQuality, BatteryQuality},
+            {kEdsPropID_Bracket, Bracket},
+            {kEdsPropID_ColorSpace, ColorSpace},
+            {kEdsPropID_DC_Strobe, DCStrobe},
+            {kEdsPropID_DriveMode, DriveMode},
+            {kEdsPropID_Evf_AFMode, EvfAFMode},
+            {kEdsPropID_Evf_HistogramStatus, EvfHistogramStatus},
+            {kEdsPropID_Evf_OutputDevice, EvfOutputDevice},
+            {kEdsPropID_Evf_WhiteBalance, WhiteBalance},
+            {kEdsPropID_Evf_Zoom, EvfZoom},
+            {kEdsPropID_ImageQuality, ImageQuality},
+            {kEdsPropID_LensBarrelStatus, LensBarrelStatus},
+            {kEdsPropID_LensStatus, LensStatus},
+            {kEdsPropID_MeteringMode, MeteringMode},
+            {kEdsPropID_MirrorLockUpState, MirrorUpStatus},
+            {kEdsPropID_MovieParam, MovieQuality},
+            {kEdsPropID_NoiseReduction, NoiseReduction},
+            {kEdsPropID_RedEye, RedEye},
+            {kEdsPropID_Record, Record},
+            {kEdsPropID_SaveTo, SaveTo},
+            {kEdsPropID_WhiteBalance, WhiteBalance}
+        };        
+    }
 }

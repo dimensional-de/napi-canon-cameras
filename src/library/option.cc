@@ -169,6 +169,9 @@ namespace CameraApi {
     }
 
     void Option::Init(Napi::Env env, Napi::Object exports) {
+        // Initialize the option map inside the Labels singleton
+        Labels::Init();
+
         Napi::HandleScope scope(env);
 
         std::vector<PropertyDescriptor> properties = {
