@@ -1,3 +1,5 @@
+#include <ctime>
+
 #include "camera-property.h"
 #include "labels.h"
 #include "flag.h"
@@ -31,8 +33,7 @@ namespace CameraApi {
         kEdsPropID_Evf_AFMode,
         kEdsPropID_DC_Strobe,
         kEdsPropID_DC_Zoom,
-        kEdsPropID_MovieParam,
-        kEdsPropID_TimeZone
+        kEdsPropID_MovieParam
     };
 
     CameraProperty::CameraProperty(const Napi::CallbackInfo &info)
@@ -335,6 +336,31 @@ namespace CameraApi {
                     EdsInt32 uint32_value = value.As<Napi::Number>().Uint32Value();
                     error = EdsSetPropertyData(
                         edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &uint32_value
+                    );
+                }
+                break;
+            case kEdsDataType_Time:
+                if (value.IsDate()) {
+                    // Get date as milliseconds since unix epoch, then convert to time_t (in seconds)
+                    double ms_timestamp = value.As<Napi::Date>().ValueOf();
+                    time_t timestamp = (time_t)floor(ms_timestamp / 1000.0);
+
+                    // Treat at UTC time and convert to a tm struct
+                    tm* timeStruct = gmtime(&timestamp);
+
+                    // Build the EdsTime object using the tm struct and milliseconds timestamp
+                    EdsTime time_value;
+                    time_value.year = timeStruct->tm_year + 1900;
+                    time_value.month = timeStruct->tm_mon + 1;
+                    time_value.day = timeStruct->tm_mday;
+                    time_value.hour = timeStruct->tm_hour;
+                    time_value.minute = timeStruct->tm_min;
+                    time_value.second = timeStruct->tm_sec;
+                    time_value.milliseconds = (int)floor(fmod(ms_timestamp, 1000));
+
+                    // Set the property
+                    error = EdsSetPropertyData(
+                        edsCamera_, propertyIdentifier_, propertySpecifier_, dataSize, &time_value
                     );
                 }
                 break;
