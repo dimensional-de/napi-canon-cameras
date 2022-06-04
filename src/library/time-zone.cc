@@ -65,7 +65,7 @@ namespace CameraApi {
         zone_ = (((1 << 16) - 1) & (value >> (16)));
     }
 
-    std::string TimeZone::GetDifferenceAsOffset(EdsInt32 differenceInMinutes) {
+    std::string TimeZone::GetDifferenceAsOffset(EdsInt16 differenceInMinutes) {
         auto hours = (int)std::floor(differenceInMinutes / 60);
         auto minutes = (int)std::abs(differenceInMinutes - (hours * 60));
         return stringFormat(

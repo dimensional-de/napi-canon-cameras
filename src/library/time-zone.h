@@ -45,7 +45,7 @@ namespace CameraApi {
 
             Napi::Value Inspect(const Napi::CallbackInfo &info);
 
-            static std::string GetDifferenceAsOffset(EdsInt32 differenceInMinutes);
+            static std::string GetDifferenceAsOffset(EdsInt16 differenceInMinutes);
     };
 }
 
