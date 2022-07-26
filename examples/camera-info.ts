@@ -21,7 +21,7 @@ try {
                 console.log(p, p.value, p.allowedValues);
             } catch (e) {
                 console.error(
-                    propertyName, e.message
+                    propertyName, e
                 );
             }
         }
@@ -30,5 +30,3 @@ try {
 } catch (e) {
     console.error(e);
 }
-
-

@@ -1,6 +1,6 @@
-const directoryToTgz = require('directory-to-tgz');
 const fs = require('fs');
 const path= require('path');
+const tar = require('tar-fs');
 
 const sourceDirectory = path.resolve(
     __dirname, '..'
@@ -15,7 +15,7 @@ const targetFile = path.resolve(
 if (!fs.existsSync(targetDirectory)){
     fs.mkdirSync(targetDirectory,  { recursive: true });
 }
-directoryToTgz(
+tar.pack(
     sourceDirectory,
     {
         entries: [

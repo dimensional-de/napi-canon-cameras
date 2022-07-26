@@ -18,7 +18,7 @@ try {
                 settings.push(p);
             } catch (e) {
                 console.error(
-                    p, e.message
+                    p, e
                 );
             }
         }
@@ -28,5 +28,3 @@ try {
 } catch (e) {
     console.error(e);
 }
-
-
