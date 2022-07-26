@@ -40,7 +40,10 @@ namespace CameraApi {
         {kEdsPropID_DateTime, "DateTime"},
         {kEdsPropID_FirmwareVersion, "FirmwareVersion"},
         {kEdsPropID_BatteryLevel, "BatteryLevel"},
+// CFn not available on macOS
+#ifdef kEdsPropID_CFn
         {kEdsPropID_CFn, "CFn"},
+#endif
         {kEdsPropID_SaveTo, "SaveTo"},
         {kEdsPropID_CurrentStorage, "CurrentStorage"},
         {kEdsPropID_CurrentFolder, "CurrentFolder"},
@@ -865,7 +868,10 @@ namespace CameraApi {
         {EDS_ERR_INVALID_DEVICEPROP_VALUE, "INVALID_DEVICEPROP_VALUE"},
         {EDS_ERR_SESSION_ALREADY_OPEN, "SESSION_ALREADY_OPEN"},
         {EDS_ERR_TRANSACTION_CANCELLED, "TRANSACTION_CANCELLED"},
-        {EDS_ERR_SPECIFICATION_OF_DESTINATION_UNSUPPORTED, "SPECIFICATION_OF_DESTINATION_UNSUPPORTED"},
+        {
+            EDS_ERR_SPECIFICATION_OF_DESTINATION_UNSUPPORTED,
+            "SPECIFICATION_OF_DESTINATION_UNSUPPORTED"
+        },
         {EDS_ERR_NOT_CAMERA_SUPPORT_SDK_VERSION, "NOT_CAMERA_SUPPORT_SDK_VERSION"},
 
         /* PTP Vendor */
@@ -957,6 +963,6 @@ namespace CameraApi {
             {kEdsPropID_Record, Record},
             {kEdsPropID_SaveTo, SaveTo},
             {kEdsPropID_WhiteBalance, WhiteBalance}
-        };        
+        };
     }
 }

@@ -9,7 +9,11 @@ namespace CameraApi {
 
     std::string CodeToHexLabel(int code) {
         char label[11];
+#ifdef __MACOS__
+        snprintf(label, 11, "0x%08x", code);
+#else
         sprintf_s(label, "0x%08x", code);
+#endif
         return label;
     }
 
@@ -17,10 +21,10 @@ namespace CameraApi {
         return (((1 << length) - 1) & (buffer >> (offset)));
     }
 
-    Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string& name) {
+    Napi::Symbol GetPublicSymbol(const Napi::Env &env, const std::string &name) {
         auto Symbol = env.Global().Get("Symbol").As<Napi::Object>();
         auto forSymbol = Symbol.Get("for").As<Napi::Function>().Call(
-            Symbol, { Napi::String::New(env, name) }
+            Symbol, {Napi::String::New(env, name)}
         );
         return forSymbol.As<Napi::Symbol>();
     }

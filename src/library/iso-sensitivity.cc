@@ -145,7 +145,7 @@ namespace CameraApi {
             }
         } catch (...) {
         }
-        throw std::exception("Label does not match any value");
+        throw std::logic_error("Label does not match any value");
     }
 
     Napi::Value ISOSensitivity::ForLabel(const Napi::CallbackInfo &info) {

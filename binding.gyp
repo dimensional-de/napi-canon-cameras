@@ -7,13 +7,7 @@
             "target_name": "canon_api",
             'cflags!': [ '-fno-exceptions' ],
             'cflags_cc!': [ '-fno-exceptions' ],
-            'defines': [ 'NAPI_ENABLE_CPP_EXCEPTIONS' ],
-            'msvs_settings': {
-                'VCCLCompilerTool': {
-                   'ExceptionHandling': 1,
-                   'AdditionalOptions': [ '-std:c++17' ]
-                }
-            },
+            'defines': [ 'NAPI_CPP_EXCEPTIONS' ],
             "sources": [
                 "./src/library/api-error.cc",
                 "./src/library/api-identifier.cc",
@@ -42,10 +36,23 @@
             ],
             "include_dirs": [
                 "./src",
-                "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Header",
                 "<!(node -p \"require('node-addon-api').include_dir\")"
             ],
             "conditions": [
+                [
+                    "OS==\"win\"",
+                    {
+                        "include_dirs": [
+                            "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Header"
+                        ],
+                        'msvs_settings': {
+                            'VCCLCompilerTool': {
+                            'ExceptionHandling': 1,
+                            'AdditionalOptions': [ '-std:c++17' ]
+                            }
+                        }
+                    }
+                ],
                 [
                     "OS==\"win\" and target_arch==\"x64\"",
                     {
@@ -75,6 +82,39 @@
                                 "files": [
                                     "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Dll/EDSDK.dll",
                                     "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Dll/EdsImage.dll"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                [
+                    "OS==\"mac\"",
+                    {
+                        "defines": [ '__MACOS__' ],
+                        "include_dirs": [
+                            "<(module_root_dir)/third_party/EDSDK/macos/EDSDK/Header"
+                        ],
+                        "libraries": [
+                          "../third_party/EDSDK/macos/EDSDK/Framework/EDSDK.framework"
+                        ],
+                        'xcode_settings': {
+                            'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+                            'MACOSX_DEPLOYMENT_TARGET': '10.15',
+                            'OTHER_CFLAGS': [
+                                '-std=c++17',
+                                '-Wno-ignored-attributes'
+                            ],
+                            'OTHER_LDFLAGS': [
+                                '-Wl,-rpath,./prebuilds/darwin-x64/,-rpath,./node_modules/@dimensional/napi-canon-cameras/prebuilds/darwin-x64/',
+                                '-F ../third_party/EDSDK/macos/EDSDK/Framework/',
+                                '-framework EDSDK'
+                            ]
+                        },
+                        "copies": [
+                            {
+                                "destination": "<(PRODUCT_DIR)",
+                                "files": [
+                                    "<(module_root_dir)/third_party/EDSDK/macos/EDSDK/Framework/EDSDK.Framework"
                                 ]
                             }
                         ]

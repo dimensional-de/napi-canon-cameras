@@ -7,7 +7,6 @@
 #include "camera-property.h"
 #include "camera.h"
 #include "object-event.h"
-#include "option.h"
 #include "state-event.h"
 #include "utility.h"
 #include "volume.h"
@@ -22,7 +21,7 @@ namespace CameraApi {
 
     struct LiveViewEventData {
         CameraReference camera;
-        boolean isActive = false;
+        bool isActive = false;
     };
 
     struct PropertyEventData {
