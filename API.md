@@ -26,6 +26,8 @@
 <dd></dd>
 <dt><a href="#ExposureCompensation">ExposureCompensation</a></dt>
 <dd></dd>
+<dt><a href="#FileFormat">FileFormat</a></dt>
+<dd></dd>
 <dt><a href="#Flag">Flag</a></dt>
 <dd></dd>
 <dt><a href="#ImageQuality">ImageQuality</a></dt>
@@ -35,6 +37,8 @@
 <dt><a href="#ObjectEvent">ObjectEvent</a> ⇐ <code><a href="#ApiIdentifier">ApiIdentifier</a></code></dt>
 <dd></dd>
 <dt><a href="#Option">Option</a></dt>
+<dd></dd>
+<dt><a href="#Flag">Flag</a></dt>
 <dd></dd>
 <dt><a href="#ShutterSpeed">ShutterSpeed</a></dt>
 <dd></dd>
@@ -638,7 +642,13 @@ An internal class that will be added to Exceptions as "EDS_ERROR" property.
 
 **Example**  
 
-```typescripttry {} catch (e) {  if ("EDS_ERROR" in e && e.EDS_ERROR.equalTo(ApiError.Code.DEVICE_BUSY)) {  }}```
+```typescript
+try {
+} catch (e) {
+  if ("EDS_ERROR" in e && e.EDS_ERROR.equalTo(ApiError.Code.DEVICE_BUSY)) {
+  }
+}
+```
 
 <a name="ApiIdentifier+label"></a>
 
@@ -671,7 +681,8 @@ An internal class that will be added to Exceptions as "EDS_ERROR" property.
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## apiError.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.
+The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ApiError</code>](#ApiError)  
 <table>
@@ -1005,7 +1016,8 @@ Superclass for identifier wrappers. Provides the identifiers as class constants 
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## apiIdentifier.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.
+The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ApiIdentifier</code>](#ApiIdentifier)  
 <table>
@@ -1059,6 +1071,7 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
         * [.setProperties(properties)](#Camera+setProperties)
         * [.sendCommand(command, parameter)](#Camera+sendCommand)
         * [.takePicture()](#Camera+takePicture)
+        * [.isLiveViewActive()](#Camera+isLiveViewActive) ⇒ <code>boolean</code>
         * [.startLiveView()](#Camera+startLiveView)
         * [.stopLiveView()](#Camera+stopLiveView)
         * [.downloadLiveViewImage()](#Camera+downloadLiveViewImage) ⇒ <code>string</code>
@@ -1203,6 +1216,12 @@ Fetch a camera property by ID or label
 Trigger picture shot, successful shot will trigger an object event
 
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
+<a name="Camera+isLiveViewActive"></a>
+
+## camera.isLiveViewActive() ⇒ <code>boolean</code>
+Return true if the LiveView is currently active
+
+**Kind**: instance method of [<code>Camera</code>](#Camera)  
 <a name="Camera+startLiveView"></a>
 
 ## camera.startLiveView()
@@ -1238,6 +1257,10 @@ Request LiveView stop, triggers event on success
   </thead>
   <tbody>
 <tr>
+    <td>CameraConnect</td><td><code>string</code></td><td><code>&quot;CameraConnect&quot;</code></td>
+    </tr><tr>
+    <td>CameraDisconnect</td><td><code>string</code></td><td><code>&quot;CameraDisconnect&quot;</code></td>
+    </tr><tr>
     <td>DirectoryCreate</td><td><code>string</code></td><td><code>&quot;DirectoryCreate&quot;</code></td>
     </tr><tr>
     <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;DownloadRequest&quot;</code></td>
@@ -1245,6 +1268,8 @@ Request LiveView stop, triggers event on success
     <td>Error</td><td><code>string</code></td><td><code>&quot;Error&quot;</code></td>
     </tr><tr>
     <td>FileCreate</td><td><code>string</code></td><td><code>&quot;FileCreate&quot;</code></td>
+    </tr><tr>
+    <td>KeepAlive</td><td><code>string</code></td><td><code>&quot;KeepAlive&quot;</code></td>
     </tr><tr>
     <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;LiveViewStart&quot;</code></td>
     </tr><tr>
@@ -1298,6 +1323,8 @@ Request LiveView stop, triggers event on success
     <td>PressShutterButton</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
     <td>RequestRollPitchLevel</td><td><code>number</code></td><td><code>265</code></td>
+    </tr><tr>
+    <td>RequestSensorCleaning</td><td><code>number</code></td><td><code>274</code></td>
     </tr><tr>
     <td>SetRemoteShootingMode</td><td><code>number</code></td><td><code>271</code></td>
     </tr><tr>
@@ -1368,7 +1395,18 @@ Access to Canon Cameras
 
 **Example**  
 
-```typescriptconst {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');cameraBrowser.setEventHandler(  (eventName, event) => { console.log(eventName, event); });process.on('SIGINT', () => process.exit());console.log(cameraBrowser.getCameras());watchCameras();```
+```typescript
+const {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');
+cameraBrowser.setEventHandler(
+  (eventName, event) => { console.log(eventName, event); }
+);
+
+process.on('SIGINT', () => process.exit());
+
+console.log(cameraBrowser.getCameras());
+
+watchCameras();
+```
 
 <a name="CameraBrowser+setEventHandler"></a>
 
@@ -1409,7 +1447,8 @@ Trigger SDK events
 <a name="CameraBrowser+getCamera"></a>
 
 ## cameraBrowser.getCamera([at], [exactOnly])
-Get camera at port or index. Returns the first camera in the internal list ifport or position is invalid. USe the exactOnly argument to disable the fallback.
+Get camera at port or index. Returns the first camera in the internal list if
+port or position is invalid. USe the exactOnly argument to disable the fallback.
 
 **Kind**: instance method of [<code>CameraBrowser</code>](#CameraBrowser)  
 <table>
@@ -1652,6 +1691,12 @@ API Error
 <tr>
     <td>CameraAdd</td><td><code>string</code></td><td><code>&quot;CameraAdd&quot;</code></td>
     </tr><tr>
+    <td>CameraConnect</td><td><code>string</code></td><td><code>&quot;CameraConnect&quot;</code></td>
+    </tr><tr>
+    <td>CameraDisconnect</td><td><code>string</code></td><td><code>&quot;CameraDisconnect&quot;</code></td>
+    </tr><tr>
+    <td>CameraRemove</td><td><code>string</code></td><td><code>&quot;CameraRemove&quot;</code></td>
+    </tr><tr>
     <td>DirectoryCreate</td><td><code>string</code></td><td><code>&quot;DirectoryCreate&quot;</code></td>
     </tr><tr>
     <td>DownloadRequest</td><td><code>string</code></td><td><code>&quot;DownloadRequest&quot;</code></td>
@@ -1659,6 +1704,8 @@ API Error
     <td>Error</td><td><code>string</code></td><td><code>&quot;Error&quot;</code></td>
     </tr><tr>
     <td>FileCreate</td><td><code>string</code></td><td><code>&quot;FileCreate&quot;</code></td>
+    </tr><tr>
+    <td>KeepAlive</td><td><code>string</code></td><td><code>&quot;KeepAlive&quot;</code></td>
     </tr><tr>
     <td>LiveViewStart</td><td><code>string</code></td><td><code>&quot;LiveViewStart&quot;</code></td>
     </tr><tr>
@@ -1673,8 +1720,6 @@ API Error
     <td>StateChange</td><td><code>string</code></td><td><code>&quot;StateChange&quot;</code></td>
     </tr><tr>
     <td>VolumeChange</td><td><code>string</code></td><td><code>&quot;VolumeChange&quot;</code></td>
-    </tr><tr>
-    <td>cameraRemove</td><td><code>string</code></td><td><code>&quot;cameraRemove&quot;</code></td>
     </tr>  </tbody>
 </table>
 
@@ -1829,7 +1874,10 @@ Camera property/setting.
 
 **Example**  
 
-```typescriptconst property = camera.getProperty(Property.ID.Av);console.log(property.value, property.allowedValues);```
+```typescript
+const property = camera.getProperty(Property.ID.Av);
+console.log(property.value, property.allowedValues);
+```
 
 <a name="CameraProperty+label"></a>
 
@@ -1981,6 +2029,8 @@ Camera property/setting.
     <td>FirmwareVersion</td><td><code>number</code></td><td><code>7</code></td>
     </tr><tr>
     <td>FixedMovie</td><td><code>number</code></td><td><code>16778274</code></td>
+    </tr><tr>
+    <td>FlashCompensation</td><td><code>number</code></td><td><code>1032</code></td>
     </tr><tr>
     <td>FlashMode</td><td><code>number</code></td><td><code>1044</code></td>
     </tr><tr>
@@ -2276,12 +2326,80 @@ Create instance for label.
     </tr>  </tbody>
 </table>
 
+<a name="FileFormat"></a>
+
+# FileFormat
+**Kind**: global class  
+
+* [FileFormat](#FileFormat)
+    * [new FileFormat(value_)](#new_FileFormat_new)
+    * _instance_
+        * [.label](#FileFormat+label) : <code>string</code>
+        * [.value](#FileFormat+value) : <code>number</code>
+    * _static_
+        * [.ID](#FileFormat.ID) : <code>enum</code>
+
+<a name="new_FileFormat_new"></a>
+
+## new FileFormat(value_)
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value_</td><td><code>number</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="FileFormat+label"></a>
+
+## fileFormat.label : <code>string</code>
+**Kind**: instance property of [<code>FileFormat</code>](#FileFormat)  
+**Read only**: true  
+<a name="FileFormat+value"></a>
+
+## fileFormat.value : <code>number</code>
+**Kind**: instance property of [<code>FileFormat</code>](#FileFormat)  
+**Read only**: true  
+<a name="FileFormat.ID"></a>
+
+## FileFormat.ID : <code>enum</code>
+**Kind**: static enum of [<code>FileFormat</code>](#FileFormat)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>CR2</td><td><code>number</code></td><td><code>45315</code></td>
+    </tr><tr>
+    <td>CR3</td><td><code>number</code></td><td><code>45320</code></td>
+    </tr><tr>
+    <td>HEIF_CODE</td><td><code>number</code></td><td><code>45323</code></td>
+    </tr><tr>
+    <td>JPEG</td><td><code>number</code></td><td><code>14337</code></td>
+    </tr><tr>
+    <td>MP4</td><td><code>number</code></td><td><code>47490</code></td>
+    </tr><tr>
+    <td>Unknown</td><td><code>number</code></td><td><code>0</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Flag"></a>
 
 # Flag
 **Kind**: global class  
 
 * [Flag](#Flag)
+    * [new Flag(value)](#new_Flag_new)
     * [new Flag(value)](#new_Flag_new)
     * _instance_
         * [.label](#Flag+label) : <code>string</code>
@@ -2292,6 +2410,23 @@ Create instance for label.
         * [.True](#Flag.True) : <code>number</code>
         * [.False](#Flag.False) : <code>number</code>
         * [.forLabel(label)](#Flag.forLabel) ⇒ [<code>Flag</code>](#Flag)
+
+<a name="new_Flag_new"></a>
+
+## new Flag(value)
+Boolean property value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value</td><td><code>number</code> | <code>boolean</code></td>
+    </tr>  </tbody>
+</table>
 
 <a name="new_Flag_new"></a>
 
@@ -2461,13 +2596,19 @@ Create instance for label.
     </tr><tr>
     <td>CRM2JN</td><td><code>number</code></td><td><code>6489618</code></td>
     </tr><tr>
+    <td>CRMJ</td><td><code>number</code></td><td><code>6488336</code></td>
+    </tr><tr>
     <td>CRMJF</td><td><code>number</code></td><td><code>6488339</code></td>
     </tr><tr>
     <td>CRMJN</td><td><code>number</code></td><td><code>6488338</code></td>
     </tr><tr>
+    <td>CRS1J</td><td><code>number</code></td><td><code>6491664</code></td>
+    </tr><tr>
     <td>CRS1JF</td><td><code>number</code></td><td><code>6491667</code></td>
     </tr><tr>
     <td>CRS1JN</td><td><code>number</code></td><td><code>6491666</code></td>
+    </tr><tr>
+    <td>CRS2J</td><td><code>number</code></td><td><code>6491920</code></td>
     </tr><tr>
     <td>CRS2JF</td><td><code>number</code></td><td><code>6491923</code></td>
     </tr><tr>
@@ -2535,6 +2676,8 @@ Create instance for label.
     </tr><tr>
     <td>Middle2JPEG</td><td><code>number</code></td><td><code>101777167</code></td>
     </tr><tr>
+    <td>MiddleJPEG</td><td><code>number</code></td><td><code>17891087</code></td>
+    </tr><tr>
     <td>MiddleJPEGFine</td><td><code>number</code></td><td><code>18087695</code></td>
     </tr><tr>
     <td>MiddleJPEGNormal</td><td><code>number</code></td><td><code>18022159</code></td>
@@ -2551,13 +2694,19 @@ Create instance for label.
     </tr><tr>
     <td>RAWAndMiddle2JPEG</td><td><code>number</code></td><td><code>6555152</code></td>
     </tr><tr>
+    <td>RAWAndMiddleJPEG</td><td><code>number</code></td><td><code>6553872</code></td>
+    </tr><tr>
     <td>RAWAndMiddleJPEGFine</td><td><code>number</code></td><td><code>6553875</code></td>
     </tr><tr>
     <td>RAWAndMiddleJPEGNormal</td><td><code>number</code></td><td><code>6553874</code></td>
     </tr><tr>
+    <td>RAWAndSmall1JPEG</td><td><code>number</code></td><td><code>6557200</code></td>
+    </tr><tr>
     <td>RAWAndSmall1JPEGFine</td><td><code>number</code></td><td><code>6557203</code></td>
     </tr><tr>
     <td>RAWAndSmall1JPEGNormal</td><td><code>number</code></td><td><code>6557202</code></td>
+    </tr><tr>
+    <td>RAWAndSmall2JPEG</td><td><code>number</code></td><td><code>6557456</code></td>
     </tr><tr>
     <td>RAWAndSmall2JPEGFine</td><td><code>number</code></td><td><code>6557459</code></td>
     </tr><tr>
@@ -2625,6 +2774,10 @@ Create instance for label.
     </tr><tr>
     <td>SmallJPEG</td><td><code>number</code></td><td><code>34668303</code></td>
     </tr><tr>
+    <td>SmallJPEG1</td><td><code>number</code></td><td><code>235994895</code></td>
+    </tr><tr>
+    <td>SmallJPEG2</td><td><code>number</code></td><td><code>252772111</code></td>
+    </tr><tr>
     <td>SmallJPEGFine</td><td><code>number</code></td><td><code>34864911</code></td>
     </tr><tr>
     <td>SmallJPEGNormal</td><td><code>number</code></td><td><code>34799375</code></td>
@@ -2652,7 +2805,9 @@ Create instance for label.
     </tr><tr>
     <td>CRW</td><td><code>number</code></td><td><code>2</code></td>
     </tr><tr>
-    <td>Jpeg</td><td><code>number</code></td><td><code>1</code></td>
+    <td>HEIF</td><td><code>number</code></td><td><code>8</code></td>
+    </tr><tr>
+    <td>JPEG</td><td><code>number</code></td><td><code>1</code></td>
     </tr><tr>
     <td>RAW</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
@@ -2971,7 +3126,8 @@ Encapsulate Object Event Identifiers For Easy Read And Debug
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## objectEvent.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.
+The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ObjectEvent</code>](#ObjectEvent)  
 <table>
@@ -3047,34 +3203,34 @@ Allows type cast to number and string.The string will be a hexadecimal code rep
     * _static_
         * [.AEMode](#Option.AEMode) : <code>enum</code>
         * [.AEModeSelect](#Option.AEModeSelect) : <code>enum</code>
-        * [.MovieParam](#Option.MovieParam) : <code>enum</code>
-        * [.BatteryQuality](#Option.BatteryQuality) : <code>enum</code>
         * [.AFMode](#Option.AFMode) : <code>enum</code>
-        * [.Evf_HistogramStatus](#Option.Evf_HistogramStatus) : <code>enum</code>
+        * [.BatteryQuality](#Option.BatteryQuality) : <code>enum</code>
         * [.Bracket](#Option.Bracket) : <code>enum</code>
         * [.ColorSpace](#Option.ColorSpace) : <code>enum</code>
-        * [.SaveTo](#Option.SaveTo) : <code>enum</code>
-        * [.DC_Strobe](#Option.DC_Strobe) : <code>enum</code>
+        * [.DCStrobe](#Option.DCStrobe) : <code>enum</code>
         * [.DriveMode](#Option.DriveMode) : <code>enum</code>
-        * [.Evf_AFMode](#Option.Evf_AFMode) : <code>enum</code>
-        * [.Evf_OutputDevice](#Option.Evf_OutputDevice) : <code>enum</code>
-        * [.Evf_WhiteBalance](#Option.Evf_WhiteBalance) : <code>enum</code>
-        * [.Evf_Zoom](#Option.Evf_Zoom) : <code>enum</code>
-        * [.ImageQuality](#Option.ImageQuality) : <code>enum</code>
+        * [.EvfAFMode](#Option.EvfAFMode) : <code>enum</code>
+        * [.EvfHistogramStatus](#Option.EvfHistogramStatus) : <code>enum</code>
+        * [.EvfOutputDevice](#Option.EvfOutputDevice) : <code>enum</code>
+        * [.EvfZoom](#Option.EvfZoom) : <code>enum</code>
         * [.LensBarrelStatus](#Option.LensBarrelStatus) : <code>enum</code>
         * [.LensStatus](#Option.LensStatus) : <code>enum</code>
         * [.MeteringMode](#Option.MeteringMode) : <code>enum</code>
-        * [.MirrorLockUpState](#Option.MirrorLockUpState) : <code>enum</code>
+        * [.MirrorUpStatus](#Option.MirrorUpStatus) : <code>enum</code>
+        * [.MovieQuality](#Option.MovieQuality) : <code>enum</code>
         * [.NoiseReduction](#Option.NoiseReduction) : <code>enum</code>
         * [.RedEye](#Option.RedEye) : <code>enum</code>
         * [.Record](#Option.Record) : <code>enum</code>
+        * [.SaveTo](#Option.SaveTo) : <code>enum</code>
         * [.WhiteBalance](#Option.WhiteBalance) : <code>enum</code>
         * [.forLabel(label)](#Option.forLabel) ⇒ [<code>Option</code>](#Option) \| <code>null</code>
 
 <a name="new_Option_new"></a>
 
 ## new Option(propertyID_, value_)
-Option represents a property value from a property specific list.It provides constants for all possible property values. However it dependson the camera and the camera status which option values are available.
+Option represents a property value from a property specific list.
+It provides constants for all possible property values. However it depends
+on the camera and the camera status which option values are available.
 
 <table>
   <thead>
@@ -3234,6 +3390,8 @@ Option represents a property value from a property specific list.It provides co
     </tr><tr>
     <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
     </tr><tr>
+    <td>VideoBlog</td><td><code>number</code></td><td><code>63</code></td>
+    </tr><tr>
     <td>WaterColor</td><td><code>number</code></td><td><code>34</code></td>
     </tr>  </tbody>
 </table>
@@ -3375,36 +3533,6 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.MovieParam"></a>
-
-## Option.MovieParam : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-<a name="Option.BatteryQuality"></a>
-
-## Option.BatteryQuality : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>Full</td><td><code>number</code></td><td><code>3</code></td>
-    </tr><tr>
-    <td>Half</td><td><code>number</code></td><td><code>1</code></td>
-    </tr><tr>
-    <td>High</td><td><code>number</code></td><td><code>2</code></td>
-    </tr><tr>
-    <td>Low</td><td><code>number</code></td><td><code>0</code></td>
-    </tr>  </tbody>
-</table>
-
 <a name="Option.AFMode"></a>
 
 ## Option.AFMode : <code>enum</code>
@@ -3432,9 +3560,9 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.Evf_HistogramStatus"></a>
+<a name="Option.BatteryQuality"></a>
 
-## Option.Evf\_HistogramStatus : <code>enum</code>
+## Option.BatteryQuality : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -3447,11 +3575,13 @@ Option represents a property value from a property specific list.It provides co
   </thead>
   <tbody>
 <tr>
-    <td>Grayout</td><td><code>number</code></td><td><code>2</code></td>
+    <td>Full</td><td><code>number</code></td><td><code>3</code></td>
     </tr><tr>
-    <td>Hide</td><td><code>number</code></td><td><code>0</code></td>
+    <td>Half</td><td><code>number</code></td><td><code>1</code></td>
     </tr><tr>
-    <td>Normal</td><td><code>number</code></td><td><code>1</code></td>
+    <td>High</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>Low</td><td><code>number</code></td><td><code>0</code></td>
     </tr>  </tbody>
 </table>
 
@@ -3505,32 +3635,9 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.SaveTo"></a>
+<a name="Option.DCStrobe"></a>
 
-## Option.SaveTo : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>Both</td><td><code>number</code></td><td><code>3</code></td>
-    </tr><tr>
-    <td>Camera</td><td><code>number</code></td><td><code>1</code></td>
-    </tr><tr>
-    <td>Host</td><td><code>number</code></td><td><code>2</code></td>
-    </tr>  </tbody>
-</table>
-
-<a name="Option.DC_Strobe"></a>
-
-## Option.DC\_Strobe : <code>enum</code>
+## Option.DCStrobe : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -3598,9 +3705,9 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.Evf_AFMode"></a>
+<a name="Option.EvfAFMode"></a>
 
-## Option.Evf\_AFMode : <code>enum</code>
+## Option.EvfAFMode : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -3637,9 +3744,9 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.Evf_OutputDevice"></a>
+<a name="Option.EvfHistogramStatus"></a>
 
-## Option.Evf\_OutputDevice : <code>enum</code>
+## Option.EvfHistogramStatus : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -3652,80 +3759,42 @@ Option represents a property value from a property specific list.It provides co
   </thead>
   <tbody>
 <tr>
-    <td>Mobile</td><td><code>number</code></td><td><code>4</code></td>
+    <td>Grayout</td><td><code>number</code></td><td><code>2</code></td>
     </tr><tr>
-    <td>Mobile2</td><td><code>number</code></td><td><code>8</code></td>
+    <td>Hide</td><td><code>number</code></td><td><code>0</code></td>
     </tr><tr>
+    <td>Normal</td><td><code>number</code></td><td><code>1</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Option.EvfOutputDevice"></a>
+
+## Option.EvfOutputDevice : <code>enum</code>
+**Kind**: static enum of [<code>Option</code>](#Option)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
     <td>None</td><td><code>number</code></td><td><code>0</code></td>
     </tr><tr>
     <td>PC</td><td><code>number</code></td><td><code>2</code></td>
+    </tr><tr>
+    <td>SmallPC</td><td><code>number</code></td><td><code>8</code></td>
     </tr><tr>
     <td>TFT</td><td><code>number</code></td><td><code>1</code></td>
     </tr>  </tbody>
 </table>
 
-<a name="Option.Evf_WhiteBalance"></a>
+<a name="Option.EvfZoom"></a>
 
-## Option.Evf\_WhiteBalance : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>AutoAmbiencePriority</td><td><code>number</code></td><td><code>0</code></td>
-    </tr><tr>
-    <td>AutoWhitePriority</td><td><code>number</code></td><td><code>23</code></td>
-    </tr><tr>
-    <td>Click</td><td><code>number</code></td><td><code>-1</code></td>
-    </tr><tr>
-    <td>Cloudy</td><td><code>number</code></td><td><code>2</code></td>
-    </tr><tr>
-    <td>ColorTemperature</td><td><code>number</code></td><td><code>9</code></td>
-    </tr><tr>
-    <td>CustomPC1</td><td><code>number</code></td><td><code>10</code></td>
-    </tr><tr>
-    <td>CustomPC2</td><td><code>number</code></td><td><code>11</code></td>
-    </tr><tr>
-    <td>CustomPC3</td><td><code>number</code></td><td><code>12</code></td>
-    </tr><tr>
-    <td>CustomPC4</td><td><code>number</code></td><td><code>20</code></td>
-    </tr><tr>
-    <td>CustomPC5</td><td><code>number</code></td><td><code>21</code></td>
-    </tr><tr>
-    <td>Daylight</td><td><code>number</code></td><td><code>1</code></td>
-    </tr><tr>
-    <td>Flash</td><td><code>number</code></td><td><code>5</code></td>
-    </tr><tr>
-    <td>Fluorescent</td><td><code>number</code></td><td><code>4</code></td>
-    </tr><tr>
-    <td>Pasted</td><td><code>number</code></td><td><code>-2</code></td>
-    </tr><tr>
-    <td>Shade</td><td><code>number</code></td><td><code>8</code></td>
-    </tr><tr>
-    <td>Tungsten</td><td><code>number</code></td><td><code>3</code></td>
-    </tr><tr>
-    <td>WhitePaper</td><td><code>number</code></td><td><code>6</code></td>
-    </tr><tr>
-    <td>WhitePaper2</td><td><code>number</code></td><td><code>15</code></td>
-    </tr><tr>
-    <td>WhitePaper3</td><td><code>number</code></td><td><code>16</code></td>
-    </tr><tr>
-    <td>WhitePaper4</td><td><code>number</code></td><td><code>18</code></td>
-    </tr><tr>
-    <td>WhitePaper5</td><td><code>number</code></td><td><code>19</code></td>
-    </tr>  </tbody>
-</table>
-
-<a name="Option.Evf_Zoom"></a>
-
-## Option.Evf\_Zoom : <code>enum</code>
+## Option.EvfZoom : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -3743,229 +3812,6 @@ Option represents a property value from a property specific list.It provides co
     <td>x10</td><td><code>number</code></td><td><code>10</code></td>
     </tr><tr>
     <td>x5</td><td><code>number</code></td><td><code>5</code></td>
-    </tr>  </tbody>
-</table>
-
-<a name="Option.ImageQuality"></a>
-
-## Option.ImageQuality : <code>enum</code>
-**Kind**: static enum of [<code>Option</code>](#Option)  
-**Read only**: true  
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>CR</td><td><code>number</code></td><td><code>6553359</code></td>
-    </tr><tr>
-    <td>CRHEIFL</td><td><code>number</code></td><td><code>6488192</code></td>
-    </tr><tr>
-    <td>CRHEIFLF</td><td><code>number</code></td><td><code>6488195</code></td>
-    </tr><tr>
-    <td>CRHEIFLN</td><td><code>number</code></td><td><code>6488194</code></td>
-    </tr><tr>
-    <td>CRHEIFMF</td><td><code>number</code></td><td><code>6488451</code></td>
-    </tr><tr>
-    <td>CRHEIFMN</td><td><code>number</code></td><td><code>6488450</code></td>
-    </tr><tr>
-    <td>CRHEIFS1F</td><td><code>number</code></td><td><code>6491779</code></td>
-    </tr><tr>
-    <td>CRHEIFS1N</td><td><code>number</code></td><td><code>6491778</code></td>
-    </tr><tr>
-    <td>CRHEIFS2F</td><td><code>number</code></td><td><code>6492035</code></td>
-    </tr><tr>
-    <td>CRLJ</td><td><code>number</code></td><td><code>6488080</code></td>
-    </tr><tr>
-    <td>CRLJF</td><td><code>number</code></td><td><code>6488083</code></td>
-    </tr><tr>
-    <td>CRLJN</td><td><code>number</code></td><td><code>6488082</code></td>
-    </tr><tr>
-    <td>CRM1J</td><td><code>number</code></td><td><code>6489360</code></td>
-    </tr><tr>
-    <td>CRM1JF</td><td><code>number</code></td><td><code>6489363</code></td>
-    </tr><tr>
-    <td>CRM1JN</td><td><code>number</code></td><td><code>6489362</code></td>
-    </tr><tr>
-    <td>CRM2J</td><td><code>number</code></td><td><code>6489616</code></td>
-    </tr><tr>
-    <td>CRM2JF</td><td><code>number</code></td><td><code>6489619</code></td>
-    </tr><tr>
-    <td>CRM2JN</td><td><code>number</code></td><td><code>6489618</code></td>
-    </tr><tr>
-    <td>CRMJF</td><td><code>number</code></td><td><code>6488339</code></td>
-    </tr><tr>
-    <td>CRMJN</td><td><code>number</code></td><td><code>6488338</code></td>
-    </tr><tr>
-    <td>CRS1JF</td><td><code>number</code></td><td><code>6491667</code></td>
-    </tr><tr>
-    <td>CRS1JN</td><td><code>number</code></td><td><code>6491666</code></td>
-    </tr><tr>
-    <td>CRS2JF</td><td><code>number</code></td><td><code>6491923</code></td>
-    </tr><tr>
-    <td>CRS3JF</td><td><code>number</code></td><td><code>6492179</code></td>
-    </tr><tr>
-    <td>CRSJ</td><td><code>number</code></td><td><code>6488592</code></td>
-    </tr><tr>
-    <td>CRSJF</td><td><code>number</code></td><td><code>6488595</code></td>
-    </tr><tr>
-    <td>CRSJN</td><td><code>number</code></td><td><code>6488594</code></td>
-    </tr><tr>
-    <td>HEIFL</td><td><code>number</code></td><td><code>8453903</code></td>
-    </tr><tr>
-    <td>HEIFLF</td><td><code>number</code></td><td><code>8650511</code></td>
-    </tr><tr>
-    <td>HEIFLN</td><td><code>number</code></td><td><code>8584975</code></td>
-    </tr><tr>
-    <td>HEIFMF</td><td><code>number</code></td><td><code>25427727</code></td>
-    </tr><tr>
-    <td>HEIFMN</td><td><code>number</code></td><td><code>25362191</code></td>
-    </tr><tr>
-    <td>HEIFS1F</td><td><code>number</code></td><td><code>243531535</code></td>
-    </tr><tr>
-    <td>HEIFS1N</td><td><code>number</code></td><td><code>243465999</code></td>
-    </tr><tr>
-    <td>HEIFS2F</td><td><code>number</code></td><td><code>260308751</code></td>
-    </tr><tr>
-    <td>LargeJPEG</td><td><code>number</code></td><td><code>1113871</code></td>
-    </tr><tr>
-    <td>LargeJPEGFine</td><td><code>number</code></td><td><code>1310479</code></td>
-    </tr><tr>
-    <td>LargeJPEGNormal</td><td><code>number</code></td><td><code>1244943</code></td>
-    </tr><tr>
-    <td>MR</td><td><code>number</code></td><td><code>23396111</code></td>
-    </tr><tr>
-    <td>MRLJ</td><td><code>number</code></td><td><code>23330832</code></td>
-    </tr><tr>
-    <td>MRLJF</td><td><code>number</code></td><td><code>23330835</code></td>
-    </tr><tr>
-    <td>MRLJN</td><td><code>number</code></td><td><code>23330834</code></td>
-    </tr><tr>
-    <td>MRM1J</td><td><code>number</code></td><td><code>23332112</code></td>
-    </tr><tr>
-    <td>MRM2J</td><td><code>number</code></td><td><code>23332368</code></td>
-    </tr><tr>
-    <td>MRMJF</td><td><code>number</code></td><td><code>23331091</code></td>
-    </tr><tr>
-    <td>MRMJN</td><td><code>number</code></td><td><code>23331090</code></td>
-    </tr><tr>
-    <td>MRS1JF</td><td><code>number</code></td><td><code>23334419</code></td>
-    </tr><tr>
-    <td>MRS1JN</td><td><code>number</code></td><td><code>23334418</code></td>
-    </tr><tr>
-    <td>MRS2JF</td><td><code>number</code></td><td><code>23334675</code></td>
-    </tr><tr>
-    <td>MRS3JF</td><td><code>number</code></td><td><code>23334931</code></td>
-    </tr><tr>
-    <td>MRSJ</td><td><code>number</code></td><td><code>23331344</code></td>
-    </tr><tr>
-    <td>MRSJF</td><td><code>number</code></td><td><code>23331347</code></td>
-    </tr><tr>
-    <td>MRSJN</td><td><code>number</code></td><td><code>23331346</code></td>
-    </tr><tr>
-    <td>Middle1JPEG</td><td><code>number</code></td><td><code>84999951</code></td>
-    </tr><tr>
-    <td>Middle2JPEG</td><td><code>number</code></td><td><code>101777167</code></td>
-    </tr><tr>
-    <td>MiddleJPEGFine</td><td><code>number</code></td><td><code>18087695</code></td>
-    </tr><tr>
-    <td>MiddleJPEGNormal</td><td><code>number</code></td><td><code>18022159</code></td>
-    </tr><tr>
-    <td>RAW</td><td><code>number</code></td><td><code>6618895</code></td>
-    </tr><tr>
-    <td>RAWAndLargeJPEG</td><td><code>number</code></td><td><code>6553616</code></td>
-    </tr><tr>
-    <td>RAWAndLargeJPEGFine</td><td><code>number</code></td><td><code>6553619</code></td>
-    </tr><tr>
-    <td>RAWAndLargeJPEGNormal</td><td><code>number</code></td><td><code>6553618</code></td>
-    </tr><tr>
-    <td>RAWAndMiddle1JPEG</td><td><code>number</code></td><td><code>6554896</code></td>
-    </tr><tr>
-    <td>RAWAndMiddle2JPEG</td><td><code>number</code></td><td><code>6555152</code></td>
-    </tr><tr>
-    <td>RAWAndMiddleJPEGFine</td><td><code>number</code></td><td><code>6553875</code></td>
-    </tr><tr>
-    <td>RAWAndMiddleJPEGNormal</td><td><code>number</code></td><td><code>6553874</code></td>
-    </tr><tr>
-    <td>RAWAndSmall1JPEGFine</td><td><code>number</code></td><td><code>6557203</code></td>
-    </tr><tr>
-    <td>RAWAndSmall1JPEGNormal</td><td><code>number</code></td><td><code>6557202</code></td>
-    </tr><tr>
-    <td>RAWAndSmall2JPEGFine</td><td><code>number</code></td><td><code>6557459</code></td>
-    </tr><tr>
-    <td>RAWAndSmall3JPEGFine</td><td><code>number</code></td><td><code>6557715</code></td>
-    </tr><tr>
-    <td>RAWAndSmallJPEG</td><td><code>number</code></td><td><code>6554128</code></td>
-    </tr><tr>
-    <td>RAWAndSmallJPEGFine</td><td><code>number</code></td><td><code>6554131</code></td>
-    </tr><tr>
-    <td>RAWAndSmallJPEGNormal</td><td><code>number</code></td><td><code>6554130</code></td>
-    </tr><tr>
-    <td>RHEIFL</td><td><code>number</code></td><td><code>6553728</code></td>
-    </tr><tr>
-    <td>RHEIFLF</td><td><code>number</code></td><td><code>6553731</code></td>
-    </tr><tr>
-    <td>RHEIFLN</td><td><code>number</code></td><td><code>6553730</code></td>
-    </tr><tr>
-    <td>RHEIFMF</td><td><code>number</code></td><td><code>6553987</code></td>
-    </tr><tr>
-    <td>RHEIFMN</td><td><code>number</code></td><td><code>6553986</code></td>
-    </tr><tr>
-    <td>RHEIFS1F</td><td><code>number</code></td><td><code>6557315</code></td>
-    </tr><tr>
-    <td>RHEIFS1N</td><td><code>number</code></td><td><code>6557314</code></td>
-    </tr><tr>
-    <td>RHEIFS2F</td><td><code>number</code></td><td><code>6557571</code></td>
-    </tr><tr>
-    <td>SR</td><td><code>number</code></td><td><code>40173327</code></td>
-    </tr><tr>
-    <td>SRLJ</td><td><code>number</code></td><td><code>40108048</code></td>
-    </tr><tr>
-    <td>SRLJF</td><td><code>number</code></td><td><code>40108051</code></td>
-    </tr><tr>
-    <td>SRLJN</td><td><code>number</code></td><td><code>40108050</code></td>
-    </tr><tr>
-    <td>SRM1J</td><td><code>number</code></td><td><code>40109328</code></td>
-    </tr><tr>
-    <td>SRM2J</td><td><code>number</code></td><td><code>40109584</code></td>
-    </tr><tr>
-    <td>SRMJF</td><td><code>number</code></td><td><code>40108307</code></td>
-    </tr><tr>
-    <td>SRMJN</td><td><code>number</code></td><td><code>40108306</code></td>
-    </tr><tr>
-    <td>SRS1JF</td><td><code>number</code></td><td><code>40111635</code></td>
-    </tr><tr>
-    <td>SRS1JN</td><td><code>number</code></td><td><code>40111634</code></td>
-    </tr><tr>
-    <td>SRS2JF</td><td><code>number</code></td><td><code>40111891</code></td>
-    </tr><tr>
-    <td>SRS3JF</td><td><code>number</code></td><td><code>40112147</code></td>
-    </tr><tr>
-    <td>SRSJ</td><td><code>number</code></td><td><code>40108560</code></td>
-    </tr><tr>
-    <td>SRSJF</td><td><code>number</code></td><td><code>40108563</code></td>
-    </tr><tr>
-    <td>SRSJN</td><td><code>number</code></td><td><code>40108562</code></td>
-    </tr><tr>
-    <td>Small1JPEGFine</td><td><code>number</code></td><td><code>236191503</code></td>
-    </tr><tr>
-    <td>Small1JPEGNormal</td><td><code>number</code></td><td><code>236125967</code></td>
-    </tr><tr>
-    <td>Small2JPEGFine</td><td><code>number</code></td><td><code>252968719</code></td>
-    </tr><tr>
-    <td>Small3JPEGFine</td><td><code>number</code></td><td><code>269745935</code></td>
-    </tr><tr>
-    <td>SmallJPEG</td><td><code>number</code></td><td><code>34668303</code></td>
-    </tr><tr>
-    <td>SmallJPEGFine</td><td><code>number</code></td><td><code>34864911</code></td>
-    </tr><tr>
-    <td>SmallJPEGNormal</td><td><code>number</code></td><td><code>34799375</code></td>
-    </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
     </tr>  </tbody>
 </table>
 
@@ -4038,9 +3884,9 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
-<a name="Option.MirrorLockUpState"></a>
+<a name="Option.MirrorUpStatus"></a>
 
-## Option.MirrorLockUpState : <code>enum</code>
+## Option.MirrorUpStatus : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
 **Properties**
@@ -4061,6 +3907,11 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
+<a name="Option.MovieQuality"></a>
+
+## Option.MovieQuality : <code>enum</code>
+**Kind**: static enum of [<code>Option</code>](#Option)  
+**Read only**: true  
 <a name="Option.NoiseReduction"></a>
 
 ## Option.NoiseReduction : <code>enum</code>
@@ -4132,6 +3983,29 @@ Option represents a property value from a property specific list.It provides co
     </tr>  </tbody>
 </table>
 
+<a name="Option.SaveTo"></a>
+
+## Option.SaveTo : <code>enum</code>
+**Kind**: static enum of [<code>Option</code>](#Option)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>Both</td><td><code>number</code></td><td><code>3</code></td>
+    </tr><tr>
+    <td>Camera</td><td><code>number</code></td><td><code>1</code></td>
+    </tr><tr>
+    <td>Host</td><td><code>number</code></td><td><code>2</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Option.WhiteBalance"></a>
 
 ## Option.WhiteBalance : <code>enum</code>
@@ -4197,6 +4071,105 @@ Option represents a property value from a property specific list.It provides co
 Create instance for label.
 
 **Kind**: static method of [<code>Option</code>](#Option)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>label</td><td><code>string</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Flag"></a>
+
+# Flag
+**Kind**: global class  
+
+* [Flag](#Flag)
+    * [new Flag(value)](#new_Flag_new)
+    * [new Flag(value)](#new_Flag_new)
+    * _instance_
+        * [.label](#Flag+label) : <code>string</code>
+        * [.value](#Flag+value) : <code>number</code>
+        * [.flag](#Flag+flag) : <code>boolean</code>
+        * [.toJSON()](#Flag+toJSON) ⇒ <code>Object</code>
+    * _static_
+        * [.True](#Flag.True) : <code>number</code>
+        * [.False](#Flag.False) : <code>number</code>
+        * [.forLabel(label)](#Flag.forLabel) ⇒ [<code>Flag</code>](#Flag)
+
+<a name="new_Flag_new"></a>
+
+## new Flag(value)
+Boolean property value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value</td><td><code>number</code> | <code>boolean</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="new_Flag_new"></a>
+
+## new Flag(value)
+Boolean property value
+
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>value</td><td><code>number</code> | <code>boolean</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Flag+label"></a>
+
+## flag.label : <code>string</code>
+**Kind**: instance property of [<code>Flag</code>](#Flag)  
+**Read only**: true  
+<a name="Flag+value"></a>
+
+## flag.value : <code>number</code>
+**Kind**: instance property of [<code>Flag</code>](#Flag)  
+**Read only**: true  
+<a name="Flag+flag"></a>
+
+## flag.flag : <code>boolean</code>
+**Kind**: instance property of [<code>Flag</code>](#Flag)  
+**Read only**: true  
+<a name="Flag+toJSON"></a>
+
+## flag.toJSON() ⇒ <code>Object</code>
+**Kind**: instance method of [<code>Flag</code>](#Flag)  
+<a name="Flag.True"></a>
+
+## Flag.True : <code>number</code>
+**Kind**: static property of [<code>Flag</code>](#Flag)  
+**Read only**: true  
+<a name="Flag.False"></a>
+
+## Flag.False : <code>number</code>
+**Kind**: static property of [<code>Flag</code>](#Flag)  
+**Read only**: true  
+<a name="Flag.forLabel"></a>
+
+## Flag.forLabel(label) ⇒ [<code>Flag</code>](#Flag)
+Create instance for label.
+
+**Kind**: static method of [<code>Flag</code>](#Flag)  
 <table>
   <thead>
     <tr>
@@ -4526,7 +4499,8 @@ Encapsulate Object Event Identifiers For Easy Read And Debug
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## stateEvent.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.
+The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>StateEvent</code>](#StateEvent)  
 <table>
@@ -4805,11 +4779,15 @@ Entry count
   </thead>
   <tbody>
 <tr>
-    <td>CompactFlash</td><td><code>number</code></td><td><code>2</code></td>
+    <td>CFast</td><td><code>number</code></td><td><code>5</code></td>
+    </tr><tr>
+    <td>CompactFlash</td><td><code>number</code></td><td><code>1</code></td>
+    </tr><tr>
+    <td>HardDrive</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
     <td>NoMemoryCard</td><td><code>number</code></td><td><code>0</code></td>
     </tr><tr>
-    <td>SDCard</td><td><code>number</code></td><td><code>1</code></td>
+    <td>SDCard</td><td><code>number</code></td><td><code>2</code></td>
     </tr>  </tbody>
 </table>
 
