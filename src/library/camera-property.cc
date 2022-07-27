@@ -395,7 +395,8 @@ namespace CameraApi {
 
     Napi::Value CameraProperty::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
-        auto isNamedIdentifier = (Labels::PropertyID.find(propertyIdentifier_) == Labels::PropertyID.end());
+        auto labels = Labels::PropertyID();
+        auto isNamedIdentifier = (labels.find(propertyIdentifier_) == labels.end());
         auto stylize = info[1].As<Napi::Object>().Get("stylize").As<Napi::Function>();
         std::string output = stylize.Call(
             {Napi::String::New(env, CameraProperty::JSClassName), Napi::String::New(env, "special")}
@@ -447,14 +448,15 @@ namespace CameraApi {
     }
 
     std::string CameraProperty::GetLabelFor(const EdsPropertyID propertyID) {
-        if (Labels::PropertyID.find(propertyID) == Labels::PropertyID.end()) {
+        auto labels = Labels::PropertyID();
+        if (labels.find(propertyID) == labels.end()) {
             return CodeToHexLabel(propertyID);
         }
-        return Labels::PropertyID[propertyID];
+        return labels[propertyID];
     }
 
     EdsPropertyID CameraProperty::GetIDFor(const std::string &label) {
-        for (const auto &it : Labels::PropertyID) {
+        for (const auto &it : Labels::PropertyID()) {
             if ((it.second == label) || (std::to_string(it.first) == label)) {
                 return it.first;
             }
@@ -489,7 +491,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        for (const auto &it : Labels::PropertyID) {
+        for (const auto &it : Labels::PropertyID()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );

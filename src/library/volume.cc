@@ -128,7 +128,7 @@ namespace CameraApi {
         );
         output.append(">");
         return Napi::String::New(env, output);
-    };
+    }
 
     Napi::Object Volume::NewInstance(Napi::Env env, EdsVolumeRef volume) {
         Napi::EscapableHandleScope scope(env);
@@ -142,7 +142,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object StorageTypes = Napi::Object::New(env);
-        for (const auto &it : Labels::StorageType) {
+        for (const auto &it : Labels::StorageType()) {
             StorageTypes.Set(
                 it.second, Napi::Number::New(env, it.first)
             );

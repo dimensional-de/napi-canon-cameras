@@ -132,7 +132,7 @@ namespace CameraApi {
     }
 
     Napi::Value OutputDevice::IsEnabled(const Napi::CallbackInfo &info) {
-        if (!(info.Length() > 0 && info[0].IsNumber())) { ;
+        if (!(info.Length() > 0 && info[0].IsNumber())) {
             throw Napi::TypeError::New(
                 info.Env(), "Argument 0 must be a output device id."
             );
@@ -143,7 +143,7 @@ namespace CameraApi {
     }
 
     Napi::Value OutputDevice::ForLabel(const Napi::CallbackInfo &info) {
-        if (!(info.Length() > 0 && info[0].IsString())) { ;
+        if (!(info.Length() > 0 && info[0].IsString())) {
             throw Napi::TypeError::New(
                 info.Env(), "Argument 0 must be a label string."
             );

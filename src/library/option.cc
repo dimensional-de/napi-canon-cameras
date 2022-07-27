@@ -26,15 +26,16 @@ namespace CameraApi {
             );
         }
 
+        auto labels = Labels::Option();
         if (
-            Labels::Option.find(propertyIdentifier_) != Labels::Option.end() &&
-            Labels::Option[propertyIdentifier_].find(value_) !=
-            Labels::Option[propertyIdentifier_].end()
+            labels.find(propertyIdentifier_) != labels.end() &&
+                labels[propertyIdentifier_].find(value_) !=
+                    labels[propertyIdentifier_].end()
             ) {
             isNamedValue_ = true;
             label_ = CameraProperty::GetLabelFor(propertyIdentifier_);
             label_.append(".");
-            label_.append(Labels::Option[propertyIdentifier_][value_]);
+            label_.append(labels[propertyIdentifier_][value_]);
         } else {
             isNamedValue_ = false;
             label_ = CodeToHexLabel(value_);
@@ -67,7 +68,8 @@ namespace CameraApi {
     }
 
     bool Option::IsOptionsProperty(EdsPropertyID propertyID) {
-        return Labels::Option.find(propertyID) != Labels::Option.end();
+        auto labels = Labels::Option();
+        return labels.find(propertyID) != labels.end();
     }
 
     bool Option::IsClassOf(Napi::Value value) {
@@ -114,25 +116,27 @@ namespace CameraApi {
             auto separatorAt = label.find('.');
             auto propertyLabel = label.substr(0, separatorAt);
             auto optionLabel = label.substr(separatorAt + 1);
+            auto propertyLabels = Labels::PropertyID();
             auto propertyIt = std::find_if(
-                std::begin(Labels::PropertyID),
-                std::end(Labels::PropertyID),
+                std::begin(propertyLabels),
+                std::end(propertyLabels),
                 [propertyLabel](auto p) { return p.second.compare(propertyLabel) == 0; }
             );
-            if (propertyIt == std::end(Labels::PropertyID)) {
+            if (propertyIt == std::end(propertyLabels)) {
                 throw Napi::TypeError::New(
                     info.Env(), "Option::forLabel(): property not found."
                 );
             }
             int propertyID = propertyIt->first;
-            if (Labels::Option.find(propertyID) != Labels::Option.end()) {
-                auto optionLabels = Labels::Option[propertyID];
+            auto optionLabelGroups = Labels::Option();
+            if (optionLabelGroups.find(propertyID) != optionLabelGroups.end()) {
+                auto optionLabels = optionLabelGroups[propertyID];
                 auto optionIt = std::find_if(
                     std::begin(optionLabels),
                     std::end(optionLabels),
                     [optionLabel](auto o) { return o.second.compare(optionLabel) == 0; }
                 );
-                if (optionIt == std::end(Labels::PropertyID)) {
+                if (optionIt == std::end(propertyLabels)) {
                     return info.Env().Null();
                 }
                 return Option::NewInstance(info.Env(), propertyID, optionIt->first);
@@ -165,13 +169,11 @@ namespace CameraApi {
     }
 
     Napi::Object Option::CreateOptionGroup(Napi::Env env, EdsPropertyID propertyID) {
-        return CreateOptionGroup(env, Labels::Option[propertyID]);
+        auto optionLabelGroups = Labels::Option();
+        return CreateOptionGroup(env, optionLabelGroups[propertyID]);
     }
 
     void Option::Init(Napi::Env env, Napi::Object exports) {
-        // Initialize the option map inside the Labels singleton
-        Labels::Init();
-
         Napi::HandleScope scope(env);
 
         std::vector<PropertyDescriptor> properties = {

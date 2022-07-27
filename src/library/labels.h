@@ -7,46 +7,71 @@ namespace CameraApi {
 
     class Labels {
         public:
-            static void Init();
-            
-            static LabelMap Error;
+            static const LabelMap &Error();
 
-            static LabelMap ObjectEventID;
-            static LabelMap StateEventID;
-            static LabelMap PropertyID;
+            static const LabelMap &ObjectEventID();
 
-            static std::unordered_map<int, LabelMap> Option;
+            static const LabelMap &StateEventID();
 
-            static LabelMap AEMode;
-            static LabelMap AEModeSelect;
-            static LabelMap AFMode;
-            static LabelMap Bracket;
-            static LabelMap BatteryQuality;
-            static LabelMap ColorSpace;
-            static LabelMap DCStrobe;
-            static LabelMap DriveMode;
-            static LabelMap EvfAFMode;
-            static LabelMap EvfHistogramStatus;
-            static LabelMap EvfOutputDevice;
-            static LabelMap EvfZoom;
-            static LabelMap ImageQuality;
-            static LabelMap LensBarrelStatus;
-            static LabelMap LensStatus;
-            static LabelMap MeteringMode;
-            static LabelMap MirrorUpStatus;
-            static LabelMap MovieQuality;
-            static LabelMap NoiseReduction;
-            static LabelMap PictureStyle;
-            static LabelMap Record;
-            static LabelMap RedEye;
-            static LabelMap SaveTo;
-            static LabelMap WhiteBalance;
+            static const LabelMap &PropertyID();
 
-            static LabelMap StorageType;
+            static const std::unordered_map<int, LabelMap> &Option();
 
-            static LabelMap ImageFormat;
-            static LabelMap ImageSize;
-            static LabelMap ImageCompression;
+            static const LabelMap &AEMode();
+
+            static const LabelMap &AEModeSelect();
+
+            static const LabelMap &AFMode();
+
+            static const LabelMap &Bracket();
+
+            static const LabelMap &BatteryQuality();
+
+            static const LabelMap &ColorSpace();
+
+            static const LabelMap &DCStrobe();
+
+            static const LabelMap &DriveMode();
+
+            static const LabelMap &EvfAFMode();
+
+            static const LabelMap &EvfHistogramStatus();
+
+            static const LabelMap &EvfOutputDevice();
+
+            static const LabelMap &EvfZoom();
+
+            static const LabelMap &ImageQuality();
+
+            static const LabelMap &LensBarrelStatus();
+
+            static const LabelMap &LensStatus();
+
+            static const LabelMap &MeteringMode();
+
+            static const LabelMap &MirrorUpStatus();
+
+            static const LabelMap &MovieQuality();
+
+            static const LabelMap &NoiseReduction();
+
+            static const LabelMap &PictureStyle();
+
+            static const LabelMap &Record();
+
+            static const LabelMap &RedEye();
+
+            static const LabelMap &SaveTo();
+
+            static const LabelMap &WhiteBalance();
+
+            static const LabelMap &StorageType();
+
+            static const LabelMap &ImageFormat();
+
+            static const LabelMap &ImageSize();
+
+            static const LabelMap &ImageCompression();
     };
 }
 

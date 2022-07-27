@@ -94,7 +94,7 @@ namespace CameraApi {
         );
         output.append(">");
         return Napi::String::New(env, output);
-    };
+    }
 
     Napi::Object Directory::NewInstance(Napi::Env env, EdsDirectoryItemRef directory) {
         Napi::EscapableHandleScope scope(env);

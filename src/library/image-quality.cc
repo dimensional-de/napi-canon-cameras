@@ -16,8 +16,9 @@ namespace CameraApi {
             );
         }
 
-        if (Labels::ImageQuality.find(value_) != Labels::ImageQuality.end()) {
-            label_ = Labels::ImageQuality[value_];
+        auto labels = Labels::ImageQuality();
+        if (labels.find(value_) != labels.end()) {
+            label_ = labels[value_];
         } else {
             label_ = CodeToHexLabel(value_);
         }
@@ -125,26 +126,26 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        for (const auto &it : Labels::ImageQuality) {
+        for (const auto &it : Labels::ImageQuality()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
 
         Napi::Object ImageFormats = Napi::Object::New(env);
-        for (const auto &it : Labels::ImageFormat) {
+        for (const auto &it : Labels::ImageFormat()) {
             ImageFormats.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object ImageSizes = Napi::Object::New(env);
-        for (const auto &it : Labels::ImageSize) {
+        for (const auto &it : Labels::ImageSize()) {
             ImageSizes.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object ImageCompressions = Napi::Object::New(env);
-        for (const auto &it : Labels::ImageCompression) {
+        for (const auto &it : Labels::ImageCompression()) {
             ImageCompressions.Set(
                 it.second, Napi::Number::New(env, it.first)
             );

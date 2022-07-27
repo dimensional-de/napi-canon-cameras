@@ -5,7 +5,8 @@
 namespace CameraApi {
 
     ApiError::ApiError(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<ApiError>(info), ApiIdentifier(info, ApiError::JSClassName, Labels::Error)  {
+        : Napi::ObjectWrap<ApiError>(info),
+          ApiIdentifier(info, ApiError::JSClassName, Labels::Error()) {
     }
 
     Napi::Object ApiError::NewInstance(Napi::Env env, EdsError errorCode) {
@@ -16,17 +17,19 @@ namespace CameraApi {
 
     Napi::Value ApiError::Throw(Napi::Env env, EdsError errorCode) {
         std::string label = "EDSDK - ";
-        if (Labels::Error.find(errorCode) == Labels::Error.end()) {
+        auto errors = Labels::Error();
+        if (errors.find(errorCode) == errors.end()) {
             label.append(CodeToHexLabel(errorCode));
         } else {
-            label.append(Labels::Error[errorCode]);
+            label.append(errors[errorCode]);
         }
         Napi::Error error = Napi::Error::New(env, label);
         error.Value()["EDS_ERROR"] = ApiError::NewInstance(env, errorCode);
         throw error;
     }
 
-    Napi::Value ApiError::ThrowIfFailed(Napi::Env env, EdsError errorCode, Napi::Value defaultValue) {
+    Napi::Value
+    ApiError::ThrowIfFailed(Napi::Env env, EdsError errorCode, Napi::Value defaultValue) {
         if (errorCode != EDS_ERR_OK) {
             ApiError::Throw(env, errorCode);
         }
@@ -41,13 +44,13 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object Codes = Napi::Object::New(env);
-        for (const auto &it : Labels::Error) {
+        for (const auto &it: Labels::Error()) {
             Codes.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor("label", &ApiError::GetLabel, nullptr),
             InstanceAccessor("identifier", &ApiError::GetIdentifier, nullptr),
             InstanceMethod("toJSON", &ApiError::ToJSON),
@@ -55,7 +58,9 @@ namespace CameraApi {
 
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ApiError::GetPrimitive),
             InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &ApiError::Inspect),
-            InstanceAccessor(Napi::Symbol::WellKnown(env, "toStringTag"), &ApiError::ToStringTag, nullptr),
+            InstanceAccessor(
+                Napi::Symbol::WellKnown(env, "toStringTag"), &ApiError::ToStringTag, nullptr
+            ),
 
             StaticValue("Code", Codes, napi_enumerable)
         };

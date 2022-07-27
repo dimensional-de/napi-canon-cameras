@@ -578,7 +578,7 @@ namespace CameraApi {
 
     Napi::Value CameraWrap::ToStringTag(const Napi::CallbackInfo &info) {
         return Napi::String::New(info.Env(), CameraWrap::JSClassName);
-    };
+    }
 
     Napi::Value CameraWrap::Inspect(const Napi::CallbackInfo &info) {
         auto env = info.Env();
@@ -594,7 +594,7 @@ namespace CameraApi {
         );
         output.append(">");
         return Napi::String::New(env, output);
-    };
+    }
 
     Napi::Value CameraWrap::Connect(const Napi::CallbackInfo &info) {
         bool keepAlive = false;

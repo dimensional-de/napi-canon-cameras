@@ -6,7 +6,8 @@
 namespace CameraApi {
 
     StateEvent::StateEvent(const Napi::CallbackInfo &info)
-        : Napi::ObjectWrap<StateEvent>(info), ApiIdentifier(info, StateEvent::JSClassName, Labels::StateEventID)  {
+        : Napi::ObjectWrap<StateEvent>(info),
+          ApiIdentifier(info, StateEvent::JSClassName, Labels::StateEventID()) {
     }
 
     Napi::Object StateEvent::NewInstance(Napi::Env env, EdsUInt32 identifier) {
@@ -19,21 +20,25 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        for (const auto &it : Labels::StateEventID) {
+        for (const auto &it: Labels::StateEventID()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
 
-        std::vector <PropertyDescriptor> properties = {
+        std::vector<PropertyDescriptor> properties = {
             InstanceAccessor("label", &StateEvent::GetLabel, nullptr),
             InstanceAccessor("identifier", &StateEvent::GetIdentifier, nullptr),
             InstanceMethod("toJSON", &StateEvent::ToJSON),
             InstanceMethod("equalTo", &StateEvent::EqualTo),
 
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &StateEvent::GetPrimitive),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &StateEvent::Inspect),
-            InstanceAccessor(Napi::Symbol::WellKnown(env, "toStringTag"), &StateEvent::ToStringTag, nullptr),
+            InstanceMethod(
+                GetPublicSymbol(env, "nodejs.util.inspect.custom"), &StateEvent::Inspect
+            ),
+            InstanceAccessor(
+                Napi::Symbol::WellKnown(env, "toStringTag"), &StateEvent::ToStringTag, nullptr
+            ),
 
             StaticValue("ID", IDs, napi_enumerable)
         };

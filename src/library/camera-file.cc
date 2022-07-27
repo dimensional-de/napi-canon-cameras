@@ -37,7 +37,7 @@ namespace CameraApi {
             EdsDownloadCancel(edsDirectoryItem_);
         }
         EdsRelease(edsDirectoryItem_);
-        edsDirectoryItem_ = NULL;
+        edsDirectoryItem_ = nullptr;
     }
 
     Napi::Value CameraFile::Cancel(const Napi::CallbackInfo &info) {
@@ -86,7 +86,7 @@ namespace CameraApi {
         );
         output.append(">");
         return Napi::String::New(env, output);
-    };
+    }
 
     Napi::Value CameraFile::DownloadToPath(const Napi::CallbackInfo &info) {
         if (isDownloaded_) {
