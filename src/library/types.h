@@ -15,6 +15,20 @@
 #define kEdsPropID_Evf_FocusAid      0x00000509
 
 
+// bc
+#ifndef kEdsCameraCommand_RequestSensorCleaning
+#define kEdsCameraCommand_RequestSensorCleaning    0x00000112
+#endif
+
+#ifndef kEdsCameraCommand_SetModeDialDisable
+#define kEdsCameraCommand_SetModeDialDisable    0x00000113
+#endif
+
+#ifndef kEdsWhiteBalance_Tungsten
+#define kEdsWhiteBalance_Tungsten   3
+#endif
+
+
 namespace CameraApi {
 
     typedef std::unordered_map<EdsUInt32, std::string> LabelMap;

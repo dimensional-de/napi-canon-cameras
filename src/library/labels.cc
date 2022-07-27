@@ -797,7 +797,7 @@ namespace CameraApi {
             {kEdsWhiteBalance_Auto, "AutoAmbiencePriority"},
             {kEdsWhiteBalance_Daylight, "Daylight"},
             {kEdsWhiteBalance_Cloudy, "Cloudy"},
-            {kEdsWhiteBalance_Tangsten, "Tungsten"},
+            {kEdsWhiteBalance_Tungsten, "Tungsten"},
             {kEdsWhiteBalance_Fluorescent, "Fluorescent"},
             {kEdsWhiteBalance_Strobe, "Flash"},
             {kEdsWhiteBalance_WhitePaper, "WhitePaper"},
