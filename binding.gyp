@@ -1,4 +1,8 @@
 {
+    "variables": {
+        "edsdk_version": "131520",
+        "edsdk_directory%": "EDSDK"
+    },
     "defines": [
         "NAPI_VERSION=<(napi_build_version)",
     ],
@@ -42,9 +46,6 @@
                 [
                     "OS==\"win\"",
                     {
-                        "include_dirs": [
-                            "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Header"
-                        ],
                         'msvs_settings': {
                             'VCCLCompilerTool': {
                             'ExceptionHandling': 1,
@@ -56,15 +57,21 @@
                 [
                     "OS==\"win\" and target_arch==\"x64\"",
                     {
+                        "variables": {
+                            "edsdk_directory": "EDSDKv<(edsdk_version)W"
+                        },
+                        "include_dirs": [
+                            "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK/Header"
+                        ],
                         "libraries": [
-                          "../third_party/EDSDK/Windows/EDSDK_64/Library/EDSDK.lib"
+                          "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK_64/Library/EDSDK.lib"
                         ],
                         "copies": [
                             {
                                 "destination": "<(PRODUCT_DIR)",
                                 "files": [
-                                    "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK_64/Dll/EDSDK.dll",
-                                    "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK_64/Dll/EdsImage.dll"
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK_64/Dll/EDSDK.dll",
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK_64/Dll/EdsImage.dll"
                                 ]
                             }
                         ]
@@ -73,15 +80,21 @@
                 [
                     "OS==\"win\" and target_arch==\"ia32\"",
                     {
+                        "variables": {
+                            "edsdk_directory": "EDSDKv<(edsdk_version)W"
+                        },
+                        "include_dirs": [
+                            "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK/Header"
+                        ],
                         "libraries": [
-                          "../third_party/EDSDK/Windows/EDSDK/Library/EDSDK.lib"
+                          "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK/Library/EDSDK.lib"
                         ],
                         "copies": [
                             {
                                 "destination": "<(PRODUCT_DIR)",
                                 "files": [
-                                    "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Dll/EDSDK.dll",
-                                    "<(module_root_dir)/third_party/EDSDK/Windows/EDSDK/Dll/EdsImage.dll"
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK/Dll/EDSDK.dll",
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/Windows/EDSDK/Dll/EdsImage.dll"
                                 ]
                             }
                         ]
@@ -91,11 +104,14 @@
                     "OS==\"mac\"",
                     {
                         "defines": [ '__MACOS__' ],
+                        "variables": {
+                            "edsdk_directory": "EDSDKv<(edsdk_version)M"
+                        },
                         "include_dirs": [
-                            "<(module_root_dir)/third_party/EDSDK/macos/EDSDK/Header"
+                            "<(module_root_dir)/third_party/<(edsdk_directory)/macos/EDSDK/Header"
                         ],
                         "libraries": [
-                          "../third_party/EDSDK/macos/EDSDK/Framework/EDSDK.framework"
+                          "<(module_root_dir)/third_party/<(edsdk_directory)/macos/EDSDK/Framework/EDSDK.framework"
                         ],
                         'xcode_settings': {
                             'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
@@ -106,7 +122,7 @@
                             ],
                             'OTHER_LDFLAGS': [
                                 '-Wl,-rpath,./prebuilds/darwin-x64/,-rpath,./node_modules/@dimensional/napi-canon-cameras/prebuilds/darwin-x64/',
-                                '-F ../third_party/EDSDK/macos/EDSDK/Framework/',
+                                '-F ../third_party/<(edsdk_directory)/macos/EDSDK/Framework/',
                                 '-framework EDSDK'
                             ]
                         },
@@ -114,7 +130,7 @@
                             {
                                 "destination": "<(PRODUCT_DIR)",
                                 "files": [
-                                    "<(module_root_dir)/third_party/EDSDK/macos/EDSDK/Framework/EDSDK.Framework"
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/macos/EDSDK/Framework/EDSDK.Framework"
                                 ]
                             }
                         ]

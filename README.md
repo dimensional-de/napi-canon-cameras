@@ -97,11 +97,14 @@ watchCameras();
 The package does not include the Canon EDSDK files. To install the package you will have 
 to build a TGZ.
  
- 1. Unpack the Canon EDSDK as `EDSDK` subdirectory into `third_party`.
- 2. Run `npm run package`
- 3. Look for `../node_packages/@dimensional/napi-canon-cameras.tgz`
- 4. `cd ../YourProject` (Switch tp your project directory)
- 5. `npm i ../node_packages/@dimensional/napi-canon-cameras.tgz`
+ 1. Unpack the Canon EDSDK into `third_party`. Keep the package name as subdirectory.
+    * `EDSDKv131520W.zip` → `third_party/EDSDKv131520W`
+ 2. Make sure the variable `edsdk_version` in `binding.gyp` matches the EDSDK version. (The numeric part of the 
+    package name)
+ 3. Run `npm run package`
+ 4. Look for `../node_packages/@dimensional/napi-canon-cameras.tgz`
+ 5. `cd ../YourProject` (Switch tp your project directory)
+ 6. `npm i ../node_packages/@dimensional/napi-canon-cameras.tgz`
 
 ### NPM Tasks
 
@@ -118,4 +121,3 @@ to build a TGZ.
 ### Does the module work in Electron Applications?
 
 Yes.
-
