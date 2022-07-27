@@ -5,49 +5,52 @@
 namespace CameraApi {
 
 
-    std::unordered_map<int, double> ExposureCompensationValues = {
-        {0x00, 0},
-        {0x1B, (3.0 + (1.0 / 3.0))},
-        {0x1C, (3.0 + (1.0 / 2))},
-        {0x1D, (3.0 + (2.0 / 3.0))},
-        {0x03, (1.0 / 3.0)},
-        {0x04, (1.0 / 2.0)},
-        {0x05, (2.0 / 3.0)},
-        {0x08, (1.0)},
-        {0x10, (2.0)},
-        {0x13, (2.0 + (1.0 / 3.0))},
-        {0x14, (2.0 + (1.0 / 2.0))},
-        {0x15, (2.0 + (2.0 / 3.0))},
-        {0x18, (3.0)},
-        {0x20, (4.0)},
-        {0x23, (4.0 + (1.0 / 3.0))},
-        {0x24, (4.0 + (1.0 / 2.0))},
-        {0x25, (4.0 + (2.0 / 3.0))},
-        {0x28, (5.0)},
-        {0x0B, (1.0 + (1.0 / 3.0))},
-        {0x0C, (1.0 + (1.0 / 2.0))},
-        {0x0D, (1.0 + (2.0 / 3.0))},
-        {0xD8, (-5.0)},
-        {0xDB, (-4.0 - (2.0 / 3.0))},
-        {0xDC, (-4.0 - (1.0 / 2.0))},
-        {0xDD, (-4.0 - (1.0 / 3.0))},
-        {0xE0, (-4.0)},
-        {0xE3, (-3.0 - (2.0 / 3.0))},
-        {0xE4, (-3.0 - (1.0 / 2.0))},
-        {0xE5, (-3.0 - (1.0 / 3.0))},
-        {0xE8, (-3.0)},
-        {0xEB, (-2.0 - (2.0 / 3.0))},
-        {0xEC, (-2.0 - (1.0 / 2.0))},
-        {0xED, (-2.0 - (1.0 / 3.0))},
-        {0xF0, (-2.0)},
-        {0xF3, (-1.0 - (2.0 / 3.0))},
-        {0xF4, (-1.0 - (1.0 / 2.0))},
-        {0xF5, (-1.0 - (1.0 / 3.0))},
-        {0xF8, (-1.0)},
-        {0xFB, -(2.0 / 3.0)},
-        {0xFC, -(1.0 / 2.0)},
-        {0xFD, -(1.0 / 3.0)}
-    };
+    const std::unordered_map<int, double> &ExposureCompensationValues() {
+        static const std::unordered_map<int, double> values = {
+            {0x00, 0},
+            {0x1B, (3.0 + (1.0 / 3.0))},
+            {0x1C, (3.0 + (1.0 / 2))},
+            {0x1D, (3.0 + (2.0 / 3.0))},
+            {0x03, (1.0 / 3.0)},
+            {0x04, (1.0 / 2.0)},
+            {0x05, (2.0 / 3.0)},
+            {0x08, (1.0)},
+            {0x10, (2.0)},
+            {0x13, (2.0 + (1.0 / 3.0))},
+            {0x14, (2.0 + (1.0 / 2.0))},
+            {0x15, (2.0 + (2.0 / 3.0))},
+            {0x18, (3.0)},
+            {0x20, (4.0)},
+            {0x23, (4.0 + (1.0 / 3.0))},
+            {0x24, (4.0 + (1.0 / 2.0))},
+            {0x25, (4.0 + (2.0 / 3.0))},
+            {0x28, (5.0)},
+            {0x0B, (1.0 + (1.0 / 3.0))},
+            {0x0C, (1.0 + (1.0 / 2.0))},
+            {0x0D, (1.0 + (2.0 / 3.0))},
+            {0xD8, (-5.0)},
+            {0xDB, (-4.0 - (2.0 / 3.0))},
+            {0xDC, (-4.0 - (1.0 / 2.0))},
+            {0xDD, (-4.0 - (1.0 / 3.0))},
+            {0xE0, (-4.0)},
+            {0xE3, (-3.0 - (2.0 / 3.0))},
+            {0xE4, (-3.0 - (1.0 / 2.0))},
+            {0xE5, (-3.0 - (1.0 / 3.0))},
+            {0xE8, (-3.0)},
+            {0xEB, (-2.0 - (2.0 / 3.0))},
+            {0xEC, (-2.0 - (1.0 / 2.0))},
+            {0xED, (-2.0 - (1.0 / 3.0))},
+            {0xF0, (-2.0)},
+            {0xF3, (-1.0 - (2.0 / 3.0))},
+            {0xF4, (-1.0 - (1.0 / 2.0))},
+            {0xF5, (-1.0 - (1.0 / 3.0))},
+            {0xF8, (-1.0)},
+            {0xFB, -(2.0 / 3.0)},
+            {0xFC, -(1.0 / 2.0)},
+            {0xFD, -(1.0 / 3.0)}
+        };
+        return values;
+    }
 
     ExposureCompensation::ExposureCompensation(
         const Napi::CallbackInfo &info
@@ -63,8 +66,9 @@ namespace CameraApi {
             );
         }
 
-        if (ExposureCompensationValues.find(value_) != ExposureCompensationValues.end()) {
-            compensation_ = ExposureCompensationValues[value_];
+        auto values = ExposureCompensationValues();
+        if (values.find(value_) != values.end()) {
+            compensation_ = values[value_];
         } else {
             compensation_ = 0;
         }
@@ -76,8 +80,9 @@ namespace CameraApi {
         } else if (value == 0xFFFFFF) {
             return "";
         }
+        auto values = ExposureCompensationValues();
         return ExposureCompensation::GetLabelForCompensation(
-            ExposureCompensationValues[value]
+            values[value]
         );
     }
 
@@ -179,7 +184,7 @@ namespace CameraApi {
             }
             double matchDelta = 9999.0;
             EdsInt32 matchValue = 0;
-            for (const auto &it : ExposureCompensationValues) {
+            for (const auto &it : ExposureCompensationValues()) {
                 auto delta = std::abs(compensation - it.second);
                 if (delta < matchDelta) {
                     matchDelta = delta;
@@ -206,7 +211,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object Values = Napi::Object::New(env);
-        for (const auto &it : ExposureCompensationValues) {
+        for (const auto &it : ExposureCompensationValues()) {
             Values.Set(it.first, it.second);
         }
 

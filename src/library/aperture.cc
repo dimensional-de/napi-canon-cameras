@@ -5,67 +5,73 @@
 
 namespace CameraApi {
 
-    LabelMap NamedApertureLabels = {
-        {0x00, "Auto"},
-        {0xFFFFFFFF, "NotValid"}
-    };
+    const LabelMap &NamedApertureLabels() {
+        static const LabelMap map = {
+            {0x00, "Auto"},
+            {0xFFFFFFFF, "NotValid"}
+        };
+        return map;
+    }
 
-    std::unordered_map<int, double> ApertureValues = {
-        {0x08, 1},
-        {0x0B, 1.1},
-        {0x0C, 1.2},
-        {0x0D, 1.2}, // (1/3),
-        {0x10, 1.4},
-        {0x13, 1.6},
-        {0x14, 1.8},
-        {0x15, 1.8}, // (1/3),
-        {0x18, 2},
-        {0x1B, 2.2},
-        {0x1C, 2.5},
-        {0x1D, 2.5}, // (1/3),
-        {0x20, 2.8},
-        {0x23, 3.2},
-        {0x85, 3.4},
-        {0x24, 3.5},
-        {0x25, 3.5}, // (1/3),
-        {0x28, 4},
-        {0x2B, 4.5},
-        {0x2C, 4.5},
-        {0x2D, 5.0},
-        {0x30, 5.6},
-        {0x33, 6.3},
-        {0x34, 6.7},
-        {0x35, 7.1},
-        {0x38, 8},
-        {0x3B, 9},
-        {0x3C, 9.5},
-        {0x3D, 10},
-        {0x40, 11},
-        {0x43, 13}, // (1/3),
-        {0x44, 13},
-        {0x45, 14},
-        {0x48, 16},
-        {0x4B, 18},
-        {0x4C, 19},
-        {0x4D, 20},
-        {0x50, 22},
-        {0x53, 25},
-        {0x54, 27},
-        {0x55, 29},
-        {0x58, 32},
-        {0x5B, 36},
-        {0x5C, 38},
-        {0x5D, 40},
-        {0x60, 45},
-        {0x63, 51},
-        {0x64, 54},
-        {0x65, 57},
-        {0x68, 64},
-        {0x6B, 72},
-        {0x6C, 76},
-        {0x6D, 80},
-        {0x70, 91}
-    };
+    const std::unordered_map<int, double> &ApertureValues() {
+        static const std::unordered_map<int, double> map = {
+            {0x08, 1},
+            {0x0B, 1.1},
+            {0x0C, 1.2},
+            {0x0D, 1.2}, // (1/3),
+            {0x10, 1.4},
+            {0x13, 1.6},
+            {0x14, 1.8},
+            {0x15, 1.8}, // (1/3),
+            {0x18, 2},
+            {0x1B, 2.2},
+            {0x1C, 2.5},
+            {0x1D, 2.5}, // (1/3),
+            {0x20, 2.8},
+            {0x23, 3.2},
+            {0x85, 3.4},
+            {0x24, 3.5},
+            {0x25, 3.5}, // (1/3),
+            {0x28, 4},
+            {0x2B, 4.5},
+            {0x2C, 4.5},
+            {0x2D, 5.0},
+            {0x30, 5.6},
+            {0x33, 6.3},
+            {0x34, 6.7},
+            {0x35, 7.1},
+            {0x38, 8},
+            {0x3B, 9},
+            {0x3C, 9.5},
+            {0x3D, 10},
+            {0x40, 11},
+            {0x43, 13}, // (1/3),
+            {0x44, 13},
+            {0x45, 14},
+            {0x48, 16},
+            {0x4B, 18},
+            {0x4C, 19},
+            {0x4D, 20},
+            {0x50, 22},
+            {0x53, 25},
+            {0x54, 27},
+            {0x55, 29},
+            {0x58, 32},
+            {0x5B, 36},
+            {0x5C, 38},
+            {0x5D, 40},
+            {0x60, 45},
+            {0x63, 51},
+            {0x64, 54},
+            {0x65, 57},
+            {0x68, 64},
+            {0x6B, 72},
+            {0x6C, 76},
+            {0x6D, 80},
+            {0x70, 91}
+        };
+        return map;
+    }
 
     Aperture::Aperture(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<Aperture>(info) {
@@ -81,18 +87,21 @@ namespace CameraApi {
             );
         }
 
-        if (ApertureValues.find(value_) != ApertureValues.end()) {
-            f_ = ApertureValues[value_];
+        auto values = ApertureValues();
+        if (values.find(value_) != values.end()) {
+            f_ = values[value_];
         } else {
             f_ = 0;
         }
     }
 
     std::string Aperture::GetLabelForValue(EdsInt32 value) {
-        if (NamedApertureLabels.find(value) != NamedApertureLabels.end()) {
-            return NamedApertureLabels[value];
-        } else if (ApertureValues.find(value) != ApertureValues.end()) {
-            return Aperture::GetLabelForAperture(ApertureValues[value]);
+        auto labels = NamedApertureLabels();
+        auto values = ApertureValues();
+        if (labels.find(value) != labels.end()) {
+            return labels[value];
+        } else if (values.find(value) != values.end()) {
+            return Aperture::GetLabelForAperture(values[value]);
         }
         return "";
     }
@@ -170,7 +179,7 @@ namespace CameraApi {
             } else {
                 aperture = std::stod(label);
             }
-            for (const auto &it : ApertureValues) {
+            for (const auto &it : ApertureValues()) {
                 auto delta = std::abs(aperture - it.second);
                 if (delta < 0.001) {
                     return it.first;
@@ -186,7 +195,7 @@ namespace CameraApi {
             return info.Env().Null();
         }
         std::string label = info[0].As<Napi::String>().Utf8Value();
-        for (const auto &it : NamedApertureLabels) {
+        for (const auto &it : NamedApertureLabels()) {
             if (it.second == label) {
                 return Aperture::NewInstance(info.Env(), it.first);
             }
@@ -203,18 +212,19 @@ namespace CameraApi {
         const Napi::Env &env = info.Env();
         double aperture;
         bool validArgument = false;
+        auto values = ApertureValues();
         if (info.Length() > 0) {
             try {
                 if (info[0].IsString()) {
                     auto value = Aperture::ForLabel(
                         info[0].As<Napi::String>().Utf8Value()
                     );
-                    aperture = ApertureValues[value];
+                    aperture = values[value];
                     validArgument = true;
                 } else if (info[0].IsNumber()) {
                     auto value = info[0].As<Napi::Number>().Int32Value();
-                    if (ApertureValues.find(value) != ApertureValues.end()) {
-                        aperture = ApertureValues[value];
+                    if (values.find(value) != values.end()) {
+                        aperture = values[value];
                         validArgument = true;
                     }
                 }
@@ -234,7 +244,7 @@ namespace CameraApi {
         }
         double matchDelta = 9999.0;
         EdsInt32 matchValue = 0;
-        for (const auto &it : ApertureValues) {
+        for (const auto &it : ApertureValues()) {
             auto delta = std::abs(aperture - it.second);
             if (delta < matchDelta) {
                 auto allowed = (
@@ -266,13 +276,13 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        for (const auto &it : NamedApertureLabels) {
+        for (const auto &it : NamedApertureLabels()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
         }
         Napi::Object Values = Napi::Object::New(env);
-        for (const auto &it : ApertureValues) {
+        for (const auto &it : ApertureValues()) {
             Values.Set(it.first, it.second);
         }
 

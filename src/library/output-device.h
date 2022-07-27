@@ -42,7 +42,7 @@ namespace CameraApi {
 
             Napi::Value GetDevices(const Napi::CallbackInfo &info);
 
-            bool IsEnabled(EdsInt32 deviceID) const;
+            [[nodiscard]] bool IsEnabled(EdsInt32 deviceID) const;
 
             Napi::Value IsEnabled(const Napi::CallbackInfo &info);
 

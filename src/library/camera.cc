@@ -42,30 +42,37 @@ namespace CameraApi {
         EdsStateEvent eventID = 0;
     };
 
-    LabelMap CameraCommands = {
-        {kEdsCameraCommand_TakePicture, "TakePicture"},
-        {kEdsCameraCommand_ExtendShutDownTimer, "ExtendShutDownTimer"},
-        {kEdsCameraCommand_BulbStart, "BulbStart"},
-        {kEdsCameraCommand_BulbEnd, "BulbEnd"},
-        {kEdsCameraCommand_DoEvfAf, "DoEvfAf"},
-        {kEdsCameraCommand_DriveLensEvf, "DriveLensEvf"},
-        {kEdsCameraCommand_DoClickWBEvf, "DoClickWBEvf"},
-        {kEdsCameraCommand_MovieSelectSwON, "MovieSelectSwON"},
-        {kEdsCameraCommand_MovieSelectSwOFF, "MovieSelectSwOFF"},
-        {kEdsCameraCommand_PressShutterButton, "PressShutterButton"},
-        {kEdsCameraCommand_RequestRollPitchLevel, "RequestRollPitchLevel"},
-        {kEdsCameraCommand_DrivePowerZoom, "DrivePowerZoom"},
-        {kEdsCameraCommand_SetRemoteShootingMode, "SetRemoteShootingMode"},
-        {kEdsCameraCommand_RequestSensorCleaning, "RequestSensorCleaning"}
-    };
+    const LabelMap &CameraCommands() {
+        static const LabelMap map = {
+            {kEdsCameraCommand_TakePicture, "TakePicture"},
+            {kEdsCameraCommand_ExtendShutDownTimer, "ExtendShutDownTimer"},
+            {kEdsCameraCommand_BulbStart, "BulbStart"},
+            {kEdsCameraCommand_BulbEnd, "BulbEnd"},
+            {kEdsCameraCommand_DoEvfAf, "DoEvfAf"},
+            {kEdsCameraCommand_DriveLensEvf, "DriveLensEvf"},
+            {kEdsCameraCommand_DoClickWBEvf, "DoClickWBEvf"},
+            {kEdsCameraCommand_MovieSelectSwON, "MovieSelectSwON"},
+            {kEdsCameraCommand_MovieSelectSwOFF, "MovieSelectSwOFF"},
+            {kEdsCameraCommand_PressShutterButton, "PressShutterButton"},
+            {kEdsCameraCommand_RequestRollPitchLevel, "RequestRollPitchLevel"},
+            {kEdsCameraCommand_DrivePowerZoom, "DrivePowerZoom"},
+            {kEdsCameraCommand_SetRemoteShootingMode, "SetRemoteShootingMode"},
+            {kEdsCameraCommand_RequestSensorCleaning, "RequestSensorCleaning"}
 
-    LabelMap CameraParametersShutterButton = {
-        {kEdsCameraCommand_ShutterButton_OFF, "OFF"},
-        {kEdsCameraCommand_ShutterButton_Halfway, "Halfway"},
-        {kEdsCameraCommand_ShutterButton_Completely, "Completely"},
-        {kEdsCameraCommand_ShutterButton_Halfway_NonAF, "HalfwayNonAF"},
-        {kEdsCameraCommand_ShutterButton_Completely_NonAF, "CompletelyNonAF"}
-    };
+        };
+        return map;
+    }
+
+    const LabelMap &CameraParametersShutterButton() {
+        static const LabelMap map = {
+            {kEdsCameraCommand_ShutterButton_OFF, "OFF"},
+            {kEdsCameraCommand_ShutterButton_Halfway, "Halfway"},
+            {kEdsCameraCommand_ShutterButton_Completely, "Completely"},
+            {kEdsCameraCommand_ShutterButton_Halfway_NonAF, "HalfwayNonAF"},
+            {kEdsCameraCommand_ShutterButton_Completely_NonAF, "CompletelyNonAF"}
+        };
+        return map;
+    }
 
     Camera::Camera(const EdsCameraRef edsCamera) {
 
@@ -82,15 +89,21 @@ namespace CameraApi {
             throw std::runtime_error("ERROR - failed to get device info");
         }
 
-        error = EdsSetCameraStateEventHandler(edsCamera_, kEdsStateEvent_All, Camera::handleStateEvent, this);
+        error = EdsSetCameraStateEventHandler(
+            edsCamera_, kEdsStateEvent_All, Camera::handleStateEvent, this
+        );
         if (error != EDS_ERR_OK) {
             throw std::runtime_error("ERROR - failed to set state event handler");
         }
-        error = EdsSetPropertyEventHandler(edsCamera_, kEdsPropertyEvent_All, Camera::handlePropertyEvent, this);
+        error = EdsSetPropertyEventHandler(
+            edsCamera_, kEdsPropertyEvent_All, Camera::handlePropertyEvent, this
+        );
         if (error != EDS_ERR_OK) {
             throw std::runtime_error("ERROR - failed to set property event handler");
         }
-        error = EdsSetObjectEventHandler(edsCamera_, kEdsObjectEvent_All, Camera::handleObjectEvent, this);
+        error = EdsSetObjectEventHandler(
+            edsCamera_, kEdsObjectEvent_All, Camera::handleObjectEvent, this
+        );
         if (error != EDS_ERR_OK) {
             throw std::runtime_error("ERROR - failed to set object event handler");
         }
@@ -163,17 +176,19 @@ namespace CameraApi {
         isConnected_ = false;
         EdsError error = EdsCloseSession(edsCamera_);
         if (error == EDS_ERR_OK) {
-           emitCameraEvent(EventName_CameraDisconnect);
+            emitCameraEvent(EventName_CameraDisconnect);
         }
         return error;
     }
 
-    void Camera::emitCameraEvent(const std::string& eventName) {
+    void Camera::emitCameraEvent(const std::string &eventName) {
         DeviceEventData *eventDataPtr;
         eventDataPtr = new DeviceEventData;
         eventDataPtr->camera = this->shared_from_this();
 
-        auto jsCallback = [eventName](Napi::Env env, Napi::Function jsCallback, DeviceEventData *dataPtr) {
+        auto jsCallback = [eventName](
+            Napi::Env env, Napi::Function jsCallback, DeviceEventData *dataPtr
+        ) {
             Napi::Object event = Napi::Object::New(env);
             event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
             jsCallback.Call(
@@ -209,24 +224,27 @@ namespace CameraApi {
         EdsError error = EDS_ERR_OK;
         if (!isLegacy_) {
             error = EdsSendCommand(
-                edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Halfway
+                edsCamera_, kEdsCameraCommand_PressShutterButton,
+                kEdsCameraCommand_ShutterButton_Halfway
             );
             if (EDS_ERR_OK == error) {
                 error = EdsSendCommand(
-                    edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_Completely
+                    edsCamera_, kEdsCameraCommand_PressShutterButton,
+                    kEdsCameraCommand_ShutterButton_Completely
                 );
             }
             if (EDS_ERR_OK == error) {
                 error = EdsSendCommand(
-                    edsCamera_, kEdsCameraCommand_PressShutterButton, kEdsCameraCommand_ShutterButton_OFF
+                    edsCamera_, kEdsCameraCommand_PressShutterButton,
+                    kEdsCameraCommand_ShutterButton_OFF
                 );
             }
         }
         if (isLegacy_ || EDS_ERR_INVALID_PARAMETER == error) {
             isLegacy_ = true;
-            EdsSendStatusCommand(edsCamera_,  kEdsCameraStatusCommand_UILock, 0);
+            EdsSendStatusCommand(edsCamera_, kEdsCameraStatusCommand_UILock, 0);
             error = EdsSendCommand(edsCamera_, kEdsCameraCommand_TakePicture, 0);
-            EdsSendStatusCommand(edsCamera_,  kEdsCameraStatusCommand_UIUnLock, 0);
+            EdsSendStatusCommand(edsCamera_, kEdsCameraStatusCommand_UIUnLock, 0);
         }
         return error;
     }
@@ -237,10 +255,14 @@ namespace CameraApi {
         }
         EdsError error;
         EdsUInt32 device;
-        error = EdsGetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
+        error = EdsGetPropertyData(
+            edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device
+        );
         if (error == EDS_ERR_OK) {
             device |= kEdsEvfOutputDevice_PC;
-            error = EdsSetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
+            error = EdsSetPropertyData(
+                edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device
+            );
         }
         return error;
     }
@@ -251,10 +273,14 @@ namespace CameraApi {
         }
         EdsError error = EDS_ERR_OK;
         EdsUInt32 device;
-        error = EdsGetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
+        error = EdsGetPropertyData(
+            edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device
+        );
         if (error == EDS_ERR_OK) {
             device &= ~kEdsEvfOutputDevice_PC;
-            error = EdsSetPropertyData(edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device);
+            error = EdsSetPropertyData(
+                edsCamera_, kEdsPropID_Evf_OutputDevice, 0, sizeof(device), &device
+            );
         }
         return error;
     }
@@ -271,13 +297,16 @@ namespace CameraApi {
             eventDataPtr->camera = this->shared_from_this();
             eventDataPtr->isActive = activeLiveView;
 
-            auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, LiveViewEventData *dataPtr) {
+            auto jsCallback = [](
+                Napi::Env env, Napi::Function jsCallback, LiveViewEventData *dataPtr
+            ) {
                 Napi::Object event = Napi::Object::New(env);
                 event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
                 jsCallback.Call(
                     {
                         Napi::String::New(
-                            env, dataPtr->isActive ? EventName_LiveViewStart : EventName_LiveViewStop
+                            env,
+                            dataPtr->isActive ? EventName_LiveViewStart : EventName_LiveViewStop
                         ),
                         event
                     }
@@ -337,7 +366,9 @@ namespace CameraApi {
         return error;
     }
 
-    EdsError __stdcall Camera::handleStateEvent(EdsStateEvent inEvent, EdsUInt32 inEventData, EdsVoid *inContext) {
+    EdsError __stdcall Camera::handleStateEvent(
+        EdsStateEvent inEvent, EdsUInt32 inEventData, EdsVoid *inContext
+    ) {
         auto *c = (Camera *) inContext;
         CameraReference camera = c->shared_from_this();
 
@@ -358,7 +389,9 @@ namespace CameraApi {
                 eventDataPtr->camera = camera;
                 eventDataPtr->eventID = inEvent;
 
-                auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, StateEventData *dataPtr) {
+                auto jsCallback = [](
+                    Napi::Env env, Napi::Function jsCallback, StateEventData *dataPtr
+                ) {
                     Napi::Object event = Napi::Object::New(env);
                     event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
                     event.Set("stateEvent", StateEvent::NewInstance(env, dataPtr->eventID));
@@ -441,7 +474,9 @@ namespace CameraApi {
         return EDS_ERR_OK;
     }
 
-    EdsError __stdcall Camera::handleObjectEvent(EdsObjectEvent inEvent, EdsBaseRef inRef, EdsVoid *inContext) {
+    EdsError __stdcall Camera::handleObjectEvent(
+        EdsObjectEvent inEvent, EdsBaseRef inRef, EdsVoid *inContext
+    ) {
         auto *c = (Camera *) inContext;
         CameraReference camera = c->shared_from_this();
 
@@ -452,14 +487,17 @@ namespace CameraApi {
         eventDataPtr->objectRef = inRef;
 
         try {
-            auto jsCallback = [](Napi::Env env, Napi::Function jsCallback, ObjectEventData *dataPtr) {
+            auto jsCallback = [](
+                Napi::Env env, Napi::Function jsCallback, ObjectEventData *dataPtr
+            ) {
                 EdsError error = EDS_ERR_OK;
                 Napi::Object event = Napi::Object::New(env);
                 event.Set("camera", CameraWrap::NewInstance(env, dataPtr->camera));
                 switch (dataPtr->eventID) {
                     case kEdsObjectEvent_DirItemRequestTransfer:
                         event.Set(
-                            "file", CameraFile::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
+                            "file",
+                            CameraFile::NewInstance(env, (EdsDirectoryItemRef) dataPtr->objectRef)
                         );
                         jsCallback.Call(
                             {
@@ -531,9 +569,11 @@ namespace CameraApi {
                 auto external = info[0].As<Napi::External<CameraReference>>();
                 camera_ = *external.Data();
             } else if (info[0].IsNumber()) {
-                camera_ = CameraBrowser::instance()->getCameraAtIndex(info[0].As<Napi::Number>().Int32Value());
+                camera_ = CameraBrowser::instance()->getCameraAtIndex(
+                    info[0].As<Napi::Number>().Int32Value());
             } else if (info[0].IsString()) {
-                camera_ = CameraBrowser::instance()->getCameraAtPort(info[0].As<Napi::String>().Utf8Value());
+                camera_ = CameraBrowser::instance()->getCameraAtPort(
+                    info[0].As<Napi::String>().Utf8Value());
             }
         } else {
             camera_ = CameraBrowser::instance()->getCameraAtIndex(0);
@@ -734,13 +774,13 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object Commands = Napi::Object::New(env);
-        for (const auto &it : CameraCommands) {
+        for (const auto &it: CameraCommands()) {
             Commands.Set(
                 Napi::String::New(env, it.second), Napi::Number::New(env, it.first)
             );
         }
         Napi::Object ShutterButtonParameters = Napi::Object::New(env);
-        for (const auto &it : CameraParametersShutterButton) {
+        for (const auto &it: CameraParametersShutterButton()) {
             ShutterButtonParameters.Set(
                 Napi::String::New(env, it.second), Napi::Number::New(env, it.first)
             );
@@ -758,8 +798,11 @@ namespace CameraApi {
                 InstanceAccessor<&CameraWrap::GetDescription>("description"),
                 InstanceAccessor<&CameraWrap::GetPortName>("portName"),
 
-                InstanceAccessor<&CameraWrap::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-                InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraWrap::Inspect),
+                InstanceAccessor<&CameraWrap::ToStringTag>(
+                    Napi::Symbol::WellKnown(env, "toStringTag")),
+                InstanceMethod(
+                    GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraWrap::Inspect
+                ),
 
                 InstanceMethod("connect", &CameraWrap::Connect),
                 InstanceMethod("disconnect", &CameraWrap::Disconnect),

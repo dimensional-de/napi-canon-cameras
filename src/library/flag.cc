@@ -5,13 +5,16 @@
 
 namespace CameraApi {
 
-    std::vector<EdsPropertyID> FlagProperty = {
-        kEdsPropID_Evf_DepthOfFieldPreview,
-        kEdsPropID_Evf_Mode,
-        kEdsPropID_FixedMovie,
-        kEdsPropID_MirrorUpSetting,
-        kEdsPropID_SummerTimeSetting
-    };
+    const std::vector<EdsPropertyID> FlagProperty() {
+        static const std::vector<EdsPropertyID> list = {
+            kEdsPropID_Evf_DepthOfFieldPreview,
+            kEdsPropID_Evf_Mode,
+            kEdsPropID_FixedMovie,
+            kEdsPropID_MirrorUpSetting,
+            kEdsPropID_SummerTimeSetting
+        };
+        return list;
+    }
 
     Flag::Flag(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<Flag>(info) {
@@ -72,10 +75,11 @@ namespace CameraApi {
     }
 
     bool Flag::IsFlagProperty(EdsPropertyID propertyID) {
+        auto properties = FlagProperty();
         return (
             std::find(
-                FlagProperty.begin(), FlagProperty.end(), propertyID
-            ) != FlagProperty.end()
+                properties.begin(), properties.end(), propertyID
+            ) != properties.end()
         );
     }
 

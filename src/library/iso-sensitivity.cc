@@ -5,46 +5,50 @@
 
 namespace CameraApi {
 
-    std::unordered_map<int, int> ISOSensitivityValues = {
-        {0x00000028, 6},
-        {0x00000030, 12},
-        {0x00000038, 25},
-        {0x00000040, 50},
-        {0x00000048, 100},
-        {0x0000004b, 125},
-        {0x0000004d, 160},
-        {0x00000050, 200},
-        {0x00000053, 250},
-        {0x00000055, 320},
-        {0x00000058, 400},
-        {0x0000005b, 500},
-        {0x0000005d, 640},
-        {0x00000060, 800},
-        {0x00000063, 1000},
-        {0x00000065, 1250},
-        {0x00000068, 1600},
-        {0x0000006b, 2000},
-        {0x0000006d, 2500},
-        {0x00000070, 3200},
-        {0x00000073, 4000},
-        {0x00000075, 5000},
-        {0x00000078, 6400},
-        {0x0000007b, 8000},
-        {0x0000007d, 10000},
-        {0x00000080, 12800},
-        {0x00000083, 16000},
-        {0x00000085, 20000},
-        {0x00000088, 25600},
-        {0x0000008b, 32000},
-        {0x0000008d, 40000},
-        {0x00000090, 51200},
-        {0x00000093, 64000},
-        {0x00000095, 80000},
-        {0x00000098, 102400},
-        {0x000000a0, 204800},
-        {0x000000a8, 409600},
-        {0x000000b0, 819200}
-    };
+
+    const std::unordered_map<int, int> &ISOSensitivityValues() {
+        static const std::unordered_map<int, int> map = {
+            {0x00000028, 6},
+            {0x00000030, 12},
+            {0x00000038, 25},
+            {0x00000040, 50},
+            {0x00000048, 100},
+            {0x0000004b, 125},
+            {0x0000004d, 160},
+            {0x00000050, 200},
+            {0x00000053, 250},
+            {0x00000055, 320},
+            {0x00000058, 400},
+            {0x0000005b, 500},
+            {0x0000005d, 640},
+            {0x00000060, 800},
+            {0x00000063, 1000},
+            {0x00000065, 1250},
+            {0x00000068, 1600},
+            {0x0000006b, 2000},
+            {0x0000006d, 2500},
+            {0x00000070, 3200},
+            {0x00000073, 4000},
+            {0x00000075, 5000},
+            {0x00000078, 6400},
+            {0x0000007b, 8000},
+            {0x0000007d, 10000},
+            {0x00000080, 12800},
+            {0x00000083, 16000},
+            {0x00000085, 20000},
+            {0x00000088, 25600},
+            {0x0000008b, 32000},
+            {0x0000008d, 40000},
+            {0x00000090, 51200},
+            {0x00000093, 64000},
+            {0x00000095, 80000},
+            {0x00000098, 102400},
+            {0x000000a0, 204800},
+            {0x000000a8, 409600},
+            {0x000000b0, 819200}
+        };
+        return map;
+    }
 
     ISOSensitivity::ISOSensitivity(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<ISOSensitivity>(info) {
@@ -60,18 +64,20 @@ namespace CameraApi {
             );
         }
 
-        if (ISOSensitivityValues.find(value_) != ISOSensitivityValues.end()) {
-            sensitivity_ = ISOSensitivityValues[value_];
+        auto values = ISOSensitivityValues();
+        if (values.find(value_) != values.end()) {
+            sensitivity_ = values[value_];
         } else {
             sensitivity_ = 0;
         }
     }
 
     std::string ISOSensitivity::GetLabelForValue(EdsInt32 value) {
+        auto values = ISOSensitivityValues();
         if (0 == value) {
             return "Auto";
-        } else if (ISOSensitivityValues.find(value) != ISOSensitivityValues.end()) {
-            return std::to_string(ISOSensitivityValues[value]);
+        } else if (values.find(value) != values.end()) {
+            return std::to_string(values[value]);
         }
         return "";
     }
@@ -138,7 +144,7 @@ namespace CameraApi {
     EdsInt32 ISOSensitivity::ForLabel(const std::string& label) {
         try {
             int sensitivity = std::stoi(label);
-            for (const auto &it : ISOSensitivityValues) {
+            for (const auto &it : ISOSensitivityValues()) {
                 if (sensitivity == it.second) {
                     return it.first;
                 }
@@ -168,6 +174,7 @@ namespace CameraApi {
     Napi::Value ISOSensitivity::FindNearest(const Napi::CallbackInfo &info) {
         const Napi::Env &env = info.Env();
         int sensitivity;
+        auto values = ISOSensitivityValues();
         bool validArgument = false;
         if (info.Length() > 0) {
             try {
@@ -175,12 +182,12 @@ namespace CameraApi {
                     auto value = ISOSensitivity::ForLabel(
                         info[0].As<Napi::String>().Utf8Value()
                     );
-                    sensitivity = ISOSensitivityValues[value];
+                    sensitivity = values[value];
                     validArgument = true;
                 } else if (info[0].IsNumber()) {
                     auto value = info[0].As<Napi::Number>().Int32Value();
-                    if (ISOSensitivityValues.find(value) != ISOSensitivityValues.end()) {
-                        sensitivity = ISOSensitivityValues[value];
+                    if (values.find(value) != values.end()) {
+                        sensitivity = values[value];
                         validArgument = true;
                     }
                 }
@@ -200,7 +207,7 @@ namespace CameraApi {
         }
         int matchDelta = INT_MAX;
         EdsInt32 matchValue = 0;
-        for (const auto &it : ISOSensitivityValues) {
+        for (const auto &it : ISOSensitivityValues()) {
             auto delta = std::abs(sensitivity - it.second);
             if (delta < matchDelta) {
                 auto allowed = (
@@ -234,7 +241,7 @@ namespace CameraApi {
         Napi::Object IDs = Napi::Object::New(env);
         IDs.Set("Auto", Napi::Number::New(env, 0));
         Napi::Object Values = Napi::Object::New(env);
-        for (const auto &it : ISOSensitivityValues) {
+        for (const auto &it : ISOSensitivityValues()) {
             Values.Set(it.first, it.second);
         }
 

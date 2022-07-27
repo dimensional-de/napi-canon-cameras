@@ -16,25 +16,28 @@
 
 namespace CameraApi {
 
-    std::vector<EdsPropertyID> LookupProperties = {
-        kEdsPropID_AEModeSelect,
-        kEdsPropID_MeteringMode,
-        kEdsPropID_ISOSpeed,
-        kEdsPropID_Av,
-        kEdsPropID_Tv,
-        kEdsPropID_ExposureCompensation,
-        kEdsPropID_ImageQuality,
-        kEdsPropID_WhiteBalance,
-        kEdsPropID_ColorTemperature,
-        kEdsPropID_PictureStyle,
-        kEdsPropID_DriveMode,
-        kEdsPropID_Evf_WhiteBalance,
-        kEdsPropID_Evf_ColorTemperature,
-        kEdsPropID_Evf_AFMode,
-        kEdsPropID_DC_Strobe,
-        kEdsPropID_DC_Zoom,
-        kEdsPropID_MovieParam
-    };
+    const std::vector<EdsPropertyID> &LookupProperties() {
+        static const std::vector<EdsPropertyID> list = {
+            kEdsPropID_AEModeSelect,
+            kEdsPropID_MeteringMode,
+            kEdsPropID_ISOSpeed,
+            kEdsPropID_Av,
+            kEdsPropID_Tv,
+            kEdsPropID_ExposureCompensation,
+            kEdsPropID_ImageQuality,
+            kEdsPropID_WhiteBalance,
+            kEdsPropID_ColorTemperature,
+            kEdsPropID_PictureStyle,
+            kEdsPropID_DriveMode,
+            kEdsPropID_Evf_WhiteBalance,
+            kEdsPropID_Evf_ColorTemperature,
+            kEdsPropID_Evf_AFMode,
+            kEdsPropID_DC_Strobe,
+            kEdsPropID_DC_Zoom,
+            kEdsPropID_MovieParam
+        };
+        return list;
+    }
 
     CameraProperty::CameraProperty(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<CameraProperty>(info) {
@@ -84,7 +87,9 @@ namespace CameraApi {
         EdsUInt32 dataSize;
         return Napi::Boolean::New(
             info.Env(),
-            EDS_ERR_OK == EdsGetPropertySize(edsCamera_, propertyIdentifier_, propertySpecifier_, &dataType, &dataSize)
+            EDS_ERR_OK == EdsGetPropertySize(
+                edsCamera_, propertyIdentifier_, propertySpecifier_, &dataType, &dataSize
+            )
         );
     }
 
@@ -125,7 +130,8 @@ namespace CameraApi {
                 ApiError::ThrowIfFailed(
                     env,
                     EdsGetPropertyData(
-                        edsCamera_, propertyIdentifier_, propertySpecifier_, EDS_MAX_NAME, &char_value
+                        edsCamera_, propertyIdentifier_, propertySpecifier_, EDS_MAX_NAME,
+                        &char_value
                     )
                 );
                 value = Napi::String::New(env, char_value);
@@ -213,7 +219,7 @@ namespace CameraApi {
         return value;
     }
 
-    template <typename T>
+    template<typename T>
     Napi::Object CameraProperty::ReadIntegerArrayValue(
         const Napi::CallbackInfo &info, EdsUInt32 dataSize
     ) {
@@ -236,7 +242,9 @@ namespace CameraApi {
         return value;
     }
 
-    Napi::Object CameraProperty::ReadPictureStyleDescription(const Napi::CallbackInfo &info, EdsUInt32 dataSize) {
+    Napi::Object CameraProperty::ReadPictureStyleDescription(
+        const Napi::CallbackInfo &info, EdsUInt32 dataSize
+    ) {
         Napi::Env env = info.Env();
         EdsPictureStyleDesc style_value;
         ApiError::ThrowIfFailed(
@@ -263,7 +271,10 @@ namespace CameraApi {
         Napi::Array values = Napi::Array::New(env);
         EdsPropertyDesc propertyDescription;
 
-        ApiError::ThrowIfFailed(env, EdsGetPropertyDesc(edsCamera_, propertyIdentifier_, &propertyDescription));
+        ApiError::ThrowIfFailed(
+            env, EdsGetPropertyDesc(
+                edsCamera_, propertyIdentifier_, &propertyDescription
+            ));
         for (int i = 0; i < propertyDescription.numElements; ++i) {
             switch (propertyIdentifier_) {
                 case kEdsPropID_Av:
@@ -273,13 +284,17 @@ namespace CameraApi {
                     values.Set(i, ShutterSpeed::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_ExposureCompensation:
-                    values.Set(i, ExposureCompensation::NewInstance(env, propertyDescription.propDesc[i]));
+                    values.Set(
+                        i, ExposureCompensation::NewInstance(
+                            env, propertyDescription.propDesc[i]
+                        ));
                     break;
                 case kEdsPropID_ImageQuality:
                     values.Set(i, ImageQuality::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_ISOSpeed:
-                    values.Set(i, ISOSensitivity::NewInstance(env, propertyDescription.propDesc[i]));
+                    values.Set(
+                        i, ISOSensitivity::NewInstance(env, propertyDescription.propDesc[i]));
                     break;
                 case kEdsPropID_Evf_OutputDevice:
                     values.Set(i, OutputDevice::NewInstance(env, propertyDescription.propDesc[i]));
@@ -303,7 +318,8 @@ namespace CameraApi {
         return values;
     }
 
-    void CameraProperty::SetValue(const Napi::CallbackInfo &info, const Napi::Value &propertyValue) {
+    void
+    CameraProperty::SetValue(const Napi::CallbackInfo &info, const Napi::Value &propertyValue) {
         Napi::Env env = info.Env();
         Napi::Value value = propertyValue;
         EdsError error = EDS_ERR_OK;
@@ -314,7 +330,9 @@ namespace CameraApi {
             value = propertyValue.As<Napi::Object>().Get("value");
         }
 
-        error = EdsGetPropertySize(edsCamera_, propertyIdentifier_, propertySpecifier_, &dataType, &dataSize);
+        error = EdsGetPropertySize(
+            edsCamera_, propertyIdentifier_, propertySpecifier_, &dataType, &dataSize
+        );
 
         if (isLookUpProperty()) {
             if (!isAllowedPropertyValue(value.As<Napi::Number>().Int32Value())) {
@@ -343,10 +361,10 @@ namespace CameraApi {
                 if (value.IsDate()) {
                     // Get date as milliseconds since unix epoch, then convert to time_t (in seconds)
                     double ms_timestamp = value.As<Napi::Date>().ValueOf();
-                    time_t timestamp = (time_t)floor(ms_timestamp / 1000.0);
+                    time_t timestamp = (time_t) floor(ms_timestamp / 1000.0);
 
                     // Treat at UTC time and convert to a tm struct
-                    tm* timeStruct = gmtime(&timestamp);
+                    tm *timeStruct = gmtime(&timestamp);
 
                     // Build the EdsTime object using the tm struct and milliseconds timestamp
                     EdsTime time_value;
@@ -356,7 +374,7 @@ namespace CameraApi {
                     time_value.hour = timeStruct->tm_hour;
                     time_value.minute = timeStruct->tm_min;
                     time_value.second = timeStruct->tm_sec;
-                    time_value.milliseconds = (int)floor(fmod(ms_timestamp, 1000));
+                    time_value.milliseconds = (int) floor(fmod(ms_timestamp, 1000));
 
                     // Set the property
                     error = EdsSetPropertyData(
@@ -413,10 +431,11 @@ namespace CameraApi {
 
     bool CameraProperty::isLookUpProperty() const {
         int propertyID = propertyIdentifier_;
+        auto properties = LookupProperties();
         return (
             std::any_of(
-                LookupProperties.begin(),
-                LookupProperties.end(),
+                properties.begin(),
+                properties.end(),
                 [propertyID](int p) { return p == propertyID; }
             )
         );
@@ -456,7 +475,7 @@ namespace CameraApi {
     }
 
     EdsPropertyID CameraProperty::GetIDFor(const std::string &label) {
-        for (const auto &it : Labels::PropertyID()) {
+        for (const auto &it: Labels::PropertyID()) {
             if ((it.second == label) || (std::to_string(it.first) == label)) {
                 return it.first;
             }
@@ -491,7 +510,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object IDs = Napi::Object::New(env);
-        for (const auto &it : Labels::PropertyID()) {
+        for (const auto &it: Labels::PropertyID()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
@@ -506,8 +525,11 @@ namespace CameraApi {
             InstanceAccessor<&CameraProperty::GetAllowedValues>("allowedValues"),
             InstanceMethod("toJSON", &CameraProperty::ToJSON),
 
-            InstanceAccessor<&CameraProperty::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraProperty::Inspect),
+            InstanceAccessor<&CameraProperty::ToStringTag>(
+                Napi::Symbol::WellKnown(env, "toStringTag")),
+            InstanceMethod(
+                GetPublicSymbol(env, "nodejs.util.inspect.custom"), &CameraProperty::Inspect
+            ),
 
             StaticValue("ID", IDs, napi_enumerable)
         };

@@ -4,14 +4,17 @@
 namespace CameraApi {
 
 
-    LabelMap FileFormatLabels = {
-        {kEdsObjectFormat_Unknown, "Unknown"},
-        {kEdsObjectFormat_Jpeg, "JPEG"},
-        {kEdsObjectFormat_CR2, "CR2"},
-        {kEdsObjectFormat_CR3, "CR3"},
-        {kEdsObjectFormat_MP4, "MP4"},
-        {kEdsObjectFormat_HEIF_CODE, "HEIF_CODE"}
-    };
+    const LabelMap &FileFormatLabels() {
+        static const LabelMap map = {
+            {kEdsObjectFormat_Unknown, "Unknown"},
+            {kEdsObjectFormat_Jpeg, "JPEG"},
+            {kEdsObjectFormat_CR2, "CR2"},
+            {kEdsObjectFormat_CR3, "CR3"},
+            {kEdsObjectFormat_MP4, "MP4"},
+            {kEdsObjectFormat_HEIF_CODE, "HEIF_CODE"}
+        };
+        return map;
+    }
 
     FileFormat::FileFormat(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         Napi::Env env = info.Env();
@@ -28,8 +31,9 @@ namespace CameraApi {
 
     Napi::Value FileFormat::GetLabel(const Napi::CallbackInfo &info) {
         std::string label;
-        if (FileFormatLabels.find(value_) != FileFormatLabels.end()) {
-            label.append(FileFormatLabels[value_]);
+        auto labels = FileFormatLabels();
+        if (labels.find(value_) != labels.end()) {
+            label.append(labels[value_]);
         } else {
             label.append(CodeToHexLabel(value_));
         }
@@ -96,7 +100,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object FileTypes = Napi::Object::New(env);
-        for (const auto &it : FileFormatLabels) {
+        for (const auto &it: FileFormatLabels()) {
             FileTypes.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
@@ -110,7 +114,9 @@ namespace CameraApi {
             InstanceMethod("toJSON", &FileFormat::ToJSON),
 
             InstanceAccessor<&FileFormat::ToStringTag>(Napi::Symbol::WellKnown(env, "toStringTag")),
-            InstanceMethod(GetPublicSymbol(env, "nodejs.util.inspect.custom"), &FileFormat::Inspect),
+            InstanceMethod(
+                GetPublicSymbol(env, "nodejs.util.inspect.custom"), &FileFormat::Inspect
+            ),
 
             StaticValue("ID", FileTypes, napi_enumerable)
         };
@@ -122,4 +128,3 @@ namespace CameraApi {
 
     }
 }
-

@@ -3,46 +3,49 @@
 
 namespace CameraApi {
 
-    LabelMap TimeZoneLabels = {
-        {0x0000, "None"},
-        {0x0001, "Chatham Islands"},
-        {0x0002, "Wellington"},
-        {0x0003, "Solomon Island"},
-        {0x0004, "Sydney"},
-        {0x0005, "Adeladie"},
-        {0x0006, "Tokyo"},
-        {0x0007, "Hong Kong"},
-        {0x0008, "Bangkok"},
-        {0x0009, "Yangon"},
-        {0x000A, "Dacca"},
-        {0x000B, "Kathmandu"},
-        {0x000C, "Delhi"},
-        {0x000D, "Karachi"},
-        {0x000E, "Kabul"},
-        {0x000F, "Dubai"},
-        {0x0010, "Tehran"},
-        {0x0011, "Moscow"},
-        {0x0012, "Cairo"},
-        {0x0013, "Paris"},
-        {0x0014, "London"},
-        {0x0015, "Azores"},
-        {0x0016, "Fernando de Noronha"},
-        {0x0017, "São Paulo"},
-        {0x0018, "Newfoundland"},
-        {0x0019, "Santiago"},
-        {0x001A, "Caracas"},
-        {0x001B, "New York"},
-        {0x001C, "Chicago"},
-        {0x001D, "Denver"},
-        {0x001E, "Los Angeles"},
-        {0x001F, "Anchorage"},
-        {0x0020, "Honolulu"},
-        {0x0021, "Samoa"},
-        {0x0022, "Riyadh"},
-        {0x0023, "Manaus"},
-        {0x0100, "UTC"},
-        {0xFFFF, "UTC"}
-    };
+    const LabelMap &TimeZoneLabels() {
+        static const LabelMap map = {
+            {0x0000, "None"},
+            {0x0001, "Chatham Islands"},
+            {0x0002, "Wellington"},
+            {0x0003, "Solomon Island"},
+            {0x0004, "Sydney"},
+            {0x0005, "Adeladie"},
+            {0x0006, "Tokyo"},
+            {0x0007, "Hong Kong"},
+            {0x0008, "Bangkok"},
+            {0x0009, "Yangon"},
+            {0x000A, "Dacca"},
+            {0x000B, "Kathmandu"},
+            {0x000C, "Delhi"},
+            {0x000D, "Karachi"},
+            {0x000E, "Kabul"},
+            {0x000F, "Dubai"},
+            {0x0010, "Tehran"},
+            {0x0011, "Moscow"},
+            {0x0012, "Cairo"},
+            {0x0013, "Paris"},
+            {0x0014, "London"},
+            {0x0015, "Azores"},
+            {0x0016, "Fernando de Noronha"},
+            {0x0017, "São Paulo"},
+            {0x0018, "Newfoundland"},
+            {0x0019, "Santiago"},
+            {0x001A, "Caracas"},
+            {0x001B, "New York"},
+            {0x001C, "Chicago"},
+            {0x001D, "Denver"},
+            {0x001E, "Los Angeles"},
+            {0x001F, "Anchorage"},
+            {0x0020, "Honolulu"},
+            {0x0021, "Samoa"},
+            {0x0022, "Riyadh"},
+            {0x0023, "Manaus"},
+            {0x0100, "UTC"},
+            {0xFFFF, "UTC"}
+        };
+        return map;
+    }
 
     TimeZone::TimeZone(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<TimeZone>(info) {
@@ -77,10 +80,11 @@ namespace CameraApi {
     }
 
     Napi::Value TimeZone::GetLabel(const Napi::CallbackInfo &info) {
-        if (TimeZoneLabels.find(zone_) != TimeZoneLabels.end()) {
+        auto labels = TimeZoneLabels();
+        if (labels.find(zone_) != labels.end()) {
             auto label = GetDifferenceAsOffset(difference_);
             label.append(" ");
-            label.append(TimeZoneLabels[zone_]);
+            label.append(labels[zone_]);
             return Napi::String::New(info.Env(), label);
         }
         return Napi::String::New(info.Env(), CodeToHexLabel(zone_));
@@ -128,11 +132,12 @@ namespace CameraApi {
     Napi::Value TimeZone::Inspect(const Napi::CallbackInfo &info) {
         bool existingZone = false;
         std::string label;
-        if (TimeZoneLabels.find(zone_) != TimeZoneLabels.end()) {
+        auto labels = TimeZoneLabels();
+        if (labels.find(zone_) != labels.end()) {
             existingZone = true;
             label = GetDifferenceAsOffset(difference_);
             label.append(" ");
-            label.append(TimeZoneLabels[zone_]);
+            label.append(labels[zone_]);
         } else {
             label = CodeToHexLabel(value_);
         }
@@ -169,7 +174,7 @@ namespace CameraApi {
         Napi::HandleScope scope(env);
 
         Napi::Object Zones = Napi::Object::New(env);
-        for (const auto &it : TimeZoneLabels) {
+        for (const auto &it : TimeZoneLabels()) {
             Zones.Set(it.first, Napi::String::New(env, it.second));
         }
 

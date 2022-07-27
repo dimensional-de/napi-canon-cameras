@@ -3,11 +3,14 @@
 
 namespace CameraApi {
 
-    LabelMap OutputDeviceLabels = {
-        {kEdsEvfOutputDevice_TFT, "TFT"},
-        {kEdsEvfOutputDevice_PC, "PC"},
-        {kEdsEvfOutputDevice_PC_Small, "PCSmall"},
-    };
+    const LabelMap &OutputDeviceLabels() {
+        static const LabelMap map = {
+            {kEdsEvfOutputDevice_TFT, "TFT"},
+            {kEdsEvfOutputDevice_PC, "PC"},
+            {kEdsEvfOutputDevice_PC_Small, "PCSmall"},
+        };
+        return map;
+    }
 
     OutputDevice::OutputDevice(const Napi::CallbackInfo &info) : ObjectWrap(info) {
         Napi::Env env = info.Env();
@@ -25,7 +28,7 @@ namespace CameraApi {
 
     Napi::Value OutputDevice::GetLabel(const Napi::CallbackInfo &info) {
         std::string label;
-        for (const auto& it : OutputDeviceLabels) {
+        for (const auto& it : OutputDeviceLabels()) {
             auto deviceID = it.first;
             if (IsEnabled(deviceID)) {
                 label.append(", ");
@@ -43,7 +46,7 @@ namespace CameraApi {
     }
 
     EdsInt32 OutputDevice::GetValueForDeviceName(const std::string& deviceName) {
-        for (const auto& it : OutputDeviceLabels) {
+        for (const auto& it : OutputDeviceLabels()) {
             if (it.second == deviceName) {
                 return it.first;
             }
@@ -70,7 +73,7 @@ namespace CameraApi {
         json.Set("label", GetLabel(info));
         json.Set("value", GetValue(info));
         auto status = Napi::Object::New(env);
-        for (const auto& it : OutputDeviceLabels) {
+        for (const auto& it : OutputDeviceLabels()) {
             status.Set(it.second, Napi::Boolean::New(env, IsEnabled(it.first)));
         }
         json.Set("devices", status);
@@ -89,7 +92,7 @@ namespace CameraApi {
         ).As<Napi::String>().Utf8Value();
         output.append(" <");
         bool needsSeparator = false;
-        for (auto it : OutputDeviceLabels) {
+        for (auto it : OutputDeviceLabels()) {
             auto deviceID = it.first;
             if (IsEnabled(deviceID)) {
                 if (needsSeparator) {
@@ -117,7 +120,7 @@ namespace CameraApi {
     Napi::Value OutputDevice::GetDevices(const Napi::CallbackInfo &info) {
         auto devices = Napi::Array::New(info.Env());
         int index = 0;
-        for (auto it : OutputDeviceLabels) {
+        for (auto it : OutputDeviceLabels()) {
             auto deviceID = it.first;
             if (IsEnabled(deviceID)) {
                 devices.Set(index, deviceID);
@@ -175,7 +178,7 @@ namespace CameraApi {
     void OutputDevice::Init(Napi::Env env, Napi::Object exports) {
         Napi::Object IDs = Napi::Object::New(env);
         IDs.Set("None", Napi::Number::New(env, 0));
-        for (const auto &it : OutputDeviceLabels) {
+        for (const auto &it : OutputDeviceLabels()) {
             IDs.Set(
                 it.second, Napi::Number::New(env, it.first)
             );
