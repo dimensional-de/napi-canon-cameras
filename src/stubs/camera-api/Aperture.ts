@@ -143,7 +143,7 @@ export class Aperture implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID: {[label: string]: number} = {"Auto":0,"NotValid":-1};
+     static readonly ID: {[label: string]: number} = {"Auto":0,"NotValid":4294967295};
     /**
      * @readonly
      * @enum {number}

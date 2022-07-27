@@ -94,9 +94,8 @@ namespace CameraApi {
     }
 
     Napi::Value CameraProperty::GetValue(const Napi::CallbackInfo &info) {
-        EdsError error = EDS_ERR_OK;
         Napi::Env env = info.Env();
-        Napi::Value value = env.Null();
+        Napi::Value value;
         EdsDataType dataType;
         EdsUInt32 dataSize;
 
@@ -154,7 +153,6 @@ namespace CameraApi {
                 message.append(", data type not implemented: ");
                 message.append(std::to_string(dataType));
                 throw Napi::Error::New(env, message);
-                break;
         }
         switch (propertyIdentifier_) {
             case kEdsPropID_Av:
@@ -388,7 +386,6 @@ namespace CameraApi {
                 message.append(", data type not implemented: ");
                 message.append(std::to_string(dataType));
                 throw Napi::Error::New(env, message);
-                break;
         }
         if (error == EDS_ERR_OK) {
             switch (propertyIdentifier_) {

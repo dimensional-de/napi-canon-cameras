@@ -11,7 +11,7 @@ namespace CameraApi {
 
             static void Init(Napi::Env env, Napi::Object exports);
 
-            static Napi::Object NewInstance(Napi::Env env, EdsInt32 value);
+            static Napi::Object NewInstance(Napi::Env env, EdsUInt32 value);
 
         private:
             static constexpr const char JSClassName[] = "Aperture";

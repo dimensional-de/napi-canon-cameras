@@ -96,17 +96,17 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly AEMode: {[label: string]: number} = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":-1,"VideoBlog":63,"WaterColor":34};
+     static readonly AEMode: {[label: string]: number} = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":4294967295,"VideoBlog":63,"WaterColor":34};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly AEModeSelect: {[label: string]: number} = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"Custom2":16,"Custom3":17,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":-1,"WaterColor":34};
+     static readonly AEModeSelect: {[label: string]: number} = {"A_DEP":5,"Av":2,"BackgroundBlur":62,"BacklitScenes":24,"Bulb":4,"CandlelightPortraits":28,"Children":26,"Closeup":14,"CreativeAuto":19,"CreativeFilter":29,"Custom":7,"Custom2":16,"Custom3":17,"DEP":6,"Fireworks":57,"Fisheye":33,"FlashOff":15,"Flexible":55,"Food":27,"Green":9,"GroupPhoto":46,"Hdr_Bold":38,"Hdr_Embossed":39,"Hdr_Standard":36,"Hdr_Vivid":37,"Landscape":13,"Lock":8,"Manual":3,"Miniature":35,"Movie":20,"Movie_DirectMono":43,"Movie_Fantasy":40,"Movie_Memory":42,"Movie_Mini":44,"Movie_Old":41,"Myself":50,"NightPortrait":10,"NightScenes":23,"OilPainting":56,"PanningAssist":45,"Panorama":53,"PhotoInMovie":21,"PlusMovieAuto":51,"Portrait":12,"ProgramAE":0,"RoughMonoChrome":30,"SCN":25,"SceneIntelligentAuto":22,"Silent":54,"SmoothSkin":52,"SoftFocus":31,"Sports":11,"StarNightScape":59,"StarPortrait":58,"StarTimelapseMovie":61,"StarTrails":60,"ToyCamera":32,"Tv":1,"Unknown":4294967295,"WaterColor":34};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly AFMode: {[label: string]: number} = {"AIFocus":2,"AIServo":1,"ManualFocus":3,"NotValid":-1,"OneShot":0};
+     static readonly AFMode: {[label: string]: number} = {"AIFocus":2,"AIServo":1,"ManualFocus":3,"NotValid":4294967295,"OneShot":0};
     /**
      * @readonly
      * @enum {number}
@@ -116,12 +116,12 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly Bracket: {[label: string]: number} = {"AEBracket":1,"BracketOff":-1,"FEBracket":8,"ISOBracket":2,"WBBracket":4};
+     static readonly Bracket: {[label: string]: number} = {"AEBracket":1,"BracketOff":4294967295,"FEBracket":8,"ISOBracket":2,"WBBracket":4};
     /**
      * @readonly
      * @enum {number}
      */
-     static readonly ColorSpace: {[label: string]: number} = {"AdobeRGB":2,"Unknown":-1,"sRGB":1};
+     static readonly ColorSpace: {[label: string]: number} = {"AdobeRGB":2,"Unknown":4294967295,"sRGB":1};
     /**
      * @readonly
      * @enum {number}
@@ -166,7 +166,7 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly MeteringMode: {[label: string]: number} = {"CenterWeightedAverage":5,"Evaluative":3,"NotValid":-1,"Partial":4,"Spot":1};
+     static readonly MeteringMode: {[label: string]: number} = {"CenterWeightedAverage":5,"Evaluative":3,"NotValid":4294967295,"Partial":4,"Spot":1};
     /**
      * @readonly
      * @enum {number}
@@ -186,7 +186,7 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly RedEye: {[label: string]: number} = {"Invalid":-1,"Off":0,"On":1};
+     static readonly RedEye: {[label: string]: number} = {"Invalid":4294967295,"Off":0,"On":1};
     /**
      * @readonly
      * @enum {number}
@@ -201,7 +201,7 @@ export class Option implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly WhiteBalance: {[label: string]: number} = {"AutoAmbiencePriority":0,"AutoWhitePriority":23,"Click":-1,"Cloudy":2,"ColorTemperature":9,"CustomPC1":10,"CustomPC2":11,"CustomPC3":12,"CustomPC4":20,"CustomPC5":21,"Daylight":1,"Flash":5,"Fluorescent":4,"Pasted":-2,"Shade":8,"Tungsten":3,"WhitePaper":6,"WhitePaper2":15,"WhitePaper3":16,"WhitePaper4":18,"WhitePaper5":19};
+     static readonly WhiteBalance: {[label: string]: number} = {"AutoAmbiencePriority":0,"AutoWhitePriority":23,"Click":4294967295,"Cloudy":2,"ColorTemperature":9,"CustomPC1":10,"CustomPC2":11,"CustomPC3":12,"CustomPC4":20,"CustomPC5":21,"Daylight":1,"Flash":5,"Fluorescent":4,"Pasted":4294967294,"Shade":8,"Tungsten":3,"WhitePaper":6,"WhitePaper2":15,"WhitePaper3":16,"WhitePaper4":18,"WhitePaper5":19};
 
     // GenerateEnd
 }

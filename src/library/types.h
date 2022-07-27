@@ -17,7 +17,7 @@
 
 namespace CameraApi {
 
-    typedef std::unordered_map<int, std::string> LabelMap;
+    typedef std::unordered_map<EdsUInt32, std::string> LabelMap;
 }
 
 #endif

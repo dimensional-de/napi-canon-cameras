@@ -15,7 +15,7 @@ namespace CameraApi {
         return scope.Escape(napi_value(wrap)).ToObject();
     }
 
-    Napi::Value ApiError::Throw(Napi::Env env, EdsError errorCode) {
+    Napi::Error ApiError::FromErrorCode(Napi::Env env, EdsError errorCode) {
         std::string label = "EDSDK - ";
         auto errors = Labels::Error();
         if (errors.find(errorCode) == errors.end()) {
@@ -25,7 +25,11 @@ namespace CameraApi {
         }
         Napi::Error error = Napi::Error::New(env, label);
         error.Value()["EDS_ERROR"] = ApiError::NewInstance(env, errorCode);
-        throw error;
+        return error;
+    }
+
+    Napi::Value ApiError::Throw(Napi::Env env, EdsError errorCode) {
+        throw ApiError::FromErrorCode(env, errorCode);
     }
 
     Napi::Value

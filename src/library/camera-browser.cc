@@ -52,26 +52,6 @@ namespace CameraApi {
         return tsEmit_;
     }
 
-    void CameraBrowser::handleApiError(EdsError errorCode) {
-        if (errorCode != EDS_ERR_OK) {
-            if (hasEventEmit()) {
-                int *data = new int(errorCode);
-                getEventEmit().BlockingCall(
-                    data,
-                    [](Napi::Env env, Napi::Function jsCallback, int *errorCode) {
-                        jsCallback.Call(
-                            {
-                                Napi::String::New(env, EventName_Error),
-                                ApiError::NewInstance(env, *errorCode)
-                            }
-                        );
-                        delete errorCode;
-                    }
-                );
-            }
-        }
-    }
-
     EdsError CameraBrowser::initialize() {
         EdsError error = EDS_ERR_OK;
         if (!isInitialized_) {
@@ -313,7 +293,7 @@ namespace CameraApi {
     }
 
     Napi::Value CameraBrowserWrap::TriggerEvents(const Napi::CallbackInfo &info) {
-        CameraBrowser::instance()->triggerEvents();
+        CameraBrowser::triggerEvents();
         return info.Env().Undefined();
     }
 

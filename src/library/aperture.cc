@@ -262,7 +262,7 @@ namespace CameraApi {
         return matchValue > 0 ? Aperture::NewInstance(env, matchValue) : env.Null();
     }
 
-    Napi::Object Aperture::NewInstance(Napi::Env env, EdsInt32 value) {
+    Napi::Object Aperture::NewInstance(Napi::Env env, EdsUInt32 value) {
         Napi::EscapableHandleScope scope(env);
         Napi::Object wrap = JSConstructor().New(
             {

@@ -33,8 +33,6 @@ namespace CameraApi {
 
             Napi::Value GetValue(const Napi::CallbackInfo &info);
 
-            Napi::Value GetType(const Napi::CallbackInfo &info);
-
             Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
 
             Napi::Value ToJSON(const Napi::CallbackInfo &info);

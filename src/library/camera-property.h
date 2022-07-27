@@ -39,7 +39,7 @@ namespace CameraApi {
                 return constructor.Value();
             }
 
-            EdsCameraRef edsCamera_ = 0;
+            EdsCameraRef edsCamera_ = nullptr;
             EdsPropertyID propertyIdentifier_ = 0;
             EdsPropertyID propertySpecifier_ = 0;
 

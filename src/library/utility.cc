@@ -1,13 +1,9 @@
 #include "utility.h"
-#include "types.h"
-#include <memory>
-#include <string>
 #include <stdexcept>
-#include <EDSDKErrors.h>
 
 namespace CameraApi {
 
-    std::string CodeToHexLabel(int code) {
+    std::string CodeToHexLabel(EdsUInt32 code) {
         char label[11];
 #ifdef __MACOS__
         snprintf(label, 11, "0x%08x", code);

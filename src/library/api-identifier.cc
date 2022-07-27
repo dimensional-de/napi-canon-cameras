@@ -21,7 +21,7 @@ namespace CameraApi {
     }
 
     Napi::Value ApiIdentifier::EqualTo(const Napi::CallbackInfo &info) {
-        bool isEqual = false;
+        bool isEqual;
         if ((info.Length() > 0)) {
             if (info[0].IsNumber()) {
                 isEqual = (identifier_ == info[0].As<Napi::Number>().Int32Value());
@@ -59,7 +59,7 @@ namespace CameraApi {
             if (hint == "number") {
                 return Napi::Number::New(info.Env(), identifier_);
             }
-            if (hint.compare("string") == 0) {
+            if (hint == "string") {
                 return Napi::String::New(info.Env(), CodeToHexLabel(identifier_));
             }
         }

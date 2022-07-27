@@ -12,7 +12,7 @@ include <CoreFoundation/CoreFoundation.h>
 
 namespace CameraApi {
 
-    std::string CodeToHexLabel(int code);
+    std::string CodeToHexLabel(EdsUInt32 code);
 
     int ReadBitsValue(EdsInt32 buffer, int offset, int length);
 

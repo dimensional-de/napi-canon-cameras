@@ -36,9 +36,7 @@ namespace CameraApi {
 
             Napi::ThreadSafeFunction &getEventEmit();
 
-            void handleApiError(EdsError errorCode);
-
-            void triggerEvents();
+            static void triggerEvents();
 
             void inline retain() {
                 referenceCount_++;

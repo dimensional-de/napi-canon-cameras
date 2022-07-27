@@ -33,6 +33,8 @@ namespace CameraApi {
                 }
                 return constructor.Value();
             }
+
+            static Napi::Error FromErrorCode(Napi::Env env, EdsError errorCode);
     };
 }
 
