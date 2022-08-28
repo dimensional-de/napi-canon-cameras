@@ -346,13 +346,31 @@ namespace CameraApi {
             int imageStringLength;
             unsigned char *imageData;
 
+            EdsPoint imagePosition;
+            EdsSize coordinateSystem;
+            EdsPoint zoomPosition;
+            EdsRect zoomRect;
+
             EdsGetLength(stream, &imageDataLength);
             if (imageDataLength > 0) {
-                EdsGetPointer(stream, (EdsVoid **) &imageData);
 
-                char *imageString = base64(imageData, (int) imageDataLength, &imageStringLength);
-                image.assign(imageString);
-                free(imageString);
+                EdsGetPointer(stream, (EdsVoid **)&imageData);
+                EdsGetPropertyData(evfImage, kEdsPropID_Evf_ImagePosition, 0, sizeof(imagePosition), &imagePosition);
+                EdsGetPropertyData(evfImage, kEdsPropID_Evf_CoordinateSystem, 0, sizeof(coordinateSystem), &coordinateSystem);
+                EdsGetPropertyData(evfImage, kEdsPropID_Evf_ZoomPosition, 0, sizeof(zoomPosition), &zoomPosition);
+                EdsGetPropertyData(evfImage, kEdsPropID_Evf_ZoomRect, 0, sizeof(zoomRect), &zoomRect);
+
+                char *imageBase64 = base64(imageData, (int)imageDataLength, &imageStringLength);
+
+                std::string imageString64(imageBase64);
+                std::string evfZoom = "|{\"imagePosition\":{\"x\":" + std::to_string(imagePosition.x) + ", \"y\":" + std::to_string(imagePosition.y) + "}, \"coordinateSystem\":{\"width\":" + std::to_string(coordinateSystem.width) + ", \"height\":" + std::to_string(coordinateSystem.height) + "}, ";
+                evfZoom += "\"zoomPosition\": {\"x\":" + std::to_string(zoomPosition.x) + ", \"y\":" + std::to_string(zoomPosition.y) + "}, ";
+                evfZoom += "\"zoomRect\": {\"x\":" + std::to_string(zoomRect.point.x) + ", \"y\":" + std::to_string(zoomRect.point.y) + ", \"width\":" + std::to_string(zoomRect.size.width) + ", \"height\":" + std::to_string(zoomRect.size.height) + "}}";
+
+                std::string imageZoom = imageString64 + evfZoom;
+
+                image.assign(imageZoom);
+                free(imageBase64);
             }
         }
         if (stream != nullptr) {

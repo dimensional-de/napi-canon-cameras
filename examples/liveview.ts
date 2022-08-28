@@ -57,7 +57,19 @@ try {
         setInterval(
             () => {
                 try {
-                    console.log({image: camera.downloadLiveViewImage().substring(0, 20)});
+                    const liveViewImage = camera.downloadLiveViewImage();
+                    if (liveViewImage) {
+                        const data = liveViewImage.split("|");
+                        const image = data[0];
+                        const evfData = JSON.parse(data[1]);
+                        console.log({ image: image.substring(0, 20) });
+                        console.log({ "EVF Data": evfData });
+                        console.log({
+                            "EVF Zoom Ratio": camera.getProperty(
+                                 CameraProperty.ID.Evf_Zoom
+                            ).value,
+                        });
+                    }
                 } catch (e) {
                     console.log(e);
                 }
