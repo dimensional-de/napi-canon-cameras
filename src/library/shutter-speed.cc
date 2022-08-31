@@ -1,6 +1,6 @@
 #include "shutter-speed.h"
 #include "utility.h"
-#include <unordered_map>
+#include <map>
 #include <cmath>
 
 namespace CameraApi {
@@ -15,18 +15,15 @@ namespace CameraApi {
         return map;
     }
 
-    const std::unordered_map<int, double> &ShutterSpeedValues() {
-        static const std::unordered_map<int, double> map = {
+    const std::map<int, double> &OneHalfShutterSpeedValues() {
+        static const std::map<int, double> map = {
             {0x10, 30},
             {0x13, 25},
             {0x14, 20},
-            {0x15, 20}, // (1/3)
             {0x18, 15},
             {0x1B, 13},
             {0x1C, 10},
-            {0x1D, 10},// (1/3)
             {0x20, 8},
-            {0x23, 6},// (1/3)
             {0x24, 6},
             {0x25, 5},
             {0x28, 4},
@@ -44,17 +41,13 @@ namespace CameraApi {
             {0x40, 0.5},
             {0x43, 0.4},
             {0x44, 0.3},
-            {0x45, 0.3}, // (1/3)
             {0x48, (1.0 / 4)},
             {0x4B, (1.0 / 5)},
             {0x4C, (1.0 / 6)},
-            {0x4D, (1.0 / 6)}, // (1/3)
             {0x50, (1.0 / 8)},
-            {0x53, (1.0 / 10)}, // (1/3)
             {0x54, (1.0 / 10)},
             {0x55, (1.0 / 13)},
             {0x58, (1.0 / 15)},
-            {0x5B, (1.0 / 20)}, // (1/3)
             {0x5C, (1.0 / 20)},
             {0x5D, (1.0 / 25)},
             {0x60, (1.0 / 30)},
@@ -94,6 +87,29 @@ namespace CameraApi {
         return map;
     }
 
+    const std::map<int, double> &OneThirdShutterSpeedValues() {
+        static const std::map<int, double> map = {
+            {0x15, 20}, // (1/3)
+            {0x1D, 10},// (1/3)
+            {0x23, 6},// (1/3)
+            {0x45, 0.3}, // (1/3)
+            {0x4D, (1.0 / 6)}, // (1/3)
+            {0x53, (1.0 / 10)}, // (1/3)
+            {0x5B, (1.0 / 20)}, // (1/3)
+        };
+        return map;
+    }
+
+    const std::map<int, double> &AllShutterSpeedValues() {
+        static const std::map<int, double> map = []{
+          std::map<int, double> combined = {};
+          combined.insert(OneHalfShutterSpeedValues().begin(), OneHalfShutterSpeedValues().end());
+          combined.insert(OneThirdShutterSpeedValues().begin(), OneThirdShutterSpeedValues().end());
+          return combined;
+        }();
+        return map;
+    }
+
     ShutterSpeed::ShutterSpeed(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<ShutterSpeed>(info) {
 
@@ -108,9 +124,13 @@ namespace CameraApi {
             );
         }
 
-        auto values = ShutterSpeedValues();
-        if (values.find(value_) != values.end()) {
-            seconds_ = values[value_];
+        auto oneHalfValues = OneHalfShutterSpeedValues();
+        auto oneThirdValues = OneThirdShutterSpeedValues();
+        if (oneHalfValues.find(value_) != oneHalfValues.end()) {
+            seconds_ = oneHalfValues[value_];
+        } else if (oneThirdValues.find(value_) != oneThirdValues.end()) {
+            seconds_ = oneThirdValues[value_];
+            stopSize_ = ExposureStopSize::OneThird;
         } else {
             seconds_ = 0;
         }
@@ -118,16 +138,21 @@ namespace CameraApi {
 
     std::string ShutterSpeed::GetLabelForValue(EdsInt32 value) {
         auto labels = NamedShutterSpeedValueLabels();
-        auto values = ShutterSpeedValues();
+        auto values = OneHalfShutterSpeedValues();
+        auto oneThirdValues = OneThirdShutterSpeedValues();
         if (labels.find(value) != labels.end()) {
             return labels[value];
-        } else if (values.find(value) != values.end()) {
+        } else if (oneThirdValues.find(value) != oneThirdValues.end()) {
+            return ShutterSpeed::GetLabelForSeconds(
+                oneThirdValues[value], ExposureStopSize::OneThird
+            );
+        }if (values.find(value) != values.end()) {
             return ShutterSpeed::GetLabelForSeconds(values[value]);
         }
         return "";
     }
 
-    std::string ShutterSpeed::GetLabelForSeconds(double seconds) {
+    std::string ShutterSpeed::GetLabelForSeconds(double seconds, ExposureStopSize stopSize) {
         std::string label;
         if (seconds > 0.2999) {
             label = stringFormat("%01.1f", seconds);
@@ -138,6 +163,9 @@ namespace CameraApi {
         } else if (seconds > 0.0) {
             auto fraction = (int)std::round(1.0 / seconds);
             label = stringFormat("1/%d", fraction);
+        }
+        if (stopSize == ExposureStopSize::OneThird) {
+            label.append(" (1/3)");
         }
         return label;
     }
@@ -152,6 +180,13 @@ namespace CameraApi {
 
     Napi::Value ShutterSpeed::GetSeconds(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), seconds_);
+    }
+
+    Napi::Value ShutterSpeed::GetStop(const Napi::CallbackInfo &info) {
+        return Napi::String::New(
+            info.Env(),
+            stopSize_ == ExposureStopSize::OneThird ? "1/3" : "1/2"
+        );
     }
 
     Napi::Value ShutterSpeed::GetPrimitive(const Napi::CallbackInfo &info) {
@@ -173,6 +208,7 @@ namespace CameraApi {
         Json.Set("label", GetLabel(info));
         Json.Set("value", GetValue(info));
         Json.Set("seconds", GetSeconds(info));
+        Json.Set("stop", GetStop(info));
         return Json;
     }
 
@@ -198,18 +234,29 @@ namespace CameraApi {
 
     EdsInt32 ShutterSpeed::ForLabel(const std::string& label) {
         double seconds;
-        auto fractionAt = label.find("1/");
+        auto suffixOffset = label.find(' ');
+        auto valueLabel = (suffixOffset != std::string::npos)
+            ? label.substr(0, suffixOffset)
+            : label;
+        bool isOneThird = false;
+        if (suffixOffset != std::string::npos) {
+            isOneThird = (
+                label.substr(suffixOffset).find("1/3") != std::string::npos
+            );
+        }
+        auto fractionAt = valueLabel.find("1/");
         if (fractionAt != std::string::npos) {
             if (fractionAt > 1) {
-                seconds = std::stod(label.substr(0, fractionAt));
+                seconds = std::stod(valueLabel.substr(0, fractionAt));
             } else {
                 seconds = 0;
             }
-            seconds += 1.0 / std::stod(label.substr(fractionAt + 2));
+            seconds += 1.0 / std::stod(valueLabel.substr(fractionAt + 2));
         } else {
-            seconds = std::stod(label);
+            seconds = std::stod(valueLabel);
         }
-        for (const auto &it : ShutterSpeedValues()) {
+        auto values = isOneThird ? OneThirdShutterSpeedValues() : OneHalfShutterSpeedValues();
+        for (const auto &it : values) {
             auto delta = std::abs(seconds - it.second);
             if (delta < 0.00000001) {
                 return it.first;
@@ -241,7 +288,7 @@ namespace CameraApi {
         const Napi::Env &env = info.Env();
         double seconds;
         bool validArgument = false;
-        auto values = ShutterSpeedValues();
+        auto values = AllShutterSpeedValues();
         if (info.Length() > 0) {
             try {
                 if (info[0].IsString()) {
@@ -273,7 +320,7 @@ namespace CameraApi {
         }
         double matchDelta = 9999.0;
         EdsInt32 matchValue = 0;
-        for (const auto &it : ShutterSpeedValues()) {
+        for (const auto &it : AllShutterSpeedValues()) {
             auto delta = std::abs(seconds - it.second);
             if (delta < matchDelta) {
                 auto allowed = (
@@ -310,15 +357,20 @@ namespace CameraApi {
                 it.second, Napi::Number::New(env, it.first)
             );
         }
-        Napi::Object Values = Napi::Object::New(env);
-        for (const auto &it : ShutterSpeedValues()) {
-            Values.Set(it.first, it.second);
+        Napi::Object OnHalfValues = Napi::Object::New(env);
+        for (const auto &it : OneHalfShutterSpeedValues()) {
+            OnHalfValues.Set(it.first, it.second);
+        }
+        Napi::Object OneThirdValues = Napi::Object::New(env);
+        for (const auto &it : OneThirdShutterSpeedValues()) {
+            OneThirdValues.Set(it.first, it.second);
         }
 
         std::vector <PropertyDescriptor> properties = {
             InstanceAccessor<&ShutterSpeed::GetLabel>("label"),
             InstanceAccessor<&ShutterSpeed::GetValue>("value"),
             InstanceAccessor<&ShutterSpeed::GetSeconds>("seconds"),
+            InstanceAccessor<&ShutterSpeed::GetStop>("stop"),
 
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &ShutterSpeed::GetPrimitive),
             InstanceMethod("toJSON", &ShutterSpeed::ToJSON),
@@ -330,7 +382,8 @@ namespace CameraApi {
             StaticMethod<&ShutterSpeed::FindNearest>("findNearest"),
 
             StaticValue("ID", IDs, napi_enumerable),
-            StaticValue("Values", Values, napi_enumerable)
+            StaticValue("OneHalfValues", OnHalfValues, napi_enumerable),
+            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, ShutterSpeed::JSClassName, properties);

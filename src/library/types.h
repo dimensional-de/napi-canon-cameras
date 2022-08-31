@@ -32,6 +32,8 @@
 namespace CameraApi {
 
     typedef std::unordered_map<EdsUInt32, std::string> LabelMap;
+
+    enum class ExposureStopSize { OneHalf, OneThird };
 }
 
 #endif

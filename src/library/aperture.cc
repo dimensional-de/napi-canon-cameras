@@ -1,6 +1,6 @@
 #include "aperture.h"
 #include "utility.h"
-#include <unordered_map>
+#include <map>
 #include <iostream>
 
 namespace CameraApi {
@@ -13,25 +13,21 @@ namespace CameraApi {
         return map;
     }
 
-    const std::unordered_map<int, double> &ApertureValues() {
-        static const std::unordered_map<int, double> map = {
+    const std::map<int, double> &OneHalfApertureValues() {
+        static const std::map<int, double> map = {
             {0x08, 1},
             {0x0B, 1.1},
             {0x0C, 1.2},
-            {0x0D, 1.2}, // (1/3),
             {0x10, 1.4},
             {0x13, 1.6},
             {0x14, 1.8},
-            {0x15, 1.8}, // (1/3),
             {0x18, 2},
             {0x1B, 2.2},
             {0x1C, 2.5},
-            {0x1D, 2.5}, // (1/3),
             {0x20, 2.8},
             {0x23, 3.2},
             {0x85, 3.4},
             {0x24, 3.5},
-            {0x25, 3.5}, // (1/3),
             {0x28, 4},
             {0x2B, 4.5},
             {0x2C, 4.5},
@@ -45,7 +41,6 @@ namespace CameraApi {
             {0x3C, 9.5},
             {0x3D, 10},
             {0x40, 11},
-            {0x43, 13}, // (1/3),
             {0x44, 13},
             {0x45, 14},
             {0x48, 16},
@@ -73,6 +68,27 @@ namespace CameraApi {
         return map;
     }
 
+    const std::map<int, double> &OneThirdApertureValues() {
+        static const std::map<int, double> map = {
+            {0x0D, 1.2}, // (1/3),
+            {0x15, 1.8}, // (1/3),
+            {0x1D, 2.5}, // (1/3),
+            {0x25, 3.5}, // (1/3),
+            {0x43, 13}, // (1/3),
+        };
+        return map;
+    }
+
+    const std::map<int, double> &AllApertureValues() {
+        static const std::map<int, double> map = []{
+            std::map<int, double> combined = {};
+            combined.insert(OneHalfApertureValues().begin(), OneHalfApertureValues().end());
+            combined.insert(OneThirdApertureValues().begin(), OneThirdApertureValues().end());
+            return combined;
+        }();
+        return map;
+    }
+
     Aperture::Aperture(const Napi::CallbackInfo &info)
         : Napi::ObjectWrap<Aperture>(info) {
 
@@ -87,9 +103,13 @@ namespace CameraApi {
             );
         }
 
-        auto values = ApertureValues();
-        if (values.find(value_) != values.end()) {
-            f_ = values[value_];
+        auto oneHalfValues = OneHalfApertureValues();
+        auto oneThirdValues = OneThirdApertureValues();
+        if (oneHalfValues.find(value_) != oneHalfValues.end()) {
+            f_ = oneHalfValues[value_];
+        } else if  (oneThirdValues.find(value_) != oneThirdValues.end()) {
+            f_ = oneThirdValues[value_];
+            stopSize_ = ExposureStopSize::OneThird;
         } else {
             f_ = 0;
         }
@@ -97,21 +117,29 @@ namespace CameraApi {
 
     std::string Aperture::GetLabelForValue(EdsInt32 value) {
         auto labels = NamedApertureLabels();
-        auto values = ApertureValues();
+        auto oneThirdValues = OneThirdApertureValues();
+        auto oneHalfValues = OneHalfApertureValues();
         if (labels.find(value) != labels.end()) {
             return labels[value];
-        } else if (values.find(value) != values.end()) {
-            return Aperture::GetLabelForAperture(values[value]);
+        } else if (oneThirdValues.find(value) != oneThirdValues.end()) {
+            return Aperture::GetLabelForAperture(
+                oneThirdValues[value], ExposureStopSize::OneThird
+            );
+        } else if (oneHalfValues.find(value) != oneHalfValues.end()) {
+            return Aperture::GetLabelForAperture(oneHalfValues[value]);
         }
         return "";
     }
 
-    std::string Aperture::GetLabelForAperture(double f) {
+    std::string Aperture::GetLabelForAperture(double f, ExposureStopSize stopSize) {
         std::string label;
         label = stringFormat("f%01.1f", f);
         auto labelLength = label.length();
         if (label.substr(labelLength - 2) == ".0") {
             label.erase(labelLength - 2);
+        }
+        if (stopSize == ExposureStopSize::OneThird) {
+            label.append(" (1/3)");
         }
         return label;
     }
@@ -126,6 +154,13 @@ namespace CameraApi {
 
     Napi::Value Aperture::GetAperture(const Napi::CallbackInfo &info) {
         return Napi::Number::New(info.Env(), f_);
+    }
+
+    Napi::Value Aperture::GetStop(const Napi::CallbackInfo &info) {
+        return Napi::String::New(
+            info.Env(),
+            stopSize_ == ExposureStopSize::OneThird ? "1/3" : "1/2"
+        );
     }
 
     Napi::Value Aperture::GetPrimitive(const Napi::CallbackInfo &info) {
@@ -147,6 +182,7 @@ namespace CameraApi {
         Json.Set("label", GetLabel(info));
         Json.Set("value", GetValue(info));
         Json.Set("aperture", GetAperture(info));
+        Json.Set("stop", GetStop(info));
         return Json;
     }
 
@@ -174,12 +210,23 @@ namespace CameraApi {
         try {
             double aperture;
             auto offset = label.find('f');
+            auto suffixOffset = label.find(' ');
+            bool isOneThird = false;
             if (offset != std::string::npos) {
-                aperture = std::stod(label.substr(offset + 1));
+                if (suffixOffset != std::string::npos) {
+                    aperture = std::stod(label.substr(offset + 1, suffixOffset - offset - 1));
+                    isOneThird = (
+                        label.substr(suffixOffset).find("1/3") != std::string::npos
+                    );
+                } else {
+                    aperture = std::stod(label.substr(offset + 1));
+                }
             } else {
                 aperture = std::stod(label);
             }
-            for (const auto &it : ApertureValues()) {
+            auto values = isOneThird
+                ? OneThirdApertureValues() : OneHalfApertureValues();
+            for (const auto &it : values) {
                 auto delta = std::abs(aperture - it.second);
                 if (delta < 0.001) {
                     return it.first;
@@ -212,7 +259,7 @@ namespace CameraApi {
         const Napi::Env &env = info.Env();
         double aperture;
         bool validArgument = false;
-        auto values = ApertureValues();
+        auto values = AllApertureValues();
         if (info.Length() > 0) {
             try {
                 if (info[0].IsString()) {
@@ -244,7 +291,7 @@ namespace CameraApi {
         }
         double matchDelta = 9999.0;
         EdsInt32 matchValue = 0;
-        for (const auto &it : ApertureValues()) {
+        for (const auto &it : AllApertureValues()) {
             auto delta = std::abs(aperture - it.second);
             if (delta < matchDelta) {
                 auto allowed = (
@@ -281,15 +328,20 @@ namespace CameraApi {
                 it.second, Napi::Number::New(env, it.first)
             );
         }
-        Napi::Object Values = Napi::Object::New(env);
-        for (const auto &it : ApertureValues()) {
-            Values.Set(it.first, it.second);
+        Napi::Object OneHalfValues = Napi::Object::New(env);
+        for (const auto &it : OneHalfApertureValues()) {
+            OneHalfValues.Set(it.first, it.second);
+        }
+        Napi::Object OneThirdValues = Napi::Object::New(env);
+        for (const auto &it : OneThirdApertureValues()) {
+            OneThirdValues.Set(it.first, it.second);
         }
 
         std::vector<PropertyDescriptor> properties = {
             InstanceAccessor<&Aperture::GetLabel>("label"),
             InstanceAccessor<&Aperture::GetValue>("value"),
             InstanceAccessor<&Aperture::GetAperture>("aperture"),
+            InstanceAccessor<&Aperture::GetStop>("stop"),
             InstanceMethod(Napi::Symbol::WellKnown(env, "toPrimitive"), &Aperture::GetPrimitive),
             InstanceMethod("toJSON", &Aperture::ToJSON),
 
@@ -300,7 +352,8 @@ namespace CameraApi {
             StaticMethod<&Aperture::FindNearest>("findNearest"),
 
             StaticValue("ID", IDs, napi_enumerable),
-            StaticValue("Values", Values, napi_enumerable)
+            StaticValue("OneHalfValues", OneHalfValues, napi_enumerable),
+            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, Aperture::JSClassName, properties);

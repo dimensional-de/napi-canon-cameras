@@ -28,16 +28,21 @@ namespace CameraApi {
 
             EdsInt32 value_ = 0;
             double seconds_ = 0;
+            ExposureStopSize stopSize_ = ExposureStopSize::OneHalf;
 
             static std::string GetLabelForValue(EdsInt32 value);
 
-            static std::string GetLabelForSeconds(double seconds);
+            static std::string GetLabelForSeconds(
+                double seconds, ExposureStopSize stopSize = ExposureStopSize::OneHalf
+            );
 
             Napi::Value GetLabel(const Napi::CallbackInfo &info);
 
             Napi::Value GetValue(const Napi::CallbackInfo &info);
 
             Napi::Value GetSeconds(const Napi::CallbackInfo &info);
+
+            Napi::Value GetStop(const Napi::CallbackInfo &info);
 
             Napi::Value GetPrimitive(const Napi::CallbackInfo &info);
 
