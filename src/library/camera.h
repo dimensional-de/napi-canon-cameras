@@ -142,6 +142,8 @@ namespace CameraApi {
 
             Napi::Value DownloadLiveViewImage(const Napi::CallbackInfo &info);
 
+            Napi::Value GetLiveViewImage(const Napi::CallbackInfo &info);
+
             Napi::Value GetVolumes(const Napi::CallbackInfo &info);
     };
 }

@@ -23,6 +23,7 @@
                 "./src/library/camera-api.cc",
                 "./src/library/directory.cc",
                 "./src/library/labels.cc",
+                "./src/library/live-view-image.cc",
                 "./src/library/object-event.cc",
                 "./src/library/option.cc",
                 "./src/library/output-device.cc",

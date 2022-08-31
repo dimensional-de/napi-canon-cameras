@@ -4,6 +4,7 @@
  */
 import { EventCallback } from "./CameraBrowser";
 import { CameraProperty, PropertyValue } from "./CameraProperty";
+import { LiveViewImage } from './LiveViewImage';
 import { Volume } from "./Volume";
 
 type PropertyIdentifier = string|number;
@@ -122,8 +123,16 @@ export class Camera {
 
     /**
      * @return {string}
+     * @deprecated
      */
     downloadLiveViewImage(): string {
+        throw new Error("Not implemented - stub only.");
+    }
+
+    /**
+     * @return {LiveViewImage}
+     */
+    getLiveViewImage(): LiveViewImage {
         throw new Error("Not implemented - stub only.");
     }
 

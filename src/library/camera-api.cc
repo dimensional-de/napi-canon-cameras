@@ -6,6 +6,7 @@
 #include "camera-property.h"
 #include "exposure-compensation.h"
 #include "flag.h"
+#include "live-view-image.h"
 #include "object-event.h"
 #include "option.h"
 #include "shutter-speed.h"
@@ -33,6 +34,7 @@ namespace CameraApi {
         Flag::Init(env, exports);
         ImageQuality::Init(env, exports);
         ISOSensitivity::Init(env, exports);
+        LiveViewImage::Init(env, exports);
         ObjectEvent::Init(env, exports);
         Option::Init(env, exports);
         OutputDevice::Init(env, exports);

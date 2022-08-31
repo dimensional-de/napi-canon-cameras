@@ -36,7 +36,12 @@ application.
     - [x] Download To Directory
     - [x] Download To File
     - [x] Download To String (Base64)
-- [x] Live View
+- [ ] Live View
+    - [x] Download Image To Data URL
+    - [x] Properties
+    - [x] Histogram
+    - [ ] Rolling & Pitching
+    - [ ] PowerZoom
 - [ ] Storage
     - [x] List Volumes
     - [x] List Directories and Files

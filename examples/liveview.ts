@@ -8,26 +8,26 @@ events.on(
         if (event.property.identifier === CameraProperty.ID.Evf_OutputDevice) {
             console.log(event.property.label, event.property.value);
         }
-    }
+    },
 );
 events.on(
     CameraBrowser.EventName.LiveViewStart,
     (event) => {
         console.log('LV Started', event);
-    }
+    },
 );
 events.on(
     CameraBrowser.EventName.LiveViewStop,
     (event) => {
         console.log('LV Stopped', event);
-    }
+    },
 );
 
 cameraBrowser.setEventHandler(
     (eventName, ...args) => {
         //console.log('Emitted:', ...args);
         events.emit(eventName, ...args);
-    }
+    },
 );
 
 process.on('SIGINT', () => process.exit());
@@ -52,17 +52,24 @@ try {
                 }
                 liveMode = !liveMode;
             },
-            5000
+            5000,
         );
         setInterval(
             () => {
                 try {
-                    console.log({image: camera.downloadLiveViewImage().substring(0, 20)});
+                    const image = camera.getLiveViewImage();
+                    if (image) {
+                        console.log(
+                            {
+                                image: image.getDataURL().substring(0, 40),
+                            },
+                        );
+                    }
                 } catch (e) {
                     console.log(e);
                 }
             },
-            200
+            200,
         );
     }
 
@@ -70,5 +77,3 @@ try {
 } catch (e) {
     console.log(e);
 }
-
-

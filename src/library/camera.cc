@@ -12,6 +12,7 @@
 #include "volume.h"
 #include "directory.h"
 #include "events.h"
+#include "live-view-image.h"
 
 namespace CameraApi {
 
@@ -359,7 +360,7 @@ namespace CameraApi {
             EdsRelease(stream);
             stream = nullptr;
         }
-        if (stream != nullptr) {
+        if (evfImage != nullptr) {
             EdsRelease(evfImage);
             evfImage = nullptr;
         }
@@ -751,6 +752,15 @@ namespace CameraApi {
         return ApiError::ThrowIfFailed(env, error, Napi::String::New(env, image));
     }
 
+    Napi::Value CameraWrap::GetLiveViewImage(const Napi::CallbackInfo &info) {
+        Napi::Env env = info.Env();
+        std::string image;
+        if (camera_->isLiveViewActive()) {
+            return LiveViewImage::NewInstance(info.Env(), camera_->getEdsReference());
+        }
+        return info.Env().Undefined();
+    }
+
     Napi::Value CameraWrap::GetVolumes(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
 
@@ -816,6 +826,7 @@ namespace CameraApi {
                 InstanceMethod("isLiveViewActive", &CameraWrap::IsLiveViewActive),
                 InstanceMethod("stopLiveView", &CameraWrap::StopLiveView),
                 InstanceMethod("downloadLiveViewImage", &CameraWrap::DownloadLiveViewImage),
+                InstanceMethod("getLiveViewImage", &CameraWrap::GetLiveViewImage),
                 InstanceMethod("getVolumes", &CameraWrap::GetVolumes),
 
                 StaticValue("EventName", eventNames, napi_enumerable),

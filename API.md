@@ -34,6 +34,8 @@
 <dd></dd>
 <dt><a href="#ISOSensitivity">ISOSensitivity</a></dt>
 <dd></dd>
+<dt><a href="#LiveViewImage">LiveViewImage</a></dt>
+<dd></dd>
 <dt><a href="#ObjectEvent">ObjectEvent</a> ⇐ <code><a href="#ApiIdentifier">ApiIdentifier</a></code></dt>
 <dd></dd>
 <dt><a href="#Option">Option</a></dt>
@@ -412,10 +414,12 @@
         * [.label](#Aperture+label) : <code>string</code>
         * [.value](#Aperture+value) : <code>number</code>
         * [.aperture](#Aperture+aperture) : <code>number</code>
+        * [.stop](#Aperture+stop) : <code>number</code>
         * [.toJSON()](#Aperture+toJSON) ⇒ <code>Object</code>
     * _static_
         * [.ID](#Aperture.ID) : <code>enum</code>
-        * [.Values](#Aperture.Values) : <code>enum</code>
+        * [.OneHalfValues](#Aperture.OneHalfValues) : <code>enum</code>
+        * [.OneThirdValues](#Aperture.OneThirdValues) : <code>enum</code>
         * [.forLabel(label)](#Aperture.forLabel) ⇒ [<code>Aperture</code>](#Aperture) \| <code>null</code>
 
 <a name="new_Aperture_new"></a>
@@ -450,6 +454,11 @@ Aperture property value
 ## aperture.aperture : <code>number</code>
 **Kind**: instance property of [<code>Aperture</code>](#Aperture)  
 **Read only**: true  
+<a name="Aperture+stop"></a>
+
+## aperture.stop : <code>number</code>
+**Kind**: instance property of [<code>Aperture</code>](#Aperture)  
+**Read only**: true  
 <a name="Aperture+toJSON"></a>
 
 ## aperture.toJSON() ⇒ <code>Object</code>
@@ -471,13 +480,13 @@ Aperture property value
 <tr>
     <td>Auto</td><td><code>number</code></td><td><code>0</code></td>
     </tr><tr>
-    <td>NotValid</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>NotValid</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr>  </tbody>
 </table>
 
-<a name="Aperture.Values"></a>
+<a name="Aperture.OneHalfValues"></a>
 
-## Aperture.Values : <code>enum</code>
+## Aperture.OneHalfValues : <code>enum</code>
 **Kind**: static enum of [<code>Aperture</code>](#Aperture)  
 **Read only**: true  
 **Properties**
@@ -496,15 +505,11 @@ Aperture property value
     </tr><tr>
     <td>12</td><td><code>number</code></td><td><code>1.2</code></td>
     </tr><tr>
-    <td>13</td><td><code>number</code></td><td><code>1.2</code></td>
-    </tr><tr>
     <td>16</td><td><code>number</code></td><td><code>1.4</code></td>
     </tr><tr>
     <td>19</td><td><code>number</code></td><td><code>1.6</code></td>
     </tr><tr>
     <td>20</td><td><code>number</code></td><td><code>1.8</code></td>
-    </tr><tr>
-    <td>21</td><td><code>number</code></td><td><code>1.8</code></td>
     </tr><tr>
     <td>24</td><td><code>number</code></td><td><code>2</code></td>
     </tr><tr>
@@ -512,15 +517,11 @@ Aperture property value
     </tr><tr>
     <td>28</td><td><code>number</code></td><td><code>2.5</code></td>
     </tr><tr>
-    <td>29</td><td><code>number</code></td><td><code>2.5</code></td>
-    </tr><tr>
     <td>32</td><td><code>number</code></td><td><code>2.8</code></td>
     </tr><tr>
     <td>35</td><td><code>number</code></td><td><code>3.2</code></td>
     </tr><tr>
     <td>36</td><td><code>number</code></td><td><code>3.5</code></td>
-    </tr><tr>
-    <td>37</td><td><code>number</code></td><td><code>3.5</code></td>
     </tr><tr>
     <td>40</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
@@ -547,8 +548,6 @@ Aperture property value
     <td>61</td><td><code>number</code></td><td><code>10</code></td>
     </tr><tr>
     <td>64</td><td><code>number</code></td><td><code>11</code></td>
-    </tr><tr>
-    <td>67</td><td><code>number</code></td><td><code>13</code></td>
     </tr><tr>
     <td>68</td><td><code>number</code></td><td><code>13</code></td>
     </tr><tr>
@@ -600,6 +599,33 @@ Aperture property value
     </tr>  </tbody>
 </table>
 
+<a name="Aperture.OneThirdValues"></a>
+
+## Aperture.OneThirdValues : <code>enum</code>
+**Kind**: static enum of [<code>Aperture</code>](#Aperture)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>13</td><td><code>number</code></td><td><code>1.2</code></td>
+    </tr><tr>
+    <td>21</td><td><code>number</code></td><td><code>1.8</code></td>
+    </tr><tr>
+    <td>29</td><td><code>number</code></td><td><code>2.5</code></td>
+    </tr><tr>
+    <td>37</td><td><code>number</code></td><td><code>3.5</code></td>
+    </tr><tr>
+    <td>67</td><td><code>number</code></td><td><code>13</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Aperture.forLabel"></a>
 
 ## Aperture.forLabel(label) ⇒ [<code>Aperture</code>](#Aperture) \| <code>null</code>
@@ -642,13 +668,7 @@ An internal class that will be added to Exceptions as "EDS_ERROR" property.
 
 **Example**  
 
-```typescript
-try {
-} catch (e) {
-  if ("EDS_ERROR" in e && e.EDS_ERROR.equalTo(ApiError.Code.DEVICE_BUSY)) {
-  }
-}
-```
+```typescripttry {} catch (e) {  if ("EDS_ERROR" in e && e.EDS_ERROR.equalTo(ApiError.Code.DEVICE_BUSY)) {  }}```
 
 <a name="ApiIdentifier+label"></a>
 
@@ -681,8 +701,7 @@ try {
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## apiError.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.
-The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ApiError</code>](#ApiError)  
 <table>
@@ -1016,8 +1035,7 @@ Superclass for identifier wrappers. Provides the identifiers as class constants 
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## apiIdentifier.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.
-The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ApiIdentifier</code>](#ApiIdentifier)  
 <table>
@@ -1074,7 +1092,8 @@ The string will be a hexadecimal code representation of the number
         * [.isLiveViewActive()](#Camera+isLiveViewActive) ⇒ <code>boolean</code>
         * [.startLiveView()](#Camera+startLiveView)
         * [.stopLiveView()](#Camera+stopLiveView)
-        * [.downloadLiveViewImage()](#Camera+downloadLiveViewImage) ⇒ <code>string</code>
+        * <del>[.downloadLiveViewImage()](#Camera+downloadLiveViewImage) ⇒ <code>string</code></del>
+        * [.getLiveViewImage()](#Camera+getLiveViewImage) ⇒ [<code>LiveViewImage</code>](#LiveViewImage)
         * [.getVolumes()](#Camera+getVolumes) ⇒ [<code>Array.&lt;Volume&gt;</code>](#Volume)
     * _static_
         * [.EventName](#Camera.EventName) : <code>enum</code>
@@ -1236,7 +1255,13 @@ Request LiveView stop, triggers event on success
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
 <a name="Camera+downloadLiveViewImage"></a>
 
-## camera.downloadLiveViewImage() ⇒ <code>string</code>
+## <del>camera.downloadLiveViewImage() ⇒ <code>string</code></del>
+***Deprecated***
+
+**Kind**: instance method of [<code>Camera</code>](#Camera)  
+<a name="Camera+getLiveViewImage"></a>
+
+## camera.getLiveViewImage() ⇒ [<code>LiveViewImage</code>](#LiveViewImage)
 **Kind**: instance method of [<code>Camera</code>](#Camera)  
 <a name="Camera+getVolumes"></a>
 
@@ -1395,18 +1420,7 @@ Access to Canon Cameras
 
 **Example**  
 
-```typescript
-const {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');
-cameraBrowser.setEventHandler(
-  (eventName, event) => { console.log(eventName, event); }
-);
-
-process.on('SIGINT', () => process.exit());
-
-console.log(cameraBrowser.getCameras());
-
-watchCameras();
-```
+```typescriptconst {cameraBrowser, watchCameras} = require('@dimensional/napi-canon-cameras');cameraBrowser.setEventHandler(  (eventName, event) => { console.log(eventName, event); });process.on('SIGINT', () => process.exit());console.log(cameraBrowser.getCameras());watchCameras();```
 
 <a name="CameraBrowser+setEventHandler"></a>
 
@@ -1447,8 +1461,7 @@ Trigger SDK events
 <a name="CameraBrowser+getCamera"></a>
 
 ## cameraBrowser.getCamera([at], [exactOnly])
-Get camera at port or index. Returns the first camera in the internal list if
-port or position is invalid. USe the exactOnly argument to disable the fallback.
+Get camera at port or index. Returns the first camera in the internal list ifport or position is invalid. USe the exactOnly argument to disable the fallback.
 
 **Kind**: instance method of [<code>CameraBrowser</code>](#CameraBrowser)  
 <table>
@@ -1874,10 +1887,7 @@ Camera property/setting.
 
 **Example**  
 
-```typescript
-const property = camera.getProperty(Property.ID.Av);
-console.log(property.value, property.allowedValues);
-```
+```typescriptconst property = camera.getProperty(Property.ID.Av);console.log(property.value, property.allowedValues);```
 
 <a name="CameraProperty+label"></a>
 
@@ -2782,7 +2792,7 @@ Create instance for label.
     </tr><tr>
     <td>SmallJPEGNormal</td><td><code>number</code></td><td><code>34799375</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr>  </tbody>
 </table>
 
@@ -2846,7 +2856,7 @@ Create instance for label.
     </tr><tr>
     <td>Small3</td><td><code>number</code></td><td><code>16</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr>  </tbody>
 </table>
 
@@ -2873,7 +2883,7 @@ Create instance for label.
     </tr><tr>
     <td>SuperFine</td><td><code>number</code></td><td><code>5</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr>  </tbody>
 </table>
 
@@ -3061,6 +3071,87 @@ Create instance for label.
     </tr>  </tbody>
 </table>
 
+<a name="LiveViewImage"></a>
+
+# LiveViewImage
+**Kind**: global class  
+
+* [LiveViewImage](#LiveViewImage)
+    * [new LiveViewImage()](#new_LiveViewImage_new)
+    * [.coordinateSystem](#LiveViewImage+coordinateSystem) ⇒ <code>Size</code>
+    * [.histogram](#LiveViewImage+histogram) ⇒ <code>Histogram</code>
+    * [.histogramStatus](#LiveViewImage+histogramStatus) ⇒ [<code>Option</code>](#Option)
+    * [.position](#LiveViewImage+position) ⇒ <code>Position</code>
+    * [.visibleArea](#LiveViewImage+visibleArea) ⇒ <code>Rectangle</code>
+    * [.zoom](#LiveViewImage+zoom) ⇒ [<code>Option</code>](#Option)
+    * [.zoomPosition](#LiveViewImage+zoomPosition) ⇒ <code>Position</code>
+    * [.zoomArea](#LiveViewImage+zoomArea) ⇒ <code>Rectangle</code>
+    * [.getDataURL()](#LiveViewImage+getDataURL) ⇒ <code>string</code>
+
+<a name="new_LiveViewImage_new"></a>
+
+## new LiveViewImage()
+Provided in [getLiveViewImage](#Camera+getLiveViewImage). Allows to download the file from camera.
+
+<a name="LiveViewImage+coordinateSystem"></a>
+
+## liveViewImage.coordinateSystem ⇒ <code>Size</code>
+Coordinate system of the live view image
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+histogram"></a>
+
+## liveViewImage.histogram ⇒ <code>Histogram</code>
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+histogramStatus"></a>
+
+## liveViewImage.histogramStatus ⇒ [<code>Option</code>](#Option)
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+position"></a>
+
+## liveViewImage.position ⇒ <code>Position</code>
+Cropping position of the enlarged live view image
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+visibleArea"></a>
+
+## liveViewImage.visibleArea ⇒ <code>Rectangle</code>
+Visible area information according to Canon camera aspect settings
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+zoom"></a>
+
+## liveViewImage.zoom ⇒ [<code>Option</code>](#Option)
+The zoom factor
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+zoomPosition"></a>
+
+## liveViewImage.zoomPosition ⇒ <code>Position</code>
+The focus and zoom border position
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+zoomArea"></a>
+
+## liveViewImage.zoomArea ⇒ <code>Rectangle</code>
+Focus and zoom border rectangle
+
+**Kind**: instance property of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Read only**: true  
+<a name="LiveViewImage+getDataURL"></a>
+
+## liveViewImage.getDataURL() ⇒ <code>string</code>
+Return as data url, the image will be base64 encoded.
+
+**Kind**: instance method of [<code>LiveViewImage</code>](#LiveViewImage)  
+**Returns**: <code>string</code> - data url  
 <a name="ObjectEvent"></a>
 
 # ObjectEvent ⇐ [<code>ApiIdentifier</code>](#ApiIdentifier)
@@ -3126,8 +3217,7 @@ Encapsulate Object Event Identifiers For Easy Read And Debug
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## objectEvent.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.
-The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>ObjectEvent</code>](#ObjectEvent)  
 <table>
@@ -3228,9 +3318,7 @@ The string will be a hexadecimal code representation of the number
 <a name="new_Option_new"></a>
 
 ## new Option(propertyID_, value_)
-Option represents a property value from a property specific list.
-It provides constants for all possible property values. However it depends
-on the camera and the camera status which option values are available.
+Option represents a property value from a property specific list.It provides constants for all possible property values. However it dependson the camera and the camera status which option values are available.
 
 <table>
   <thead>
@@ -3388,7 +3476,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>Tv</td><td><code>number</code></td><td><code>1</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>VideoBlog</td><td><code>number</code></td><td><code>63</code></td>
     </tr><tr>
@@ -3527,7 +3615,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>Tv</td><td><code>number</code></td><td><code>1</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>WaterColor</td><td><code>number</code></td><td><code>34</code></td>
     </tr>  </tbody>
@@ -3554,7 +3642,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>ManualFocus</td><td><code>number</code></td><td><code>3</code></td>
     </tr><tr>
-    <td>NotValid</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>NotValid</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>OneShot</td><td><code>number</code></td><td><code>0</code></td>
     </tr>  </tbody>
@@ -3602,7 +3690,7 @@ on the camera and the camera status which option values are available.
 <tr>
     <td>AEBracket</td><td><code>number</code></td><td><code>1</code></td>
     </tr><tr>
-    <td>BracketOff</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>BracketOff</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>FEBracket</td><td><code>number</code></td><td><code>8</code></td>
     </tr><tr>
@@ -3629,7 +3717,7 @@ on the camera and the camera status which option values are available.
 <tr>
     <td>AdobeRGB</td><td><code>number</code></td><td><code>2</code></td>
     </tr><tr>
-    <td>Unknown</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Unknown</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>sRGB</td><td><code>number</code></td><td><code>1</code></td>
     </tr>  </tbody>
@@ -3876,7 +3964,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>Evaluative</td><td><code>number</code></td><td><code>3</code></td>
     </tr><tr>
-    <td>NotValid</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>NotValid</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>Partial</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
@@ -3912,6 +4000,238 @@ on the camera and the camera status which option values are available.
 ## Option.MovieQuality : <code>enum</code>
 **Kind**: static enum of [<code>Option</code>](#Option)  
 **Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>"1280x720 100.0fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>71696</code></td>
+    </tr><tr>
+    <td>"1280x720 100.0fps Standard(IPB)"</td><td><code>number</code></td><td><code>71728</code></td>
+    </tr><tr>
+    <td>"1280x720 119.9fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>71952</code></td>
+    </tr><tr>
+    <td>"1280x720 119.9fps Standard(IPB)"</td><td><code>number</code></td><td><code>71984</code></td>
+    </tr><tr>
+    <td>"1280x720 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>70704</code></td>
+    </tr><tr>
+    <td>"1280x720 29.97fps Light(IPB)"</td><td><code>number</code></td><td><code>70961</code></td>
+    </tr><tr>
+    <td>"1280x720 29.97fps Standard(IPB)"</td><td><code>number</code></td><td><code>70960</code></td>
+    </tr><tr>
+    <td>"1280x720 50.00fps"</td><td><code>number</code></td><td><code>67072</code></td>
+    </tr><tr>
+    <td>"1280x720 50.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>71184</code></td>
+    </tr><tr>
+    <td>"1280x720 50.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>71216</code></td>
+    </tr><tr>
+    <td>"1280x720 59.94fps"</td><td><code>number</code></td><td><code>67328</code></td>
+    </tr><tr>
+    <td>"1280x720 59.94fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>71440</code></td>
+    </tr><tr>
+    <td>"1280x720 59.94fps Standard(IPB)"</td><td><code>number</code></td><td><code>71472</code></td>
+    </tr><tr>
+    <td>"1920x1080 100.0fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>6160</code></td>
+    </tr><tr>
+    <td>"1920x1080 119.9fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>6416</code></td>
+    </tr><tr>
+    <td>"1920x1080 23.98fps"</td><td><code>number</code></td><td><code>512</code></td>
+    </tr><tr>
+    <td>"1920x1080 23.98fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>4624</code></td>
+    </tr><tr>
+    <td>"1920x1080 23.98fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134222352</code></td>
+    </tr><tr>
+    <td>"1920x1080 23.98fps Standard(IPB)"</td><td><code>number</code></td><td><code>4656</code></td>
+    </tr><tr>
+    <td>"1920x1080 23.98fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134222384</code></td>
+    </tr><tr>
+    <td>"1920x1080 24.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>4880</code></td>
+    </tr><tr>
+    <td>"1920x1080 24.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134222864</code></td>
+    </tr><tr>
+    <td>"1920x1080 24.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>4912</code></td>
+    </tr><tr>
+    <td>"1920x1080 24.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134222896</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps"</td><td><code>number</code></td><td><code>1024</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>5136</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134222897</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps Light(IPB)"</td><td><code>number</code></td><td><code>5169</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>5168</code></td>
+    </tr><tr>
+    <td>"1920x1080 25.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134223120</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.94fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134223153</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.97fps"</td><td><code>number</code></td><td><code>1280</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.97fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>1296</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.97fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134223152</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.97fps Light(IPB)"</td><td><code>number</code></td><td><code>5425</code></td>
+    </tr><tr>
+    <td>"1920x1080 29.97fps Standard(IPB)"</td><td><code>number</code></td><td><code>5424</code></td>
+    </tr><tr>
+    <td>"1920x1080 50.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>5648</code></td>
+    </tr><tr>
+    <td>"1920x1080 50.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134223376</code></td>
+    </tr><tr>
+    <td>"1920x1080 50.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>5680</code></td>
+    </tr><tr>
+    <td>"1920x1080 50.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134223408</code></td>
+    </tr><tr>
+    <td>"1920x1080 59.94fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>5904</code></td>
+    </tr><tr>
+    <td>"1920x1080 59.94fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134223632</code></td>
+    </tr><tr>
+    <td>"1920x1080 59.94fps Standard(IPB)"</td><td><code>number</code></td><td><code>5936</code></td>
+    </tr><tr>
+    <td>"1920x1080 59.94fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134223664</code></td>
+    </tr><tr>
+    <td>"23.98fps (RAW)"</td><td><code>number</code></td><td><code>668272</code></td>
+    </tr><tr>
+    <td>"24.00fps (RAW)"</td><td><code>number</code></td><td><code>668528</code></td>
+    </tr><tr>
+    <td>"25.00fps (RAW)"</td><td><code>number</code></td><td><code>668784</code></td>
+    </tr><tr>
+    <td>"29.97fps (RAW)"</td><td><code>number</code></td><td><code>669040</code></td>
+    </tr><tr>
+    <td>"3840x2160 100.0fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>333840</code></td>
+    </tr><tr>
+    <td>"3840x2160 119.9fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>334096</code></td>
+    </tr><tr>
+    <td>"3840x2160 23.98fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>134550032</code></td>
+    </tr><tr>
+    <td>"3840x2160 23.98fps Standard(IPB)"</td><td><code>number</code></td><td><code>134550064</code></td>
+    </tr><tr>
+    <td>"3840x2160 24.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>332560</code></td>
+    </tr><tr>
+    <td>"3840x2160 24.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>332592</code></td>
+    </tr><tr>
+    <td>"3840x2160 25.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>134550544</code></td>
+    </tr><tr>
+    <td>"3840x2160 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>134550576</code></td>
+    </tr><tr>
+    <td>"3840x2160 29.97fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>134550800</code></td>
+    </tr><tr>
+    <td>"3840x2160 29.97fps Standard(IPB)"</td><td><code>number</code></td><td><code>134550832</code></td>
+    </tr><tr>
+    <td>"3840x2160 50.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>134551056</code></td>
+    </tr><tr>
+    <td>"3840x2160 50.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>134551088</code></td>
+    </tr><tr>
+    <td>"3840x2160 59.94fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>134551312</code></td>
+    </tr><tr>
+    <td>"3840x2160 59.94fps Standard(IPB)"</td><td><code>number</code></td><td><code>134551344</code></td>
+    </tr><tr>
+    <td>"4096x2160 100.0fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>202768</code></td>
+    </tr><tr>
+    <td>"4096x2160 119.9fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>203024</code></td>
+    </tr><tr>
+    <td>"4096x2160 23.98fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>201232</code></td>
+    </tr><tr>
+    <td>"4096x2160 23.98fps For editing(ALL-I) Crop"</td><td><code>number</code></td><td><code>134418960</code></td>
+    </tr><tr>
+    <td>"4096x2160 23.98fps Motion JPEG"</td><td><code>number</code></td><td><code>197184</code></td>
+    </tr><tr>
+    <td>"4096x2160 23.98fps Standard(IPB)"</td><td><code>number</code></td><td><code>201264</code></td>
+    </tr><tr>
+    <td>"4096x2160 23.98fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134418992</code></td>
+    </tr><tr>
+    <td>"4096x2160 24.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>201488</code></td>
+    </tr><tr>
+    <td>"4096x2160 24.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134419216</code></td>
+    </tr><tr>
+    <td>"4096x2160 24.00fps Motion JPEG"</td><td><code>number</code></td><td><code>197440</code></td>
+    </tr><tr>
+    <td>"4096x2160 24.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>201520</code></td>
+    </tr><tr>
+    <td>"4096x2160 24.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134419248</code></td>
+    </tr><tr>
+    <td>"4096x2160 25.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>201744</code></td>
+    </tr><tr>
+    <td>"4096x2160 25.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134419472</code></td>
+    </tr><tr>
+    <td>"4096x2160 25.00fps Motion JPEG"</td><td><code>number</code></td><td><code>197696</code></td>
+    </tr><tr>
+    <td>"4096x2160 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>201776</code></td>
+    </tr><tr>
+    <td>"4096x2160 25.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134419504</code></td>
+    </tr><tr>
+    <td>"4096x2160 29.94fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134419760</code></td>
+    </tr><tr>
+    <td>"4096x2160 29.970fps Standard(IPB)"</td><td><code>number</code></td><td><code>202032</code></td>
+    </tr><tr>
+    <td>"4096x2160 29.97fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>202000</code></td>
+    </tr><tr>
+    <td>"4096x2160 29.97fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134419728</code></td>
+    </tr><tr>
+    <td>"4096x2160 29.97fps Motion JPEG"</td><td><code>number</code></td><td><code>197952</code></td>
+    </tr><tr>
+    <td>"4096x2160 50.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>202256</code></td>
+    </tr><tr>
+    <td>"4096x2160 50.00fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134419984</code></td>
+    </tr><tr>
+    <td>"4096x2160 50.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>202288</code></td>
+    </tr><tr>
+    <td>"4096x2160 50.00fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134420016</code></td>
+    </tr><tr>
+    <td>"4096x2160 59.94fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>202512</code></td>
+    </tr><tr>
+    <td>"4096x2160 59.94fps For editing(ALL-I)Crop"</td><td><code>number</code></td><td><code>134420240</code></td>
+    </tr><tr>
+    <td>"4096x2160 59.94fps Standard(IPB)"</td><td><code>number</code></td><td><code>202544</code></td>
+    </tr><tr>
+    <td>"4096x2160 59.94fps Standard(IPB)Crop"</td><td><code>number</code></td><td><code>134420272</code></td>
+    </tr><tr>
+    <td>"50.00fps (RAW)"</td><td><code>number</code></td><td><code>669296</code></td>
+    </tr><tr>
+    <td>"59.94fps (RAW)"</td><td><code>number</code></td><td><code>669552</code></td>
+    </tr><tr>
+    <td>"640x480 25.00fps"</td><td><code>number</code></td><td><code>132096</code></td>
+    </tr><tr>
+    <td>"640x480 29.97ffps"</td><td><code>number</code></td><td><code>132352</code></td>
+    </tr><tr>
+    <td>"7680x4320 23.98fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>594448</code></td>
+    </tr><tr>
+    <td>"7680x4320 23.98fps Standard(IPB)"</td><td><code>number</code></td><td><code>594480</code></td>
+    </tr><tr>
+    <td>"7680x4320 25.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>594960</code></td>
+    </tr><tr>
+    <td>"7680x4320 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>594992</code></td>
+    </tr><tr>
+    <td>"7680x4320 29.97fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>595216</code></td>
+    </tr><tr>
+    <td>"7680x4320 29.97fps Standard(IPB)"</td><td><code>number</code></td><td><code>595248</code></td>
+    </tr><tr>
+    <td>"8192x4320 23.98fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>528912</code></td>
+    </tr><tr>
+    <td>"8192x4320 23.98fps Standard(IPB)"</td><td><code>number</code></td><td><code>528944</code></td>
+    </tr><tr>
+    <td>"8192x4320 24.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>529168</code></td>
+    </tr><tr>
+    <td>"8192x4320 24.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>529200</code></td>
+    </tr><tr>
+    <td>"8192x4320 25.00fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>529424</code></td>
+    </tr><tr>
+    <td>"8192x4320 25.00fps Standard(IPB)"</td><td><code>number</code></td><td><code>529456</code></td>
+    </tr><tr>
+    <td>"8192x4320 29.97fps For editing(ALL-I)"</td><td><code>number</code></td><td><code>529680</code></td>
+    </tr><tr>
+    <td>"8192x4320 29.97fps Standard(IPB)"</td><td><code>number</code></td><td><code>529712</code></td>
+    </tr>  </tbody>
+</table>
+
 <a name="Option.NoiseReduction"></a>
 
 ## Option.NoiseReduction : <code>enum</code>
@@ -3954,7 +4274,7 @@ on the camera and the camera status which option values are available.
   </thead>
   <tbody>
 <tr>
-    <td>Invalid</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Invalid</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>Off</td><td><code>number</code></td><td><code>0</code></td>
     </tr><tr>
@@ -4025,7 +4345,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>AutoWhitePriority</td><td><code>number</code></td><td><code>23</code></td>
     </tr><tr>
-    <td>Click</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>Click</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr><tr>
     <td>Cloudy</td><td><code>number</code></td><td><code>2</code></td>
     </tr><tr>
@@ -4047,7 +4367,7 @@ on the camera and the camera status which option values are available.
     </tr><tr>
     <td>Fluorescent</td><td><code>number</code></td><td><code>4</code></td>
     </tr><tr>
-    <td>Pasted</td><td><code>number</code></td><td><code>-2</code></td>
+    <td>Pasted</td><td><code>number</code></td><td><code>4294967294</code></td>
     </tr><tr>
     <td>Shade</td><td><code>number</code></td><td><code>8</code></td>
     </tr><tr>
@@ -4193,9 +4513,12 @@ Create instance for label.
         * [.label](#ShutterSpeed+label) : <code>string</code>
         * [.value](#ShutterSpeed+value) : <code>number</code>
         * [.seconds](#ShutterSpeed+seconds) : <code>number</code>
+        * [.stop](#ShutterSpeed+stop) : <code>number</code>
+        * [.toJSON()](#ShutterSpeed+toJSON) ⇒ <code>Object</code>
     * _static_
         * [.ID](#ShutterSpeed.ID) : <code>enum</code>
-        * [.Values](#ShutterSpeed.Values) : <code>enum</code>
+        * [.OneHalfValues](#ShutterSpeed.OneHalfValues) : <code>enum</code>
+        * [.OneThirdValues](#ShutterSpeed.OneThirdValues) : <code>enum</code>
         * [.forLabel(label)](#ShutterSpeed.forLabel) ⇒ [<code>ShutterSpeed</code>](#ShutterSpeed) \| <code>null</code>
 
 <a name="new_ShutterSpeed_new"></a>
@@ -4230,6 +4553,15 @@ Encapsulate Object for a Shutter Speed value
 ## shutterSpeed.seconds : <code>number</code>
 **Kind**: instance property of [<code>ShutterSpeed</code>](#ShutterSpeed)  
 **Read only**: true  
+<a name="ShutterSpeed+stop"></a>
+
+## shutterSpeed.stop : <code>number</code>
+**Kind**: instance property of [<code>ShutterSpeed</code>](#ShutterSpeed)  
+**Read only**: true  
+<a name="ShutterSpeed+toJSON"></a>
+
+## shutterSpeed.toJSON() ⇒ <code>Object</code>
+**Kind**: instance method of [<code>ShutterSpeed</code>](#ShutterSpeed)  
 <a name="ShutterSpeed.ID"></a>
 
 ## ShutterSpeed.ID : <code>enum</code>
@@ -4249,13 +4581,13 @@ Encapsulate Object for a Shutter Speed value
     </tr><tr>
     <td>Bulb</td><td><code>number</code></td><td><code>12</code></td>
     </tr><tr>
-    <td>NotValid</td><td><code>number</code></td><td><code>-1</code></td>
+    <td>NotValid</td><td><code>number</code></td><td><code>4294967295</code></td>
     </tr>  </tbody>
 </table>
 
-<a name="ShutterSpeed.Values"></a>
+<a name="ShutterSpeed.OneHalfValues"></a>
 
-## ShutterSpeed.Values : <code>enum</code>
+## ShutterSpeed.OneHalfValues : <code>enum</code>
 **Kind**: static enum of [<code>ShutterSpeed</code>](#ShutterSpeed)  
 **Read only**: true  
 **Properties**
@@ -4274,19 +4606,13 @@ Encapsulate Object for a Shutter Speed value
     </tr><tr>
     <td>20</td><td><code>number</code></td><td><code>20</code></td>
     </tr><tr>
-    <td>21</td><td><code>number</code></td><td><code>20</code></td>
-    </tr><tr>
     <td>24</td><td><code>number</code></td><td><code>15</code></td>
     </tr><tr>
     <td>27</td><td><code>number</code></td><td><code>13</code></td>
     </tr><tr>
     <td>28</td><td><code>number</code></td><td><code>10</code></td>
     </tr><tr>
-    <td>29</td><td><code>number</code></td><td><code>10</code></td>
-    </tr><tr>
     <td>32</td><td><code>number</code></td><td><code>8</code></td>
-    </tr><tr>
-    <td>35</td><td><code>number</code></td><td><code>6</code></td>
     </tr><tr>
     <td>36</td><td><code>number</code></td><td><code>6</code></td>
     </tr><tr>
@@ -4322,19 +4648,13 @@ Encapsulate Object for a Shutter Speed value
     </tr><tr>
     <td>68</td><td><code>number</code></td><td><code>0.3</code></td>
     </tr><tr>
-    <td>69</td><td><code>number</code></td><td><code>0.3</code></td>
-    </tr><tr>
     <td>72</td><td><code>number</code></td><td><code>0.25</code></td>
     </tr><tr>
     <td>75</td><td><code>number</code></td><td><code>0.2</code></td>
     </tr><tr>
     <td>76</td><td><code>number</code></td><td><code>0.16666666666666666</code></td>
     </tr><tr>
-    <td>77</td><td><code>number</code></td><td><code>0.16666666666666666</code></td>
-    </tr><tr>
     <td>80</td><td><code>number</code></td><td><code>0.125</code></td>
-    </tr><tr>
-    <td>83</td><td><code>number</code></td><td><code>0.1</code></td>
     </tr><tr>
     <td>84</td><td><code>number</code></td><td><code>0.1</code></td>
     </tr><tr>
@@ -4342,9 +4662,7 @@ Encapsulate Object for a Shutter Speed value
     </tr><tr>
     <td>88</td><td><code>number</code></td><td><code>0.06666666666666667</code></td>
     </tr><tr>
-    <td>91</td><td><code>number</code></td><td><code>0.05</code></td>
-    </tr><tr>
-    <td>92</td><td><code>number</code></td><td><code>0.04</code></td>
+    <td>92</td><td><code>number</code></td><td><code>0.05</code></td>
     </tr><tr>
     <td>93</td><td><code>number</code></td><td><code>0.04</code></td>
     </tr><tr>
@@ -4413,6 +4731,37 @@ Encapsulate Object for a Shutter Speed value
     <td>157</td><td><code>number</code></td><td><code>0.00015625</code></td>
     </tr><tr>
     <td>160</td><td><code>number</code></td><td><code>0.000125</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="ShutterSpeed.OneThirdValues"></a>
+
+## ShutterSpeed.OneThirdValues : <code>enum</code>
+**Kind**: static enum of [<code>ShutterSpeed</code>](#ShutterSpeed)  
+**Read only**: true  
+**Properties**
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>21</td><td><code>number</code></td><td><code>20</code></td>
+    </tr><tr>
+    <td>29</td><td><code>number</code></td><td><code>10</code></td>
+    </tr><tr>
+    <td>35</td><td><code>number</code></td><td><code>6</code></td>
+    </tr><tr>
+    <td>69</td><td><code>number</code></td><td><code>0.3</code></td>
+    </tr><tr>
+    <td>77</td><td><code>number</code></td><td><code>0.16666666666666666</code></td>
+    </tr><tr>
+    <td>83</td><td><code>number</code></td><td><code>0.1</code></td>
+    </tr><tr>
+    <td>91</td><td><code>number</code></td><td><code>0.05</code></td>
     </tr>  </tbody>
 </table>
 
@@ -4499,8 +4848,7 @@ Encapsulate Object Event Identifiers For Easy Read And Debug
 <a name="ApiIdentifier+Symbol_toPrimitive"></a>
 
 ## stateEvent.Symbol\_toPrimitive(hint) ⇒ <code>string</code> \| <code>number</code> \| <code>null</code>
-Allows type cast to number and string.
-The string will be a hexadecimal code representation of the number
+Allows type cast to number and string.The string will be a hexadecimal code representation of the number
 
 **Kind**: instance method of [<code>StateEvent</code>](#StateEvent)  
 <table>
