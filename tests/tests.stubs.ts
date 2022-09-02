@@ -1,19 +1,20 @@
-import * as CameraApiStubs from "../src/stubs/index";
-import CommonApertureTests from "./common/Aperture.test";
-import CommonApiErrorTests from "./common/ApiError.test";
-import CommonExposureCompensationTests from "./common/ExposureCompensation.test";
-import CommonFileFormatTests from "./common/FileFormat.test";
-import CommonFlagTests from "./common/Flag.test";
-import CommonISOSensitivityTests from "./common/ISOSensitivity.test";
-import CommonObjectEventTests from "./common/ObjectEvent.test";
-import CommonOptionTests from "./common/Option.test";
-import CommonOutputDeviceTests from "./common/OutputDevice.test";
-import CommonShutterSpeedTests from "./common/ShutterSpeed.test";
-import CommonStateEventTests from "./common/StateEvent.test";
+import * as CameraApiStubs from '../src/stubs/index';
+import CommonApertureTests from './common/Aperture.test';
+import CommonApiErrorTests from './common/ApiError.test';
+import CommonExposureCompensationTests from './common/ExposureCompensation.test';
+import CommonFileFormatTests from './common/FileFormat.test';
+import CommonFlagTests from './common/Flag.test';
+import CommonISOSensitivityTests from './common/ISOSensitivity.test';
+import CommonObjectEventTests from './common/ObjectEvent.test';
+import CommonOptionTests from './common/Option.test';
+import CommonOutputDeviceTests from './common/OutputDevice.test';
+import CommonShutterSpeedTests from './common/ShutterSpeed.test';
+import CommonStateEventTests from './common/StateEvent.test';
 
 describe(
     'Stubs Tests',
     () => {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         const stubs = CameraApiStubs as any;
         CommonApertureTests(stubs);
         CommonApiErrorTests(stubs);
@@ -26,5 +27,5 @@ describe(
         CommonOutputDeviceTests(stubs);
         CommonShutterSpeedTests(stubs);
         CommonStateEventTests(stubs);
-    }
+    },
 );

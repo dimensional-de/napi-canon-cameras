@@ -16,7 +16,7 @@ export class Directory implements DirectoryEntry {
      * @implements DirectoryEntry
      */
     private constructor() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     [Symbol.toStringTag] = 'Directory';
@@ -26,7 +26,7 @@ export class Directory implements DirectoryEntry {
      * @return {string}
      */
     get name(): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -34,22 +34,21 @@ export class Directory implements DirectoryEntry {
      * @return {number}
      */
     get length(): number {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
      * @return {DirectoryEntry[]}
      */
     getEntries(): DirectoryEntry[] {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     [Symbol.iterator](): DirectoryEntry[] {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     // Generate: Directory
-
 
     // GenerateEnd
 }

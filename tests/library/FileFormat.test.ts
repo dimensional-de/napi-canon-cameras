@@ -1,5 +1,5 @@
-import * as util from "util";
-import * as CameraApi from "../../stubs/public_api";
+import * as util from 'util';
+import * as CameraApi from '../../stubs/public_api';
 
 const LibraryFileFormatTests = (api: typeof CameraApi) => {
     describe(
@@ -10,11 +10,11 @@ const LibraryFileFormatTests = (api: typeof CameraApi) => {
                 () => {
                     const value = new api.FileFormat(api.FileFormat.ID.CR2);
                     expect(
-                        util.inspect(value)
+                        util.inspect(value),
                     ).toBe('FileFormat <CR2>');
-                }
+                },
             );
-        }
+        },
     );
-}
+};
 export default LibraryFileFormatTests;

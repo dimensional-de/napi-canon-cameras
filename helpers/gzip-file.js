@@ -11,9 +11,8 @@ if (files.length > 0) {
             zlib.gzipSync(fs.readFileSync(sourceFile))
         );
     } else {
-        throw new Error("File not found: " + sourceFile);
+        throw new Error(`File not found: ${sourceFile}`);
     }
 } else {
-    throw new Error("File argument missing.");
+    throw new Error('File argument missing.');
 }
-

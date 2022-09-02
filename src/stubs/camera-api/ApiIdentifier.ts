@@ -1,7 +1,6 @@
-
 export abstract class ApiIdentifier {
 
-    [Symbol.toStringTag] = "ApiIdentifier";
+    [Symbol.toStringTag] = 'ApiIdentifier';
 
     private readonly label_: string;
 
@@ -15,10 +14,12 @@ export abstract class ApiIdentifier {
      */
     protected constructor(
         private readonly identifier_: number,
-        private readonly labels: {[label: string]: number}
+        private readonly labels: { [label: string]: number },
     ) {
-       this.label_ = Object.keys(labels).find(key => labels[key] === identifier_) ||
-           `0x${this.identifier_.toString(16).padStart(8, '0')}`;
+        this.label_ = (
+            Object.keys(labels).find(key => labels[key] === identifier_) ||
+            `0x${this.identifier_.toString(16).padStart(8, '0')}`
+        );
     }
 
     /**
@@ -49,7 +50,7 @@ export abstract class ApiIdentifier {
      * @return {string|number|null}
      */
     [Symbol.toPrimitive](hint: string): string | number | null {
-        switch(hint) {
+        switch (hint) {
             case 'number':
                 return this.identifier_;
             case 'string':
@@ -70,10 +71,10 @@ export abstract class ApiIdentifier {
     /**
      * @return {{identifier: number, label: string}}
      */
-    toJSON(): {identifier: number, label: string} {
+    toJSON(): { identifier: number, label: string } {
         return {
             identifier: this.identifier_,
-            label: this.label_
-        }
+            label: this.label_,
+        };
     }
 }
