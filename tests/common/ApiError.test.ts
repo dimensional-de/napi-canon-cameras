@@ -1,4 +1,4 @@
-import * as CameraApi from "../../stubs/public_api";
+import * as CameraApi from '../../stubs/public_api';
 
 const CommonApiErrorTests = (api: typeof CameraApi) => {
     describe(
@@ -9,14 +9,14 @@ const CommonApiErrorTests = (api: typeof CameraApi) => {
                 () => {
                     const error = new api.ApiError(api.ApiError.Code.UNKNOWN_COMMAND);
                     expect(error.identifier).toStrictEqual(api.ApiError.Code.UNKNOWN_COMMAND);
-                }
+                },
             );
             test(
                 'ApiError.label',
                 () => {
                     const error = new api.ApiError(api.ApiError.Code.UNKNOWN_COMMAND);
                     expect(error.label).toStrictEqual('UNKNOWN_COMMAND');
-                }
+                },
             );
             test(
                 'ApiError.toJSON()',
@@ -25,11 +25,11 @@ const CommonApiErrorTests = (api: typeof CameraApi) => {
                     const json = JSON.parse(JSON.stringify(error));
                     expect(json).toStrictEqual(
                         {
-                            "identifier": api.ApiError.Code.UNKNOWN_COMMAND,
-                            "label": "UNKNOWN_COMMAND"
-                        }
+                            'identifier': api.ApiError.Code.UNKNOWN_COMMAND,
+                            'label': 'UNKNOWN_COMMAND',
+                        },
                     );
-                }
+                },
             );
             test(
                 'ApiError.equalTo()',
@@ -37,7 +37,7 @@ const CommonApiErrorTests = (api: typeof CameraApi) => {
                     const error = new api.ApiError(api.ApiError.Code.COMM_PORT_IS_IN_USE);
                     expect(error.equalTo(api.ApiError.Code.COMM_PORT_IS_IN_USE)).toStrictEqual(true);
                     expect(error.equalTo(api.ApiError.Code.UNKNOWN_COMMAND)).toStrictEqual(false);
-                }
+                },
             );
             test(
                 'ApiError[@@toPrimitive]',
@@ -45,16 +45,16 @@ const CommonApiErrorTests = (api: typeof CameraApi) => {
                     const error = new api.ApiError(api.ApiError.Code.COMM_PORT_IS_IN_USE);
                     expect(String(error)).toStrictEqual('0x000000c0');
                     expect(+(error)).toStrictEqual(api.ApiError.Code.COMM_PORT_IS_IN_USE);
-                }
+                },
             );
             test(
                 'ApiError[@@toStringTag]',
                 () => {
                     const error = new api.ApiError(api.ApiError.Code.COMM_PORT_IS_IN_USE);
                     expect(Object.prototype.toString.call(error)).toStrictEqual('[object ApiError]');
-                }
+                },
             );
-        }
+        },
     );
-}
+};
 export default CommonApiErrorTests;

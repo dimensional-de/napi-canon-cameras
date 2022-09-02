@@ -7,11 +7,11 @@ try {
     camera.setEventHandler(
         (eventName, eventData) => {
             if (eventName === Camera.EventName.StateChange) {
-                console.log(eventName, eventData)
+                console.log(eventName, eventData);
             } else {
                 console.log(eventName);
             }
-        }
+        },
     );
     if (camera) {
         camera.connect(true);
@@ -20,5 +20,3 @@ try {
 } catch (e) {
     console.error(e);
 }
-
-

@@ -1,12 +1,13 @@
-import { PropertyValue } from "./CameraProperty";
+import { PropertyValue } from './CameraProperty';
 
-type OutputDeviceStatusList = {[deviceName: string]: boolean};
+type OutputDeviceStatusList = { [deviceName: string]: boolean };
 
 export class OutputDevice implements PropertyValue {
 
     [Symbol.toStringTag] = 'OutputDevice';
 
     private readonly label_: string = '';
+
     private readonly value_: number;
 
     /**
@@ -15,7 +16,7 @@ export class OutputDevice implements PropertyValue {
      * @param {number | boolean} value
      */
     constructor(
-        value: number
+        value: number,
     ) {
         this.value_ = value;
         const deviceNames = [];
@@ -24,7 +25,7 @@ export class OutputDevice implements PropertyValue {
                 OutputDevice.ID[deviceName] > 0 &&
                 this.isEnabled(OutputDevice.ID[deviceName])
             ) {
-                deviceNames.push(deviceName)
+                deviceNames.push(deviceName);
             }
         }
         this.label_ = deviceNames.join(', ');
@@ -74,10 +75,10 @@ export class OutputDevice implements PropertyValue {
      * @returns {OutputDeviceStatusList}
      */
     getDevices(): OutputDeviceStatusList {
-        const devices: {[name: string]: boolean} = {};
+        const devices: { [name: string]: boolean } = {};
         for (const deviceName of Object.keys(OutputDevice.ID)) {
             if (OutputDevice.ID[deviceName] > 0) {
-                devices[deviceName] = this.isEnabled(OutputDevice.ID[deviceName])
+                devices[deviceName] = this.isEnabled(OutputDevice.ID[deviceName]);
             }
         }
         return devices;
@@ -86,11 +87,11 @@ export class OutputDevice implements PropertyValue {
     /**
      * @return {{label: string, value: number, devices: OutputDeviceStatusList}}
      */
-    toJSON(): {label: string, value: number, devices: OutputDeviceStatusList} {
+    toJSON(): { label: string, value: number, devices: OutputDeviceStatusList } {
         return {
             label: this.label,
             value: this.value,
-            devices: this.getDevices()
+            devices: this.getDevices(),
         };
     }
 
@@ -105,7 +106,7 @@ export class OutputDevice implements PropertyValue {
         let value = OutputDevice.ID.None;
         for (const deviceName of deviceNames) {
             if (deviceName in OutputDevice.ID) {
-                value |= OutputDevice.ID[deviceName]
+                value |= OutputDevice.ID[deviceName];
             }
         }
         return new OutputDevice(value);
@@ -117,7 +118,12 @@ export class OutputDevice implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID: {[label: string]: number} = {"None":0,"PC":2,"PCSmall":8,"TFT":1};
+    static readonly ID: {[key: string]: number} = {
+        'None': 0,
+        'PC': 2,
+        'PCSmall': 8,
+        'TFT': 1,
+    };
 
     // GenerateEnd
 }

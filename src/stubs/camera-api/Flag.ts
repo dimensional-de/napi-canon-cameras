@@ -1,4 +1,4 @@
-import { PropertyValue } from "./CameraProperty";
+import { PropertyValue } from './CameraProperty';
 
 export class Flag implements PropertyValue {
 
@@ -15,7 +15,7 @@ export class Flag implements PropertyValue {
     constructor(
         value: number | boolean
     ) {
-        if (typeof value === "boolean") {
+        if (typeof value === 'boolean') {
             this.value_ = value ? Flag.True : Flag.False;
         } else if (value === Flag.True) {
             this.value_ = Flag.True;
@@ -99,12 +99,13 @@ export class Flag implements PropertyValue {
      * @readonly
      * @type {number}
      */
-     static readonly True: number = 1;
+    static readonly True = 1;
+
     /**
      * @readonly
      * @type {number}
      */
-     static readonly False: number = 0;
+    static readonly False = 0;
 
     // GenerateEnd
 }

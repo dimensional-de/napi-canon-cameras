@@ -4,7 +4,7 @@ AddOn.watchCameras = (timeout) => {
     let running = true;
     const stop = () => {
         running = false;
-    }
+    };
     const watch = async () => {
         while (running) {
             AddOn.cameraBrowser.triggerEvents();
@@ -13,7 +13,7 @@ AddOn.watchCameras = (timeout) => {
     };
     watch().finally();
     return stop;
-}
+};
 
 /**
  * @type {CanonApi}

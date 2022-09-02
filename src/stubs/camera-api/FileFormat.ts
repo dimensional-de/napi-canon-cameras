@@ -1,4 +1,4 @@
-import { PropertyValue } from "./CameraProperty";
+import { PropertyValue } from './CameraProperty';
 
 export class FileFormat implements PropertyValue {
 
@@ -57,7 +57,14 @@ export class FileFormat implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly ID: {[label: string]: number} = {"CR2":45315,"CR3":45320,"HEIF_CODE":45323,"JPEG":14337,"MP4":47490,"Unknown":0};
+    static readonly ID: {[key: string]: number} = {
+        'CR2': 45315,
+        'CR3': 45320,
+        'HEIF_CODE': 45323,
+        'JPEG': 14337,
+        'MP4': 47490,
+        'Unknown': 0,
+    };
 
     // GenerateEnd
 }

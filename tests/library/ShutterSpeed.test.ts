@@ -1,5 +1,5 @@
-import * as util from "util";
-import * as CameraApi from "../../stubs/public_api";
+import * as util from 'util';
+import * as CameraApi from '../../stubs/public_api';
 
 const LibraryShutterSpeedTests = (api: typeof CameraApi) => {
     describe(
@@ -25,5 +25,5 @@ const LibraryShutterSpeedTests = (api: typeof CameraApi) => {
             );
         }
     );
-}
+};
 export default LibraryShutterSpeedTests;

@@ -1,11 +1,11 @@
-import {Camera} from "./Camera";
-import {CameraProperty} from "./CameraProperty";
-import {CameraFile} from "./CameraFile";
-import { Directory } from "./Directory";
-import {ObjectEvent} from "./ObjectEvent";
-import {StateEvent} from "./StateEvent";
-import {ApiError} from "./ApiError";
-import { Volume } from "./Volume";
+import { ApiError } from './ApiError';
+import { Camera } from './Camera';
+import { CameraFile } from './CameraFile';
+import { CameraProperty } from './CameraProperty';
+import { Directory } from './Directory';
+import { ObjectEvent } from './ObjectEvent';
+import { StateEvent } from './StateEvent';
+import { Volume } from './Volume';
 
 export class CameraBrowser {
 
@@ -41,6 +41,7 @@ export class CameraBrowser {
      * ```
      */
     constructor() {
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -48,28 +49,28 @@ export class CameraBrowser {
      * @param {EventCallback} listener
      */
     setEventHandler(listener: EventCallback) {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
      * Initialize SDK
      */
     initialize() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
      * Terminate SDK and free all resources
      */
     terminate() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
      * Trigger SDK events
      */
     triggerEvents() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -80,7 +81,7 @@ export class CameraBrowser {
      * @param {boolean} [exactOnly=false]
      */
     getCamera(at: string | number = 0, exactOnly = false): Camera {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -89,24 +90,40 @@ export class CameraBrowser {
      * @return {Camera[]}
      */
     getCameras(): Camera[] {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
      * Update internal camera list
      */
     update() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
-
-// Generate: CameraBrowser
+    // Generate: CameraBrowser
 
     /**
      * @readonly
      * @enum {string}
      */
-     static readonly EventName: {[label: string]: string} = {"CameraAdd":"CameraAdd","CameraConnect":"CameraConnect","CameraDisconnect":"CameraDisconnect","CameraRemove":"CameraRemove","DirectoryCreate":"DirectoryCreate","DownloadRequest":"DownloadRequest","Error":"Error","FileCreate":"FileCreate","KeepAlive":"KeepAlive","LiveViewStart":"LiveViewStart","LiveViewStop":"LiveViewStop","ObjectChange":"ObjectChange","PropertyChangeOptions":"PropertyChangeOptions","PropertyChangeValue":"PropertyChangeValue","StateChange":"StateChange","VolumeChange":"VolumeChange"};
+    static readonly EventName: {[key: string]: string} = {
+        'CameraAdd': 'CameraAdd',
+        'CameraConnect': 'CameraConnect',
+        'CameraDisconnect': 'CameraDisconnect',
+        'CameraRemove': 'CameraRemove',
+        'DirectoryCreate': 'DirectoryCreate',
+        'DownloadRequest': 'DownloadRequest',
+        'Error': 'Error',
+        'FileCreate': 'FileCreate',
+        'KeepAlive': 'KeepAlive',
+        'LiveViewStart': 'LiveViewStart',
+        'LiveViewStop': 'LiveViewStop',
+        'ObjectChange': 'ObjectChange',
+        'PropertyChangeOptions': 'PropertyChangeOptions',
+        'PropertyChangeValue': 'PropertyChangeValue',
+        'StateChange': 'StateChange',
+        'VolumeChange': 'VolumeChange',
+    };
 
     // GenerateEnd
 }

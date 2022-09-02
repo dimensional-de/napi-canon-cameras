@@ -1,10 +1,11 @@
-import { PropertyValue } from "./CameraProperty";
+import { PropertyValue } from './CameraProperty';
 
 export class ExposureCompensation implements PropertyValue {
 
     [Symbol.toStringTag] = 'ExposureCompensation';
 
     private readonly compensation_: number;
+
     private readonly label_: string;
 
     /**
@@ -13,7 +14,7 @@ export class ExposureCompensation implements PropertyValue {
      * @param {number} value_
      */
     constructor(
-        private readonly value_: number
+        private readonly value_: number,
     ) {
         this.compensation_ = ExposureCompensation.Values[value_] || 0;
         this.label_ = ExposureCompensation.getLabelForCompensation(this.compensation_);
@@ -22,17 +23,17 @@ export class ExposureCompensation implements PropertyValue {
     private static getLabelForCompensation(compensation: number): string {
         let label = '';
         if (compensation === 0) {
-            return "0";
+            return '0';
         }
         const full = compensation > 0 ? Math.floor(compensation) : Math.ceil(compensation);
         const fraction = Math.abs(compensation - full);
         label = full > 0 ? '+' + String(full) : String(full);
         if (fraction > 0.6) {
-            label += " 2/3";
+            label += ' 2/3';
         } else if (fraction > 0.49) {
-            label += " 1/2";
+            label += ' 1/2';
         } else if (fraction > 0.3) {
-            label += " 1/3";
+            label += ' 1/3';
         }
         return label;
     }
@@ -88,15 +89,15 @@ export class ExposureCompensation implements PropertyValue {
                 if (difference < carry.difference) {
                     return {
                         value: +key,
-                        difference
+                        difference,
                     };
                 }
                 return carry;
             },
             {
                 value: 0,
-                difference: 100
-            }
+                difference: 100,
+            },
         );
         if (found) {
             return found.value;
@@ -136,7 +137,49 @@ export class ExposureCompensation implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-     static readonly Values: {[label: string]: number} = {"0":0,"3":0.3333333333333333,"4":0.5,"5":0.6666666666666666,"8":1,"11":1.3333333333333333,"12":1.5,"13":1.6666666666666665,"16":2,"19":2.3333333333333335,"20":2.5,"21":2.6666666666666665,"24":3,"27":3.3333333333333335,"28":3.5,"29":3.6666666666666665,"32":4,"35":4.333333333333333,"36":4.5,"37":4.666666666666667,"40":5,"216":-5,"219":-4.666666666666667,"220":-4.5,"221":-4.333333333333333,"224":-4,"227":-3.6666666666666665,"228":-3.5,"229":-3.3333333333333335,"232":-3,"235":-2.6666666666666665,"236":-2.5,"237":-2.3333333333333335,"240":-2,"243":-1.6666666666666665,"244":-1.5,"245":-1.3333333333333333,"248":-1,"251":-0.6666666666666666,"252":-0.5,"253":-0.3333333333333333};
+    static readonly Values: {[key: string]: number} = {
+        '0': 0,
+        '3': 0.3333333333333333,
+        '4': 0.5,
+        '5': 0.6666666666666666,
+        '8': 1,
+        '11': 1.3333333333333333,
+        '12': 1.5,
+        '13': 1.6666666666666665,
+        '16': 2,
+        '19': 2.3333333333333335,
+        '20': 2.5,
+        '21': 2.6666666666666665,
+        '24': 3,
+        '27': 3.3333333333333335,
+        '28': 3.5,
+        '29': 3.6666666666666665,
+        '32': 4,
+        '35': 4.333333333333333,
+        '36': 4.5,
+        '37': 4.666666666666667,
+        '40': 5,
+        '216': -5,
+        '219': -4.666666666666667,
+        '220': -4.5,
+        '221': -4.333333333333333,
+        '224': -4,
+        '227': -3.6666666666666665,
+        '228': -3.5,
+        '229': -3.3333333333333335,
+        '232': -3,
+        '235': -2.6666666666666665,
+        '236': -2.5,
+        '237': -2.3333333333333335,
+        '240': -2,
+        '243': -1.6666666666666665,
+        '244': -1.5,
+        '245': -1.3333333333333333,
+        '248': -1,
+        '251': -0.6666666666666666,
+        '252': -0.5,
+        '253': -0.3333333333333333,
+    };
 
     // GenerateEnd
 }

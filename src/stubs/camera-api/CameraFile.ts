@@ -1,5 +1,5 @@
-import { DirectoryEntry } from "./Directory";
-import { FileFormat } from "./FileFormat";
+import { DirectoryEntry } from './Directory';
+import { FileFormat } from './FileFormat';
 
 export class CameraFile implements DirectoryEntry {
 
@@ -9,7 +9,7 @@ export class CameraFile implements DirectoryEntry {
      * @implements DirectoryEntry
      */
     constructor() {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     [Symbol.toStringTag] = 'CameraFile';
@@ -19,7 +19,7 @@ export class CameraFile implements DirectoryEntry {
      * @readonly
      */
     get name(): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -27,7 +27,7 @@ export class CameraFile implements DirectoryEntry {
      * @readonly
      */
     get localFile(): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -35,7 +35,7 @@ export class CameraFile implements DirectoryEntry {
      * @readonly
      */
     get groupID(): number {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -43,7 +43,7 @@ export class CameraFile implements DirectoryEntry {
      * @readonly
      */
     get size(): number {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -51,7 +51,7 @@ export class CameraFile implements DirectoryEntry {
      * @readonly
      */
     get format(): FileFormat {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -61,7 +61,7 @@ export class CameraFile implements DirectoryEntry {
      * @return {string} local file name
      */
     downloadToPath(path: string): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -71,7 +71,7 @@ export class CameraFile implements DirectoryEntry {
      * @return {string} local file name
      */
     downloadToFile(fileName: string): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 
     /**
@@ -80,7 +80,7 @@ export class CameraFile implements DirectoryEntry {
      * @return {string} base64 encoded string
      */
     downloadToString(): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
     /**
      * Download thumbnail into a base64 encoded string
@@ -88,6 +88,6 @@ export class CameraFile implements DirectoryEntry {
      * @return {string} base64 encoded string
      */
     downloadThumbnailToString(): string {
-        throw new Error("Not implemented - stub only.");
+        throw new Error('Not implemented - stub only.');
     }
 }

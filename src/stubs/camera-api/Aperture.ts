@@ -108,8 +108,7 @@ export class Aperture implements PropertyValue {
         } else {
             aperture = (new Aperture(valueOrLabel)).aperture;
         }
-        let found;
-        found = Object.keys(Aperture.AllValues).reduce(
+        const found = Object.keys(Aperture.AllValues).reduce(
             (carry: null | { value: number, difference: number }, key) => {
                 const current = Aperture.AllValues[key];
                 const difference = Math.abs(current - aperture);
@@ -164,13 +163,16 @@ export class Aperture implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-    static readonly ID: { [label: string]: number } = { 'Auto': 0, 'NotValid': 4294967295 };
+    static readonly ID: {[key: string]: number} = {
+        'Auto': 0,
+        'NotValid': 4294967295,
+    };
 
     /**
      * @readonly
      * @enum {number}
      */
-    static readonly OneHalfValues: { [label: string]: number } = {
+    static readonly OneHalfValues: {[key: string]: number} = {
         '8': 1,
         '11': 1.1,
         '12': 1.2,
@@ -226,7 +228,7 @@ export class Aperture implements PropertyValue {
      * @readonly
      * @enum {number}
      */
-    static readonly OneThirdValues: { [label: string]: number } = {
+    static readonly OneThirdValues: {[key: string]: number} = {
         '13': 1.2,
         '21': 1.8,
         '29': 2.5,
@@ -236,5 +238,5 @@ export class Aperture implements PropertyValue {
 
     // GenerateEnd
 
-    static readonly AllValues = {...Aperture.OneHalfValues, ...Aperture.OneThirdValues};
+    static readonly AllValues = { ...Aperture.OneHalfValues, ...Aperture.OneThirdValues };
 }

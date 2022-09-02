@@ -1,5 +1,5 @@
-import { TimeZone } from "../../src/stubs";
-import * as CameraApi from "../../stubs/public_api";
+import { TimeZone } from '../../src/stubs';
+import * as CameraApi from '../../stubs/public_api';
 
 const CommonTimeZoneTests = (api: typeof CameraApi) => {
     describe(
@@ -13,7 +13,7 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('+00:00 UTC');
                     expect(timeZone.zone).toStrictEqual(0xFFFF);
                     expect(timeZone.difference).toStrictEqual(0);
-                }
+                },
             );
             test(
                 'TimeZone, +01:00 Paris',
@@ -23,7 +23,7 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('+01:00 Paris');
                     expect(timeZone.zone).toStrictEqual(19);
                     expect(timeZone.difference).toStrictEqual(60);
-                }
+                },
             );
             test(
                 'TimeZone, -04:00 New York',
@@ -33,7 +33,7 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('-04:00 New York');
                     expect(timeZone.zone).toStrictEqual(27);
                     expect(timeZone.difference).toStrictEqual(60 * -4);
-                }
+                },
             );
             test(
                 'TimeZone, -06:00 Chicago',
@@ -43,7 +43,7 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('-06:00 Chicago');
                     expect(timeZone.zone).toStrictEqual(28);
                     expect(timeZone.difference).toStrictEqual(60 * -6);
-                }
+                },
             );
             test(
                 'TimeZone, -06:00 Denver',
@@ -53,7 +53,7 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('-06:00 Denver');
                     expect(timeZone.zone).toStrictEqual(29);
                     expect(timeZone.difference).toStrictEqual(60 * -6);
-                }
+                },
             );
             test(
                 'TimeZone, -08:00 Los Angeles',
@@ -63,9 +63,9 @@ const CommonTimeZoneTests = (api: typeof CameraApi) => {
                     expect(timeZone.label).toStrictEqual('-08:00 Los Angeles');
                     expect(timeZone.zone).toStrictEqual(30);
                     expect(timeZone.difference).toStrictEqual(60 * -8);
-                }
+                },
             );
-        }
+        },
     );
-}
+};
 export default CommonTimeZoneTests;
