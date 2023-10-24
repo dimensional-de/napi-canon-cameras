@@ -357,13 +357,16 @@ namespace CameraApi {
                 it.second, Napi::Number::New(env, it.first)
             );
         }
+        Napi::Object AllValues = Napi::Object::New(env);
         Napi::Object OnHalfValues = Napi::Object::New(env);
         for (const auto &it : OneHalfShutterSpeedValues()) {
             OnHalfValues.Set(it.first, it.second);
+            AllValues.Set(it.first, it.second);
         }
         Napi::Object OneThirdValues = Napi::Object::New(env);
         for (const auto &it : OneThirdShutterSpeedValues()) {
             OneThirdValues.Set(it.first, it.second);
+            AllValues.Set(it.first, it.second);
         }
 
         std::vector <PropertyDescriptor> properties = {
@@ -383,7 +386,8 @@ namespace CameraApi {
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("OneHalfValues", OnHalfValues, napi_enumerable),
-            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable)
+            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable),
+            StaticValue("AllValues", AllValues, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, ShutterSpeed::JSClassName, properties);

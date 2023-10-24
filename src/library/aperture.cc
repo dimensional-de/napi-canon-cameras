@@ -328,13 +328,16 @@ namespace CameraApi {
                 it.second, Napi::Number::New(env, it.first)
             );
         }
+        Napi::Object AllValues = Napi::Object::New(env);
         Napi::Object OneHalfValues = Napi::Object::New(env);
         for (const auto &it : OneHalfApertureValues()) {
             OneHalfValues.Set(it.first, it.second);
+            AllValues.Set(it.first, it.second);
         }
         Napi::Object OneThirdValues = Napi::Object::New(env);
         for (const auto &it : OneThirdApertureValues()) {
             OneThirdValues.Set(it.first, it.second);
+            AllValues.Set(it.first, it.second);
         }
 
         std::vector<PropertyDescriptor> properties = {
@@ -353,7 +356,8 @@ namespace CameraApi {
 
             StaticValue("ID", IDs, napi_enumerable),
             StaticValue("OneHalfValues", OneHalfValues, napi_enumerable),
-            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable)
+            StaticValue("OneThirdValues", OneThirdValues, napi_enumerable),
+            StaticValue("AllValues", AllValues, napi_enumerable)
         };
 
         Napi::Function func = DefineClass(env, Aperture::JSClassName, properties);
