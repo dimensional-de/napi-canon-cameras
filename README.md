@@ -108,7 +108,7 @@ to build a TGZ.
     package name)
  3. Run `npm run package`
  4. Look for `../node_packages/@dimensional/napi-canon-cameras.tgz`
- 5. `cd ../YourProject` (Switch tp your project directory)
+ 5. `cd ../YourProject` (Switch to your project directory)
  6. `npm i ../node_packages/@dimensional/napi-canon-cameras.tgz`
 
 The current EDSDK versions have a bug in `EDSDKTypes.h`. The keys are missing
