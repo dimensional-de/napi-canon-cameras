@@ -36,9 +36,6 @@ jobs:
           7z x 76517f64-edsdkv131712m.zip
           7z x b95f9b3e-edsdkv131712w.zip
 
-          ls -la .
-          ls -la ..
-
       - name: Install dependencies
         run: |
           npm ci
