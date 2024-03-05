@@ -30,7 +30,6 @@ tar.pack(
             'package.json',
             'package-lock.json',
             'README.md',
-            '.npmrc'
         ],
         map: function (header) {
             header.name = './' + header.name;
