@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 for (const file of [
-    'third_party/EDSDKv131712L/Linux/EDSDK/Header/EDSDKTypes.h',
+    //'third_party/EDSDKv131712L/Linux/EDSDK/Header/EDSDKTypes.h',
     'third_party/EDSDKv131712W/Windows/EDSDK/Header/EDSDKTypes.h',
 ]) {
     const originalData = fs.readFileSync(file, 'utf8');
