@@ -1,0 +1,49 @@
+name: Build & package
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'fixes'
+
+jobs:
+  release:
+    name: Build & package
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Clone source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Download EDSDK
+        run: |
+          curl https://uploads.brickfilms.com/files/1/b85ed494-edsdkv131712l.zip -o third_party/b85ed494-edsdkv131712l.zip
+          curl https://uploads.brickfilms.com/files/1/76517f64-edsdkv131712m.zip -o third_party/76517f64-edsdkv131712m.zip
+          curl https://uploads.brickfilms.com/files/1/b95f9b3e-edsdkv131712w.zip -o third_party/b95f9b3e-edsdkv131712w.zip
+          
+          7z x third_party/b85ed494-edsdkv131712l.zip
+          7z x third_party/76517f64-edsdkv131712m.zip
+          7z x third_party/b95f9b3e-edsdkv131712w.zip
+
+          ls -la  third_party/
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Package
+        run: npm run package
+        env:
+          CI: true
+
