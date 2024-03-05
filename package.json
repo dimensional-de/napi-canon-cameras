@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "node-addon-api": "^5.0.0",
-    "node-gyp-build": "^4.5.0"
+    "node-gyp-build": "^4.8.0"
   },
   "devDependencies": {
     "@babel/types": "^7.18.9",
