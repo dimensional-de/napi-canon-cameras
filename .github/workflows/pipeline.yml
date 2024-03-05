@@ -31,12 +31,13 @@ jobs:
           curl https://uploads.brickfilms.com/files/1/b85ed494-edsdkv131712l.zip -o third_party/b85ed494-edsdkv131712l.zip
           curl https://uploads.brickfilms.com/files/1/76517f64-edsdkv131712m.zip -o third_party/76517f64-edsdkv131712m.zip
           curl https://uploads.brickfilms.com/files/1/b95f9b3e-edsdkv131712w.zip -o third_party/b95f9b3e-edsdkv131712w.zip
-          
-          7z x third_party/b85ed494-edsdkv131712l.zip
-          7z x third_party/76517f64-edsdkv131712m.zip
-          7z x third_party/b95f9b3e-edsdkv131712w.zip
+          cd third_party/
+          7z x b85ed494-edsdkv131712l.zip
+          7z x 76517f64-edsdkv131712m.zip
+          7z x b95f9b3e-edsdkv131712w.zip
 
-          ls -la  third_party/
+          ls -la .
+          ls -la ..
 
       - name: Install dependencies
         run: |
