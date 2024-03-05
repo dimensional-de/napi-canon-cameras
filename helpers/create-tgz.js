@@ -6,7 +6,7 @@ const sourceDirectory = path.resolve(
     __dirname, '..'
 );
 const targetDirectory = path.resolve(
-    __dirname, '..', 'dist',
+    __dirname, '..', 'dist', '@brick-a-brack',
 );
 const targetFile = path.resolve(
     targetDirectory, 'napi-canon-cameras.tgz'

@@ -28,12 +28,8 @@ jobs:
 
       - name: Download EDSDK
         run: |
-          curl https://uploads.brickfilms.com/files/1/b85ed494-edsdkv131712l.zip -o third_party/b85ed494-edsdkv131712l.zip
-          curl https://uploads.brickfilms.com/files/1/76517f64-edsdkv131712m.zip -o third_party/76517f64-edsdkv131712m.zip
           curl https://uploads.brickfilms.com/files/1/b95f9b3e-edsdkv131712w.zip -o third_party/b95f9b3e-edsdkv131712w.zip
           cd third_party/
-          7z x b85ed494-edsdkv131712l.zip
-          7z x 76517f64-edsdkv131712m.zip
           7z x b95f9b3e-edsdkv131712w.zip
 
       - name: Patch EDSDKTypes.h file
@@ -48,14 +44,8 @@ jobs:
         env:
           CI: true
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@brick-a-brack'
-
-      - name: Publish
+      - name: Publish to Github Packages
         run: |
-          npm publish dist/napi-canon-cameras.tgz
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "@brick-a-brack:registry=https://npm.pkg.github.com" >> %USERPROFILE%\.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> %USERPROFILE%\.npmrc
+          npm publish dist/@brick-a-brack/napi-canon-cameras.tgz
