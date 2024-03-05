@@ -6,7 +6,7 @@ const sourceDirectory = path.resolve(
     __dirname, '..'
 );
 const targetDirectory = path.resolve(
-    __dirname, '../..', 'node_packages/@dimensional'
+    __dirname, '..', 'dist',
 );
 const targetFile = path.resolve(
     targetDirectory, 'napi-canon-cameras.tgz'

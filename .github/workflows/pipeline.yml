@@ -37,7 +37,7 @@ jobs:
           7z x b95f9b3e-edsdkv131712w.zip
 
       - name: Patch EDSDKTypes.h file
-        run: node .github/workflows/patch.js
+        run: node helpers/patch-headers.js
 
       - name: Install dependencies
         run: |
@@ -48,3 +48,14 @@ jobs:
         env:
           CI: true
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@brick-a-brack'
+
+      - name: Publish
+        run: |
+          npm publish dist/napi-canon-cameras.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

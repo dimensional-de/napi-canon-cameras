@@ -1,5 +1,5 @@
 {
-  "name": "@dimensional/napi-canon-cameras",
+  "name": "@brick-a-brack/napi-canon-cameras",
   "version": "0.1.0",
   "description": "Node AddOn Api module for Canon cameras. Wrapper for the Canon EDSDK.",
   "keywords": [
