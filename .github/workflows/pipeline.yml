@@ -46,6 +46,6 @@ jobs:
 
       - name: Publish to Github Packages
         run: |
-          echo "@brick-a-brack:registry=https://npm.pkg.github.com" >> %USERPROFILE%\.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> %USERPROFILE%\.npmrc
           npm publish dist/@brick-a-brack/napi-canon-cameras.tgz
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

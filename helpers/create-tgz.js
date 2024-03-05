@@ -29,7 +29,8 @@ tar.pack(
             'LICENSE',
             'package.json',
             'package-lock.json',
-            'README.md'
+            'README.md',
+            '.npmrc'
         ],
         map: function (header) {
             header.name = './' + header.name;

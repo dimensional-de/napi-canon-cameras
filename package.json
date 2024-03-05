@@ -10,6 +10,9 @@
     "canon",
     "dslr"
   ],
+  "publishConfig": {
+    "@brick-a-brack": "https://npm.pkg.github.com"
+  },
   "gypfile": true,
   "main": "camera-api.js",
   "browser": "camera-api-stubs.js",
@@ -40,7 +43,7 @@
   "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "git@github.com:dimensional-de/napi-canon-cameras.git"
+    "url": "git@github.com:brick-a-brack/napi-canon-cameras.git"
   },
   "dependencies": {
     "node-addon-api": "^8.0.0",
