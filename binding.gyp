@@ -1,6 +1,6 @@
 {
     "variables": {
-        "edsdk_version": "131520",
+        "edsdk_version": "131800",
         "edsdk_directory%": "EDSDK"
     },
     "defines": [

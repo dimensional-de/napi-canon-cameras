@@ -103,32 +103,13 @@ The package does not include the Canon EDSDK files. To install the package you w
 to build a TGZ.
  
  1. Unpack the Canon EDSDK into `third_party`. Keep the package name as subdirectory.
-    * `EDSDKv131520W.zip` → `third_party/EDSDKv131520W`
+    * `EDSDKv131800W.zip` → `third_party/EDSDKv131800W`
  2. Make sure the variable `edsdk_version` in `binding.gyp` matches the EDSDK version. (The numeric part of the 
     package name)
  3. Run `npm run package`
  4. Look for `../node_packages/@dimensional/napi-canon-cameras.tgz`
  5. `cd ../YourProject` (Switch to your project directory)
  6. `npm i ../node_packages/@dimensional/napi-canon-cameras.tgz`
-
-The current EDSDK versions have a bug in `EDSDKTypes.h`. The keys are missing
-their prefixes. This will result in a conflict at compile time.
-You will need to fix the `EdsObjectFormat` enum. 
-
-```cpp
-/*-----------------------------------------------------------------------------
-ObjectFormat Code
------------------------------------------------------------------------------*/
-typedef enum
-{
-    kEdsObjectFormat_Unknown   = 0x00000000,
-    kEdsObjectFormat_Jpeg      = 0x3801,
-    kEdsObjectFormat_CR2       = 0xB103,
-    kEdsObjectFormat_MP4       = 0xB982,
-    kEdsObjectFormat_CR3       = 0xB108,
-    kEdsObjectFormat_HEIF_CODE = 0xB10B,
-} EdsObjectFormat;
-```
 
 ### NPM Tasks
 

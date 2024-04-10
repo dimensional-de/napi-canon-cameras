@@ -41,7 +41,6 @@ export class CameraBrowser {
      * ```
      */
     constructor() {
-        throw new Error('Not implemented - stub only.');
     }
 
     /**
