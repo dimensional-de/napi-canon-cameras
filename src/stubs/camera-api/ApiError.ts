@@ -2,7 +2,7 @@ import { ApiIdentifier } from './ApiIdentifier';
 
 export class ApiError extends ApiIdentifier {
 
-    [Symbol.toStringTag] = 'ApiError';
+    override [Symbol.toStringTag] = 'ApiError';
 
     /**
      * An internal class that will be added to Exceptions as "EDS_ERROR" property.
@@ -26,7 +26,7 @@ export class ApiError extends ApiIdentifier {
      * @param {number | ApiError} other The other value
      * @return {boolean}
      */
-    equalTo(other: number | ApiError): boolean {
+    override equalTo(other: number | ApiError): boolean {
         return super.equalTo(+other);
     }
 

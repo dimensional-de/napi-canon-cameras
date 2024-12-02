@@ -106,6 +106,6 @@ function generateObjectSource(name, values) {
             ),
         1
     );
-    code += '\n}\n';
+    code += '\n};\n';
     return code;
 }

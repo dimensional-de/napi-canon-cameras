@@ -4,6 +4,7 @@
     "target": "ES2015",
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "noImplicitOverride": true,
     "moduleResolution": "node",
     "lib": [
       "es5",

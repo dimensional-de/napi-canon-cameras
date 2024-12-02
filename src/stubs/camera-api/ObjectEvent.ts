@@ -2,7 +2,7 @@ import { ApiIdentifier } from './ApiIdentifier';
 
 export class ObjectEvent extends ApiIdentifier {
 
-    [Symbol.toStringTag] = 'ObjectEvent';
+    override [Symbol.toStringTag] = 'ObjectEvent';
 
     /**
      * Encapsulate Object Event Identifiers For Easy Read And Debug
@@ -18,7 +18,7 @@ export class ObjectEvent extends ApiIdentifier {
      * @param {number | ObjectEvent} other The other value
      * @return {boolean}
      */
-    equalTo(other: number | ObjectEvent): boolean {
+    override equalTo(other: number | ObjectEvent): boolean {
         return super.equalTo(+other);
     }
 

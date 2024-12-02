@@ -2,7 +2,7 @@ import { ApiIdentifier } from './ApiIdentifier';
 
 export class StateEvent extends ApiIdentifier {
 
-    [Symbol.toStringTag] = 'StateEvent';
+    override [Symbol.toStringTag] = 'StateEvent';
 
     /**
      * Encapsulate Object Event Identifiers For Easy Read And Debug
@@ -18,7 +18,7 @@ export class StateEvent extends ApiIdentifier {
      * @param {number | StateEvent} other The other value
      * @return {boolean}
      */
-    equalTo(other: number | StateEvent): boolean {
+    override equalTo(other: number | StateEvent): boolean {
         return super.equalTo(+other);
     }
 

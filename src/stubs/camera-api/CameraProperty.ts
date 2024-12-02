@@ -1,6 +1,7 @@
 import { Camera } from './Camera';
 
 let STUB = 1;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface PropertyValue {
 }
 /**
