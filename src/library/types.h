@@ -28,16 +28,6 @@
 #define kEdsWhiteBalance_Tungsten   3
 #endif
 
-typedef enum
-{
-    kEdsObjectFormat_Unknown   = 0x00000000,
-    kEdsObjectFormat_Jpeg      = 0x3801,
-    kEdsObjectFormat_CR2       = 0xB103,
-    kEdsObjectFormat_MP4       = 0xB982,
-    kEdsObjectFormat_CR3       = 0xB108,
-    kEdsObjectFormat_HEIF_CODE = 0xB10B,
-} EdsExtendedObjectFormat;
-
 namespace CameraApi {
 
     typedef std::unordered_map<EdsUInt32, std::string> LabelMap;

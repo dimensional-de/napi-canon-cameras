@@ -346,11 +346,19 @@ namespace CameraApi {
             {Evf_AFMode_LiveMulti, "FlexiZoneMulti"},
             {Evf_AFMode_LiveZone, "ZoneAF"},
             {Evf_AFMode_LiveSingleExpandCross, "ExpandAFAreaCross"},
-            {Evf_AFMode_LiveSingleExpandSurround, "ExpandAFAreaAround"},
+            {Evf_AFMode_LiveSingleExpandAround, "ExpandAFAreaAround"},
             {Evf_AFMode_LiveZoneLargeH, "LargeZoneAFHorizontal"},
             {Evf_AFMode_LiveZoneLargeV, "LargeZoneAFVertical"},
             {Evf_AFMode_LiveCatchAF, "TrackingAF"},
             {Evf_AFMode_LiveSpotAF, "SpotAF"},
+            {Evf_AFMode_FlexibleZone1, "FlexibleZone1"},
+            {Evf_AFMode_FlexibleZone2, "FlexibleZone2"},
+            {Evf_AFMode_FlexibleZone3, "FlexibleZone3"},
+            {Evf_AFMode_WholeArea, "WholeArea"},
+            {Evf_AFMode_NoTraking_Spot, "NoTracking_Spot"},
+            {Evf_AFMode_NoTraking_1Point, "NoTracking_1Point"},
+            {Evf_AFMode_NoTraking_ExpandCross, "NoTracking_ExpandCross"},
+            {Evf_AFMode_NoTraking_ExpandAround, "NoTracking_ExpandAround"},
         };
         return map;
     }
@@ -378,7 +386,9 @@ namespace CameraApi {
         static const LabelMap map = {
             {kEdsEvfZoom_Fit, "Fit"},
             {kEdsEvfZoom_x5, "x5"},
+            {kEdsEvfZoom_x6, "x6"},
             {kEdsEvfZoom_x10, "x10"},
+            {kEdsEvfZoom_x15, "x15"},
         };
         return map;
     }

@@ -2,6 +2,8 @@
 
 EDSDK (Canon camera) wrapper module for Node.js
 
+EDSDK Version: 13.18.40
+
 * [Features](#features)
 * [Usage Example](#usage)
 * [Build Package](#build-package)
