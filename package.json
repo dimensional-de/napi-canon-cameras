@@ -20,6 +20,7 @@
     "prebuild": "run-script-os",
     "prebuild:win32": "npm run prebuild:ia32 && npm run prebuild:x64 && npm run build:stubs",
     "prebuild:darwin": "npm run prebuild:x64 && npm run build:stubs",
+    "prebuild:linux": "npm run prebuild:x64 && npm run build:stubs",
     "prebuild:x64": "prebuildify --napi --strip --arch x64 --verbose",
     "prebuild:ia32": "prebuildify --napi --strip --arch ia32 --verbose",
     "build:stubs": "npm run _update:stubs && npm run _build:stubs:types && npm run _build:es2015 && npm run _build:esm && npm run _build:umd && npm run _build:umd:min",
