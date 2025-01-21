@@ -14,13 +14,22 @@ const LibraryExposureCompensationTests = (api: typeof CameraApi) => {
                     ).toBe('ExposureCompensation <0>');
                 },
             );
-            test(
+            test.onWindows(
                 'ExposureCompensation[Symbol.for("nodejs.util.inspect.custom")] with "2 1/2"',
                 () => {
                     const value = new api.ExposureCompensation(0x14);
                     expect(
                         util.inspect(value),
                     ).toBe('ExposureCompensation <+2 1/2>');
+                },
+            );
+            test.onLinux(
+                'ExposureCompensation[Symbol.for("nodejs.util.inspect.custom")] with "2 1/2"  => "+2" (Linux Lib Bug)',
+                () => {
+                    const value = new api.ExposureCompensation(0x14);
+                    expect(
+                        util.inspect(value),
+                    ).toBe('ExposureCompensation <+2>');
                 },
             );
         },
