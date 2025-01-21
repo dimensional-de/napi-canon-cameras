@@ -313,13 +313,21 @@ export class Option implements PropertyValue {
         'ExpandAFAreaAround': 6,
         'ExpandAFAreaCross': 5,
         'FaceTracking': 2,
+        'FlexibleZone1': 11,
+        'FlexibleZone2': 12,
+        'FlexibleZone3': 13,
         'FlexiZoneMulti': 3,
         'LargeZoneAFHorizontal': 7,
         'LargeZoneAFVertical': 8,
+        'NoTracking_1Point': 16,
+        'NoTracking_ExpandAround': 18,
+        'NoTracking_ExpandCross': 17,
+        'NoTracking_Spot': 15,
         'OnePointAF': 1,
         'Quick': 0,
         'SpotAF': 10,
         'TrackingAF': 9,
+        'WholeArea': 14,
         'ZoneAF': 4,
     };
 
@@ -351,7 +359,9 @@ export class Option implements PropertyValue {
     static readonly EvfZoom: {[key: string]: number} = {
         'Fit': 1,
         'x5': 5,
+        'x6': 6,
         'x10': 10,
+        'x15': 15,
     };
 
     /**
@@ -421,7 +431,7 @@ export class Option implements PropertyValue {
         '1280x720 119.9fps For editing(ALL-I)': 71952,
         '1280x720 119.9fps Standard(IPB)': 71984,
         '1920x1080 23.98fps': 512,
-        '1920x1080 23.98fps For editing(ALL-I)': 4624,
+        '1920x1080 23.98fps For editing(ALL-I)': 528,
         '1920x1080 23.98fps For editing(ALL-I)Crop': 134222352,
         '1920x1080 23.98fps Standard(IPB)': 4656,
         '1920x1080 23.98fps Standard(IPB)Crop': 134222384,
@@ -437,7 +447,7 @@ export class Option implements PropertyValue {
         '1920x1080 25.00fps Standard(IPB)Crop': 134223120,
         '1920x1080 29.94fps Standard(IPB)Crop': 134223153,
         '1920x1080 29.97fps': 1280,
-        '1920x1080 29.97fps For editing(ALL-I)': 1296,
+        '1920x1080 29.97fps For editing(ALL-I)': 5392,
         '1920x1080 29.97fps For editing(ALL-I)Crop': 134223152,
         '1920x1080 29.97fps Light(IPB)': 5425,
         '1920x1080 29.97fps Standard(IPB)': 5424,
