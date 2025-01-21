@@ -1,14 +1,17 @@
 {
-  "compilerOptions":{
-    "strict": true,
-    "target": "ES2015",
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "noImplicitOverride": true,
-    "moduleResolution": "node",
-    "lib": [
-      "es5",
-      "es2015"
+    "compilerOptions": {
+        "strict": true,
+        "target": "ES2015",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "noImplicitOverride": true,
+        "moduleResolution": "node",
+        "lib": [
+            "es5",
+            "es2015"
+        ],
+    },
+    "files": [
+        "node_modules/jest-os-detection/index.d.ts"
     ]
-  }
 }

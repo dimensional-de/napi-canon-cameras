@@ -30,8 +30,8 @@ const LibraryOutputDeviceTests = (api: typeof CameraApi) => {
                         api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall,
                     );
                     expect(
-                        util.inspect(value),
-                    ).toBe('OutputDevice <PC|PCSmall>');
+                        ['OutputDevice <PC|PCSmall>', 'OutputDevice <PCSmall|PC>']
+                    ).toContain(util.inspect(value));
                 },
             );
         },

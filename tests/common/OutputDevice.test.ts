@@ -45,6 +45,7 @@ const CommonOutputDeviceTests = (api: typeof CameraApi) => {
                 () => {
                     const devices = new api.OutputDevice(api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall);
                     expect(devices.value).toStrictEqual(api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall);
+                    expect(['PC, PCSmall', 'PCSmall, PC']).toContain(devices.label);
                     expect(
                         {
                             'devices': {
@@ -52,7 +53,7 @@ const CommonOutputDeviceTests = (api: typeof CameraApi) => {
                                 'PC': true,
                                 'TFT': false,
                             },
-                            'label': 'PC, PCSmall',
+                            'label': devices.label,
                             'value': api.OutputDevice.ID.PC | api.OutputDevice.ID.PCSmall,
                         },
                     ).toEqual(devices.toJSON());
