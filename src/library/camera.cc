@@ -382,7 +382,7 @@ namespace CameraApi {
                 if (camera->isConnected_ && camera->shouldKeepAlive_) {
                     EdsSendCommand(camera->edsCamera_, kEdsCameraCommand_ExtendShutDownTimer, 0);
                     camera->emitCameraEvent(EventName_KeepAlive);
-                    break;
+                    break; // TODO: is this the correct place?
                 }
             default:
                 StateEventData *eventDataPtr;
@@ -756,9 +756,9 @@ namespace CameraApi {
         Napi::Env env = info.Env();
         std::string image;
         if (camera_->isLiveViewActive()) {
-            return LiveViewImage::NewInstance(info.Env(), camera_->getEdsReference());
+            return LiveViewImage::NewInstance(env, camera_->getEdsReference());
         }
-        return info.Env().Undefined();
+        return env.Undefined();
     }
 
     Napi::Value CameraWrap::GetVolumes(const Napi::CallbackInfo &info) {

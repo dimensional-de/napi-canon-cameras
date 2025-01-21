@@ -1,4 +1,5 @@
 #include <ctime>
+#include <math.h>
 
 #include "camera-property.h"
 #include "labels.h"

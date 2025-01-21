@@ -102,6 +102,29 @@
                     }
                 ],
                 [
+                    "OS==\"linux\"",
+                    {
+                        "variables": {
+                            "edsdk_directory": "EDSDKv<(edsdk_version)L"
+                        },
+                        "defines":["TARGET_OS_LINUX","__stdcall="],
+                        "include_dirs": [
+                            "<(module_root_dir)/third_party/<(edsdk_directory)/Linux/EDSDK/Header"
+                        ],
+                        "libraries": [
+                          "<(module_root_dir)/third_party/<(edsdk_directory)/Linux/EDSDK/Library/x86_64/libEDSDK.so"
+                        ],
+                        "copies": [
+                            {
+                                "destination": "<(PRODUCT_DIR)",
+                                "files": [
+                                    "<(module_root_dir)/third_party/<(edsdk_directory)/Linux/EDSDK/Library/x86_64/libEDSDK.so"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                [
                     "OS==\"mac\"",
                     {
                         "defines": [ '__MACOS__' ],

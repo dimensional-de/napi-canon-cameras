@@ -98,7 +98,7 @@ namespace CameraApi {
 
     CameraReference CameraBrowser::getCameraAtIndex(const uint32_t &index) {
         initialize();
-        if ((index >= 0) && (cameras_.size() > index)) {
+        if (cameras_.size() > index) {
             return cameras_.at(index);
         }
         return nullptr;

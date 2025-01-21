@@ -120,9 +120,8 @@ namespace CameraApi {
 
     Napi::Value LiveViewImage::GetHistogramStatus(const Napi::CallbackInfo &info) {
         Napi::Env env = info.Env();
-        EdsError error;
         EdsUInt32 status;
-        error = EdsGetPropertyData(
+        EdsGetPropertyData(
             imageRef_,
             kEdsPropID_Evf_HistogramStatus,
             0,
